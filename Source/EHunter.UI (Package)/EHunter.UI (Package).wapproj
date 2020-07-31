@@ -22,6 +22,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup>
+    <!-- Workaround for VS 16.7 Preview 2+ -->
+    <TargetFrameworkIdentifier>.NETCore</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup>
     <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
     <PathToXAMLWinRTImplementations>EHunter.UI\</PathToXAMLWinRTImplementations>
   </PropertyGroup>

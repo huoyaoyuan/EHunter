@@ -1,21 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Microsoft.UI.Threading;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -33,8 +17,8 @@ namespace EHunter.UI
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -42,7 +26,7 @@ namespace EHunter.UI
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+        protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             m_window = new MainWindow();
             m_window.Activate();
@@ -60,6 +44,6 @@ namespace EHunter.UI
             // Save application state and stop any background activity
         }
 
-        private Window m_window;
+        private Window? m_window;
     }
 }

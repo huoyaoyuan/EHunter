@@ -7,7 +7,7 @@
     <RootNamespace>EHunter.UI</RootNamespace>
 
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Platforms>AnyCPU;x86;x64</Platforms>
+    <Platforms>x86;x64</Platforms>
     <SelfContained>true</SelfContained>
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
     <RuntimeIdentifier>win-$(Platform)</RuntimeIdentifier>
