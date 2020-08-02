@@ -14,6 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.0-build.149" />
     <PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.6" />
     <PackageReference Include="Microsoft.WinUI" Version="3.0.0-preview2.200713.0" />
     <Manifest Include="$(ApplicationManifest)" />
@@ -28,7 +29,7 @@
     <Page Update="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="MainWindow.xaml">
+    <Page Update="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

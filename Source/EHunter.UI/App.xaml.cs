@@ -1,4 +1,8 @@
-﻿using Microsoft.UI.Xaml;
+﻿using EHunter.UI.ViewModels;
+using EHunter.UI.Views;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -17,6 +21,9 @@ namespace EHunter.UI
         /// </summary>
         public App()
         {
+            Ioc.Default.ConfigureServices(services => services
+                .AddTransient<MainWindowVM>());
+
             InitializeComponent();
             Suspending += OnSuspending;
         }
