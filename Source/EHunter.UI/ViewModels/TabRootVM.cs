@@ -2,7 +2,7 @@
 
 namespace EHunter.UI.ViewModels
 {
-    internal class TabRootVM : ObservableObject
+    public sealed class TabRootVM : ObservableObject
     {
         private string _header = "New Tab";
         public string Header

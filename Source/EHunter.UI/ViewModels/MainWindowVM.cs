@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace EHunter.UI.ViewModels
 {
-    internal class MainWindowVM : ObservableObject
+    public sealed class MainWindowVM : ObservableObject
     {
         public ObservableCollection<TabRootVM> Tabs { get; } = new ObservableCollection<TabRootVM>
         {
