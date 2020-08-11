@@ -11,9 +11,25 @@ namespace EHunter.UI.ViewModels
             new TabRootVM()
         };
 
-        public void AddNewTab() => Tabs.Add(new TabRootVM());
 
-        public void CloseTab(TabView _, TabViewTabCloseRequestedEventArgs args)
-            => Tabs.Remove((TabRootVM)args.Item);
+        private int _selectedIndex;
+        public int SelectedIndex
+        {
+            get => _selectedIndex;
+            set => SetProperty(ref _selectedIndex, value);
+        }
+
+        public void AddNewTab()
+        {
+            Tabs.Add(new TabRootVM());
+            SelectedIndex = Tabs.Count - 1;
+        }
+
+        public void CloseTab(TabView sender, TabViewTabCloseRequestedEventArgs args)
+        {
+            _ = Tabs.Remove((TabRootVM)args.Item);
+            if (SelectedIndex >= Tabs.Count)
+                SelectedIndex = Tabs.Count - 1;
+        }
     }
 }

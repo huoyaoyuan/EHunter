@@ -10,7 +10,8 @@
     <TabView TabItemsSource="{x:Bind _vm.Tabs}"
              CanReorderTabs="True"
              AddTabButtonClick="{x:Bind _vm.AddNewTab}"
-             TabCloseRequested="{x:Bind _vm.CloseTab}">
+             TabCloseRequested="{x:Bind _vm.CloseTab}"
+             SelectedIndex="{x:Bind _vm.SelectedIndex, Mode=TwoWay}">
         <TabView.TabItemTemplate>
             <DataTemplate x:DataType="vm:TabRootVM"
                           x:DefaultBindMode="OneWay">
