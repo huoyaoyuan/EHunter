@@ -1,7 +1,4 @@
-﻿using EHunter.UI.ViewModels;
-using EHunter.UI.Views;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+﻿using EHunter.UI.Views;
 using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
 
@@ -21,9 +18,6 @@ namespace EHunter.UI
         /// </summary>
         public App()
         {
-            Ioc.Default.ConfigureServices(services => services
-                .AddTransient<MainWindowVM>());
-
             InitializeComponent();
             Suspending += OnSuspending;
         }

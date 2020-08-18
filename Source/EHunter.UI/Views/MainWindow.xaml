@@ -7,18 +7,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <TabView TabItemsSource="{x:Bind _vm.Tabs}"
-             CanReorderTabs="True"
-             AddTabButtonClick="{x:Bind _vm.AddNewTab}"
-             TabCloseRequested="{x:Bind _vm.CloseTab}"
-             SelectedIndex="{x:Bind _vm.SelectedIndex, Mode=TwoWay}">
-        <TabView.TabItemTemplate>
-            <DataTemplate x:DataType="vm:TabRootVM"
-                          x:DefaultBindMode="OneWay">
-                <TabViewItem Header="{x:Bind Header}">
-                    <local:TabRootView ViewModel="{x:Bind}" />
-                </TabViewItem>
-            </DataTemplate>
-        </TabView.TabItemTemplate>
-    </TabView>
+    <NavigationView SelectionChanged="NavigationView_SelectionChanged">
+        <NavigationView.MenuItems>
+            <NavigationViewItem Icon="AllApps" Content="Recent" IsSelected="True" />
+            <NavigationViewItem Content="Search">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE721;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="Openned Galleries">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE736;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Icon="Pin" Content="Pinned Pictures" />
+        </NavigationView.MenuItems>
+    </NavigationView>
 </Window>

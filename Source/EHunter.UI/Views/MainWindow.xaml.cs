@@ -1,7 +1,5 @@
-﻿using EHunter.UI.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -13,8 +11,13 @@ namespace EHunter.UI.Views
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        private readonly MainWindowVM _vm = Ioc.Default.GetService<MainWindowVM>();
-
         public MainWindow() => InitializeComponent();
+
+        private void NavigationView_SelectionChanged(
+            NavigationView sender,
+            NavigationViewSelectionChangedEventArgs args)
+        {
+
+        }
     }
 }
