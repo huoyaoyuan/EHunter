@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using EHunter.UI.Providers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 #pragma warning disable CA2227
@@ -7,27 +9,24 @@ namespace EHunter.UI.ViewModels.Main
 {
     public class MainWindowVM
     {
-        public List<NavigationCommandItem> NavigationCommands { get; } = new List<NavigationCommandItem>
+        public MainWindowVM(IEnumerable<IProvider> providers)
         {
-            new NavigationCommandItem("Recent", "\uE71D")
+            NavigationCommands = new List<NavigationCommandItem>
             {
-                SubItems = new List<NavigationCommandItem>
+                new NavigationCommandItem("Recent", "\uE71D")
                 {
-                    new NavigationCommandItem("EHentai", string.Empty),
-                    new NavigationCommandItem("Pixiv", string.Empty),
-                }
-            },
-            new NavigationCommandItem("Search", "\uE721")
-            {
-                SubItems = new List<NavigationCommandItem>
+                    SubItems = providers.Select(p => new NavigationCommandItem(p.Name, string.Empty)).ToList()
+                },
+                new NavigationCommandItem("Search", "\uE721")
                 {
-                    new NavigationCommandItem("EHentai", string.Empty),
-                    new NavigationCommandItem("Pixiv", string.Empty),
-                }
-            },
-            new NavigationCommandItem("Opened Galleries", "\uE736"),
-            new NavigationCommandItem("Pinned Pictures", "\uE718"),
-        };
+                    SubItems = providers.Select(p => new NavigationCommandItem(p.Name, string.Empty)).ToList()
+                },
+                new NavigationCommandItem("Opened Galleries", "\uE736"),
+                new NavigationCommandItem("Pinned Pictures", "\uE718"),
+            };
+        }
+
+        public List<NavigationCommandItem> NavigationCommands { get; }
     }
 
     public class NavigationCommandItem : ObservableObject

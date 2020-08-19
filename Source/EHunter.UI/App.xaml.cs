@@ -1,4 +1,8 @@
-﻿using EHunter.UI.Views;
+﻿using EHunter.UI.Providers;
+using EHunter.UI.ViewModels.Main;
+using EHunter.UI.Views;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
 
@@ -18,6 +22,11 @@ namespace EHunter.UI
         /// </summary>
         public App()
         {
+            Ioc.Default.ConfigureServices(services => services
+                .AddTransient<MainWindowVM>()
+                .AddSingleton<IProvider, EHentaiProvider>()
+                .AddSingleton<IProvider, PixivProvider>());
+
             InitializeComponent();
             Suspending += OnSuspending;
         }

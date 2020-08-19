@@ -1,4 +1,6 @@
 ﻿using EHunter.UI.ViewModels.Main;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -12,7 +14,7 @@ namespace EHunter.UI.Views
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        private readonly MainWindowVM _viewModel = new MainWindowVM();
+        private readonly MainWindowVM _viewModel = Ioc.Default.GetRequiredService<MainWindowVM>();
 
         public MainWindow() => InitializeComponent();
 
