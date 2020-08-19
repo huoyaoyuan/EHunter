@@ -11,22 +11,22 @@ namespace EHunter.UI.ViewModels.Main
     {
         public MainWindowVM(IEnumerable<IProvider> providers)
         {
-            NavigationCommands = new List<NavigationCommandItem>
+            NavigationCommands = new[]
             {
                 new NavigationCommandItem("Recent", "\uE71D")
                 {
-                    SubItems = providers.Select(p => new NavigationCommandItem(p.Name, string.Empty)).ToList()
+                    SubItems = providers.Select(p => new ProviderSpecificCommandItem(p, "Recent")).ToArray()
                 },
                 new NavigationCommandItem("Search", "\uE721")
                 {
-                    SubItems = providers.Select(p => new NavigationCommandItem(p.Name, string.Empty)).ToList()
+                    SubItems = providers.Select(p => new ProviderSpecificCommandItem(p, "Search")).ToArray()
                 },
                 new NavigationCommandItem("Opened Galleries", "\uE736"),
                 new NavigationCommandItem("Pinned Pictures", "\uE718"),
             };
         }
 
-        public List<NavigationCommandItem> NavigationCommands { get; }
+        public IEnumerable<ObservableObject> NavigationCommands { get; }
     }
 
     public class NavigationCommandItem : ObservableObject
@@ -49,6 +49,18 @@ namespace EHunter.UI.ViewModels.Main
             set => SetProperty(ref _title, value);
         }
 
-        public List<NavigationCommandItem>? SubItems { get; set; }
+        public IEnumerable<ObservableObject>? SubItems { get; set; }
+    }
+
+    public class ProviderSpecificCommandItem : ObservableObject
+    {
+        public ProviderSpecificCommandItem(IProvider provider, string commandType)
+        {
+            Provider = provider;
+            CommandType = commandType;
+        }
+
+        public IProvider Provider { get; }
+        public string CommandType { get; }
     }
 }

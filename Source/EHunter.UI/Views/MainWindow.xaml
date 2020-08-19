@@ -3,22 +3,34 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:EHunter.UI.Views"
-    xmlns:vm ="using:EHunter.UI.ViewModels"
-    xmlns:vmMain ="using:EHunter.UI.ViewModels.Main"
+    xmlns:vm ="using:EHunter.UI.ViewModels.Main"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <NavigationView MenuItemsSource="{x:Bind _viewModel.NavigationCommands}"
                     SelectionChanged="NavigationView_SelectionChanged">
-        <NavigationView.MenuItemTemplate>
-            <DataTemplate x:DataType="vmMain:NavigationCommandItem"  x:DefaultBindMode="OneWay">
-                <NavigationViewItem Content="{x:Bind Title}"
-                                    MenuItemsSource="{x:Bind SubItems}">
-                    <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind IconGlyph}" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-            </DataTemplate>
-        </NavigationView.MenuItemTemplate>
+        <NavigationView.MenuItemTemplateSelector>
+            <local:MainNavigationTemplateSelector>
+                <local:MainNavigationTemplateSelector.TopLevelTemplate>
+                    <DataTemplate x:DataType="vm:NavigationCommandItem" x:DefaultBindMode="OneWay">
+                        <NavigationViewItem Content="{x:Bind Title}"
+                                            MenuItemsSource="{x:Bind SubItems}">
+                            <NavigationViewItem.Icon>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind IconGlyph}" />
+                            </NavigationViewItem.Icon>
+                        </NavigationViewItem>
+                    </DataTemplate>
+                </local:MainNavigationTemplateSelector.TopLevelTemplate>
+                <local:MainNavigationTemplateSelector.ProviderLevelTemplate>
+                    <DataTemplate x:DataType="vm:ProviderSpecificCommandItem" x:DefaultBindMode="OneWay">
+                        <NavigationViewItem Content="{x:Bind Provider.Name}">
+                            <NavigationViewItem.Icon>
+                                <BitmapIcon ShowAsMonochrome="False" UriSource="{x:Bind Provider.IconUri}" />
+                            </NavigationViewItem.Icon>
+                        </NavigationViewItem>
+                    </DataTemplate>
+                </local:MainNavigationTemplateSelector.ProviderLevelTemplate>
+            </local:MainNavigationTemplateSelector>
+        </NavigationView.MenuItemTemplateSelector>
     </NavigationView>
 </Window>
