@@ -4,23 +4,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:EHunter.UI.Views"
     xmlns:vm ="using:EHunter.UI.ViewModels"
+    xmlns:vmMain ="using:EHunter.UI.ViewModels.Main"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <NavigationView SelectionChanged="NavigationView_SelectionChanged">
-        <NavigationView.MenuItems>
-            <NavigationViewItem Icon="AllApps" Content="Recent" IsSelected="True" />
-            <NavigationViewItem Content="Search">
-                <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE721;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-            <NavigationViewItem Content="Openned Galleries">
-                <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE736;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-            <NavigationViewItem Icon="Pin" Content="Pinned Pictures" />
-        </NavigationView.MenuItems>
+    <NavigationView MenuItemsSource="{x:Bind _viewModel.NavigationCommands}"
+                    SelectionChanged="NavigationView_SelectionChanged">
+        <NavigationView.MenuItemTemplate>
+            <DataTemplate x:DataType="vmMain:NavigationCommandItem"  x:DefaultBindMode="OneWay">
+                <NavigationViewItem Content="{x:Bind Title}"
+                                    MenuItemsSource="{x:Bind SubItems}">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind IconGlyph}" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </DataTemplate>
+        </NavigationView.MenuItemTemplate>
     </NavigationView>
 </Window>

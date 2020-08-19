@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using EHunter.UI.ViewModels.Main;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -11,6 +12,8 @@ namespace EHunter.UI.Views
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        private readonly MainWindowVM _viewModel = new MainWindowVM();
+
         public MainWindow() => InitializeComponent();
 
         private void NavigationView_SelectionChanged(
