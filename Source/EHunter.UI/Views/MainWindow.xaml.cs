@@ -22,7 +22,11 @@ namespace EHunter.UI.Views
             new ProviderMenuItem("EHentai", "https://exhentai.org/favicon.ico", typeof(EHentaiRootPage)),
         };
 
-        public MainWindow() => InitializeComponent();
+        public MainWindow()
+        {
+            Title = "EHunter";
+            InitializeComponent();
+        }
 
         private int _previousSelectedIndex = -1;
 
