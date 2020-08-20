@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using EHunter.Provider.Pixiv.Views;
 using EHunter.UI.Views.EHentai;
-using EHunter.UI.Views.Pixiv;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
