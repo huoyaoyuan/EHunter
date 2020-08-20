@@ -3,10 +3,10 @@
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace EHunter.UI.Views.EHentai
+namespace EHunter.UI.Views
 {
-    public sealed partial class EHentaiRootView : UserControl
+    public sealed partial class SettingsPage : Page
     {
-        public EHentaiRootView() => InitializeComponent();
+        public SettingsPage() => InitializeComponent();
     }
 }

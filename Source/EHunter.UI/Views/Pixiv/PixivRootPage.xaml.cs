@@ -5,8 +5,8 @@
 
 namespace EHunter.UI.Views.Pixiv
 {
-    public sealed partial class PixivRootView : UserControl
+    public sealed partial class PixivRootPage : Page
     {
-        public PixivRootView() => InitializeComponent();
+        public PixivRootPage() => InitializeComponent();
     }
 }

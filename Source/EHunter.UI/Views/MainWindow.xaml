@@ -20,5 +20,12 @@
                 </NavigationViewItem>
             </DataTemplate>
         </NavigationView.MenuItemTemplate>
+        <Frame x:Name="_frame" IsNavigationStackEnabled="False">
+            <Frame.ContentTransitions>
+                <TransitionCollection>
+                    <NavigationThemeTransition  />
+                </TransitionCollection>
+            </Frame.ContentTransitions>
+        </Frame>
     </NavigationView>
 </Window>
