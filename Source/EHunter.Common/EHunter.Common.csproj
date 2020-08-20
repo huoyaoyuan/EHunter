@@ -5,4 +5,8 @@
     <RootNamespace>EHunter</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.0-preview2" />
+  </ItemGroup>
+
 </Project>

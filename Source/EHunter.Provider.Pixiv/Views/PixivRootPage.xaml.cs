@@ -11,5 +11,13 @@ namespace EHunter.Provider.Pixiv.Views
     public sealed partial class PixivRootPage : Page
     {
         public PixivRootPage() => InitializeComponent();
+
+        private void NavigationView_SelectionChanged(
+            NavigationView sender,
+            NavigationViewSelectionChangedEventArgs args)
+        {
+            if (args.IsSettingsSelected)
+                _ = _frame.Navigate(typeof(PixivSettingsPage));
+        }
     }
 }

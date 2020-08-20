@@ -1,4 +1,5 @@
-﻿using EHunter.Settings;
+﻿using EHunter.Provider.Pixiv.Models;
+using EHunter.Settings;
 using EHunter.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -21,8 +22,9 @@ namespace EHunter.UI
         /// </summary>
         public App()
         {
-            Ioc.Default.ConfigureServices(services =>
-                services.AddSingleton<ICommonSetting, CommonSetting>());
+            Ioc.Default.ConfigureServices(services => services
+                .AddSingleton<ICommonSetting, CommonSetting>()
+                .AddSingleton<PixivSettings>());
 
             InitializeComponent();
             Suspending += OnSuspending;
