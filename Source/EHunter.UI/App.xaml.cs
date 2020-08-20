@@ -1,4 +1,7 @@
-﻿using EHunter.UI.Views;
+﻿using EHunter.Settings;
+using EHunter.UI.Views;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
 
@@ -18,6 +21,9 @@ namespace EHunter.UI
         /// </summary>
         public App()
         {
+            Ioc.Default.ConfigureServices(services =>
+                services.AddSingleton<ICommonSetting, CommonSetting>());
+
             InitializeComponent();
             Suspending += OnSuspending;
         }

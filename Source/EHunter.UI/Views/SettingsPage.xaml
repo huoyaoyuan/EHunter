@@ -6,8 +6,32 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <ScrollViewer
+        IsTabStop="False"
+        UseSystemFocusVisuals="False"
+        VerticalScrollMode="Auto"
+        VerticalScrollBarVisibility="Auto">
+        <StackPanel Orientation="Vertical"
+                    Margin="4" Spacing="4"
+                    x:DefaultBindMode="TwoWay">
+            <TextBlock
+                Style="{ThemeResource TitleTextBlockStyle}"
+                Margin="0,0,0,6"
+                Text ="Storage" />
+            <TextBox Header="Storage Root" Text="{x:Bind _setting.StorageRoot}" />
 
-    <Grid>
-        <TextBlock Text="Settings" />
-    </Grid>
+            <TextBlock
+                Style="{ThemeResource TitleTextBlockStyle}"
+                Margin="0,36,0,6"
+                Text ="Proxy" />
+            <TextBox Header="Address" Text="{x:Bind _setting.ProxyAddress}" />
+            <TextBox Header="Port" Text="{x:Bind _setting.ProxyPort}" />
+
+            <TextBlock
+                Style="{ThemeResource TitleTextBlockStyle}"
+                Margin="0,36,0,6"
+                Text ="Database" />
+            <TextBox Header="Connection String" Text="{x:Bind _setting.DbConnectionString}" />
+        </StackPanel>
+    </ScrollViewer>
 </Page>
