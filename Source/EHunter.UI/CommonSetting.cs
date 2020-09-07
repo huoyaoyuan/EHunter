@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Net;
+using System.Net.Http;
 using EHunter.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Windows.Storage;
@@ -40,7 +41,10 @@ namespace EHunter.UI
             set
             {
                 if (SetProperty(ref _proxyAddress, value))
+                {
                     _applicationSetting.Values[nameof(ProxyAddress)] = value;
+                    UpdateProxy();
+                }
             }
         }
 
@@ -51,9 +55,14 @@ namespace EHunter.UI
             set
             {
                 if (SetProperty(ref _proxyPort, value))
+                {
                     _applicationSetting.Values[nameof(ProxyPort)] = value;
+                    UpdateProxy();
+                }
             }
         }
+
+        private void UpdateProxy() => HttpClient.DefaultProxy = new WebProxy(ProxyAddress, ProxyPort);
 
         public IWebProxy Proxy => new WebProxy(ProxyAddress, ProxyPort);
 

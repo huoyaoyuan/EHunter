@@ -246,7 +246,7 @@ csharp_style_conditional_delegate_call = true : warning
 csharp_prefer_braces = when-multiline : suggestion
 
 # Unused value preferences
-csharp_style_unused_value_expression_statement_preference = discard_variable : warning
+csharp_style_unused_value_expression_statement_preference = discard_variable : slient
 csharp_style_unused_value_assignment_preference = discard_variable : warning
 
 # Index and range preferences
