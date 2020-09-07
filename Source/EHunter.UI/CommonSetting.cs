@@ -19,6 +19,8 @@ namespace EHunter.UI
             _proxyAddress = (string?)_applicationSetting.Values[nameof(ProxyAddress)] ?? string.Empty;
             _proxyPort = (int?)_applicationSetting.Values[nameof(ProxyPort)] ?? 0;
             _dbConnectionString = (string?)_applicationSetting.Values[nameof(DbConnectionString)] ?? string.Empty;
+
+            UpdateProxy();
         }
 
         private string _storageRoot;
