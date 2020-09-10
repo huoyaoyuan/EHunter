@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EHunter.Provider.Pixiv.Messages;
 using EHunter.Settings;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using Windows.Storage;
 
 namespace EHunter.Provider.Pixiv.Models
 {
-    public sealed class PixivSettings : ObservableObject, IDisposable
+#pragma warning disable CA1067 // 在实现 IEquatable<T> 时替代 Object.Equals(object)
+    public sealed class PixivSettings : ObservableObject, IDisposable, IEquatable<PixivSettings>
+#pragma warning restore CA1067 // 在实现 IEquatable<T> 时替代 Object.Equals(object)
     {
         private readonly ApplicationDataContainer _applicationSetting;
         private readonly ICommonSetting _commonSetting;
@@ -111,12 +115,14 @@ namespace EHunter.Provider.Pixiv.Models
                     _applicationSetting.Values["RefreshToken"] = refreshToken;
                 }
             }
-            catch
+            catch (Exception e)
             {
-
+                Messenger.Default.Send(new LoginFailedMessage(e), this);
             }
 
             IsLoggingIn = false;
         }
+
+        public bool Equals(PixivSettings? other) => ReferenceEquals(this, other);
     }
 }
