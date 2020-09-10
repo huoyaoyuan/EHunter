@@ -21,6 +21,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="loginOption.Visibility" Value="Collapsed" />
+                        <Setter Target="userInfo.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PasswordLogin">
@@ -105,6 +106,11 @@
             <ProgressRing x:Name="loginProgress"
                           IsActive="False"
                           HorizontalAlignment="Left" />
+            <Grid x:Name="userInfo"
+                  Visibility="Collapsed"
+                  x:DefaultBindMode="OneWay">
+                <TextBlock Text="{x:Bind _setting.User.Name}" />
+            </Grid>
         </StackPanel>
     </ScrollViewer>
 </Page>

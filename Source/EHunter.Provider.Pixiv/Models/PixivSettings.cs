@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using EHunter.Settings;
 using Meowtrix.PixivApi;
+using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Windows.Storage;
 
@@ -20,6 +21,12 @@ namespace EHunter.Provider.Pixiv.Models
             _commonSetting = commonSetting;
 
             Client = new PixivClient(_useProxy);
+
+            if (_applicationSetting.Values["RefreshToken"] is string refreshToken)
+            {
+                RefreshToken = refreshToken;
+                LoginWithToken();
+            }
         }
 
         private bool _useProxy;
@@ -47,14 +54,14 @@ namespace EHunter.Provider.Pixiv.Models
         public bool IsLoggingIn
         {
             get => _isLoggingIn;
-            set => SetProperty(ref _isLoggingIn, value);
+            private set => SetProperty(ref _isLoggingIn, value);
         }
 
         private bool _isLogin;
         public bool IsLogin
         {
             get => _isLogin;
-            set => SetProperty(ref _isLogin, value);
+            private set => SetProperty(ref _isLogin, value);
         }
 
         private string _username = string.Empty;
@@ -78,17 +85,37 @@ namespace EHunter.Provider.Pixiv.Models
             set => SetProperty(ref _refreshToken, value);
         }
 
-        public async void LoginWithPassword()
+        private LoginUser? _user;
+        public LoginUser? User
         {
-            IsLoggingIn = true;
-            await Task.Delay(1000).ConfigureAwait(true);
-            IsLoggingIn = false;
+            get => _user;
+            private set => SetProperty(ref _user, value);
         }
 
-        public async void LoginWithToken()
+        public void LoginWithPassword() => PerformLogin(Client.LoginAsync(Username, Password));
+
+        public void LoginWithToken() => PerformLogin(Client.LoginAsync(RefreshToken));
+
+        private async void PerformLogin(Task<string> loginTask)
         {
             IsLoggingIn = true;
-            await Task.Delay(1000).ConfigureAwait(true);
+
+            try
+            {
+                string refreshToken = await loginTask.ConfigureAwait(true);
+
+                if (Client.IsLogin)
+                {
+                    User = Client.CurrentUser;
+                    IsLogin = true;
+                    _applicationSetting.Values["RefreshToken"] = refreshToken;
+                }
+            }
+            catch
+            {
+
+            }
+
             IsLoggingIn = false;
         }
     }
