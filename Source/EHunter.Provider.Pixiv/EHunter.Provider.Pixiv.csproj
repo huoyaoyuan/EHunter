@@ -27,6 +27,9 @@
     <Page Update="**\*.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+
+    <None Remove="**\*.resw" />
+    <PRIResource Include="**\*.resw" />
   </ItemGroup>
 
 </Project>
