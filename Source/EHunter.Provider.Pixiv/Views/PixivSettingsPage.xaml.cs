@@ -36,7 +36,7 @@ namespace EHunter.Provider.Pixiv.Views
                     await dialog.ShowAsync();
                 });
 
-            Unloaded += (s, e) => Messenger.Default.Unregister<LoginFailedMessage>(this);
+            Unloaded += (s, e) => Messenger.Default.UnregisterAll(this, _setting);
         }
     }
 }
