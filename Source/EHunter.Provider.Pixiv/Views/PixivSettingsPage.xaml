@@ -6,25 +6,77 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    x:DefaultBindMode="OneWay">
     <ScrollViewer
         IsTabStop="False"
         UseSystemFocusVisuals="False"
         VerticalScrollMode="Auto"
         VerticalScrollBarVisibility="Auto">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="AlreadyLogin">
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{x:Bind _setting.IsLogin}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="loginOption.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PasswordLogin">
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{x:Bind passwordLoginRadio.IsChecked.Value}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="passwordLogin.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="TokenLogin">
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{x:Bind tokenLoginRadio.IsChecked.Value}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="tokenLogin.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <StackPanel Orientation="Vertical"
                     Margin="4" Spacing="4"
                     x:DefaultBindMode="TwoWay">
             <TextBlock
                 Style="{ThemeResource TitleTextBlockStyle}"
                 Margin="0,0,0,6"
-                Text ="Network" />
+                Text="Network" />
             <ToggleSwitch Header="Use Proxy" IsOn="{x:Bind _setting.UseProxy}" />
 
             <TextBlock
                 Style="{ThemeResource TitleTextBlockStyle}"
                 Margin="0,36,0,6"
-                Text ="Account" />
+                Text="Account" />
+            <RadioButtons
+                x:Name="loginOption"
+                Header="Login Mode"
+                SelectedIndex="0">
+                <RadioButton x:Name="passwordLoginRadio" Content="Password"
+                             IsChecked="True" />
+                <RadioButton x:Name="tokenLoginRadio" Content="Refresh Token" />
+            </RadioButtons>
+            <StackPanel Orientation="Vertical"
+                        Spacing="4"
+                        x:Name="passwordLogin"
+                        Visibility="Collapsed">
+                <TextBox Header="Username" />
+                <PasswordBox Header="Password" />
+                <Button Content="Login" />
+            </StackPanel>
+            <StackPanel Orientation="Vertical"
+                        Spacing="4"
+                        x:Name="tokenLogin"
+                        Visibility="Collapsed">
+                <PasswordBox Header="Token" />
+                <Button Content="Login" />
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </Page>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using EHunter.Settings;
 using Meowtrix.PixivApi;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -41,5 +42,12 @@ namespace EHunter.Provider.Pixiv.Models
         internal PixivClient Client { get; }
 
         public void Dispose() => Client.Dispose();
+
+        private bool _isLogin;
+        public bool IsLogin
+        {
+            get => _isLogin;
+            set => SetProperty(ref _isLogin, value);
+        }
     }
 }
