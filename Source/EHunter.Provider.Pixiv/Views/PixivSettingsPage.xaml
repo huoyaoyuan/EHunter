@@ -40,6 +40,22 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState x:Name="LoggingIn">
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{x:Bind _setting.IsLoggingIn}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="loginProgress.IsActive" Value="True" />
+                        <Setter Target="loginOption.IsEnabled" Value="False" />
+                        <Setter Target="usernameBox.IsEnabled" Value="False" />
+                        <Setter Target="passwordBox.IsEnabled" Value="False" />
+                        <Setter Target="tokenBox.IsEnabled" Value="False" />
+                        <Setter Target="passwordLoginButton.IsEnabled" Value="False" />
+                        <Setter Target="tokenLoginButton.IsEnabled" Value="False" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <StackPanel Orientation="Vertical"
                     Margin="4" Spacing="4"
@@ -56,8 +72,7 @@
                 Text="Account" />
             <RadioButtons
                 x:Name="loginOption"
-                Header="Login Mode"
-                SelectedIndex="0">
+                Header="Login Mode">
                 <RadioButton x:Name="passwordLoginRadio" Content="Password"
                              IsChecked="True" />
                 <RadioButton x:Name="tokenLoginRadio" Content="Refresh Token" />
@@ -66,17 +81,30 @@
                         Spacing="4"
                         x:Name="passwordLogin"
                         Visibility="Collapsed">
-                <TextBox Header="Username" />
-                <PasswordBox Header="Password" />
-                <Button Content="Login" />
+                <TextBox Header="Username"
+                         x:Name="usernameBox"
+                         Text="{x:Bind _setting.Username}" />
+                <PasswordBox Header="Password"
+                             x:Name="passwordBox"
+                             Password="{x:Bind _setting.Password}" />
+                <Button Content="Login"
+                        x:Name="passwordLoginButton"
+                        Tapped="{x:Bind _setting.LoginWithPassword}" />
             </StackPanel>
             <StackPanel Orientation="Vertical"
                         Spacing="4"
                         x:Name="tokenLogin"
                         Visibility="Collapsed">
-                <PasswordBox Header="Token" />
-                <Button Content="Login" />
+                <PasswordBox Header="Token"
+                             x:Name="tokenBox"
+                             Password="{x:Bind _setting.RefreshToken}" />
+                <Button Content="Login"
+                        x:Name="tokenLoginButton"
+                        Tapped="{x:Bind _setting.LoginWithToken}" />
             </StackPanel>
+            <ProgressRing x:Name="loginProgress"
+                          IsActive="False"
+                          HorizontalAlignment="Left" />
         </StackPanel>
     </ScrollViewer>
 </Page>

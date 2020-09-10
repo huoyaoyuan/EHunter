@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using EHunter.Settings;
 using Meowtrix.PixivApi;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -43,11 +43,53 @@ namespace EHunter.Provider.Pixiv.Models
 
         public void Dispose() => Client.Dispose();
 
+        private bool _isLoggingIn;
+        public bool IsLoggingIn
+        {
+            get => _isLoggingIn;
+            set => SetProperty(ref _isLoggingIn, value);
+        }
+
         private bool _isLogin;
         public bool IsLogin
         {
             get => _isLogin;
             set => SetProperty(ref _isLogin, value);
+        }
+
+        private string _username = string.Empty;
+        public string Username
+        {
+            get => _username;
+            set => SetProperty(ref _username, value);
+        }
+
+        private string _password = string.Empty;
+        public string Password
+        {
+            get => _password;
+            set => SetProperty(ref _password, value);
+        }
+
+        private string _refreshToken = string.Empty;
+        public string RefreshToken
+        {
+            get => _refreshToken;
+            set => SetProperty(ref _refreshToken, value);
+        }
+
+        public async void LoginWithPassword()
+        {
+            IsLoggingIn = true;
+            await Task.Delay(1000).ConfigureAwait(true);
+            IsLoggingIn = false;
+        }
+
+        public async void LoginWithToken()
+        {
+            IsLoggingIn = true;
+            await Task.Delay(1000).ConfigureAwait(true);
+            IsLoggingIn = false;
         }
     }
 }
