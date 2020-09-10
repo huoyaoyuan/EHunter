@@ -19,7 +19,7 @@ namespace EHunter.Provider.Pixiv.Models
 
         public PixivSettings(ICommonSetting commonSetting)
         {
-            _applicationSetting = ApplicationData.Current.LocalSettings;
+            _applicationSetting = ApplicationData.Current.LocalSettings.CreateContainer("Pixiv", ApplicationDataCreateDisposition.Always);
 
             _useProxy = (bool?)_applicationSetting.Values[nameof(UseProxy)] ?? false;
             _commonSetting = commonSetting;
