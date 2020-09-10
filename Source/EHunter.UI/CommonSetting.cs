@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
-using System.Net.Http;
 using EHunter.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Windows.Storage;
@@ -64,9 +64,24 @@ namespace EHunter.UI
             }
         }
 
-        private void UpdateProxy() => HttpClient.DefaultProxy = new WebProxy(ProxyAddress, ProxyPort);
+        private void UpdateProxy() => ProxyUpdated?.Invoke(Proxy);
 
-        public IWebProxy Proxy => new WebProxy(ProxyAddress, ProxyPort);
+        public event Action<IWebProxy?>? ProxyUpdated;
+
+        public IWebProxy? Proxy
+        {
+            get
+            {
+                try
+                {
+                    return new WebProxy(ProxyAddress, ProxyPort);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
 
         private string _dbConnectionString;
         public string DbConnectionString

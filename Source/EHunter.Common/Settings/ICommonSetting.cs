@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Net;
 
@@ -10,7 +11,8 @@ namespace EHunter.Settings
         DirectoryInfo StorageRootDirectory { get; }
         string ProxyAddress { get; set; }
         int ProxyPort { get; set; }
-        IWebProxy Proxy { get; }
+        IWebProxy? Proxy { get; }
         string DbConnectionString { get; set; }
+        event Action<IWebProxy?> ProxyUpdated;
     }
 }

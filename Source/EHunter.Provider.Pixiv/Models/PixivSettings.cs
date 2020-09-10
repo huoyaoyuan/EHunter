@@ -24,7 +24,8 @@ namespace EHunter.Provider.Pixiv.Models
             _useProxy = (bool?)_applicationSetting.Values[nameof(UseProxy)] ?? false;
             _commonSetting = commonSetting;
 
-            Client = new PixivClient(_useProxy);
+            Client = new PixivClient(_useProxy ? _commonSetting.Proxy : null);
+            _commonSetting.ProxyUpdated += p => Client.SetProxy(_useProxy ? p : null);
 
             if (_applicationSetting.Values["RefreshToken"] is string refreshToken)
             {
@@ -42,10 +43,7 @@ namespace EHunter.Provider.Pixiv.Models
                 if (SetProperty(ref _useProxy, value))
                 {
                     _applicationSetting.Values[nameof(UseProxy)] = value;
-                    if (value)
-                        Client.SetDefaultProxy();
-                    else
-                        Client.SetProxy(null);
+                    Client.SetProxy(_useProxy ? _commonSetting.Proxy : null);
                 }
             }
         }
