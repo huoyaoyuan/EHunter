@@ -16,14 +16,15 @@ namespace EHunter.Provider.Pixiv.Models
     {
         private readonly ApplicationDataContainer _applicationSetting;
         private readonly ICommonSetting _commonSetting;
+        private readonly PixivCacheService _cache;
 
-        public PixivSettings(ICommonSetting commonSetting)
+        public PixivSettings(ICommonSetting commonSetting, PixivCacheService cache)
         {
             _applicationSetting = ApplicationData.Current.LocalSettings.CreateContainer("Pixiv", ApplicationDataCreateDisposition.Always);
 
             _useProxy = (bool?)_applicationSetting.Values[nameof(UseProxy)] ?? false;
             _commonSetting = commonSetting;
-
+            _cache = cache;
             Client = new PixivClient(_useProxy ? _commonSetting.Proxy : null);
             _commonSetting.ProxyUpdated += p => Client.SetProxy(_useProxy ? p : null);
 
@@ -94,6 +95,13 @@ namespace EHunter.Provider.Pixiv.Models
             private set => SetProperty(ref _user, value);
         }
 
+        private Uri? _userAvatarUri;
+        public Uri? UserAvatarUri
+        {
+            get => _userAvatarUri;
+            set => SetProperty(ref _userAvatarUri, value);
+        }
+
         public void LoginWithPassword() => PerformLogin(Client.LoginAsync(Username, Password));
 
         public void LoginWithToken() => PerformLogin(Client.LoginAsync(RefreshToken));
@@ -119,6 +127,12 @@ namespace EHunter.Provider.Pixiv.Models
             }
 
             IsLoggingIn = false;
+
+            if (Client.IsLogin)
+            {
+                using var response = await Client.CurrentUser.GetAvatarAsync().ConfigureAwait(true);
+                UserAvatarUri = await _cache.GetLocalFileAsync(response).ConfigureAwait(true);
+            }
         }
 
         public bool Equals(PixivSettings? other) => ReferenceEquals(this, other);
