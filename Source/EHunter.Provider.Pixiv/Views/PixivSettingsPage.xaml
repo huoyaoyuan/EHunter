@@ -113,11 +113,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Image>
-                    <Image.Source>
-                        <BitmapImage UriSource="{x:Bind _setting.UserAvatarUri}" />
-                    </Image.Source>
-                </Image>
+                <local:PixivImage SourceStream="{x:Bind _setting.UserAvatarStream}" />
                 <TextBlock Grid.Column="1"  Text="{x:Bind _setting.User.Name}" />
             </Grid>
         </StackPanel>

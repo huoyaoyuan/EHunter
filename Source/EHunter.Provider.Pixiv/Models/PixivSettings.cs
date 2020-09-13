@@ -7,6 +7,7 @@ using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace EHunter.Provider.Pixiv.Models
 {
@@ -16,15 +17,13 @@ namespace EHunter.Provider.Pixiv.Models
     {
         private readonly ApplicationDataContainer _applicationSetting;
         private readonly ICommonSetting _commonSetting;
-        private readonly PixivCacheService _cache;
 
-        public PixivSettings(ICommonSetting commonSetting, PixivCacheService cache)
+        public PixivSettings(ICommonSetting commonSetting)
         {
             _applicationSetting = ApplicationData.Current.LocalSettings.CreateContainer("Pixiv", ApplicationDataCreateDisposition.Always);
 
             _useProxy = (bool?)_applicationSetting.Values[nameof(UseProxy)] ?? false;
             _commonSetting = commonSetting;
-            _cache = cache;
             Client = new PixivClient(_useProxy ? _commonSetting.Proxy : null);
             _commonSetting.ProxyUpdated += p => Client.SetProxy(_useProxy ? p : null);
 
@@ -95,11 +94,11 @@ namespace EHunter.Provider.Pixiv.Models
             private set => SetProperty(ref _user, value);
         }
 
-        private Uri? _userAvatarUri;
-        public Uri? UserAvatarUri
+        private IRandomAccessStream? _userAvatarStream;
+        public IRandomAccessStream? UserAvatarStream
         {
-            get => _userAvatarUri;
-            set => SetProperty(ref _userAvatarUri, value);
+            get => _userAvatarStream;
+            private set => SetProperty(ref _userAvatarStream, value);
         }
 
         public void LoginWithPassword() => PerformLogin(Client.LoginAsync(Username, Password));
@@ -131,7 +130,9 @@ namespace EHunter.Provider.Pixiv.Models
             if (Client.IsLogin)
             {
                 using var response = await Client.CurrentUser.GetAvatarAsync().ConfigureAwait(true);
-                UserAvatarUri = await _cache.GetLocalFileAsync(response).ConfigureAwait(true);
+                byte[] buffer = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(true);
+
+                UserAvatarStream = await buffer.CopyAsWinRTStreamAsync().ConfigureAwait(true);
             }
         }
 
