@@ -7,7 +7,6 @@ using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Windows.Storage;
-using Windows.Storage.Streams;
 
 namespace EHunter.Provider.Pixiv.Models
 {
@@ -94,11 +93,11 @@ namespace EHunter.Provider.Pixiv.Models
             private set => SetProperty(ref _user, value);
         }
 
-        private IRandomAccessStream? _userAvatarStream;
-        public IRandomAccessStream? UserAvatarStream
+        private ImageInfo? _userAvatar;
+        public ImageInfo? UserAvatar
         {
-            get => _userAvatarStream;
-            private set => SetProperty(ref _userAvatarStream, value);
+            get => _userAvatar;
+            private set => SetProperty(ref _userAvatar, value);
         }
 
         public void LoginWithPassword() => PerformLogin(Client.LoginAsync(Username, Password));
@@ -126,14 +125,6 @@ namespace EHunter.Provider.Pixiv.Models
             }
 
             IsLoggingIn = false;
-
-            if (Client.IsLogin)
-            {
-                using var response = await Client.CurrentUser.GetAvatarAsync().ConfigureAwait(true);
-                byte[] buffer = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(true);
-
-                UserAvatarStream = await buffer.CopyAsWinRTStreamAsync().ConfigureAwait(true);
-            }
         }
 
         public bool Equals(PixivSettings? other) => ReferenceEquals(this, other);

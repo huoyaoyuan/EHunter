@@ -1,6 +1,8 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using System;
+using System.Collections.Generic;
+using Meowtrix.PixivApi.Models;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.Storage.Streams;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -11,23 +13,38 @@ namespace EHunter.Provider.Pixiv.Views
     {
         public PixivImage() => InitializeComponent();
 
-        private IRandomAccessStream? _sourceStream;
-        public IRandomAccessStream? SourceStream
+        private ImageInfo? _imageInfo;
+        public ImageInfo? ImageInfo
         {
-            get => _sourceStream;
+            get => _imageInfo;
             set
             {
-                if (_sourceStream != value)
+                static async void GetImage(BitmapImage bitmap, ImageInfo info)
                 {
-                    _sourceStream = value;
+                    try
+                    {
+                        using var response = await info.RequestAsync().ConfigureAwait(true);
+                        byte[] data = await response.EnsureSuccessStatusCode()
+                            .Content.ReadAsByteArrayAsync().ConfigureAwait(true);
+                        await bitmap.SetSourceAsync(await data.CopyAsWinRTStreamAsync().ConfigureAwait(true));
+                    }
+                    catch
+                    {
+                    }
+                }
 
-                    if (value is null)
-                        image.Source = null;
-                    else
+                if (!EqualityComparer<ImageInfo?>.Default.Equals(_imageInfo, value))
+                {
+                    _imageInfo = value;
+                    if (value is { } i)
                     {
                         var bitmap = new BitmapImage();
-                        bitmap.SetSource(value);
                         image.Source = bitmap;
+                        GetImage(bitmap, i);
+                    }
+                    else
+                    {
+                        image.Source = null;
                     }
                 }
             }
