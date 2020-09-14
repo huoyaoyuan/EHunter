@@ -24,7 +24,8 @@ namespace EHunter.UI
         {
             Ioc.Default.ConfigureServices(services => services
                 .AddSingleton<ICommonSetting, CommonSetting>()
-                .AddSingleton<PixivSettings>());
+                .AddSingleton<PixivSettings>()
+                .AddTransient<PixivRecentVM>());
 
             InitializeComponent();
             Suspending += OnSuspending;

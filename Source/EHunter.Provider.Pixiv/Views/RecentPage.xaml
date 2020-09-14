@@ -7,8 +7,23 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
+    x:DefaultBindMode="OneWay"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WaitingForLogin">
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{x:Bind _vm.NotLogin}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="waitingPanel.Visibility" Value="Visible" />
+                        <Setter Target="waitingText.Text" Value="Waiting For Login" />
+                        <Setter Target="waitingProgress.IsActive" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -16,7 +31,7 @@
         <StackPanel Orientation="Horizontal"
                     Margin="4"
                     Spacing="4">
-            <Button>
+            <Button Tapped="{x:Bind _vm.Refresh}">
                 <SymbolIcon Symbol="Refresh" />
             </Button>
             <ComboBox SelectedIndex="0">
@@ -25,5 +40,25 @@
                 <ComboBoxItem Content="R18" />
             </ComboBox>
         </StackPanel>
+        <Grid x:Name="waitingPanel"
+              Grid.Row="1"
+              Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Name="waitingText"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Style="{StaticResource SubheaderTextBlockStyle}"
+                Margin="4" />
+            <ProgressRing
+                x:Name="waitingProgress"
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Margin="4" />
+        </Grid>
     </Grid>
 </Page>

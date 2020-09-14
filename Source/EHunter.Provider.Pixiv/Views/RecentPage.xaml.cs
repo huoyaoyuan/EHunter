@@ -1,4 +1,7 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using EHunter.Provider.Pixiv.Models;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -10,6 +13,8 @@ namespace EHunter.Provider.Pixiv.Views
     /// </summary>
     public sealed partial class RecentPage : Page
     {
+        private readonly PixivRecentVM _vm = Ioc.Default.GetRequiredService<PixivRecentVM>();
+
         public RecentPage() => InitializeComponent();
     }
 }

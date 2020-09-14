@@ -29,7 +29,11 @@ namespace EHunter.Provider.Pixiv.Models
             if (_applicationSetting.Values["RefreshToken"] is string refreshToken)
             {
                 RefreshToken = refreshToken;
-                LoginWithToken();
+                InitialLoginTask = PerformLogin(Client.LoginAsync(RefreshToken));
+            }
+            else
+            {
+                InitialLoginTask = Task.CompletedTask;
             }
         }
 
@@ -46,6 +50,8 @@ namespace EHunter.Provider.Pixiv.Models
                 }
             }
         }
+
+        internal Task InitialLoginTask { get; }
 
         internal PixivClient Client { get; }
 
@@ -100,11 +106,11 @@ namespace EHunter.Provider.Pixiv.Models
             private set => SetProperty(ref _userAvatar, value);
         }
 
-        public void LoginWithPassword() => PerformLogin(Client.LoginAsync(Username, Password));
+        public void LoginWithPassword() => _ = PerformLogin(Client.LoginAsync(Username, Password));
 
-        public void LoginWithToken() => PerformLogin(Client.LoginAsync(RefreshToken));
+        public void LoginWithToken() => _ = PerformLogin(Client.LoginAsync(RefreshToken));
 
-        private async void PerformLogin(Task<string> loginTask)
+        private async Task PerformLogin(Task<string> loginTask)
         {
             IsLoggingIn = true;
 
