@@ -2,9 +2,8 @@
 
   <PropertyGroup>
     <RootNamespace>$(MSBuildProjectName)</RootNamespace>
-    <BaseOutputPath>$(MSBuildThisFileDirectory)Artifact\$(MSBuildProjectName)\</BaseOutputPath>
-    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)Intermediate\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
-    <PackageOutputPath>$(MSBuildThisFileDirectory)PackageOutput\$(Configuration)</PackageOutputPath>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)Artifact\bin\$(MSBuildProjectName)\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)Artifact\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
