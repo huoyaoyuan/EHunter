@@ -11,7 +11,24 @@
     <NavigationView
         PaneDisplayMode="LeftCompact"
         IsBackEnabled="{x:Bind _frame.CanGoBack, Mode=OneWay}"
-        SelectionChanged="NavigationView_SelectionChanged">
+        SelectionChanged="NavigationView_SelectionChanged"
+        BackRequested="NavigationView_BackRequested">
+        <NavigationView.MenuItems>
+            <NavigationViewItem
+                x:Name="recent"
+                Icon="AllApps" Content="Recent" IsSelected="True" />
+            <!--<NavigationViewItem Content="Search">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE721;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>-->
+            <!--<NavigationViewItem Content="Openned Galleries">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE736;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>-->
+            <!--<NavigationViewItem Icon="Pin" Content="Pinned Pictures" />-->
+        </NavigationView.MenuItems>
         <Frame x:Name="_frame" />
     </NavigationView>
 </Page>

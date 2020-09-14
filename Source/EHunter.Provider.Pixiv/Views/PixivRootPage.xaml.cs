@@ -17,7 +17,14 @@ namespace EHunter.Provider.Pixiv.Views
             NavigationViewSelectionChangedEventArgs args)
         {
             if (args.IsSettingsSelected)
-                _ = _frame.Navigate(typeof(PixivSettingsPage));
+                _frame.Navigate(typeof(PixivSettingsPage));
+            else if (args.SelectedItemContainer == recent)
+                _frame.Navigate(typeof(RecentPage));
         }
+
+        private void NavigationView_BackRequested(
+            NavigationView sender,
+            NavigationViewBackRequestedEventArgs args)
+            => _frame.GoBack();
     }
 }
