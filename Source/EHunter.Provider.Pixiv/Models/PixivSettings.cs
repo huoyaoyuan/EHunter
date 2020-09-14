@@ -4,6 +4,7 @@ using EHunter.Provider.Pixiv.Messages;
 using EHunter.Settings;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
+using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Windows.Storage;
@@ -16,13 +17,15 @@ namespace EHunter.Provider.Pixiv.Models
     {
         private readonly ApplicationDataContainer _applicationSetting;
         private readonly ICommonSetting _commonSetting;
+        private readonly ILogger<PixivSettings>? _logger;
 
-        public PixivSettings(ICommonSetting commonSetting)
+        public PixivSettings(ICommonSetting commonSetting, ILogger<PixivSettings>? logger = null)
         {
             _applicationSetting = ApplicationData.Current.LocalSettings.CreateContainer("Pixiv", ApplicationDataCreateDisposition.Always);
 
             _useProxy = (bool?)_applicationSetting.Values[nameof(UseProxy)] ?? false;
             _commonSetting = commonSetting;
+            _logger = logger;
             Client = new PixivClient(_useProxy ? _commonSetting.Proxy : null);
             _commonSetting.ProxyUpdated += p => Client.SetProxy(_useProxy ? p : null);
 
@@ -127,6 +130,7 @@ namespace EHunter.Provider.Pixiv.Models
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "Login failed");
                 Messenger.Default.Send(new LoginFailedMessage(e), this);
             }
 

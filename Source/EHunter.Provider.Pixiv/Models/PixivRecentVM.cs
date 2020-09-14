@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
+using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Collections;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
@@ -14,8 +15,9 @@ namespace EHunter.Provider.Pixiv.Models
 #pragma warning restore CA1001 // 具有可释放字段的类型应该是可释放的
     {
         private readonly PixivClient _client;
+        private readonly ILogger<PixivRecentVM>? _logger;
 
-        public PixivRecentVM(PixivSettings settings)
+        public PixivRecentVM(PixivSettings settings, ILogger<PixivRecentVM>? _logger = null)
         {
             _client = settings.Client;
             ContinueLogin();
@@ -25,6 +27,8 @@ namespace EHunter.Provider.Pixiv.Models
                 await settings.InitialLoginTask.ConfigureAwait(true);
                 Refresh();
             }
+
+            this._logger = _logger;
         }
 
         public async void Refresh()
@@ -62,8 +66,13 @@ namespace EHunter.Provider.Pixiv.Models
 
                     State = RecentPageState.LoadCompleted;
                 }
-                catch
+                catch (TaskCanceledException)
                 {
+                    _logger.LogInformation("A loading task is cancelled by user option.");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "An error occurred during loading recent updates.");
                 }
                 finally
                 {
