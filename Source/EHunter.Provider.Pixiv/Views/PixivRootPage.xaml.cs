@@ -12,6 +12,8 @@ namespace EHunter.Provider.Pixiv.Views
     {
         public PixivRootPage() => InitializeComponent();
 
+#pragma warning disable CA1801 // TODO: false positive - used in xaml event handler
+
         private void NavigationView_SelectionChanged(
             NavigationView sender,
             NavigationViewSelectionChangedEventArgs args)

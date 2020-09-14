@@ -19,7 +19,7 @@ namespace EHunter.Provider.Pixiv.Models
         private readonly PixivClient _client;
         private readonly ILogger<PixivRecentVM>? _logger;
 
-        public PixivRecentVM(PixivSettings settings, ILogger<PixivRecentVM>? _logger = null)
+        public PixivRecentVM(PixivSettings settings, ILogger<PixivRecentVM>? logger = null)
         {
             _client = settings.Client;
             ContinueLogin();
@@ -30,7 +30,7 @@ namespace EHunter.Provider.Pixiv.Models
                 Refresh();
             }
 
-            this._logger = _logger;
+            _logger = logger;
         }
 
         public async void Refresh()
