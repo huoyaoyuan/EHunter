@@ -8,6 +8,7 @@
     xmlns:m="using:Meowtrix.PixivApi.Models"
     xmlns:sys="using:System"
     xmlns:tkc="using:Microsoft.Toolkit.Collections"
+    xmlns:vm="using:EHunter.Provider.Pixiv.Models"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     x:DefaultBindMode="OneWay"
@@ -23,11 +24,36 @@
             <VisualStateGroup>
                 <VisualState x:Name="WaitingForLogin">
                     <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{x:Bind _vm.NotLogin}" />
+                        <local:EqualsStateTrigger
+                            Value="{x:Bind vm:RecentPageState.WaitingLogin, Mode=OneTime}"
+                            BindValue="{x:Bind _vm.State}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="waitingPanel.Visibility" Value="Visible" />
                         <Setter Target="waitingText.Text" x:Uid="WaitingForLoginSetter" />
+                        <Setter Target="waitingProgress.IsActive" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="LoginFailed">
+                    <VisualState.StateTriggers>
+                        <local:EqualsStateTrigger
+                            Value="{x:Bind vm:RecentPageState.NotLogin, Mode=OneTime}"
+                            BindValue="{x:Bind _vm.State}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="waitingPanel.Visibility" Value="Visible" />
+                        <Setter Target="waitingText.Text" x:Uid="NotLoginSetter" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="InitialLoading">
+                    <VisualState.StateTriggers>
+                        <local:EqualsStateTrigger
+                            Value="{x:Bind vm:RecentPageState.InitialLoading, Mode=OneTime}"
+                            BindValue="{x:Bind _vm.State}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="waitingPanel.Visibility" Value="Visible" />
+                        <Setter Target="waitingText.Text" x:Uid="LoadingSetter" />
                         <Setter Target="waitingProgress.IsActive" Value="True" />
                     </VisualState.Setters>
                 </VisualState>

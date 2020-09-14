@@ -38,7 +38,7 @@ namespace EHunter.Provider.Pixiv.Models
 
             if (_client.IsLogin)
             {
-                NotLogin = false;
+                State = RecentPageState.InitialLoading;
                 var illusts = Illusts = new ObservableCollection<Illust>();
                 var group = GroupedIllusts = new ObservableGroupedCollection<DateTime, Illust>();
                 var cts = _lastCts = new CancellationTokenSource();
@@ -55,27 +55,33 @@ namespace EHunter.Provider.Pixiv.Models
 
                     await foreach (var i in source.WithCancellation(cts.Token).ConfigureAwait(true))
                     {
+                        State = RecentPageState.PartialLoaded;
                         illusts.Add(i);
                         group.AddItem(i.Created.ToOffset(currentOffset).LocalDateTime.Date, i);
                     }
+
+                    State = RecentPageState.LoadCompleted;
                 }
                 catch
+                {
+                }
+                finally
                 {
                 }
             }
             else
             {
-                NotLogin = true;
+                State = RecentPageState.NotLogin;
                 Illusts = null;
                 GroupedIllusts = null;
             }
         }
 
-        private bool _notLogin = true;
-        public bool NotLogin
+        private RecentPageState _state = RecentPageState.WaitingLogin;
+        public RecentPageState State
         {
-            get => _notLogin;
-            private set => SetProperty(ref _notLogin, value);
+            get => _state;
+            private set => SetProperty(ref _state, value);
         }
 
         private int _selectedModeIndex = 1;
@@ -104,5 +110,14 @@ namespace EHunter.Provider.Pixiv.Models
             get => _groupedIllusts;
             private set => SetProperty(ref _groupedIllusts, value);
         }
+    }
+
+    public enum RecentPageState
+    {
+        WaitingLogin,
+        NotLogin,
+        InitialLoading,
+        PartialLoaded,
+        LoadCompleted
     }
 }

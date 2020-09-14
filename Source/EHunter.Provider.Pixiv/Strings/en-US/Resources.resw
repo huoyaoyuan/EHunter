@@ -129,6 +129,9 @@
   <data name="Ages_R18.Content" xml:space="preserve">
     <value>R18</value>
   </data>
+  <data name="LoadingSetter.Value" xml:space="preserve">
+    <value>Loading</value>
+  </data>
   <data name="LoginButton.Content" xml:space="preserve">
     <value>Login</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="NetworkGroup.Text" xml:space="preserve">
     <value>Network</value>
+  </data>
+  <data name="NotLoginSetter.Value" xml:space="preserve">
+    <value>Not login</value>
   </data>
   <data name="Password.Header" xml:space="preserve">
     <value>Password</value>
