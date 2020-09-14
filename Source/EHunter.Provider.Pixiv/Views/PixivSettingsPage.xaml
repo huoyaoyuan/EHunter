@@ -70,11 +70,12 @@
             <TextBlock
                 Style="{ThemeResource TitleTextBlockStyle}"
                 Margin="0,36,0,6"
-                Text="Account" />
+                x:Uid="AccountGroup" />
             <RadioButtons
                 x:Name="loginOption"
-                Header="Login Mode">
-                <RadioButton x:Name="passwordLoginRadio" Content="Password"
+                x:Uid="LoginMode">
+                <RadioButton x:Name="passwordLoginRadio"
+                             x:Uid="LoginMode_Password"
                              IsChecked="True" />
                 <RadioButton x:Name="tokenLoginRadio" Content="Refresh Token" />
             </RadioButtons>
@@ -82,13 +83,13 @@
                         Spacing="4"
                         x:Name="passwordLogin"
                         Visibility="Collapsed">
-                <TextBox Header="Username"
+                <TextBox x:Uid="Username"
                          x:Name="usernameBox"
                          Text="{x:Bind _setting.Username}" />
-                <PasswordBox Header="Password"
+                <PasswordBox x:Uid="Password"
                              x:Name="passwordBox"
                              Password="{x:Bind _setting.Password}" />
-                <Button Content="Login"
+                <Button x:Uid="LoginButton"
                         x:Name="passwordLoginButton"
                         Tapped="{x:Bind _setting.LoginWithPassword}" />
             </StackPanel>
@@ -99,7 +100,7 @@
                 <PasswordBox Header="Token"
                              x:Name="tokenBox"
                              Password="{x:Bind _setting.RefreshToken}" />
-                <Button Content="Login"
+                <Button x:Uid="LoginButton"
                         x:Name="tokenLoginButton"
                         Tapped="{x:Bind _setting.LoginWithToken}" />
             </StackPanel>

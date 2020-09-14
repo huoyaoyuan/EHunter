@@ -117,11 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountGroup.Text" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Ages_All.Content" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Ages_AllAge.Content" xml:space="preserve">
+    <value>All Age</value>
+  </data>
+  <data name="Ages_R18.Content" xml:space="preserve">
+    <value>R18</value>
+  </data>
+  <data name="LoginButton.Content" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginMode.Header" xml:space="preserve">
+    <value>Login Mode</value>
+  </data>
+  <data name="LoginMode_Password.Content" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Navigation_Recent.Content" xml:space="preserve">
+    <value>Recent updated</value>
+  </data>
   <data name="NetworkGroup.Text" xml:space="preserve">
     <value>Network</value>
   </data>
+  <data name="Password.Header" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="RefreshButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
   <data name="UseProxy.Header" xml:space="preserve">
     <value>Use Proxy</value>
+  </data>
+  <data name="Username.Header" xml:space="preserve">
+    <value>Username</value>
   </data>
   <data name="WaitingForLoginSetter.Value" xml:space="preserve">
     <value>Waiting for login</value>

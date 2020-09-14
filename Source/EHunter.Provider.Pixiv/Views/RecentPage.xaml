@@ -31,13 +31,14 @@
         <StackPanel Orientation="Horizontal"
                     Margin="4"
                     Spacing="4">
-            <Button Tapped="{x:Bind _vm.Refresh}">
+            <Button x:Uid="RefreshButton"
+                    Tapped="{x:Bind _vm.Refresh}">
                 <SymbolIcon Symbol="Refresh" />
             </Button>
             <ComboBox SelectedIndex="0">
-                <ComboBoxItem Content="All" />
-                <ComboBoxItem Content="All Age" />
-                <ComboBoxItem Content="R18" />
+                <ComboBoxItem x:Uid="Ages_All" />
+                <ComboBoxItem x:Uid="Ages_AllAge" />
+                <ComboBoxItem x:Uid="Ages_R18" />
             </ComboBox>
         </StackPanel>
         <Grid x:Name="waitingPanel"

@@ -15,8 +15,8 @@
         BackRequested="NavigationView_BackRequested">
         <NavigationView.MenuItems>
             <NavigationViewItem
-                x:Name="recent"
-                Icon="AllApps" Content="Recent" IsSelected="True" />
+                x:Name="recent" x:Uid="Navigation_Recent"
+                Icon="AllApps" IsSelected="True" />
             <!--<NavigationViewItem Content="Search">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE721;" />
