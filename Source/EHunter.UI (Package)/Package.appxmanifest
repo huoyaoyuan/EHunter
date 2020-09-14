@@ -9,7 +9,7 @@
   <Identity
     Name="e8341ccf-1b5f-4054-b712-814094a4dde1"
     Publisher="CN=Meow"
-    Version="1.0.0.0" />
+    Version="0.1.0.0" />
 
   <Properties>
     <DisplayName>EHunter.UI (Package)</DisplayName>

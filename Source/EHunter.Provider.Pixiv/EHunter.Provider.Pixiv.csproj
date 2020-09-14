@@ -7,7 +7,7 @@
 
     <Platforms>x86;x64</Platforms>
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RuntimeIdentifier>win-$(Platform)</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
