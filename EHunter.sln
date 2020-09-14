@@ -9,15 +9,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
 		global.json = global.json
+		nuget.config = nuget.config
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.UI", "Source\EHunter.UI\EHunter.UI.csproj", "{C8C92AB1-97F0-4CF3-8022-0FB2A028AB45}"
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "EHunter.UI (Package)", "Source\EHunter.UI (Package)\EHunter.UI (Package).wapproj", "{0536649C-B5DD-482B-B620-2C1B03FCFAB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHunter.Common", "Source\EHunter.Common\EHunter.Common.csproj", "{1C7CE301-565F-4CD2-9369-619EFBFB0C4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Common", "Source\EHunter.Common\EHunter.Common.csproj", "{1C7CE301-565F-4CD2-9369-619EFBFB0C4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHunter.Provider.Pixiv", "Source\EHunter.Provider.Pixiv\EHunter.Provider.Pixiv.csproj", "{3EB34FF6-E670-49E7-A0FA-97BB6D73E6B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Provider.Pixiv", "Source\EHunter.Provider.Pixiv\EHunter.Provider.Pixiv.csproj", "{3EB34FF6-E670-49E7-A0FA-97BB6D73E6B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
