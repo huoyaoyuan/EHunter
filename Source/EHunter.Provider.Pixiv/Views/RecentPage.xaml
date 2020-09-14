@@ -18,7 +18,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="waitingPanel.Visibility" Value="Visible" />
-                        <Setter Target="waitingText.Text" Value="Waiting For Login" />
+                        <Setter Target="waitingText.Text" x:Uid="WaitingForLoginSetter" />
                         <Setter Target="waitingProgress.IsActive" Value="True" />
                     </VisualState.Setters>
                 </VisualState>

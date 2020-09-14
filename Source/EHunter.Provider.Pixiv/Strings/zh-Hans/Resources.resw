@@ -123,4 +123,7 @@
   <data name="UseProxy.Header" xml:space="preserve">
     <value>使用代理</value>
   </data>
+  <data name="WaitingForLoginSetter.Value" xml:space="preserve">
+    <value>等待登录</value>
+  </data>
 </root>
