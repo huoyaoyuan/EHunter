@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
+using Microsoft.Toolkit.Collections;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace EHunter.Provider.Pixiv.Models
@@ -38,9 +40,11 @@ namespace EHunter.Provider.Pixiv.Models
             {
                 NotLogin = false;
                 var illusts = Illusts = new ObservableCollection<Illust>();
+                var group = GroupedIllusts = new ObservableGroupedCollection<DateTime, Illust>();
                 var cts = _lastCts = new CancellationTokenSource();
                 try
                 {
+                    TimeSpan currentOffset = DateTimeOffset.Now.Offset;
                     var source = _client.GetMyFollowingIllustsAsync();
                     source = SelectedModeIndex switch
                     {
@@ -50,7 +54,10 @@ namespace EHunter.Provider.Pixiv.Models
                     };
 
                     await foreach (var i in source.WithCancellation(cts.Token).ConfigureAwait(true))
+                    {
                         illusts.Add(i);
+                        group.AddItem(i.Created.ToOffset(currentOffset).LocalDateTime.Date, i);
+                    }
                 }
                 catch
                 {
@@ -60,6 +67,7 @@ namespace EHunter.Provider.Pixiv.Models
             {
                 NotLogin = true;
                 Illusts = null;
+                GroupedIllusts = null;
             }
         }
 
@@ -88,6 +96,13 @@ namespace EHunter.Provider.Pixiv.Models
         {
             get => _illusts;
             private set => SetProperty(ref _illusts, value);
+        }
+
+        private ObservableGroupedCollection<DateTime, Illust>? _groupedIllusts;
+        public ObservableGroupedCollection<DateTime, Illust>? GroupedIllusts
+        {
+            get => _groupedIllusts;
+            private set => SetProperty(ref _groupedIllusts, value);
         }
     }
 }

@@ -6,10 +6,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:m="using:Meowtrix.PixivApi.Models"
+    xmlns:sys="using:System"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     x:DefaultBindMode="OneWay"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <CollectionViewSource
+            x:Name="cvs"
+            Source="{x:Bind _vm.GroupedIllusts}"
+            IsSourceGrouped="True" />
+    </Page.Resources>
     <Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -74,7 +81,21 @@
             x:Name="illustrationGrid"
             Grid.Row="1"
             Visibility="Collapsed"
-            ItemsSource="{x:Bind _vm.Illusts}">
+            ItemsSource="{x:Bind cvs.View}">
+            <GridView.Resources>
+                <local:DateStringConverter x:Key="DateStringConverter" />
+            </GridView.Resources>
+            <GridView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                Text="{Binding Key, Converter={StaticResource DateStringConverter}}"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </GridView.GroupStyle>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="m:Illust"
                               x:DefaultBindMode="OneTime">
