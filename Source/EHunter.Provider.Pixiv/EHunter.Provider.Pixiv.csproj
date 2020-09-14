@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Meowtrix.PixivApi" Version="0.1.0-beta2" />
+    <PackageReference Include="Meowtrix.PixivApi" Version="0.1.0-beta3" />
     <PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.6" />
     <PackageReference Include="Microsoft.WinUI" Version="3.0.0-preview2.200713.0" />
     <!-- TODO: PixivApi requires Preview8 to serialize records. -->
