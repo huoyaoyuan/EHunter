@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     xmlns:sys="using:System"
+    xmlns:tkc="using:Microsoft.Toolkit.Collections"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     x:DefaultBindMode="OneWay"
@@ -77,34 +78,47 @@
                 VerticalAlignment="Top"
                 Margin="4" />
         </Grid>
-        <GridView
+        <SemanticZoom
             x:Name="illustrationGrid"
             Grid.Row="1"
-            Visibility="Collapsed"
-            ItemsSource="{x:Bind cvs.View}">
-            <GridView.Resources>
-                <local:DateStringConverter x:Key="DateStringConverter" />
-            </GridView.Resources>
-            <GridView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBlock
-                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                Text="{Binding Key, Converter={StaticResource DateStringConverter}}"/>
+            Visibility="Collapsed">
+            <SemanticZoom.ZoomedInView>
+                <GridView
+                    ItemsSource="{x:Bind cvs.View}">
+                    <GridView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate x:DataType="tkc:IReadOnlyObservableGroup">
+                                    <TextBlock
+                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                        Text="{x:Bind (sys:DateTime)Key.ToLongDateString()}" />
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </GridView.GroupStyle>
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="m:Illust"
+                                      x:DefaultBindMode="OneTime">
+                            <local:PixivImage
+                                Width="100"
+                                Height="200"
+                                ImageInfo="{x:Bind local:RecentPage.FirstPageMedium(Pages)}" />
                         </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                </GroupStyle>
-            </GridView.GroupStyle>
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="m:Illust"
-                              x:DefaultBindMode="OneTime">
-                    <local:PixivImage
-                        Width="100"
-                        Height="200"
-                        ImageInfo="{x:Bind local:RecentPage.FirstPageMedium(Pages)}" />
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </SemanticZoom.ZoomedInView>
+
+            <SemanticZoom.ZoomedOutView>
+                <ListView
+                    ItemsSource="{x:Bind cvs.View.CollectionGroups}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="ICollectionViewGroup">
+                            <TextBlock
+                                Text="{x:Bind (sys:DateTime)Group.(tkc:IReadOnlyObservableGroup.Key).ToLongDateString()}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </SemanticZoom.ZoomedOutView>
+        </SemanticZoom>
     </Grid>
 </Page>
