@@ -1,4 +1,6 @@
-﻿using EHunter.Provider.Pixiv.Models;
+﻿using System.Collections.Generic;
+using EHunter.Provider.Pixiv.Models;
+using Meowtrix.PixivApi.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
@@ -16,5 +18,7 @@ namespace EHunter.Provider.Pixiv.Views
         private readonly PixivRecentVM _vm = Ioc.Default.GetRequiredService<PixivRecentVM>();
 
         public RecentPage() => InitializeComponent();
+
+        public static ImageInfo FirstPageMedium(IReadOnlyList<IllustPage> pages) => pages[0].Medium;
     }
 }

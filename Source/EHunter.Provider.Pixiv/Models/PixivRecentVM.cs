@@ -37,7 +37,7 @@ namespace EHunter.Provider.Pixiv.Models
             if (_client.IsLogin)
             {
                 NotLogin = false;
-                var illusts = Illusts = new ObservableCollection<IllustPage>();
+                var illusts = Illusts = new ObservableCollection<Illust>();
                 var cts = _lastCts = new CancellationTokenSource();
                 try
                 {
@@ -50,7 +50,7 @@ namespace EHunter.Provider.Pixiv.Models
                     };
 
                     await foreach (var i in source.WithCancellation(cts.Token).ConfigureAwait(true))
-                        illusts.Add(i.Pages[0]);
+                        illusts.Add(i);
                 }
                 catch
                 {
@@ -83,8 +83,8 @@ namespace EHunter.Provider.Pixiv.Models
 
         private CancellationTokenSource? _lastCts;
 
-        private ObservableCollection<IllustPage>? _illusts;
-        public ObservableCollection<IllustPage>? Illusts
+        private ObservableCollection<Illust>? _illusts;
+        public ObservableCollection<Illust>? Illusts
         {
             get => _illusts;
             private set => SetProperty(ref _illusts, value);

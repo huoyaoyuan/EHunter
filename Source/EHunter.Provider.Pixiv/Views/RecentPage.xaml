@@ -76,12 +76,12 @@
             Visibility="Collapsed"
             ItemsSource="{x:Bind _vm.Illusts}">
             <GridView.ItemTemplate>
-                <DataTemplate x:DataType="m:IllustPage"
+                <DataTemplate x:DataType="m:Illust"
                               x:DefaultBindMode="OneTime">
                     <local:PixivImage
                         Width="100"
                         Height="200"
-                        ImageInfo="{x:Bind Medium}" />
+                        ImageInfo="{x:Bind local:RecentPage.FirstPageMedium(Pages)}" />
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
