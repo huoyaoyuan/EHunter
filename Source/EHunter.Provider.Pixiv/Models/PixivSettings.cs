@@ -9,6 +9,8 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Windows.Storage;
 
+#nullable enable
+
 namespace EHunter.Provider.Pixiv.Models
 {
 #pragma warning disable CA1067 // 在实现 IEquatable<T> 时替代 Object.Equals(object)

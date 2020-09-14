@@ -1,5 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 
+#nullable enable
+
 namespace EHunter.Provider.Pixiv.Views
 {
     public class EqualsStateTrigger : StateTriggerBase

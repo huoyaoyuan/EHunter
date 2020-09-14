@@ -5,6 +5,8 @@ using EHunter.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Windows.Storage;
 
+#nullable enable
+
 namespace EHunter.UI
 {
     public class CommonSetting : ObservableObject, ICommonSetting
