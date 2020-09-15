@@ -24,11 +24,4 @@
     <ProjectReference Include="..\EHunter.Provider.Pixiv\EHunter.Provider.Pixiv.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="**\*.xaml" />
-    <Page Update="**\*.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
 </Project>
