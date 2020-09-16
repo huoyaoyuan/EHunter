@@ -70,11 +70,11 @@ namespace EHunter.Provider.Pixiv.Models
                 }
                 catch (TaskCanceledException)
                 {
-                    _logger.LogInformation("A loading task is cancelled by user option.");
+                    _logger?.LogInformation("A loading task is cancelled by user option.");
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "An error occurred during loading recent updates.");
+                    _logger?.LogError(ex, "An error occurred during loading recent updates.");
                 }
                 finally
                 {

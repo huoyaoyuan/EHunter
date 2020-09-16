@@ -132,7 +132,7 @@ namespace EHunter.Provider.Pixiv.Models
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Login failed");
+                _logger?.LogError(e, "Login failed");
                 Messenger.Default.Send(new LoginFailedMessage(e), this);
             }
 
