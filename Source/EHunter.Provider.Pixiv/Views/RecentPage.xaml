@@ -9,6 +9,7 @@
     xmlns:sys="using:System"
     xmlns:tkc="using:Microsoft.Toolkit.Collections"
     xmlns:vm="using:EHunter.Provider.Pixiv.Models"
+    xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     x:DefaultBindMode="OneWay"
@@ -24,9 +25,9 @@
             <VisualStateGroup>
                 <VisualState x:Name="WaitingForLogin">
                     <VisualState.StateTriggers>
-                        <local:EqualsStateTrigger
-                            Value="{x:Bind vm:RecentPageState.WaitingLogin, Mode=OneTime}"
-                            BindValue="{x:Bind _vm.State}" />
+                        <tktr:IsEqualStateTrigger
+                            To="{x:Bind vm:RecentPageState.WaitingLogin, Mode=OneTime}"
+                            Value="{x:Bind _vm.State}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="waitingPanel.Visibility" Value="Visible" />
@@ -36,9 +37,9 @@
                 </VisualState>
                 <VisualState x:Name="LoginFailed">
                     <VisualState.StateTriggers>
-                        <local:EqualsStateTrigger
-                            Value="{x:Bind vm:RecentPageState.NotLogin, Mode=OneTime}"
-                            BindValue="{x:Bind _vm.State}" />
+                        <tktr:IsEqualStateTrigger
+                            To="{x:Bind vm:RecentPageState.NotLogin, Mode=OneTime}"
+                            Value="{x:Bind _vm.State}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="waitingPanel.Visibility" Value="Visible" />
@@ -47,9 +48,9 @@
                 </VisualState>
                 <VisualState x:Name="InitialLoading">
                     <VisualState.StateTriggers>
-                        <local:EqualsStateTrigger
-                            Value="{x:Bind vm:RecentPageState.InitialLoading, Mode=OneTime}"
-                            BindValue="{x:Bind _vm.State}" />
+                        <tktr:IsEqualStateTrigger
+                            To="{x:Bind vm:RecentPageState.InitialLoading, Mode=OneTime}"
+                            Value="{x:Bind _vm.State}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="waitingPanel.Visibility" Value="Visible" />
