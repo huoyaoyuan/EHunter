@@ -111,7 +111,10 @@
             Visibility="Collapsed">
             <SemanticZoom.ZoomedInView>
                 <GridView
-                    ItemsSource="{x:Bind cvs.View}">
+                    x:Name="gridView"
+                    ItemsSource="{x:Bind cvs.View}"
+                    IsItemClickEnabled="True"
+                    ItemClick="GridView_ItemClick">
                     <GridView.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.HeaderTemplate>
@@ -147,5 +150,39 @@
                 </ListView>
             </SemanticZoom.ZoomedOutView>
         </SemanticZoom>
+        <Grid
+            x:Name="detailZone"
+            Grid.RowSpan="2"
+            Visibility="Collapsed">
+            <FlipView
+                ItemsSource="{x:Bind cvs.View}">
+                <FlipView.ItemTemplate>
+                    <DataTemplate x:DataType="m:Illust"
+                                  x:DefaultBindMode="OneTime">
+                        <FlipView
+                            ItemsSource="{x:Bind Pages}">
+                            <FlipView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </FlipView.ItemsPanel>
+                            <FlipView.ItemTemplate>
+                                <DataTemplate x:DataType="m:IllustPage">
+                                    <local:PixivImage
+                                        ImageInfo="{x:Bind Large}" />
+                                </DataTemplate>
+                            </FlipView.ItemTemplate>
+                        </FlipView>
+                    </DataTemplate>
+                </FlipView.ItemTemplate>
+            </FlipView>
+            <Button
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="10"
+                Tapped="CloseDetail">
+                <SymbolIcon Symbol="Cancel" />
+            </Button>
+        </Grid>
     </Grid>
 </Page>
