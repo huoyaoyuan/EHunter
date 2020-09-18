@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Meowtrix.PixivApi.Models;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 
@@ -23,9 +26,17 @@ namespace EHunter.Provider.Pixiv.Views
                 {
                     try
                     {
-                        using var response = await info.RequestAsync().ConfigureAwait(true);
-                        byte[] data = await response.EnsureSuccessStatusCode()
-                            .Content.ReadAsByteArrayAsync().ConfigureAwait(true);
+                        var cache = Ioc.Default.GetRequiredService<IMemoryCache>();
+                        byte[] data = await cache.GetOrCreateAsync(info.Uri, async entry =>
+                        {
+                            using var response = await info.RequestAsync().ConfigureAwait(true);
+                            byte[] data = await response.EnsureSuccessStatusCode()
+                                .Content.ReadAsByteArrayAsync().ConfigureAwait(true);
+
+                            entry.SetSize(data.Length);
+                            return data;
+                        }).ConfigureAwait(true);
+
                         await bitmap.SetSourceAsync(await data.CopyAsWinRTStreamAsync().ConfigureAwait(true));
                     }
                     catch
