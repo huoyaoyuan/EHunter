@@ -129,10 +129,31 @@
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="m:Illust"
                                       x:DefaultBindMode="OneTime">
-                            <local:PixivImage
-                                Width="100"
-                                Height="200"
-                                ImageInfo="{x:Bind local:RecentPage.FirstPageMedium(Pages)}" />
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <local:PixivImage
+                                    Width="200"
+                                    Height="200"
+                                    ImageInfo="{x:Bind local:RecentPage.FirstPageMedium(Pages)}" />
+                                <TextBlock
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom"
+                                    IsColorFontEnabled="True">
+                                    <Run Text="❤" /><Run Text="{x:Bind TotalBookmarks}" />
+                                </TextBlock>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Center"
+                                    Text="{x:Bind User.Name}" />
+                                <TextBlock
+                                    Grid.Row="2"
+                                    HorizontalAlignment="Center"
+                                    Text="{x:Bind Title}" />
+                            </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
