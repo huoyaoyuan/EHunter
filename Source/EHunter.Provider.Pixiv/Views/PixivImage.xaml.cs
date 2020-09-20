@@ -5,7 +5,10 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage.Streams;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -22,7 +25,7 @@ namespace EHunter.Provider.Pixiv.Views
             get => _imageInfo;
             set
             {
-                static async void GetImage(BitmapImage bitmap, ImageInfo info)
+                async void GetImage(BitmapImage bitmap, ImageInfo info)
                 {
                     try
                     {
@@ -37,7 +40,12 @@ namespace EHunter.Provider.Pixiv.Views
                             return data;
                         }).ConfigureAwait(true);
 
-                        await bitmap.SetSourceAsync(await data.CopyAsWinRTStreamAsync().ConfigureAwait(true));
+                        var stream = await data.CopyAsWinRTStreamAsync().ConfigureAwait(true);
+
+                        if (image.Source == bitmap)
+                            _bitmapData = data;
+
+                        await bitmap.SetSourceAsync(stream);
                     }
                     catch
                     {
@@ -56,9 +64,24 @@ namespace EHunter.Provider.Pixiv.Views
                     else
                     {
                         image.Source = null;
+                        _bitmapData = null;
                     }
                 }
             }
+        }
+
+        private byte[]? _bitmapData;
+
+        private async void CopyRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        {
+            if (_bitmapData is null)
+                return;
+
+            var dataPackage = new DataPackage();
+            var stream = await _bitmapData.CopyAsWinRTStreamAsync().ConfigureAwait(true);
+            dataPackage.SetBitmap(RandomAccessStreamReference.CreateFromStream(stream));
+            dataPackage.RequestedOperation = DataPackageOperation.Copy;
+            Clipboard.SetContent(dataPackage);
         }
     }
 }
