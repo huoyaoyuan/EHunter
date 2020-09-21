@@ -5,13 +5,14 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
+
+#nullable enable
 
 namespace EHunter.Provider.Pixiv.Views
 {
@@ -25,54 +26,60 @@ namespace EHunter.Provider.Pixiv.Views
             get => _imageInfo;
             set
             {
-                async void GetImage(BitmapImage bitmap, ImageInfo info)
-                {
-                    try
-                    {
-                        var cache = Ioc.Default.GetRequiredService<IMemoryCache>();
-                        byte[] data = await cache.GetOrCreateAsync(info.Uri, async entry =>
-                        {
-                            using var response = await info.RequestAsync().ConfigureAwait(true);
-                            byte[] data = await response.EnsureSuccessStatusCode()
-                                .Content.ReadAsByteArrayAsync().ConfigureAwait(true);
-
-                            entry.SetSize(data.Length);
-                            return data;
-                        }).ConfigureAwait(true);
-
-                        var stream = await data.CopyAsWinRTStreamAsync().ConfigureAwait(true);
-
-                        if (image.Source == bitmap)
-                            _bitmapData = data;
-
-                        await bitmap.SetSourceAsync(stream);
-                    }
-                    catch
-                    {
-                    }
-                }
-
                 if (!EqualityComparer<ImageInfo?>.Default.Equals(_imageInfo, value))
                 {
                     _imageInfo = value;
-                    if (value is { } i)
-                    {
-                        var bitmap = new BitmapImage();
-                        image.Source = bitmap;
-                        GetImage(bitmap, i);
-                    }
-                    else
-                    {
-                        image.Source = null;
-                        _bitmapData = null;
-                    }
+                    LoadImage(value, false);
                 }
             }
         }
 
         private byte[]? _bitmapData;
 
-        private async void CopyRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void LoadImage(ImageInfo? value, bool refresh)
+        {
+            if (value is { } info)
+            {
+                var bitmap = new BitmapImage();
+                image.Source = bitmap;
+
+                try
+                {
+                    var cache = Ioc.Default.GetRequiredService<IMemoryCache>();
+                    if (refresh)
+                        cache.Remove(info.Uri);
+
+                    byte[] data = await cache.GetOrCreateAsync(info.Uri, async entry =>
+                    {
+                        using var response = await info.RequestAsync().ConfigureAwait(true);
+                        byte[] data = await response.EnsureSuccessStatusCode()
+                            .Content.ReadAsByteArrayAsync().ConfigureAwait(true);
+
+                        entry.SetSize(data.Length);
+                        return data;
+                    }).ConfigureAwait(true);
+
+                    var stream = await data.CopyAsWinRTStreamAsync().ConfigureAwait(true);
+
+                    if (image.Source == bitmap)
+                        _bitmapData = data;
+
+                    await bitmap.SetSourceAsync(stream);
+                }
+                catch
+                {
+                }
+            }
+            else
+            {
+                image.Source = null;
+                _bitmapData = null;
+            }
+        }
+
+        private void RefreshImage() => LoadImage(ImageInfo, true);
+
+        private async void CopyRequested()
         {
             if (_bitmapData is null)
                 return;
