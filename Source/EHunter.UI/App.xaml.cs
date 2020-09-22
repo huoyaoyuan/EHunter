@@ -1,4 +1,4 @@
-﻿using EHunter.Provider.Pixiv.Models;
+﻿using EHunter.Provider.Pixiv;
 using EHunter.Settings;
 using EHunter.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +26,7 @@ namespace EHunter.UI
         {
             Ioc.Default.ConfigureServices(services => services
                 .AddSingleton<ICommonSetting, CommonSetting>()
-                .AddSingleton<PixivSettings>()
-                .AddTransient<PixivRecentVM>()
+                .ConfigurePixiv()
                 .AddMemoryCache(o =>
                 {
                     o.SizeLimit = 2 * (1L << 30);
