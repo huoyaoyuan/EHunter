@@ -17,6 +17,9 @@
             <NavigationViewItem
                 x:Name="recent" x:Uid="Navigation_Recent"
                 Icon="AllApps" IsSelected="True" />
+            <NavigationViewItem
+                x:Name="users" x:Uid="Navigation_Users"
+                Icon="People" />
             <!--<NavigationViewItem Content="Search">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE721;" />

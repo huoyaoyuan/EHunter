@@ -144,6 +144,9 @@
   <data name="Navigation_Recent.Content" xml:space="preserve">
     <value>最近更新</value>
   </data>
+  <data name="Navigation_Users.Content" xml:space="preserve">
+    <value>用户</value>
+  </data>
   <data name="NetworkGroup.Text" xml:space="preserve">
     <value>网络</value>
   </data>

@@ -144,6 +144,9 @@
   <data name="Navigation_Recent.Content" xml:space="preserve">
     <value>Recent updated</value>
   </data>
+  <data name="Navigation_Users.Content" xml:space="preserve">
+    <value>Users</value>
+  </data>
   <data name="NetworkGroup.Text" xml:space="preserve">
     <value>Network</value>
   </data>

@@ -22,6 +22,8 @@ namespace EHunter.Provider.Pixiv.Views
                 _frame.Navigate(typeof(PixivSettingsPage));
             else if (args.SelectedItemContainer == recent)
                 _frame.Navigate(typeof(RecentPage));
+            else if (args.SelectedItemContainer == users)
+                _frame.Navigate(typeof(UsersView));
         }
 
         private void NavigationView_BackRequested(
