@@ -1,4 +1,5 @@
-﻿using EHunter.Provider.Pixiv.Messages;
+﻿using System;
+using EHunter.Provider.Pixiv.Messages;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 
@@ -33,12 +34,17 @@ namespace EHunter.Provider.Pixiv.Views
             NavigationView sender,
             NavigationViewSelectionChangedEventArgs args)
         {
+            Type? toType = null;
+
             if (args.IsSettingsSelected)
-                _frame.Navigate(typeof(PixivSettingsPage));
+                toType = typeof(PixivSettingsPage);
             else if (args.SelectedItemContainer == recent)
-                _frame.Navigate(typeof(RecentPage));
+                toType = typeof(RecentPage);
             else if (args.SelectedItemContainer == users)
-                _frame.Navigate(typeof(UsersView));
+                toType = typeof(UsersView);
+
+            if (toType != null && toType != _frame.CurrentSourcePageType)
+                _frame.Navigate(toType);
         }
 
         private void NavigationView_BackRequested(
