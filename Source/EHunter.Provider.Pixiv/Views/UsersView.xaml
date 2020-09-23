@@ -5,11 +5,22 @@
     xmlns:local="using:EHunter.Provider.Pixiv.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:m="using:Meowtrix.PixivApi.Models"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid>
-
-    </Grid>
+    <TabView
+        x:Name="tabView">
+        <TabView.TabItemTemplate>
+            <DataTemplate x:DataType="m:UserInfo">
+                <TabViewItem
+                    Header="{x:Bind Name}">
+                    <Grid>
+                        <local:PixivImage
+                            ImageInfo="{x:Bind Avatar}" />
+                    </Grid>
+                </TabViewItem>
+            </DataTemplate>
+        </TabView.TabItemTemplate>
+    </TabView>
 </Page>
