@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using EHunter.Provider.Pixiv.Models;
+using EHunter.Provider.Pixiv.ViewModels;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;

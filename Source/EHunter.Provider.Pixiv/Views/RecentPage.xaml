@@ -8,7 +8,7 @@
     xmlns:m="using:Meowtrix.PixivApi.Models"
     xmlns:sys="using:System"
     xmlns:tkc="using:Microsoft.Toolkit.Collections"
-    xmlns:vm="using:EHunter.Provider.Pixiv.Models"
+    xmlns:vm="using:EHunter.Provider.Pixiv.ViewModels"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:commands="using:EHunter.Provider.Pixiv.Commands"
     mc:Ignorable="d"

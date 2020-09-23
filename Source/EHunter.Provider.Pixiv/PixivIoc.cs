@@ -1,4 +1,4 @@
-﻿using EHunter.Provider.Pixiv.Models;
+﻿using EHunter.Provider.Pixiv.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EHunter.Provider.Pixiv

@@ -10,7 +10,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.Models
+namespace EHunter.Provider.Pixiv.ViewModels
 {
 #pragma warning disable CA1001 // 具有可释放字段的类型应该是可释放的
     public class PixivRecentVM : ObservableObject

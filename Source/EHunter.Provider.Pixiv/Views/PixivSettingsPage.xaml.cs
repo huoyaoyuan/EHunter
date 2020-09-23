@@ -1,6 +1,6 @@
 ﻿using System;
 using EHunter.Provider.Pixiv.Messages;
-using EHunter.Provider.Pixiv.Models;
+using EHunter.Provider.Pixiv.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
