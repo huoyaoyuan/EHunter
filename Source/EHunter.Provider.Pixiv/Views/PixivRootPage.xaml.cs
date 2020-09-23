@@ -19,15 +19,12 @@ namespace EHunter.Provider.Pixiv.Views
         {
             InitializeComponent();
 
-            Loaded += (s, e) =>
-            {
-                Messenger.Default.Register<NavigateToUserMessage>(this,
-                    m =>
-                    {
-                        _frame.Navigate(typeof(UsersView), m);
-                        users.IsSelected = true;
-                    });
-            };
+            Messenger.Default.Register<NavigateToUserMessage>(this,
+                m =>
+                {
+                    _frame.Navigate(typeof(UsersView), m);
+                    users.IsSelected = true;
+                });
         }
 
 #pragma warning disable CA1801 // TODO: false positive - used in xaml event handler
