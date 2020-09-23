@@ -6,18 +6,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:m="using:Meowtrix.PixivApi.Models"
+    xmlns:vm="using:EHunter.Provider.Pixiv.ViewModels"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <TabView
         x:Name="tabView">
         <TabView.TabItemTemplate>
-            <DataTemplate x:DataType="m:UserInfo">
+            <DataTemplate x:DataType="vm:UserSearchVM"
+                          x:DefaultBindMode="OneWay">
                 <TabViewItem
-                    Header="{x:Bind Name}">
+                    Header="{x:Bind UserInfo.Name}">
                     <Grid>
                         <local:PixivImage
-                            ImageInfo="{x:Bind Avatar}" />
+                            ImageInfo="{x:Bind UserInfo.Avatar}" />
                     </Grid>
                 </TabViewItem>
             </DataTemplate>
