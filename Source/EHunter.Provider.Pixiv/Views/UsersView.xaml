@@ -11,7 +11,9 @@
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <TabView
-        x:Name="tabView">
+        x:Name="tabView"
+        TabItemsSource="{x:Bind _vms}"
+        TabCloseRequested="TabCloseRequested">
         <TabView.TabItemTemplate>
             <DataTemplate x:DataType="vm:UserSearchVM"
                           x:DefaultBindMode="OneWay">
