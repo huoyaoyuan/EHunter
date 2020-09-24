@@ -129,6 +129,9 @@
   <data name="Ages_R18.Content" xml:space="preserve">
     <value>R18</value>
   </data>
+  <data name="GoToUser.Text" xml:space="preserve">
+    <value>转到用户</value>
+  </data>
   <data name="LoadingSetter.Value" xml:space="preserve">
     <value>正在加载</value>
   </data>
