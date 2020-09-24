@@ -16,8 +16,8 @@ namespace EHunter.Provider.Pixiv.Views
     {
         public UsersView() => InitializeComponent();
 
-        private readonly ObservableCollection<UserSearchVM> _vms
-            = new ObservableCollection<UserSearchVM>();
+        private readonly ObservableCollection<UserVM> _vms
+            = new ObservableCollection<UserVM>();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -39,7 +39,7 @@ namespace EHunter.Provider.Pixiv.Views
                         break;
 
                 if (index == _vms.Count)
-                    _vms.Add(new UserSearchVM { UserInfo = m.User });
+                    _vms.Add(new UserVM(m.User));
 
                 tabView.SelectedIndex = index;
             }
@@ -48,6 +48,12 @@ namespace EHunter.Provider.Pixiv.Views
 #pragma warning disable CA1801 // TODO: false positive - used in xaml event handler
 
         private void TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
-            => _vms.Remove((UserSearchVM)args.Item);
+            => _vms.Remove((UserVM)args.Item);
+
+        private void AddTab()
+        {
+            _vms.Add(new UserVM());
+            tabView.SelectedIndex = _vms.Count - 1;
+        }
     }
 }

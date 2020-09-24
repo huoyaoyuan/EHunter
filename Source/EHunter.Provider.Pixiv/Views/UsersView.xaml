@@ -7,21 +7,29 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     xmlns:vm="using:EHunter.Provider.Pixiv.ViewModels"
+    xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <TabView
         x:Name="tabView"
         TabItemsSource="{x:Bind _vms}"
-        TabCloseRequested="TabCloseRequested">
+        TabCloseRequested="TabCloseRequested"
+        AddTabButtonClick="{x:Bind AddTab}">
         <TabView.TabItemTemplate>
-            <DataTemplate x:DataType="vm:UserSearchVM"
+            <DataTemplate x:DataType="vm:UserVM"
                           x:DefaultBindMode="OneWay">
                 <TabViewItem
-                    Header="{x:Bind UserInfo.Name}">
+                    x:Name="tabItem"
+                    Header="{x:Bind UserInfo.Name, FallbackValue=' '}">
+                    <!-- Using '' or {x:Null} as FallbackValue will cause ArgumentException.
+                         WinUI 3 Preview 2 -->
+                    <TabViewItem.IconSource>
+                        <FontIconSource FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;" />
+                    </TabViewItem.IconSource>
                     <Grid>
                         <local:PixivImage
-                            ImageInfo="{x:Bind UserInfo.Avatar}" />
+                            ImageInfo="{x:Bind UserInfo.Avatar, FallbackValue={x:Null}}" />
                     </Grid>
                 </TabViewItem>
             </DataTemplate>
