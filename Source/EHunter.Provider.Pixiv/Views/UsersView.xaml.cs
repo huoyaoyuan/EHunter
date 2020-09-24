@@ -21,7 +21,8 @@ namespace EHunter.Provider.Pixiv.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is NavigateToUserMessage m)
+            if ((e.NavigationMode == NavigationMode.New || e.NavigationMode == NavigationMode.Forward)
+                && e.Parameter is NavigateToUserMessage m)
             {
                 // TODO: SelectedItem doesn't work. Only SelectedIndex + TabItemsSource work.
 
