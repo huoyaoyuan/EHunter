@@ -1,0 +1,31 @@
+﻿<UserControl
+    x:Class="EHunter.Provider.Pixiv.Views.User.UserTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:EHunter.Provider.Pixiv.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    mc:Ignorable="d"
+    x:Name="tabItem"
+    x:DefaultBindMode="OneWay">
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="NoUserLoaded">
+                    <VisualState.StateTriggers>
+                        <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind VM.UserInfo}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="UserSummaryLoaded">
+                    <VisualState.StateTriggers>
+                        <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind VM.UserDetail}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="UserDetailLoaded"></VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <local:PixivImage
+            ImageInfo="{x:Bind VM.UserInfo.Avatar, FallbackValue={x:Null}}" />
+    </Grid>
+</UserControl>
