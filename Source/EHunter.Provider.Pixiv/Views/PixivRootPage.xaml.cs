@@ -42,7 +42,7 @@ namespace EHunter.Provider.Pixiv.Views
             else if (args.SelectedItemContainer == users)
                 toType = typeof(UsersView);
 
-            if (toType != null && toType != _frame.CurrentSourcePageType)
+            if (toType is not null && toType != _frame.CurrentSourcePageType)
                 _frame.Navigate(toType);
         }
 
