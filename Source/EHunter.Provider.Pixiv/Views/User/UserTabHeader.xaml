@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:EHunter.Provider.Pixiv.Views"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    x:DefaultBindMode="OneWay"
     mc:Ignorable="d">
     <Grid Height="24">
         <VisualStateManager.VisualStateGroups>

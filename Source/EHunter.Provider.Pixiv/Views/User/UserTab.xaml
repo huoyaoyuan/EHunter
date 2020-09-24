@@ -16,16 +16,70 @@
                     <VisualState.StateTriggers>
                         <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind VM.UserInfo}" />
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="gotoGrid.Visibility" Value="Visible" />
+                        <Setter Target="userGrid.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="UserSummaryLoaded">
                     <VisualState.StateTriggers>
                         <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind VM.UserDetail}" />
                     </VisualState.StateTriggers>
                 </VisualState>
-                <VisualState x:Name="UserDetailLoaded"></VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState x:Name="IsLoading">
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{x:Bind VM.IsLoading}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="gotoButton.IsEnabled" Value="False" />
+                        <Setter Target="gotoProgress.IsActive" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <local:PixivImage
-            ImageInfo="{x:Bind VM.UserInfo.Avatar, FallbackValue={x:Null}}" />
+        
+        <Grid x:Name="gotoGrid"
+              Visibility="Collapsed"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                x:Uid="GoToUserById"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Style="{StaticResource SubheaderTextBlockStyle}"
+                Margin="4" />
+            <TextBox
+                Text="{x:Bind VM.UserId, Mode=TwoWay}"
+                Grid.Row="1"
+                Margin="4" />
+            <Button
+                x:Name="gotoButton"
+                Grid.Row="1" Grid.Column="1"
+                Margin="4"
+                Tapped="{x:Bind VM.JumpToUser}">
+                <SymbolIcon Symbol="Forward" />
+            </Button>
+            <ProgressRing
+                x:Name="gotoProgress"
+                Grid.Row="2" Grid.ColumnSpan="2"
+                Margin="4" />
+        </Grid>
+        
+        <Grid x:Name="userGrid">
+            <local:PixivImage
+                ImageInfo="{x:Bind VM.UserInfo.Avatar, FallbackValue={x:Null}}" />
+        </Grid>
     </Grid>
 </UserControl>

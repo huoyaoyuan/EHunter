@@ -132,6 +132,9 @@
   <data name="GoToUser.Text" xml:space="preserve">
     <value>Go To User</value>
   </data>
+  <data name="GoToUserById.Text" xml:space="preserve">
+    <value>Go to user by ID</value>
+  </data>
   <data name="LoadingSetter.Value" xml:space="preserve">
     <value>Loading</value>
   </data>
