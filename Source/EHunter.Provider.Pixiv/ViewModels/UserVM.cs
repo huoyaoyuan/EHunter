@@ -26,6 +26,8 @@ namespace EHunter.Provider.Pixiv.ViewModels
                 var user = await _client.GetUserDetailAsync(UserId).ConfigureAwait(true);
                 UserInfo = user;
                 UserDetail = user;
+
+                Illusts = new AsyncEnumerableCollection<Illust>(user.GetIllustsAsync());
             }
             catch
             {
@@ -42,10 +44,13 @@ namespace EHunter.Provider.Pixiv.ViewModels
         {
             _client = client;
             UserInfo = userInfo;
-            LoadUserDetail(userInfo);
+            Load(userInfo);
 
-            async void LoadUserDetail(UserInfo user)
-                => UserDetail = await user.GetDetailAsync().ConfigureAwait(true);
+            async void Load(UserInfo user)
+            {
+                Illusts = new AsyncEnumerableCollection<Illust>(user.GetIllustsAsync());
+                UserDetail = await user.GetDetailAsync().ConfigureAwait(true);
+            }
         }
 
         private UserInfo? _userInfo;
@@ -67,6 +72,13 @@ namespace EHunter.Provider.Pixiv.ViewModels
         {
             get => _isLoading;
             private set => SetProperty(ref _isLoading, value);
+        }
+
+        private AsyncEnumerableCollection<Illust>? _illusts;
+        public AsyncEnumerableCollection<Illust>? Illusts
+        {
+            get => _illusts;
+            private set => SetProperty(ref _illusts, value);
         }
     }
 

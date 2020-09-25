@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:m="using:Meowtrix.PixivApi.Models"
     mc:Ignorable="d"
     x:Name="tabItem"
     x:DefaultBindMode="OneWay">
@@ -78,8 +79,58 @@
         </Grid>
         
         <Grid x:Name="userGrid">
-            <local:PixivImage
-                ImageInfo="{x:Bind VM.UserInfo.Avatar, FallbackValue={x:Null}}" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" /> <!-- User info -->
+                <RowDefinition Height="*" /> <!-- artworks -->
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <local:PixivImage
+                    Height="100"
+                    Width="100"
+                    Margin="2"
+                    ImageInfo="{x:Bind VM.UserInfo.Avatar, FallbackValue={x:Null}}" />
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="2"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Text="{x:Bind VM.UserInfo.Name, FallbackValue=''}" />
+            </Grid>
+
+            <GridView
+                Grid.Row="1"
+                ItemsSource="{x:Bind VM.Illusts}"
+                IncrementalLoadingTrigger="Edge">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="m:Illust"
+                                  x:DefaultBindMode="OneTime">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <local:PixivImage
+                                Width="200"
+                                Height="200"
+                                ImageInfo="{x:Bind local:RecentPage.FirstPageMedium(Pages)}" />
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                IsColorFontEnabled="True">
+                                <Run Text="❤" /><Run Text="{x:Bind TotalBookmarks}" />
+                            </TextBlock>
+                            <TextBlock
+                                Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                Text="{x:Bind Title}" />
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
         </Grid>
     </Grid>
 </UserControl>
