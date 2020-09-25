@@ -95,6 +95,7 @@
                     Margin="2"
                     ImageInfo="{x:Bind VM.UserInfo.Avatar, FallbackValue={x:Null}}" />
                 <TextBlock
+                    x:Name="usernameText"
                     Grid.Column="1"
                     Margin="2"
                     Style="{StaticResource TitleTextBlockStyle}"

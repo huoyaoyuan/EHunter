@@ -156,7 +156,8 @@
                                     HorizontalAlignment="Center"
                                     Content="{x:Bind User.Name}"
                                     Command="{StaticResource NavigateToUser}"
-                                    CommandParameter="{x:Bind User}" />
+                                    CommandParameter="{x:Bind User}"
+                                    Click="NavigateToUser_Click" />
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
