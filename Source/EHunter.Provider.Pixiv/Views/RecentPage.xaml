@@ -205,7 +205,7 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Margin="10"
-                Tapped="CloseDetail">
+                Click="{x:Bind CloseDetail}">
                 <SymbolIcon Symbol="Cancel" />
             </Button>
         </Grid>

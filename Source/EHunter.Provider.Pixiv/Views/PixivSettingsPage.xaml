@@ -91,7 +91,7 @@
                              Password="{x:Bind _setting.Password}" />
                 <Button x:Uid="LoginButton"
                         x:Name="passwordLoginButton"
-                        Tapped="{x:Bind _setting.LoginWithPassword}" />
+                        Click="{x:Bind _setting.LoginWithPassword}" />
             </StackPanel>
             <StackPanel Orientation="Vertical"
                         Spacing="4"
@@ -102,7 +102,7 @@
                              Password="{x:Bind _setting.RefreshToken}" />
                 <Button x:Uid="LoginButton"
                         x:Name="tokenLoginButton"
-                        Tapped="{x:Bind _setting.LoginWithToken}" />
+                        Click="{x:Bind _setting.LoginWithToken}" />
             </StackPanel>
             <ProgressRing x:Name="loginProgress"
                           IsActive="False"

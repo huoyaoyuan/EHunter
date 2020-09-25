@@ -68,7 +68,7 @@
                 x:Name="gotoButton"
                 Grid.Row="1" Grid.Column="1"
                 Margin="4"
-                Tapped="{x:Bind VM.JumpToUser}">
+                Click="{x:Bind VM.JumpToUser}">
                 <SymbolIcon Symbol="Forward" />
             </Button>
             <ProgressRing
