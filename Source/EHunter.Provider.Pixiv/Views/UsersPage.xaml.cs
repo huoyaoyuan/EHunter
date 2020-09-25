@@ -14,11 +14,11 @@ namespace EHunter.Provider.Pixiv.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class UsersView : Page
+    public sealed partial class UsersPage : Page
     {
         private readonly UserVMFactory _factory = Ioc.Default.GetRequiredService<UserVMFactory>();
 
-        public UsersView() => InitializeComponent();
+        public UsersPage() => InitializeComponent();
 
         private readonly ObservableCollection<UserVM> _vms
             = new ObservableCollection<UserVM>();

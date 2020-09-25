@@ -22,7 +22,7 @@ namespace EHunter.Provider.Pixiv.Views
             Messenger.Default.Register<NavigateToUserMessage>(this,
                 m =>
                 {
-                    _frame.Navigate(typeof(UsersView), m);
+                    _frame.Navigate(typeof(UsersPage), m);
                     users.IsSelected = true;
                 });
         }
@@ -40,7 +40,7 @@ namespace EHunter.Provider.Pixiv.Views
             else if (args.SelectedItemContainer == recent)
                 toType = typeof(RecentPage);
             else if (args.SelectedItemContainer == users)
-                toType = typeof(UsersView);
+                toType = typeof(UsersPage);
 
             if (toType is not null && toType != _frame.CurrentSourcePageType)
                 _frame.Navigate(toType);
@@ -57,7 +57,7 @@ namespace EHunter.Provider.Pixiv.Views
                 sender.SelectedItem = sender.SettingsItem;
             else if (type == typeof(RecentPage))
                 sender.SelectedItem = recent;
-            else if (type == typeof(UsersView))
+            else if (type == typeof(UsersPage))
                 sender.SelectedItem = users;
         }
     }
