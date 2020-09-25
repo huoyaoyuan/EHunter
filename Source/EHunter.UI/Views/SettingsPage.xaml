@@ -25,7 +25,7 @@
                 Margin="0,36,0,6"
                 Text ="Proxy" />
             <TextBox Header="Address" Text="{x:Bind _setting.ProxyAddress}" />
-            <TextBox Header="Port" Text="{x:Bind _setting.ProxyPort}" />
+            <NumberBox Header="Port" Value="{x:Bind _setting.ProxyPort}" />
 
             <TextBlock
                 Style="{ThemeResource TitleTextBlockStyle}"

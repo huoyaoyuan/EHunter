@@ -60,8 +60,8 @@
                 VerticalAlignment="Bottom"
                 Style="{StaticResource SubheaderTextBlockStyle}"
                 Margin="4" />
-            <TextBox
-                Text="{x:Bind VM.UserId, Mode=TwoWay}"
+            <NumberBox
+                Value="{x:Bind VM.UserId, Mode=TwoWay}"
                 Grid.Row="1"
                 Margin="4" />
             <Button
