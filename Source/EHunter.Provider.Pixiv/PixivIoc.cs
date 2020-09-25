@@ -8,6 +8,7 @@ namespace EHunter.Provider.Pixiv
         public static IServiceCollection ConfigurePixiv(this IServiceCollection services)
             => services
             .AddSingleton<PixivSettings>()
-            .AddTransient<PixivRecentVM>();
+            .AddTransient<PixivRecentVM>()
+            .AddSingleton<UserVMFactory>();
     }
 }

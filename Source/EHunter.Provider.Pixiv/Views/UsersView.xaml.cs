@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using EHunter.Provider.Pixiv.Messages;
 using EHunter.Provider.Pixiv.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 
@@ -14,6 +16,8 @@ namespace EHunter.Provider.Pixiv.Views
     /// </summary>
     public sealed partial class UsersView : Page
     {
+        private readonly UserVMFactory _factory = Ioc.Default.GetRequiredService<UserVMFactory>();
+
         public UsersView() => InitializeComponent();
 
         private readonly ObservableCollection<UserVM> _vms
@@ -43,7 +47,7 @@ namespace EHunter.Provider.Pixiv.Views
                         break;
 
                 if (index == _vms.Count)
-                    _vms.Add(new UserVM(m.User));
+                    _vms.Add(_factory.Create(m.User));
 
                 tabView.SelectedIndex = index;
             }
@@ -56,7 +60,7 @@ namespace EHunter.Provider.Pixiv.Views
 
         private void AddTab()
         {
-            _vms.Add(new UserVM());
+            _vms.Add(_factory.Create());
             tabView.SelectedIndex = _vms.Count - 1;
         }
     }

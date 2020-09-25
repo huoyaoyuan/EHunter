@@ -1,7 +1,6 @@
-﻿using Meowtrix.PixivApi.Models;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Meowtrix.PixivApi;
+using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 #nullable enable
 
@@ -9,6 +8,8 @@ namespace EHunter.Provider.Pixiv.ViewModels
 {
     public class UserVM : ObservableObject
     {
+        private readonly PixivClient _client;
+
         private int _userId;
         public int UserId
         {
@@ -22,8 +23,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
             {
                 IsLoading = true;
 
-                var client = Ioc.Default.GetRequiredService<PixivSettings>().Client;
-                var user = await client.GetUserDetailAsync(UserId).ConfigureAwait(true);
+                var user = await _client.GetUserDetailAsync(UserId).ConfigureAwait(true);
                 UserInfo = user;
                 UserDetail = user;
             }
@@ -36,10 +36,11 @@ namespace EHunter.Provider.Pixiv.ViewModels
             }
         }
 
-        public UserVM() { }
+        public UserVM(PixivClient client) => _client = client;
 
-        public UserVM(UserInfo userInfo)
+        public UserVM(UserInfo userInfo, PixivClient client)
         {
+            _client = client;
             UserInfo = userInfo;
             LoadUserDetail(userInfo);
 
@@ -67,5 +68,15 @@ namespace EHunter.Provider.Pixiv.ViewModels
             get => _isLoading;
             private set => SetProperty(ref _isLoading, value);
         }
+    }
+
+    public class UserVMFactory
+    {
+        private readonly PixivSettings _settings;
+
+        public UserVMFactory(PixivSettings settings) => _settings = settings;
+
+        public UserVM Create() => new UserVM(_settings.Client);
+        public UserVM Create(UserInfo userInfo) => new UserVM(userInfo, _settings.Client);
     }
 }
