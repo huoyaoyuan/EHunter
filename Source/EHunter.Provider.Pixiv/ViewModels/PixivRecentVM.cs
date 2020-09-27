@@ -51,13 +51,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
                 try
                 {
                     TimeSpan currentOffset = DateTimeOffset.Now.Offset;
-                    var source = _client.GetMyFollowingIllustsAsync();
-                    source = SelectedModeIndex switch
-                    {
-                        1 => source.AllAge(),
-                        2 => source.R18(),
-                        _ => source
-                    };
+                    var source = _client.GetMyFollowingIllustsAsync().Age(SelectedAge);
 
                     await foreach (var i in source.WithCancellation(cts.Token).ConfigureAwait(true))
                     {
@@ -95,15 +89,26 @@ namespace EHunter.Provider.Pixiv.ViewModels
             private set => SetProperty(ref _state, value);
         }
 
-        private int _selectedModeIndex = 1;
-        public int SelectedModeIndex
+        // TODO: https://github.com/microsoft/microsoft-ui-xaml/issues/3339
+
+        private AgeRestriction _selectedAge = AgeRestriction.AllAge;
+        public AgeRestriction SelectedAge
         {
-            get => _selectedModeIndex;
+            get => _selectedAge;
             set
             {
-                if (SetProperty(ref _selectedModeIndex, value))
+                if (SetProperty(ref _selectedAge, value))
+                {
+                    OnPropertyChanged(nameof(IntSelectedAge));
                     Refresh();
+                }
             }
+        }
+
+        public int IntSelectedAge
+        {
+            get => (int)SelectedAge;
+            set => SelectedAge = (AgeRestriction)value;
         }
 
         private CancellationTokenSource? _lastCts;

@@ -11,6 +11,7 @@
     xmlns:vm="using:EHunter.Provider.Pixiv.ViewModels"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:commands="using:EHunter.Provider.Pixiv.Commands"
+    xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     x:DefaultBindMode="OneWay"
@@ -81,10 +82,16 @@
                     Tapped="{x:Bind _vm.Refresh}">
                 <SymbolIcon Symbol="Refresh" />
             </Button>
-            <ComboBox SelectedIndex="{x:Bind _vm.SelectedModeIndex, Mode=TwoWay}">
-                <ComboBoxItem x:Uid="Ages_All" />
-                <ComboBoxItem x:Uid="Ages_AllAge" />
-                <ComboBoxItem x:Uid="Ages_R18" />
+            <ComboBox
+                SelectedItem="{x:Bind _vm.IntSelectedAge, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="x:Int32">
+                        <controls:AgeRestrictionPresenter IntAge="{x:Bind Mode=OneTime}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <m:AgeRestriction>All</m:AgeRestriction>
+                <m:AgeRestriction>AllAge</m:AgeRestriction>
+                <m:AgeRestriction>R18</m:AgeRestriction>
             </ComboBox>
         </StackPanel>
         <Grid x:Name="waitingPanel"

@@ -120,13 +120,13 @@
   <data name="AccountGroup.Text" xml:space="preserve">
     <value>账号</value>
   </data>
-  <data name="Ages_All.Content" xml:space="preserve">
+  <data name="Ages_All.Value" xml:space="preserve">
     <value>全部</value>
   </data>
-  <data name="Ages_AllAge.Content" xml:space="preserve">
+  <data name="Ages_AllAge.Value" xml:space="preserve">
     <value>全年龄</value>
   </data>
-  <data name="Ages_R18.Content" xml:space="preserve">
+  <data name="Ages_R18.Value" xml:space="preserve">
     <value>R18</value>
   </data>
   <data name="GoToUser.Text" xml:space="preserve">
