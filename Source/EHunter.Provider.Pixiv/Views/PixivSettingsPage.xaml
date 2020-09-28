@@ -5,6 +5,7 @@
     xmlns:local="using:EHunter.Provider.Pixiv.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     x:DefaultBindMode="OneWay">
@@ -114,7 +115,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <local:PixivImage ImageInfo="{x:Bind _setting.User.Avatar}" />
+                <controls:PixivImage ImageInfo="{x:Bind _setting.User.Avatar}" />
                 <TextBlock Grid.Column="1"  Text="{x:Bind _setting.User.Name}" />
             </Grid>
         </StackPanel>

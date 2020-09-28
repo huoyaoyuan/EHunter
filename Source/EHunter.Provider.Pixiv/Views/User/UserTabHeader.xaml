@@ -5,7 +5,7 @@
     xmlns:local="using:EHunter.Provider.Pixiv.Views.User"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:views="using:EHunter.Provider.Pixiv.Views"
+    xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     x:DefaultBindMode="OneWay"
     mc:Ignorable="d">
@@ -37,7 +37,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <views:PixivImage
+        <controls:PixivImage
             x:Name="avatar"
             Grid.Column="0"
             Width="24" Height="24"

@@ -14,7 +14,7 @@ using Windows.Storage.Streams;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.Views
+namespace EHunter.Provider.Pixiv.Controls
 {
     public sealed partial class PixivImage : UserControl
     {

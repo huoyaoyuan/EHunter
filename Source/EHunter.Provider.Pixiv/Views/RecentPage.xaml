@@ -181,7 +181,7 @@
                             </FlipView.ItemsPanel>
                             <FlipView.ItemTemplate>
                                 <DataTemplate x:DataType="m:IllustPage">
-                                    <local:PixivImage
+                                    <controls:PixivImage
                                         ImageInfo="{x:Bind Large}" />
                                 </DataTemplate>
                             </FlipView.ItemTemplate>
