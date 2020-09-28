@@ -10,13 +10,16 @@
         <MenuFlyout>
             <MenuFlyoutItem>
                 <MenuFlyoutItem.Command>
-                    <StandardUICommand Kind="Copy" ExecuteRequested="{x:Bind CopyRequested}" />
+                    <StandardUICommand x:Name="copyCommand"
+                                       Kind="Copy"
+                                       CanExecuteRequested="CanCopyRequested"
+                                       ExecuteRequested="{x:Bind CopyRequested}" />
                 </MenuFlyoutItem.Command>
             </MenuFlyoutItem>
             <MenuFlyoutItem Text="Refresh" Icon="Refresh" Click="{x:Bind RefreshImage}" />
         </MenuFlyout>
     </UserControl.ContextFlyout>
-    <Grid>
+    <Grid Background="Transparent">
         <Image x:Name="image"
                HorizontalAlignment="Stretch"
                VerticalAlignment="Stretch" />

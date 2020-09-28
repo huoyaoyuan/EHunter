@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
@@ -41,8 +42,10 @@ namespace EHunter.Provider.Pixiv.Controls
             if (value is { } info)
             {
                 var bitmap = new BitmapImage();
+                _bitmapData = null;
                 image.Source = bitmap;
                 loadingProgress.IsActive = true;
+                copyCommand.NotifyCanExecuteChanged();
 
                 try
                 {
@@ -66,12 +69,15 @@ namespace EHunter.Provider.Pixiv.Controls
                     {
                         _bitmapData = data;
                         loadingProgress.IsActive = false;
+                        copyCommand.NotifyCanExecuteChanged();
                     }
 
                     await bitmap.SetSourceAsync(stream);
                 }
                 catch
                 {
+                    if (image.Source == bitmap)
+                        loadingProgress.IsActive = false;
                 }
             }
             else
@@ -79,6 +85,7 @@ namespace EHunter.Provider.Pixiv.Controls
                 image.Source = null;
                 _bitmapData = null;
                 loadingProgress.IsActive = false;
+                copyCommand.NotifyCanExecuteChanged();
             }
         }
 
@@ -95,5 +102,9 @@ namespace EHunter.Provider.Pixiv.Controls
             dataPackage.RequestedOperation = DataPackageOperation.Copy;
             Clipboard.SetContent(dataPackage);
         }
+
+#pragma warning disable CA1801 // TODO: false positive - used in xaml event handler
+        private void CanCopyRequested(XamlUICommand sender, CanExecuteRequestedEventArgs args)
+            => args.CanExecute = _bitmapData is not null;
     }
 }
