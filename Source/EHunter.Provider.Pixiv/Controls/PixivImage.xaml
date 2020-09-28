@@ -16,7 +16,13 @@
             <MenuFlyoutItem Text="Refresh" Icon="Refresh" Click="{x:Bind RefreshImage}" />
         </MenuFlyout>
     </UserControl.ContextFlyout>
-    <Image x:Name="image"
-           HorizontalAlignment="Stretch"
-           VerticalAlignment="Stretch" />
+    <Grid>
+        <Image x:Name="image"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch" />
+        <ProgressRing
+            x:Name="loadingProgress"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center" />
+    </Grid>
 </UserControl>

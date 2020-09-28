@@ -42,6 +42,7 @@ namespace EHunter.Provider.Pixiv.Controls
             {
                 var bitmap = new BitmapImage();
                 image.Source = bitmap;
+                loadingProgress.IsActive = true;
 
                 try
                 {
@@ -62,7 +63,10 @@ namespace EHunter.Provider.Pixiv.Controls
                     var stream = await data.CopyAsWinRTStreamAsync().ConfigureAwait(true);
 
                     if (image.Source == bitmap)
+                    {
                         _bitmapData = data;
+                        loadingProgress.IsActive = false;
+                    }
 
                     await bitmap.SetSourceAsync(stream);
                 }
@@ -74,6 +78,7 @@ namespace EHunter.Provider.Pixiv.Controls
             {
                 image.Source = null;
                 _bitmapData = null;
+                loadingProgress.IsActive = false;
             }
         }
 
