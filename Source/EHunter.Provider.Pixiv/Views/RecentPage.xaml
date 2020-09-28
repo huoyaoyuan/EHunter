@@ -10,18 +10,19 @@
     xmlns:tkc="using:Microsoft.Toolkit.Collections"
     xmlns:vm="using:EHunter.Provider.Pixiv.ViewModels"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
-    xmlns:commands="using:EHunter.Provider.Pixiv.Commands"
     xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
+    xmlns:res="using:EHunter.Provider.Pixiv.Resources"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     x:DefaultBindMode="OneWay"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
-        <CollectionViewSource
-            x:Name="cvs"
-            Source="{x:Bind _vm.GroupedIllusts}"
-            IsSourceGrouped="True" />
-        <commands:NavigateToUserCommand x:Key="NavigateToUser" />
+        <res:Resources>
+            <CollectionViewSource
+                x:Name="cvs"
+                Source="{x:Bind _vm.GroupedIllusts}"
+                IsSourceGrouped="True" />
+        </res:Resources>
     </Page.Resources>
     <Grid>
         <VisualStateManager.VisualStateGroups>
@@ -83,16 +84,8 @@
                 <SymbolIcon Symbol="Refresh" />
             </Button>
             <ComboBox
-                SelectedItem="{x:Bind _vm.IntSelectedAge, Mode=TwoWay}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate x:DataType="x:Int32">
-                        <controls:AgeRestrictionPresenter IntAge="{x:Bind Mode=OneTime}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-                <m:AgeRestriction>All</m:AgeRestriction>
-                <m:AgeRestriction>AllAge</m:AgeRestriction>
-                <m:AgeRestriction>R18</m:AgeRestriction>
-            </ComboBox>
+                Style="{StaticResource AgeRestrictionSelectorStyle}"
+                SelectedItem="{x:Bind _vm.IntSelectedAge, Mode=TwoWay}" />
         </StackPanel>
         <Grid x:Name="waitingPanel"
               Grid.Row="1"
@@ -162,7 +155,7 @@
                                     Grid.Row="2"
                                     HorizontalAlignment="Center"
                                     Content="{x:Bind User.Name}"
-                                    Command="{StaticResource NavigateToUser}"
+                                    Command="{StaticResource NavigateToUserCommand}"
                                     CommandParameter="{x:Bind User}"
                                     Click="NavigateToUser_Click" />
                             </Grid>
