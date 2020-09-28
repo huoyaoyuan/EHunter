@@ -30,7 +30,7 @@
                 <VisualState x:Name="WaitingForLogin">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            To="{x:Bind vm:RecentPageState.WaitingLogin, Mode=OneTime}"
+                            To="WaitingLogin"
                             Value="{x:Bind _vm.State}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
@@ -42,7 +42,7 @@
                 <VisualState x:Name="LoginFailed">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            To="{x:Bind vm:RecentPageState.NotLogin, Mode=OneTime}"
+                            To="NotLogin"
                             Value="{x:Bind _vm.State}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
@@ -53,7 +53,7 @@
                 <VisualState x:Name="InitialLoading">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            To="{x:Bind vm:RecentPageState.InitialLoading, Mode=OneTime}"
+                            To="InitialLoading"
                             Value="{x:Bind _vm.State}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
