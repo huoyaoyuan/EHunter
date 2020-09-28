@@ -37,6 +37,16 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
+                            <VisualStateGroup>
+                                <VisualState x:Name="Animated">
+                                    <VisualState.StateTriggers>
+                                        <StateTrigger IsActive="{x:Bind Illust.IsAnimated}" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Target="animatedTag.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -71,6 +81,18 @@
                                 <TextBlock Foreground="White" Text="{x:Bind Illust.Pages.Count}" />
                             </StackPanel>
                         </Border>
+                        <Grid x:Name="animatedTag"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Visibility="Collapsed">
+                            <Ellipse Width="40"
+                                     Height="40"
+                                     Fill="#C0808080" />
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE768;"
+                                      Foreground="White"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+                        </Grid>
                         <TextBlock
                             HorizontalAlignment="Right"
                             VerticalAlignment="Bottom"
