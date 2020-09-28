@@ -13,12 +13,36 @@
                     TargetType="controls:IllustSummary"
                     x:DefaultBindMode="OneWay">
                     <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup>
+                                <VisualState x:Name="R18">
+                                    <VisualState.StateTriggers>
+                                        <StateTrigger IsActive="{x:Bind Illust.IsR18}" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Target="r18Tag.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <controls:PixivImage
-                            ImageInfo="{x:Bind local:IllustSummaryTheme.FirstPageMedium(Illust.Pages)}" />
+                            ImageInfo="{x:Bind local:IllustSummaryTheme.FirstPageMedium(Illust.Pages)}"
+                            Margin="2" />
+                        <Border
+                            x:Name="r18Tag"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="2"
+                            CornerRadius="2"
+                            Padding="2"
+                            Background="#FF4060"
+                            Visibility="Collapsed">
+                            <TextBlock Foreground="White" Text="R-18" />
+                        </Border>
                         <TextBlock
                             HorizontalAlignment="Right"
                             VerticalAlignment="Bottom"
