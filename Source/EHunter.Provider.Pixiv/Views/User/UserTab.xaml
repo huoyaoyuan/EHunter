@@ -8,9 +8,13 @@
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
+    xmlns:res="using:EHunter.Provider.Pixiv.Resources"
     mc:Ignorable="d"
     x:Name="tabItem"
     x:DefaultBindMode="OneWay">
+    <UserControl.Resources>
+        <res:Resources />
+    </UserControl.Resources>
     <Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -89,6 +93,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <controls:PixivImage
                     Height="100"
@@ -101,6 +106,11 @@
                     Margin="2"
                     Style="{StaticResource TitleTextBlockStyle}"
                     Text="{x:Bind VM.UserInfo.Name, FallbackValue=''}" />
+                <ComboBox
+                    Grid.Column="2"
+                    Margin="4"
+                    SelectedItem="{x:Bind VM.IntSelectedAge, Mode=TwoWay}"
+                    Style="{StaticResource AgeRestrictionSelectorStyle}" />
             </Grid>
 
             <GridView

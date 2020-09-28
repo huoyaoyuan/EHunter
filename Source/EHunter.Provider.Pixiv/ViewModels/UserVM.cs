@@ -26,8 +26,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
                 var user = await _client.GetUserDetailAsync(UserId).ConfigureAwait(true);
                 UserInfo = user;
                 UserDetail = user;
-
-                Illusts = new AsyncEnumerableCollection<Illust>(user.GetIllustsAsync());
+                LoadIllusts();
             }
             catch
             {
@@ -48,9 +47,20 @@ namespace EHunter.Provider.Pixiv.ViewModels
 
             async void Load(UserInfo user)
             {
-                Illusts = new AsyncEnumerableCollection<Illust>(user.GetIllustsAsync());
+                LoadIllusts();
                 UserDetail = await user.GetDetailAsync().ConfigureAwait(true);
             }
+        }
+
+        private void LoadIllusts()
+        {
+            Illusts = UserInfo is null
+                ? null
+                : new AsyncEnumerableCollection<Illust>(UserInfo.GetIllustsAsync().Age(SelectedAge));
+
+            // TODO: Consider AdvancedCollectionView.Filter
+            // Currently doesn't work with mignon/IsR18=true
+            // 8.0.0-preview2
         }
 
         private UserInfo? _userInfo;
@@ -72,6 +82,26 @@ namespace EHunter.Provider.Pixiv.ViewModels
         {
             get => _isLoading;
             private set => SetProperty(ref _isLoading, value);
+        }
+
+        private AgeRestriction _selectedAge = AgeRestriction.All;
+        public AgeRestriction SelectedAge
+        {
+            get => _selectedAge;
+            set
+            {
+                if (SetProperty(ref _selectedAge, value))
+                {
+                    OnPropertyChanged(nameof(IntSelectedAge));
+                    LoadIllusts();
+                }
+            }
+        }
+
+        public int IntSelectedAge
+        {
+            get => (int)SelectedAge;
+            set => SelectedAge = (AgeRestriction)value;
         }
 
         private AsyncEnumerableCollection<Illust>? _illusts;
