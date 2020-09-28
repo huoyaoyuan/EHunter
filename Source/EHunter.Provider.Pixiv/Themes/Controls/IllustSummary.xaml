@@ -5,6 +5,14 @@
     xmlns:local="using:EHunter.Provider.Pixiv.Themes"
     xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="IllustSummarySetTagBackground" Color="#C0404040" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="IllustSummarySetTagBackground" Color="#C0C0C0C0" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
     <Style TargetType="controls:IllustSummary">
         <Setter Property="Height" Value="240" />
         <Setter Property="Width" Value="200" />
@@ -64,7 +72,7 @@
                             Padding="2"
                             Background="#FF4060"
                             Visibility="Collapsed">
-                            <TextBlock Foreground="White" Text="R-18" />
+                            <TextBlock Foreground="{ThemeResource SystemAltHighColor}" Text="R-18" />
                         </Border>
                         <Border
                             x:Name="setTag"
@@ -73,12 +81,12 @@
                             Margin="2"
                             CornerRadius="2"
                             Padding="2"
-                            Background="#C0808080">
+                            Background="{ThemeResource IllustSummarySetTagBackground}">
                             <StackPanel Orientation="Horizontal"
                                         Spacing="2">
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF5ED;"
-                                          Foreground="White" />
-                                <TextBlock Foreground="White" Text="{x:Bind Illust.Pages.Count}" />
+                                          Foreground="{ThemeResource SystemAltHighColor}" />
+                                <TextBlock Foreground="{ThemeResource SystemAltHighColor}" Text="{x:Bind Illust.Pages.Count}" />
                             </StackPanel>
                         </Border>
                         <Grid x:Name="animatedTag"
@@ -89,7 +97,7 @@
                                      Height="40"
                                      Fill="#C0808080" />
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE768;"
-                                      Foreground="White"
+                                      Foreground="{ThemeResource SystemAltHighColor}"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center" />
                         </Grid>
