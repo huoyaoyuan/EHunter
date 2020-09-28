@@ -135,22 +135,9 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <local:PixivImage
-                                    Width="200"
-                                    Height="200"
-                                    ImageInfo="{x:Bind local:RecentPage.FirstPageMedium(Pages)}" />
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Bottom"
-                                    IsColorFontEnabled="True">
-                                    <Run Text="❤" /><Run Text="{x:Bind TotalBookmarks}" />
-                                </TextBlock>
-                                <TextBlock
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Center"
-                                    Text="{x:Bind Title}" />
+                                <controls:IllustSummary
+                                    Illust="{x:Bind}" />
                                 <HyperlinkButton
                                     Grid.Row="2"
                                     HorizontalAlignment="Center"

@@ -1,0 +1,39 @@
+﻿<ResourceDictionary
+    x:Class="EHunter.Provider.Pixiv.Themes.IllustSummaryTheme"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:EHunter.Provider.Pixiv.Themes"
+    xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
+    xmlns:views="using:EHunter.Provider.Pixiv.Views">
+    <Style TargetType="controls:IllustSummary">
+        <Setter Property="Height" Value="240" />
+        <Setter Property="Width" Value="200" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate
+                    TargetType="controls:IllustSummary"
+                    x:DefaultBindMode="OneWay">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <views:PixivImage
+                            ImageInfo="{x:Bind local:IllustSummaryTheme.FirstPageMedium(Illust.Pages)}" />
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            IsColorFontEnabled="True">
+                            <Run Text="❤" /><Run Text="{x:Bind Illust.TotalBookmarks}" />
+                        </TextBlock>
+                        <TextBlock
+                            Grid.Row="1"
+                            HorizontalAlignment="Center"
+                            TextWrapping="Wrap"
+                            Text="{x:Bind Illust.Title}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

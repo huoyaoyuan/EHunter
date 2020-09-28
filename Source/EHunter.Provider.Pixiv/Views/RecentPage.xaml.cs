@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using EHunter.Provider.Pixiv.ViewModels;
-using Meowtrix.PixivApi.Models;
+﻿using EHunter.Provider.Pixiv.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -20,8 +18,6 @@ namespace EHunter.Provider.Pixiv.Views
         private readonly PixivRecentVM _vm = Ioc.Default.GetRequiredService<PixivRecentVM>();
 
         public RecentPage() => InitializeComponent();
-
-        public static ImageInfo FirstPageMedium(IReadOnlyList<IllustPage> pages) => pages[0].Medium;
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e) => detailZone.Visibility = Visibility.Visible;
 

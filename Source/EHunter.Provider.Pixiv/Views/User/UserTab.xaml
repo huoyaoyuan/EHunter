@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:m="using:Meowtrix.PixivApi.Models"
+    xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
     mc:Ignorable="d"
     x:Name="tabItem"
     x:DefaultBindMode="OneWay">
@@ -109,26 +110,9 @@
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="m:Illust"
                                   x:DefaultBindMode="OneTime">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <local:PixivImage
-                                Width="200"
-                                Height="200"
-                                ImageInfo="{x:Bind local:RecentPage.FirstPageMedium(Pages)}" />
-                            <TextBlock
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Bottom"
-                                IsColorFontEnabled="True">
-                                <Run Text="❤" /><Run Text="{x:Bind TotalBookmarks}" />
-                            </TextBlock>
-                            <TextBlock
-                                Grid.Row="1"
-                                HorizontalAlignment="Center"
-                                Text="{x:Bind Title}" />
-                        </Grid>
+                        <controls:IllustSummary Illust="{Binding}" />
+                        <!-- TODO: x:Bind doesn't work here. Investigate why.
+                             WinUI 3 Preview 2 -->
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
