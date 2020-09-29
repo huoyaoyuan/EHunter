@@ -20,6 +20,12 @@
             <NavigationViewItem
                 x:Name="users" x:Uid="Navigation_Users"
                 Icon="People" />
+            <NavigationViewItem
+                x:Name="opened" x:Uid="Navigation_Opened">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE736;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
             <NavigationViewItem Content="Search">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE721;" />
@@ -31,11 +37,6 @@
                         Content="For Illust" />
                 </NavigationViewItem.MenuItems>
             </NavigationViewItem>
-            <!--<NavigationViewItem Content="Openned Galleries">
-                <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE736;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>-->
             <!--<NavigationViewItem Icon="Pin" Content="Pinned Pictures" />-->
         </NavigationView.MenuItems>
         <Frame x:Name="_frame" />

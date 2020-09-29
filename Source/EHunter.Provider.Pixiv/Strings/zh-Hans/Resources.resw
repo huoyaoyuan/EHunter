@@ -150,6 +150,9 @@
   <data name="LoginMode_Password.Content" xml:space="preserve">
     <value>密码</value>
   </data>
+  <data name="Navigation_Opened.Content" xml:space="preserve">
+    <value>打开的作品</value>
+  </data>
   <data name="Navigation_Recent.Content" xml:space="preserve">
     <value>最近更新</value>
   </data>
