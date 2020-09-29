@@ -164,6 +164,6 @@
         </SemanticZoom>
         <controls:IllustsFlip
             Grid.RowSpan="2"
-            SourceList="{x:Bind gridView}" />
+            SourceList="{x:Bind gridView, Mode=OneTime}" />
     </Grid>
 </Page>
