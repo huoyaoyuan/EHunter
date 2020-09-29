@@ -1,6 +1,9 @@
-﻿using Meowtrix.PixivApi;
+﻿using System;
+using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.System;
 
 #nullable enable
 
@@ -109,6 +112,24 @@ namespace EHunter.Provider.Pixiv.ViewModels
         {
             get => _illusts;
             private set => SetProperty(ref _illusts, value);
+        }
+
+        public void CopyUrl()
+        {
+            if (UserInfo is null)
+                return;
+
+            var dataPackage = new DataPackage();
+            dataPackage.SetText($"https://www.pixiv.net/users/{UserInfo.Id}");
+            Clipboard.SetContent(dataPackage);
+        }
+
+        public void OpenUrl()
+        {
+            if (UserInfo is null)
+                return;
+
+            _ = Launcher.LaunchUriAsync(new Uri($"https://www.pixiv.net/users/{UserInfo.Id}"));
         }
     }
 

@@ -132,11 +132,17 @@
   <data name="CloseAppBarButton.Label" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="CopyLink.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Copy Link</value>
+  </data>
   <data name="GoToUser.Text" xml:space="preserve">
     <value>Go To User</value>
   </data>
   <data name="GoToUserById.Text" xml:space="preserve">
     <value>Go to user by ID</value>
+  </data>
+  <data name="Illustrations.Text" xml:space="preserve">
+    <value>Illustrations</value>
   </data>
   <data name="LoadingSetter.Value" xml:space="preserve">
     <value>Loading</value>
@@ -167,6 +173,9 @@
   </data>
   <data name="OpenAppBarButton.Label" xml:space="preserve">
     <value>Open</value>
+  </data>
+  <data name="OpenLink.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Open Link</value>
   </data>
   <data name="Password.Header" xml:space="preserve">
     <value>Password</value>

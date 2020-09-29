@@ -34,6 +34,9 @@
                     <VisualState.StateTriggers>
                         <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind VM.UserDetail}" />
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="illustsCount.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
             <VisualStateGroup>
@@ -97,20 +100,56 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <controls:PixivImage
                     Height="100"
                     Width="100"
                     Margin="2"
                     ImageInfo="{x:Bind VM.UserInfo.Avatar, FallbackValue={x:Null}}" />
-                <TextBlock
-                    x:Name="usernameText"
+                <StackPanel
                     Grid.Column="1"
                     Margin="2"
-                    Style="{StaticResource TitleTextBlockStyle}"
-                    Text="{x:Bind VM.UserInfo.Name, FallbackValue=''}" />
+                    Spacing="2"
+                    Orientation="Vertical">
+                    <TextBlock
+                        x:Name="usernameText"
+                        Style="{StaticResource TitleTextBlockStyle}"
+                        Text="{x:Bind VM.UserInfo.Name, FallbackValue=''}" />
+                    <TextBlock
+                        x:Name="illustsCount"
+                        VerticalAlignment="Bottom"
+                        Style="{StaticResource BodyTextBlockStyle}">
+                        <Run Text="{x:Bind VM.UserDetail.TotalIllusts}" />
+                        <Run x:Uid="Illustrations" />
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel
+                    Grid.Column="1"
+                    Margin="2"
+                    Spacing="4"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Bottom">
+                    <TextBlock
+                        Text="{x:Bind VM.UserInfo.Id}"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource SystemBaseMediumColor}" />
+                    <Button
+                        x:Uid="CopyLink"
+                        Style="{ThemeResource TextBlockButtonStyle}"
+                        Click="{x:Bind VM.CopyUrl}">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE71B;" />
+                    </Button>
+                    <Button
+                        x:Uid="OpenLink"
+                        Style="{ThemeResource TextBlockButtonStyle}"
+                        Click="{x:Bind VM.OpenUrl}">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A7;" />
+                    </Button>
+                </StackPanel>
                 <ComboBox
-                    Grid.Column="2"
+                    Grid.Column="3"
                     Margin="4"
                     SelectedItem="{x:Bind VM.IntSelectedAge, Mode=TwoWay}"
                     Style="{StaticResource AgeRestrictionSelectorStyle}" />
