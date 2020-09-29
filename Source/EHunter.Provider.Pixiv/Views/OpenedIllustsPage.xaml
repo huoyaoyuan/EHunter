@@ -11,11 +11,6 @@
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Page.Resources>
-        <CollectionViewSource
-            x:Name="cvs"
-            Source="{x:Bind _vm.Illusts}" />
-    </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -27,11 +22,24 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <CommandBar
-            Grid.ColumnSpan="3" />
+            DefaultLabelPosition="Right"
+            Grid.ColumnSpan="3">
+            <AppBarButton
+                x:Name="closeButton"
+                IsEnabled="False"
+                Icon="Cancel"
+                x:Uid="CloseAppBarButton"
+                Click="{x:Bind CloseImage}">
+                <AppBarButton.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="W" Modifiers="Control" />
+                </AppBarButton.KeyboardAccelerators>
+            </AppBarButton>
+        </CommandBar>
         <ListView
             Grid.Row="1"
             ItemsSource="{x:Bind _vm.Illusts}"
-            SelectedItem="{x:Bind _vm.SelectedIllust, Mode=TwoWay}">
+            SelectedItem="{x:Bind _vm.SelectedIllust, Mode=TwoWay}"
+            SelectedIndex="{x:Bind _vm.SelectedIndex, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="m:Illust">
                     <controls:PixivImage
@@ -45,7 +53,7 @@
             Grid.Row="1"
             Grid.Column="1"
             Background="Transparent"
-            ItemsSource="{x:Bind _vm.SelectedIllust.Pages, Mode=OneWay}">
+            ItemsSource="{x:Bind _vm.SelectedIllust.Pages, FallbackValue={x:Null}, Mode=OneWay}">
             <FlipView.ItemTemplate>
                 <DataTemplate x:DataType="m:IllustPage">
                     <controls:PixivImage

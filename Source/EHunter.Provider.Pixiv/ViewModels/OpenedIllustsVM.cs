@@ -16,5 +16,12 @@ namespace EHunter.Provider.Pixiv.ViewModels
             get => _selectedIllust;
             set => SetProperty(ref _selectedIllust, value);
         }
+
+        private int _selectedIndex;
+        public int SelectedIndex
+        {
+            get => _selectedIndex;
+            set => SetProperty(ref _selectedIndex, value);
+        }
     }
 }
