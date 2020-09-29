@@ -41,6 +41,8 @@ namespace EHunter.Provider.Pixiv.Views
                 toType = typeof(RecentPage);
             else if (args.SelectedItemContainer == users)
                 toType = typeof(UsersPage);
+            else if (args.SelectedItemContainer == searchIllust)
+                toType = typeof(IllustSearchPage);
 
             if (toType is not null && toType != _frame.CurrentSourcePageType)
                 _frame.Navigate(toType);
@@ -59,6 +61,8 @@ namespace EHunter.Provider.Pixiv.Views
                 sender.SelectedItem = recent;
             else if (type == typeof(UsersPage))
                 sender.SelectedItem = users;
+            else if (type == typeof(IllustSearchPage))
+                sender.SelectedItem = searchIllust;
         }
     }
 }
