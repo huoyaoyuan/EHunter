@@ -9,6 +9,7 @@ namespace EHunter.Provider.Pixiv
             => services
             .AddSingleton<PixivSettings>()
             .AddTransient<PixivRecentVM>()
-            .AddSingleton<UserVMFactory>();
+            .AddSingleton<UserVMFactory>()
+            .AddTransient<OpenedIllustsVM>();
     }
 }
