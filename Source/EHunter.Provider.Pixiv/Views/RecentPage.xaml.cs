@@ -19,10 +19,6 @@ namespace EHunter.Provider.Pixiv.Views
 
         public RecentPage() => InitializeComponent();
 
-        private void GridView_ItemClick(object sender, ItemClickEventArgs e) => detailZone.Visibility = Visibility.Visible;
-
-        private void CloseDetail() => detailZone.Visibility = Visibility.Collapsed;
-
         private void NavigateToUser_Click(object sender, RoutedEventArgs args)
         {
             var button = (HyperlinkButton)sender;

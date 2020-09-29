@@ -10,10 +10,13 @@
     xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
     xmlns:res="using:EHunter.Provider.Pixiv.Resources"
     mc:Ignorable="d"
-    x:Name="tabItem"
     x:DefaultBindMode="OneWay">
     <UserControl.Resources>
-        <res:Resources />
+        <res:Resources>
+            <CollectionViewSource
+                x:Name="cvs"
+                Source="{x:Bind VM.Illusts}" />
+        </res:Resources>
     </UserControl.Resources>
     <Grid>
         <VisualStateManager.VisualStateGroups>
@@ -114,8 +117,10 @@
             </Grid>
 
             <GridView
+                x:Name="illustsGrid"
                 Grid.Row="1"
-                ItemsSource="{x:Bind VM.Illusts}"
+                ItemsSource="{x:Bind cvs.View}"
+                IsItemClickEnabled="True"
                 IncrementalLoadingTrigger="Edge">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="m:Illust"
@@ -126,6 +131,10 @@
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
+
+            <controls:IllustsFlip
+                Grid.RowSpan="2"
+                SourceList="{x:Bind illustsGrid}" />
         </Grid>
     </Grid>
 </UserControl>
