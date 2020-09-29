@@ -4,12 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:EHunter.Provider.Pixiv.Controls"
     xmlns:m="using:Meowtrix.PixivApi.Models"
+    xmlns:commands="using:EHunter.Provider.Pixiv.Commands"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <Grid x:Name="grid"
           Visibility="Collapsed">
         <FlipView
+            x:Name="flipView"
             ItemsSource="{x:Bind SourceList.ItemsSource, Mode=OneWay}">
             <FlipView.ItemTemplate>
                 <DataTemplate x:DataType="m:Illust"
@@ -35,6 +37,15 @@
             DefaultLabelPosition="Right"
             HorizontalAlignment="Right"
             VerticalAlignment="Top">
+            <AppBarButton x:Uid="OpenAppBarButton"
+                          CommandParameter="{x:Bind flipView.SelectedItem, Mode=OneWay}">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C5;" />
+                </AppBarButton.Icon>
+                <AppBarButton.Command>
+                    <commands:NavigateToIllustCommand x:Key="NavigateToIllustCommand" />
+                </AppBarButton.Command>
+            </AppBarButton>
             <AppBarButton Icon="Cancel" x:Uid="CloseAppBarButton" Click="{x:Bind CloseDetail}">
                 <AppBarButton.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Escape" />

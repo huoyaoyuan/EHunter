@@ -25,6 +25,12 @@ namespace EHunter.Provider.Pixiv.Views
                     _frame.Navigate(typeof(UsersPage), m);
                     users.IsSelected = true;
                 });
+            Messenger.Default.Register<NavigateToIllustMessage>(this,
+                m =>
+                {
+                    _frame.Navigate(typeof(OpenedIllustsPage), m);
+                    opened.IsSelected = true;
+                });
         }
 
 #pragma warning disable CA1801 // TODO: false positive - used in xaml event handler

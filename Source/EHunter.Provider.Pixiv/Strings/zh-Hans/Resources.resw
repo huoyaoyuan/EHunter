@@ -165,6 +165,9 @@
   <data name="NotLoginSetter.Value" xml:space="preserve">
     <value>未登录</value>
   </data>
+  <data name="OpenAppBarButton.Label" xml:space="preserve">
+    <value>打开</value>
+  </data>
   <data name="Password.Header" xml:space="preserve">
     <value>密码</value>
   </data>
