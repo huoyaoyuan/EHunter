@@ -129,6 +129,9 @@
   <data name="Ages_R18.Value" xml:space="preserve">
     <value>R18</value>
   </data>
+  <data name="CloseAppBarButton.Label" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="GoToUser.Text" xml:space="preserve">
     <value>Go To User</value>
   </data>

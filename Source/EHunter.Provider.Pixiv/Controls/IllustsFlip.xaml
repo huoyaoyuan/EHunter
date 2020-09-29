@@ -31,12 +31,15 @@
                 </DataTemplate>
             </FlipView.ItemTemplate>
         </FlipView>
-        <Button
+        <CommandBar
+            DefaultLabelPosition="Right"
             HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Margin="10"
-            Click="{x:Bind CloseDetail}">
-            <SymbolIcon Symbol="Cancel" />
-        </Button>
+            VerticalAlignment="Top">
+            <AppBarButton Icon="Cancel" x:Uid="CloseAppBarButton" Click="{x:Bind CloseDetail}">
+                <AppBarButton.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Escape" />
+                </AppBarButton.KeyboardAccelerators>
+            </AppBarButton>
+        </CommandBar>
     </Grid>
 </UserControl>
