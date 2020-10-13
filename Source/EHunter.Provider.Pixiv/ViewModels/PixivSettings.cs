@@ -133,7 +133,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
             catch (Exception e)
             {
                 _logger?.LogError(e, "Login failed");
-                Messenger.Default.Send(new LoginFailedMessage(e), this);
+                WeakReferenceMessenger.Default.Send(new LoginFailedMessage(e), this);
             }
 
             IsLoggingIn = false;

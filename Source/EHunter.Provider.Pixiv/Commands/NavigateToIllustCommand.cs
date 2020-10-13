@@ -12,7 +12,7 @@ namespace EHunter.Provider.Pixiv.Commands
     {
         public bool CanExecute(object? parameter) => parameter is Illust;
         public void Execute(object? parameter)
-            => Messenger.Default.Send(new NavigateToIllustMessage((Illust?)parameter
+            => WeakReferenceMessenger.Default.Send(new NavigateToIllustMessage((Illust?)parameter
                 ?? throw new ArgumentNullException(nameof(parameter))));
 
         public event EventHandler CanExecuteChanged { add { } remove { } }

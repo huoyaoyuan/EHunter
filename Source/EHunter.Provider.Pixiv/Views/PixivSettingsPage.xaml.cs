@@ -22,9 +22,9 @@ namespace EHunter.Provider.Pixiv.Views
         {
             InitializeComponent();
 
-            Loaded += (s, e) => Messenger.Default.Register<LoginFailedMessage, PixivSettings>(this,
+            Loaded += (s, e) => WeakReferenceMessenger.Default.Register<LoginFailedMessage, PixivSettings>(this,
                 _setting,
-                async m =>
+                async (o, m) =>
                 {
                     var dialog = new ContentDialog
                     {
@@ -36,7 +36,7 @@ namespace EHunter.Provider.Pixiv.Views
                     await dialog.ShowAsync();
                 });
 
-            Unloaded += (s, e) => Messenger.Default.UnregisterAll(this, _setting);
+            Unloaded += (s, e) => WeakReferenceMessenger.Default.UnregisterAll(this, _setting);
         }
     }
 }

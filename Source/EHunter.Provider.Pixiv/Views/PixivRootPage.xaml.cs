@@ -19,14 +19,14 @@ namespace EHunter.Provider.Pixiv.Views
         {
             InitializeComponent();
 
-            Messenger.Default.Register<NavigateToUserMessage>(this,
-                m =>
+            WeakReferenceMessenger.Default.Register<NavigateToUserMessage>(this,
+                (o, m) =>
                 {
                     _frame.Navigate(typeof(UsersPage), m);
                     users.IsSelected = true;
                 });
-            Messenger.Default.Register<NavigateToIllustMessage>(this,
-                m =>
+            WeakReferenceMessenger.Default.Register<NavigateToIllustMessage>(this,
+                (o, m) =>
                 {
                     _frame.Navigate(typeof(OpenedIllustsPage), m);
                     opened.IsSelected = true;

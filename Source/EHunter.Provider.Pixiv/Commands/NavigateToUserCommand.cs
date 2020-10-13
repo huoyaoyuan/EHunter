@@ -12,7 +12,7 @@ namespace EHunter.Provider.Pixiv.Commands
     {
         public bool CanExecute(object? parameter) => parameter is UserInfo;
         public void Execute(object? parameter)
-            => Messenger.Default.Send(new NavigateToUserMessage((UserInfo?)parameter
+            => WeakReferenceMessenger.Default.Send(new NavigateToUserMessage((UserInfo?)parameter
                 ?? throw new ArgumentNullException(nameof(parameter))));
 
         public event EventHandler CanExecuteChanged { add { } remove { } }
