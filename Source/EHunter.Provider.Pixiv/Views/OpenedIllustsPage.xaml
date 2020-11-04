@@ -91,6 +91,7 @@
             Grid.ColumnSpan="3">
             <CommandBar.Content>
                 <AutoSuggestBox
+                    x:Uid="GoToIllustById"
                     Margin="4"
                     Width="200"
                     Text="{x:Bind _vm.IdToOpenText, Mode=TwoWay}"
