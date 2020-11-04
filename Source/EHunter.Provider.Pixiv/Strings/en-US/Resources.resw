@@ -135,6 +135,9 @@
   <data name="CopyLink.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Copy Link</value>
   </data>
+  <data name="GoToIllustById.PlaceholderText" xml:space="preserve">
+    <value>Go to illust by ID</value>
+  </data>
   <data name="GoToUser.Text" xml:space="preserve">
     <value>Go To User</value>
   </data>
