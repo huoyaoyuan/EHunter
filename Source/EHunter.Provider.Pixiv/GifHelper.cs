@@ -32,6 +32,7 @@ namespace EHunter.Provider.Pixiv
             if (image is null)
                 throw new InvalidOperationException("No frame added to the animated illust.");
 
+            image.Metadata.GetGifMetadata().RepeatCount = 0;
             image.Frames.RemoveFrame(0);
 
             using var mms = new MemoryStream();
