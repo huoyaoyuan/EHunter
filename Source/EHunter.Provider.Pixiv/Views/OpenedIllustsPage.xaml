@@ -124,17 +124,35 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <FlipView
+        <ContentControl
             Grid.Row="1"
             Grid.Column="1"
-            Background="Transparent"
-            ItemsSource="{x:Bind _vm.SelectedIllust.Pages, FallbackValue={x:Null}, Mode=OneWay}">
-            <FlipView.ItemTemplate>
-                <DataTemplate x:DataType="m:IllustPage">
-                    <controls:PixivImage
-                        ImageInfo="{x:Bind Original}" />
-                </DataTemplate>
-            </FlipView.ItemTemplate>
-        </FlipView>
+            Content="{x:Bind _vm.SelectedIllust, FallbackValue={x:Null}, Mode=OneWay}">
+            <ContentControl.ContentTemplateSelector>
+                <controls:AnimatableIllustTemplateSelector>
+                    <controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
+                        <DataTemplate x:DataType="m:Illust"
+                                      x:DefaultBindMode="OneTime">
+                            <FlipView
+                                Background="Transparent"
+                                ItemsSource="{x:Bind Pages}">
+                                <FlipView.ItemTemplate>
+                                    <DataTemplate x:DataType="m:IllustPage">
+                                        <controls:PixivImage
+                                            ImageInfo="{x:Bind Original}" />
+                                    </DataTemplate>
+                                </FlipView.ItemTemplate>
+                            </FlipView>
+                        </DataTemplate>
+                    </controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
+                    <controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
+                        <DataTemplate x:DataType="m:Illust"
+                                      x:DefaultBindMode="OneTime">
+                            <controls:AnimatedIllust Illust="{x:Bind}" />  
+                        </DataTemplate>
+                    </controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
+                </controls:AnimatableIllustTemplateSelector>
+            </ContentControl.ContentTemplateSelector>
+        </ContentControl>
     </Grid>
 </Page>

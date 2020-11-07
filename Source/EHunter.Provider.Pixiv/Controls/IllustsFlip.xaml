@@ -14,8 +14,8 @@
             x:Name="flipView"
             ItemsSource="{x:Bind SourceList.ItemsSource, Mode=OneWay}">
             <FlipView.ItemTemplateSelector>
-                <local:IllustFlipTemplateSelector>
-                    <local:IllustFlipTemplateSelector.NonAnimatedTemplate>
+                <local:AnimatableIllustTemplateSelector>
+                    <local:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
                         <DataTemplate x:DataType="m:Illust"
                                       x:DefaultBindMode="OneTime">
                             <FlipView
@@ -33,14 +33,14 @@
                                 </FlipView.ItemTemplate>
                             </FlipView>
                         </DataTemplate>
-                    </local:IllustFlipTemplateSelector.NonAnimatedTemplate>
-                    <local:IllustFlipTemplateSelector.AnimatedTemplate>
+                    </local:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
+                    <local:AnimatableIllustTemplateSelector.AnimatedTemplate>
                         <DataTemplate x:DataType="m:Illust"
                                       x:DefaultBindMode="OneTime">
                             <local:AnimatedIllust Illust="{x:Bind}" />
                         </DataTemplate>
-                    </local:IllustFlipTemplateSelector.AnimatedTemplate>
-                </local:IllustFlipTemplateSelector>
+                    </local:AnimatableIllustTemplateSelector.AnimatedTemplate>
+                </local:AnimatableIllustTemplateSelector>
             </FlipView.ItemTemplateSelector>
         </FlipView>
         <CommandBar

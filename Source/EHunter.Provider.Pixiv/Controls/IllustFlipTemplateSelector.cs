@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace EHunter.Provider.Pixiv.Controls
 {
-    public sealed class IllustFlipTemplateSelector : DataTemplateSelector
+    public sealed class AnimatableIllustTemplateSelector : DataTemplateSelector
     {
         public DataTemplate? AnimatedTemplate { get; set; }
         public DataTemplate? NonAnimatedTemplate { get; set; }
@@ -14,8 +14,11 @@ namespace EHunter.Provider.Pixiv.Controls
         protected override DataTemplate? SelectTemplateCore(object item, DependencyObject container)
             => SelectTemplateCore(item);
         protected override DataTemplate? SelectTemplateCore(object item)
-            => item is Illust { IsAnimated: true }
-            ? AnimatedTemplate
-            : NonAnimatedTemplate;
+            => item switch
+            {
+                null => null,
+                Illust { IsAnimated: true } => AnimatedTemplate,
+                _ => NonAnimatedTemplate
+            };
     }
 }
