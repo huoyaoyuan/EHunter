@@ -53,8 +53,6 @@ namespace EHunter.Provider.Pixiv.Views
             }
         }
 
-#pragma warning disable CA1801 // TODO: false positive - used in xaml event handler
-
         private void TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
             => _vms.Remove((UserVM)args.Item);
 

@@ -88,7 +88,6 @@ namespace EHunter.Provider.Pixiv.Controls
             Clipboard.SetContent(dataPackage);
         }
 
-#pragma warning disable CA1801 // TODO: false positive - used in xaml event handler
         private void CanCopyRequested(XamlUICommand sender, CanExecuteRequestedEventArgs args)
             => args.CanExecute = _bitmapData is not null;
     }
