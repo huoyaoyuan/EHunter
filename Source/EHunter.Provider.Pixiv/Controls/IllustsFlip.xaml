@@ -13,25 +13,35 @@
         <FlipView
             x:Name="flipView"
             ItemsSource="{x:Bind SourceList.ItemsSource, Mode=OneWay}">
-            <FlipView.ItemTemplate>
-                <DataTemplate x:DataType="m:Illust"
-                              x:DefaultBindMode="OneTime">
-                    <FlipView
-                        ItemsSource="{x:Bind Pages}">
-                        <FlipView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </FlipView.ItemsPanel>
-                        <FlipView.ItemTemplate>
-                            <DataTemplate x:DataType="m:IllustPage">
-                                <local:PixivImage
-                                    ImageInfo="{x:Bind Large}" />
-                            </DataTemplate>
-                        </FlipView.ItemTemplate>
-                    </FlipView>
-                </DataTemplate>
-            </FlipView.ItemTemplate>
+            <FlipView.ItemTemplateSelector>
+                <local:IllustFlipTemplateSelector>
+                    <local:IllustFlipTemplateSelector.NonAnimatedTemplate>
+                        <DataTemplate x:DataType="m:Illust"
+                                      x:DefaultBindMode="OneTime">
+                            <FlipView
+                                ItemsSource="{x:Bind Pages}">
+                                <FlipView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel Orientation="Vertical"/>
+                                    </ItemsPanelTemplate>
+                                </FlipView.ItemsPanel>
+                                <FlipView.ItemTemplate>
+                                    <DataTemplate x:DataType="m:IllustPage">
+                                        <local:PixivImage
+                                            ImageInfo="{x:Bind Large}" />
+                                    </DataTemplate>
+                                </FlipView.ItemTemplate>
+                            </FlipView>
+                        </DataTemplate>
+                    </local:IllustFlipTemplateSelector.NonAnimatedTemplate>
+                    <local:IllustFlipTemplateSelector.AnimatedTemplate>
+                        <DataTemplate x:DataType="m:Illust"
+                                      x:DefaultBindMode="OneTime">
+                            <local:AnimatedIllust Illust="{x:Bind}" />
+                        </DataTemplate>
+                    </local:IllustFlipTemplateSelector.AnimatedTemplate>
+                </local:IllustFlipTemplateSelector>
+            </FlipView.ItemTemplateSelector>
         </FlipView>
         <CommandBar
             DefaultLabelPosition="Right"
