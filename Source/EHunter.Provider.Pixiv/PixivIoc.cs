@@ -1,4 +1,5 @@
-﻿using EHunter.Provider.Pixiv.ViewModels;
+﻿using EHunter.Provider.Pixiv.Services.ImageCaching;
+using EHunter.Provider.Pixiv.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EHunter.Provider.Pixiv
@@ -10,6 +11,7 @@ namespace EHunter.Provider.Pixiv
             .AddSingleton<PixivSettings>()
             .AddTransient<PixivRecentVM>()
             .AddSingleton<UserVMFactory>()
-            .AddTransient<OpenedIllustsVM>();
+            .AddTransient<OpenedIllustsVM>()
+            .AddSingleton<ImageCacheService>();
     }
 }

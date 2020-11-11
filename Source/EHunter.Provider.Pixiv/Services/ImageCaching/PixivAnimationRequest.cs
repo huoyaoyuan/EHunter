@@ -5,18 +5,26 @@ using Meowtrix.PixivApi.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-#nullable enable
-
-namespace EHunter.Provider.Pixiv
+namespace EHunter.Provider.Pixiv.Services.ImageCaching
 {
-    public static class GifHelper
+    public sealed class PixivAnimationRequest : ImageRequest
     {
-        public static async ValueTask<byte[]> ComposeGifAsync(Illust illust)
+        private readonly Illust _illust;
+
+        public PixivAnimationRequest(Illust illust)
         {
             if (!illust.IsAnimated)
-                throw new InvalidOperationException("The illustration must be animated.");
+                throw new ArgumentException("The illust must be animated.", nameof(illust));
 
-            var details = await illust.GetAnimatedDetailAsync().ConfigureAwait(false);
+            _illust = illust;
+        }
+
+        private record CacheKey(int IllustId);
+        public override object? MemoryCacheKey => new CacheKey(_illust.Id);
+
+        public override async Task<byte[]> GetImageAsync()
+        {
+            var details = await _illust.GetAnimatedDetailAsync().ConfigureAwait(false);
             Image<Rgba32>? image = null;
 
             foreach (var (stream, frametime) in await details.ExtractFramesAsync().ConfigureAwait(false))
@@ -43,5 +51,8 @@ namespace EHunter.Provider.Pixiv
             mms.Read(array);
             return array;
         }
+
+        public static PixivAnimationRequest? TryCreate(Illust? illust)
+            => illust != null ? new(illust) : null;
     }
 }

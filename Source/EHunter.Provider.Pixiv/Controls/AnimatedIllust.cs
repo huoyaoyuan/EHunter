@@ -1,4 +1,5 @@
-﻿using Meowtrix.PixivApi.Models;
+﻿using EHunter.Provider.Pixiv.Services.ImageCaching;
+using Meowtrix.PixivApi.Models;
 
 #nullable enable
 
@@ -15,23 +16,9 @@ namespace EHunter.Provider.Pixiv.Controls
                 if (_illust != value)
                 {
                     _illust = value;
-                    LoadImage(_illust, false);
+                    SetImageEntry(PixivAnimationRequest.TryCreate(value));
                 }
             }
         }
-
-        private void LoadImage(Illust? illust, bool refresh)
-        {
-            if (illust != null)
-                LoadImage(
-                    illust,
-                    i => i.Id,
-                    i => GifHelper.ComposeGifAsync(i).AsTask(),
-                    refresh);
-            else
-                ClearImage();
-        }
-
-        protected override void RefreshImage() => LoadImage(Illust, true);
     }
 }

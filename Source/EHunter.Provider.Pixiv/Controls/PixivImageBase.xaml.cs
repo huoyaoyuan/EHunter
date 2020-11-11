@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Memory;
+using EHunter.Provider.Pixiv.Services.ImageCaching;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
@@ -16,48 +15,48 @@ using Windows.Storage.Streams;
 
 namespace EHunter.Provider.Pixiv.Controls
 {
+#pragma warning disable CA1001 // 具有可释放字段的类型应该是可释放的
     public abstract partial class PixivImageBase : UserControl
+#pragma warning restore CA1001 // 具有可释放字段的类型应该是可释放的
     {
         public PixivImageBase() => InitializeComponent();
 
-        private byte[]? _bitmapData;
+        private readonly ImageCacheService _imageCache = Ioc.Default.GetRequiredService<ImageCacheService>();
+        private ImageRequest? _currentRequest;
+        private ImageEntry? _currentEntry;
 
-        protected async void LoadImage<T>(T imageInfo,
-            Func<T, object> getCacheKey,
-            Func<T, Task<byte[]>> loadImpl,
-            bool refresh)
+        protected async void SetImageEntry(ImageRequest? request, bool refreshMemoryCache = false)
         {
+            _currentRequest = request;
+            _currentEntry = null;
+
+            if (request is null)
+            {
+                image.Source = null;
+                loadingProgress.IsActive = false;
+                copyCommand.NotifyCanExecuteChanged();
+                return;
+            }
+
             var bitmap = new BitmapImage();
-            _bitmapData = null;
             image.Source = bitmap;
             loadingProgress.IsActive = true;
             copyCommand.NotifyCanExecuteChanged();
 
             try
             {
-                object? key = getCacheKey(imageInfo);
-                var cache = Ioc.Default.GetRequiredService<IMemoryCache>();
-                if (refresh)
-                    cache.Remove(key);
+                var entry = await _imageCache.GetImageAsync(request, refreshMemoryCache).ConfigureAwait(true);
 
-                byte[] data = await cache.GetOrCreateAsync(key, async entry =>
-                {
-                    byte[] data = await loadImpl(imageInfo).ConfigureAwait(true);
-
-                    entry.SetSize(data.Length);
-                    return data;
-                }).ConfigureAwait(true);
-
-                var stream = await data.CopyAsWinRTStreamAsync().ConfigureAwait(true);
+                var stream = await entry.GetWinRTStreamAsync().ConfigureAwait(true);
 
                 if (image.Source == bitmap)
                 {
-                    _bitmapData = data;
+                    _currentEntry = entry;
                     loadingProgress.IsActive = false;
                     copyCommand.NotifyCanExecuteChanged();
-                }
 
-                await bitmap.SetSourceAsync(stream);
+                    await bitmap.SetSourceAsync(stream);
+                }
             }
             catch
             {
@@ -66,29 +65,21 @@ namespace EHunter.Provider.Pixiv.Controls
             }
         }
 
-        protected void ClearImage()
-        {
-            image.Source = null;
-            _bitmapData = null;
-            loadingProgress.IsActive = false;
-            copyCommand.NotifyCanExecuteChanged();
-        }
-
-        protected abstract void RefreshImage();
+        private void RefreshImage() => SetImageEntry(_currentRequest, true);
 
         private async void CopyRequested()
         {
-            if (_bitmapData is null)
+            if (_currentEntry is null)
                 return;
 
             var dataPackage = new DataPackage();
-            var stream = await _bitmapData.CopyAsWinRTStreamAsync().ConfigureAwait(true);
+            var stream = await _currentEntry.GetWinRTStreamAsync().ConfigureAwait(true);
             dataPackage.SetBitmap(RandomAccessStreamReference.CreateFromStream(stream));
             dataPackage.RequestedOperation = DataPackageOperation.Copy;
             Clipboard.SetContent(dataPackage);
         }
 
         private void CanCopyRequested(XamlUICommand sender, CanExecuteRequestedEventArgs args)
-            => args.CanExecute = _bitmapData is not null;
+            => args.CanExecute = _currentEntry is not null;
     }
 }

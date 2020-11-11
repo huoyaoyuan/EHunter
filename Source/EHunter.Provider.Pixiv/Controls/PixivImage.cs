@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using EHunter.Provider.Pixiv.Services.ImageCaching;
 using Meowtrix.PixivApi.Models;
+
+#nullable enable
 
 namespace EHunter.Provider.Pixiv.Controls
 {
@@ -14,27 +17,9 @@ namespace EHunter.Provider.Pixiv.Controls
                 if (!EqualityComparer<ImageInfo?>.Default.Equals(_imageInfo, value))
                 {
                     _imageInfo = value;
-                    LoadImage(value, false);
+                    SetImageEntry(PixivIllustRequest.TryCreate(value));
                 }
             }
         }
-
-        private void LoadImage(ImageInfo? imageInfo, bool refresh)
-        {
-            if (imageInfo is { } info)
-                LoadImage(info,
-                    i => i.Uri,
-                    async i =>
-                    {
-                        using var response = await i.RequestAsync().ConfigureAwait(true);
-                        return await response.EnsureSuccessStatusCode()
-                            .Content.ReadAsByteArrayAsync().ConfigureAwait(true);
-                    },
-                    refresh);
-            else
-                ClearImage();
-        }
-
-        protected override void RefreshImage() => LoadImage(ImageInfo, true);
     }
 }
