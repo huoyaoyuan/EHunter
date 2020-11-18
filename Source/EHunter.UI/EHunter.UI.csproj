@@ -1,21 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
-    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
+    <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <RootNamespace>EHunter.UI</RootNamespace>
 
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x86;x64</Platforms>
-    <SelfContained>true</SelfContained>
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
-    <RuntimeIdentifier>win-$(Platform)</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.6" />
-    <PackageReference Include="Microsoft.WinUI" Version="3.0.0-preview2.200713.0" />
+    <PackageReference Include="Microsoft.WinUI" Version="3.0.0-preview3.201113.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
