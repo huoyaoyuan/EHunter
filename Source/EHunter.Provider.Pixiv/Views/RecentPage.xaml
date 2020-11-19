@@ -79,9 +79,11 @@
         <StackPanel Orientation="Horizontal"
                     Margin="4"
                     Spacing="4">
-            <Button x:Uid="RefreshButton"
-                    Tapped="{x:Bind _vm.Refresh}">
+            <Button Tapped="{x:Bind _vm.Refresh}">
                 <SymbolIcon Symbol="Refresh" />
+                <ToolTipService.ToolTip>
+                    <ToolTip x:Uid="RefreshButtonToolTip" />
+                </ToolTipService.ToolTip>
             </Button>
             <ComboBox
                 Style="{StaticResource AgeRestrictionSelectorStyle}"

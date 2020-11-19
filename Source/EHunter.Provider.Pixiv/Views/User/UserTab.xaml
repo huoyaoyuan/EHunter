@@ -167,16 +167,20 @@
                         VerticalAlignment="Center"
                         Foreground="{ThemeResource SystemBaseMediumColor}" />
                     <Button
-                        x:Uid="CopyLink"
                         Style="{ThemeResource TextBlockButtonStyle}"
                         Click="{x:Bind VM.CopyUrl}">
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE71B;" />
+                        <ToolTipService.ToolTip>
+                            <ToolTip x:Uid="CopyLinkToolTip" />
+                        </ToolTipService.ToolTip>
                     </Button>
                     <Button
-                        x:Uid="OpenLink"
                         Style="{ThemeResource TextBlockButtonStyle}"
                         Click="{x:Bind VM.OpenUrl}">
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A7;" />
+                        <ToolTipService.ToolTip>
+                            <ToolTip x:Uid="OpenLinkToolTip" />
+                        </ToolTipService.ToolTip>
                     </Button>
                 </StackPanel>
                 <ComboBox

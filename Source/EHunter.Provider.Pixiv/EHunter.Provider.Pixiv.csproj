@@ -1,24 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
+    <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <RootNamespace>EHunter.Provider.Pixiv</RootNamespace>
 
     <Platforms>x86;x64</Platforms>
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
-    <RuntimeIdentifier>win-$(Platform)</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Meowtrix.PixivApi" Version="0.1.0-beta5" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0-rc.2.20475.5" />
-    <PackageReference Include="Microsoft.Toolkit.Uwp.UI" Version="8.0.0-preview2" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI" Version="8.0.0-preview3" />
     <PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.6" />
-    <PackageReference Include="Microsoft.WinUI" Version="3.0.0-preview2.200713.0" />
+    <PackageReference Include="Microsoft.WinUI" Version="3.0.0-preview3.201113.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.1" />
-    <!-- TODO: PixivApi requires Preview8 to serialize records. -->
-    <PackageReference Include="System.Text.Json" Version="5.0.0-rc.2.20475.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,8 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="**\*.resw" />
-    <PRIResource Include="**\*.resw" />
+    <PRIResource Include="Strings\**\*.resw" />
   </ItemGroup>
 
 </Project>

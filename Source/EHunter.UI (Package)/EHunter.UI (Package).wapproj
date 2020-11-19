@@ -22,11 +22,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup>
-    <!-- Workaround for VS 16.7 Preview 2+ -->
-    <TargetFrameworkIdentifier>.NETCore</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup>
     <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
     <PathToXAMLWinRTImplementations>EHunter.UI\</PathToXAMLWinRTImplementations>
   </PropertyGroup>
@@ -64,11 +59,12 @@
   <ItemGroup>
     <ProjectReference Include="..\EHunter.UI\EHunter.UI.csproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
+      <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.VCLibs.Desktop, Version=14.0" />
-    <!-- Needed for ucrtbased.dll when running a debug build. -->
+    <!-- Needed for ucrtbased.dll when running a debug build. --> 
     <SDKReference Include="Microsoft.VCLibs, Version=14.0" Condition="'$(Configuration)' == 'Debug'" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
