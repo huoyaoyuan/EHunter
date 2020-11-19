@@ -15,6 +15,6 @@ namespace EHunter.Provider.Pixiv.Commands
             => WeakReferenceMessenger.Default.Send(new NavigateToUserMessage((UserInfo?)parameter
                 ?? throw new ArgumentNullException(nameof(parameter))));
 
-        public event EventHandler CanExecuteChanged { add { } remove { } }
+        public event EventHandler? CanExecuteChanged { add { } remove { } }
     }
 }

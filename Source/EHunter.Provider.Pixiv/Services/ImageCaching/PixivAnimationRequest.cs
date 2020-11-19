@@ -5,6 +5,8 @@ using Meowtrix.PixivApi.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
+#nullable enable
+
 namespace EHunter.Provider.Pixiv.Services.ImageCaching
 {
     public sealed class PixivAnimationRequest : ImageRequest

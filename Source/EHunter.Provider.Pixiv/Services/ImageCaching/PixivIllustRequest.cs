@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Meowtrix.PixivApi.Models;
 
+#nullable enable
+
 namespace EHunter.Provider.Pixiv.Services.ImageCaching
 {
     public sealed class PixivIllustRequest : ImageRequest
