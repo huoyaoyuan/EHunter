@@ -1,5 +1,4 @@
 ﻿using EHunter.Settings;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 

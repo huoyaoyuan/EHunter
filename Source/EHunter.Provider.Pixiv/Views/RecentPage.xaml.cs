@@ -1,5 +1,4 @@
 ﻿using EHunter.Provider.Pixiv.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

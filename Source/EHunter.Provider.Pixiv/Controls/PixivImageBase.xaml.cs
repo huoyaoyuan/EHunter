@@ -1,6 +1,5 @@
 ﻿using System;
 using EHunter.Provider.Pixiv.Services.ImageCaching;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -15,11 +14,9 @@ using Windows.Storage.Streams;
 
 namespace EHunter.Provider.Pixiv.Controls
 {
-#pragma warning disable CA1001 // 具有可释放字段的类型应该是可释放的
     public abstract partial class PixivImageBase : UserControl
-#pragma warning restore CA1001 // 具有可释放字段的类型应该是可释放的
     {
-        public PixivImageBase() => InitializeComponent();
+        protected PixivImageBase() => InitializeComponent();
 
         private readonly ImageCacheService _imageCache = Ioc.Default.GetRequiredService<ImageCacheService>();
         private ImageRequest? _currentRequest;

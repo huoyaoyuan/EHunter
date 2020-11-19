@@ -25,7 +25,9 @@ namespace EHunter.Provider.Pixiv.ViewModels
         {
             _applicationSetting = ApplicationData.Current.LocalSettings.CreateContainer("Pixiv", ApplicationDataCreateDisposition.Always);
 
+#pragma warning disable CA1508 // false positive
             _useProxy = (bool?)_applicationSetting.Values[nameof(UseProxy)] ?? false;
+#pragma warning restore CA1508 // false positive
             _commonSetting = commonSetting;
             _logger = logger;
             Client = new PixivClient(_useProxy ? _commonSetting.Proxy : null);

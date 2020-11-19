@@ -4,10 +4,10 @@
     <RootNamespace>$(MSBuildProjectName)</RootNamespace>
     <BaseOutputPath>$(MSBuildThisFileDirectory)Artifact\bin\$(MSBuildProjectName)\</BaseOutputPath>
     <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)Artifact\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
-  </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0" PrivateAssets="All" />
-  </ItemGroup>
+    <AnalysisLevel>5</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
 
 </Project>

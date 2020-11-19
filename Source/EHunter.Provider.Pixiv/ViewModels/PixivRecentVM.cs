@@ -53,7 +53,9 @@ namespace EHunter.Provider.Pixiv.ViewModels
                     TimeSpan currentOffset = DateTimeOffset.Now.Offset;
                     var source = _client.GetMyFollowingIllustsAsync().Age(SelectedAge);
 
+#pragma warning disable CA1508 // false positive
                     await foreach (var i in source.WithCancellation(cts.Token).ConfigureAwait(true))
+#pragma warning restore CA1508 // false positive
                     {
                         State = RecentPageState.PartialLoaded;
                         illusts.Add(i);

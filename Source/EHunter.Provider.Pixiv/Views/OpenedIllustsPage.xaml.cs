@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using EHunter.Provider.Pixiv.Messages;
 using EHunter.Provider.Pixiv.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -23,10 +22,10 @@ namespace EHunter.Provider.Pixiv.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e is
-            {
-                NavigationMode: NavigationMode.New or NavigationMode.Forward,
-                Parameter: NavigateToIllustMessage m
-            })
+                {
+                    NavigationMode: NavigationMode.New or NavigationMode.Forward,
+                    Parameter: NavigateToIllustMessage m
+                })
             {
                 if (_vm.Illusts.FirstOrDefault(x => x.Id == m.Illust.Id) is not { } i)
                 {

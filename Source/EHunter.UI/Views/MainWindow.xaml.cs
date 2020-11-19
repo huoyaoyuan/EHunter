@@ -16,7 +16,7 @@ namespace EHunter.UI.Views
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        private readonly List<ProviderMenuItem> _providers = new List<ProviderMenuItem>
+        private readonly List<ProviderMenuItem> _providers = new()
         {
             new ProviderMenuItem("Pixiv", "ms-appx:///EHunter.Provider.Pixiv/Assets/pixiv.png", typeof(PixivRootPage)),
             new ProviderMenuItem("EHentai", "https://exhentai.org/favicon.ico", typeof(EHentaiRootPage)),

@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using EHunter.Provider.Pixiv.Messages;
 using EHunter.Provider.Pixiv.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -20,16 +19,15 @@ namespace EHunter.Provider.Pixiv.Views
 
         public UsersPage() => InitializeComponent();
 
-        private readonly ObservableCollection<UserVM> _vms
-            = new ObservableCollection<UserVM>();
+        private readonly ObservableCollection<UserVM> _vms = new();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e is
-            {
-                NavigationMode: NavigationMode.New or NavigationMode.Forward,
-                Parameter: NavigateToUserMessage m
-            })
+                {
+                    NavigationMode: NavigationMode.New or NavigationMode.Forward,
+                    Parameter: NavigateToUserMessage m
+                })
             {
                 // TODO: SelectedItem doesn't work. Only SelectedIndex + TabItemsSource work.
 

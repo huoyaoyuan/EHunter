@@ -139,7 +139,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
 
         public UserVMFactory(PixivSettings settings) => _settings = settings;
 
-        public UserVM Create() => new UserVM(_settings.Client);
-        public UserVM Create(UserInfo userInfo) => new UserVM(userInfo, _settings.Client);
+        public UserVM Create() => new(_settings.Client);
+        public UserVM Create(UserInfo userInfo) => new(userInfo, _settings.Client);
     }
 }

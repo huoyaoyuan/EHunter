@@ -19,7 +19,9 @@ namespace EHunter.UI
 
             _storageRoot = (string?)_applicationSetting.Values[nameof(StorageRoot)] ?? string.Empty;
             _proxyAddress = (string?)_applicationSetting.Values[nameof(ProxyAddress)] ?? string.Empty;
+#pragma warning disable CA1508 // false positive
             _proxyPort = (int?)_applicationSetting.Values[nameof(ProxyPort)] ?? 0;
+#pragma warning restore CA1508 // false positive
             _dbConnectionString = (string?)_applicationSetting.Values[nameof(DbConnectionString)] ?? string.Empty;
 
             UpdateProxy();
@@ -36,7 +38,7 @@ namespace EHunter.UI
             }
         }
 
-        public DirectoryInfo StorageRootDirectory => new DirectoryInfo(StorageRoot);
+        public DirectoryInfo StorageRootDirectory => new(StorageRoot);
 
         private string _proxyAddress;
         public string ProxyAddress
