@@ -21,4 +21,8 @@
     <ProjectReference Include="..\EHunter.Common\EHunter.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PRIResource Include="Strings\**\*.resw" />
+  </ItemGroup>
+
 </Project>
