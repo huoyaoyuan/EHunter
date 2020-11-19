@@ -132,7 +132,7 @@
   <data name="CloseAppBarButton.Label" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="CopyLinkTookTip.Content" xml:space="preserve">
+  <data name="CopyLinkToolTip.Content" xml:space="preserve">
     <value>Copy Link</value>
   </data>
   <data name="GoToIllustById.PlaceholderText" xml:space="preserve">
