@@ -132,7 +132,7 @@
   <data name="CloseAppBarButton.Label" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="CopyLink.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+  <data name="CopyLinkTookTip.Content" xml:space="preserve">
     <value>Copy Link</value>
   </data>
   <data name="GoToIllustById.PlaceholderText" xml:space="preserve">
@@ -180,13 +180,13 @@
   <data name="OpenAppBarButton.Label" xml:space="preserve">
     <value>Open</value>
   </data>
-  <data name="OpenLink.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+  <data name="OpenLinkToolTip.Content" xml:space="preserve">
     <value>Open Link</value>
   </data>
   <data name="Password.Header" xml:space="preserve">
     <value>Password</value>
   </data>
-  <data name="RefreshButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+  <data name="RefreshButtonToolTip.Content" xml:space="preserve">
     <value>Refresh</value>
   </data>
   <data name="UseProxy.Header" xml:space="preserve">
