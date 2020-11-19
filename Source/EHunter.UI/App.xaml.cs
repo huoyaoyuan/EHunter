@@ -24,14 +24,16 @@ namespace EHunter.UI
         /// </summary>
         public App()
         {
-            Ioc.Default.ConfigureServices(services => services
+            var services = new ServiceCollection()
                 .AddSingleton<ICommonSetting, CommonSetting>()
                 .ConfigurePixiv()
                 .AddMemoryCache(o =>
                 {
                     o.SizeLimit = 2 * (1L << 30);
                     o.CompactionPercentage = 0.9;
-                }));
+                });
+
+            Ioc.Default.ConfigureServices(services.BuildServiceProvider());
 
             InitializeComponent();
             Suspending += OnSuspending;
