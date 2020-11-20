@@ -44,7 +44,7 @@ namespace EHunter.Provider.Pixiv.Controls
             {
                 var entry = await _imageCache.GetImageAsync(request, refreshMemoryCache).ConfigureAwait(true);
 
-                var stream = await entry.GetWinRTStreamAsync().ConfigureAwait(true);
+                var stream = entry.GetWinRTStream();
 
                 if (image.Source == bitmap)
                 {
@@ -64,13 +64,13 @@ namespace EHunter.Provider.Pixiv.Controls
 
         private void RefreshImage() => SetImageEntry(_currentRequest, true);
 
-        private async void CopyRequested()
+        private void CopyRequested()
         {
             if (_currentEntry is null)
                 return;
 
             var dataPackage = new DataPackage();
-            var stream = await _currentEntry.GetWinRTStreamAsync().ConfigureAwait(true);
+            var stream = _currentEntry.GetWinRTStream();
             dataPackage.SetBitmap(RandomAccessStreamReference.CreateFromStream(stream));
             dataPackage.RequestedOperation = DataPackageOperation.Copy;
             Clipboard.SetContent(dataPackage);
