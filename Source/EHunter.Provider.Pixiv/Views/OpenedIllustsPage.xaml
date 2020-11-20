@@ -126,6 +126,8 @@
         <ContentControl
             Grid.Row="1"
             Grid.Column="1"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
             Content="{x:Bind _vm.SelectedIllust, FallbackValue={x:Null}, Mode=OneWay}">
             <ContentControl.ContentTemplateSelector>
                 <controls:AnimatableIllustTemplateSelector>
