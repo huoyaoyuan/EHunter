@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Net;
 
+#nullable enable
+
 namespace EHunter.Settings
 {
     public interface ICommonSetting : INotifyPropertyChanged
