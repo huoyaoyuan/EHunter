@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Meowtrix.PixivApi" Version="0.1.0-beta5" />
+    <PackageReference Include="Meowtrix.PixivApi" Version="0.1.0" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI" Version="8.0.0-preview3" />
-    <PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.6" />
+    <PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.7" />
     <PackageReference Include="Microsoft.WinUI" Version="3.0.0-preview3.201113.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.1" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>
