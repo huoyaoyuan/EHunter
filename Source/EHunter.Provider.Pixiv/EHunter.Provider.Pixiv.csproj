@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <PackageReference Include="Meowtrix.PixivApi" Version="0.1.0-beta5" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI" Version="8.0.0-preview3" />
     <PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.6" />
     <PackageReference Include="Microsoft.WinUI" Version="3.0.0-preview3.201113.0" />

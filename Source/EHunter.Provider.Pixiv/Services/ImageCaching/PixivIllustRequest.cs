@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using EHunter.Services.ImageCaching;
 using Meowtrix.PixivApi.Models;
 
 #nullable enable

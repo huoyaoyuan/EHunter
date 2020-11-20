@@ -1,5 +1,6 @@
 ﻿using System;
 using EHunter.Provider.Pixiv.Services.ImageCaching;
+using EHunter.Services.ImageCaching;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;

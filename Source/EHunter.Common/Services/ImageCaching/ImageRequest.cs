@@ -2,7 +2,7 @@
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.Services.ImageCaching
+namespace EHunter.Services.ImageCaching
 {
     public abstract class ImageRequest
     {

@@ -3,9 +3,9 @@ using Microsoft.Extensions.Caching.Memory;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.Services.ImageCaching
+namespace EHunter.Services.ImageCaching
 {
-    internal class ImageCacheService
+    public class ImageCacheService
     {
         private readonly IMemoryCache _memoryCache;
 

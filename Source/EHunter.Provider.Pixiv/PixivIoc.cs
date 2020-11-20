@@ -1,5 +1,5 @@
-﻿using EHunter.Provider.Pixiv.Services.ImageCaching;
-using EHunter.Provider.Pixiv.ViewModels;
+﻿using EHunter.Provider.Pixiv.ViewModels;
+using EHunter.Services.ImageCaching;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EHunter.Provider.Pixiv

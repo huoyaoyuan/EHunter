@@ -2,7 +2,7 @@
 
 using Windows.Storage.Streams;
 
-namespace EHunter.Provider.Pixiv.Services.ImageCaching
+namespace EHunter.Services.ImageCaching
 {
     public sealed class ImageEntry
     {
