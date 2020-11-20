@@ -14,7 +14,7 @@ namespace EHunter.Provider.Pixiv.Services.ImageCaching
 
         public async ValueTask<InMemoryRandomAccessStream> GetWinRTStreamAsync()
         {
-            // Workaround for AsRandomAccessStream not working
+            // AsRandomAccessStream projected stream doesn't support CloneStream for clipboard
 
             var mms = new InMemoryRandomAccessStream
             {
