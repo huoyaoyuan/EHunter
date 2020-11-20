@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EHunter.Controls;
 using EHunter.Provider.Pixiv.Services.ImageCaching;
 using Meowtrix.PixivApi.Models;
 
@@ -6,7 +7,7 @@ using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Provider.Pixiv.Controls
 {
-    public class PixivImage : PixivImageBase
+    public class PixivImage : RichImageBase
     {
         private ImageInfo? _imageInfo;
         public ImageInfo? ImageInfo

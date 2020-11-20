@@ -1,5 +1,4 @@
 ﻿using System;
-using EHunter.Provider.Pixiv.Services.ImageCaching;
 using EHunter.Services.ImageCaching;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
@@ -13,11 +12,11 @@ using Windows.Storage.Streams;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.Controls
+namespace EHunter.Controls
 {
-    public abstract partial class PixivImageBase : UserControl
+    public abstract partial class RichImageBase : UserControl
     {
-        protected PixivImageBase() => InitializeComponent();
+        protected RichImageBase() => InitializeComponent();
 
         private readonly ImageCacheService _imageCache = Ioc.Default.GetRequiredService<ImageCacheService>();
         private ImageRequest? _currentRequest;
