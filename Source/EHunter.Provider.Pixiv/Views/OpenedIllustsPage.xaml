@@ -7,6 +7,7 @@
     xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
     xmlns:themes="using:EHunter.Provider.Pixiv.Themes"
     xmlns:m="using:Meowtrix.PixivApi.Models"
+    xmlns:vm="using:EHunter.Provider.Pixiv.ViewModels"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -114,11 +115,11 @@
             SelectedIndex="{x:Bind _vm.SelectedIndex, Mode=TwoWay}"
             ItemContainerStyle="{StaticResource ListViewItemGridStyle}">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="m:Illust">
+                <DataTemplate x:DataType="vm:IllustHolderVM">
                     <controls:PixivImage
                         Height="100"
                         Width="100"
-                        ImageInfo="{x:Bind themes:IllustSummaryTheme.FirstPageMedium(Pages)}" />
+                        ImageInfo="{x:Bind themes:IllustSummaryTheme.FirstPageMedium(Illust.Pages), FallbackValue={x:Null}, Mode=OneWay}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -127,7 +128,7 @@
             Grid.Column="1"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
-            Content="{x:Bind _vm.SelectedIllust, FallbackValue={x:Null}, Mode=OneWay}">
+            Content="{x:Bind _vm.SelectedIllust.Illust, FallbackValue={x:Null}, Mode=OneWay}">
             <ContentControl.ContentTemplateSelector>
                 <controls:AnimatableIllustTemplateSelector>
                     <controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
