@@ -139,8 +139,18 @@
                                 ItemsSource="{x:Bind Pages}">
                                 <FlipView.ItemTemplate>
                                     <DataTemplate x:DataType="m:IllustPage">
-                                        <controls:PixivImage
-                                            ImageInfo="{x:Bind Original}" />
+                                        <ScrollViewer
+                                            x:Name="scrollViewer"
+                                            ZoomMode="Enabled"
+                                            MaxZoomFactor="100"
+                                            MinZoomFactor="1"
+                                            HorizontalScrollBarVisibility="Auto"
+                                            VerticalScrollBarVisibility="Auto">
+                                            <controls:PixivImage
+                                                Width="{Binding ActualWidth, ElementName=scrollViewer, Mode=OneWay}"
+                                                Height="{Binding ActualHeight, ElementName=scrollViewer, Mode=OneWay}"
+                                                ImageInfo="{x:Bind Original}" />
+                                        </ScrollViewer>
                                     </DataTemplate>
                                 </FlipView.ItemTemplate>
                             </FlipView>
