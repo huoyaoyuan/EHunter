@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using EHunter.Provider.Pixiv.Messages;
+﻿using EHunter.Provider.Pixiv.Messages;
 using EHunter.Provider.Pixiv.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
@@ -27,35 +26,7 @@ namespace EHunter.Provider.Pixiv.Views
                     Parameter: NavigateToIllustMessage m
                 })
             {
-                if (_vm.Illusts.FirstOrDefault(x => x.Id == m.Illust.Id) is not { } i)
-                {
-                    _vm.Illusts.Add(i = m.Illust);
-                    closeButton.IsEnabled = true;
-                }
-
-                _vm.SelectedIllust = i;
-            }
-        }
-
-        private void CloseImage()
-        {
-            if (_vm.SelectedIndex >= 0)
-            {
-                int oldIndex = _vm.SelectedIndex;
-                _vm.Illusts.RemoveAt(_vm.SelectedIndex);
-
-                if (_vm.Illusts.Count == 0)
-                {
-                    closeButton.IsEnabled = false;
-                    _vm.SelectedIndex = -1;
-                    _vm.SelectedIllust = null;
-                }
-                else
-                {
-                    _vm.SelectedIndex = oldIndex == _vm.Illusts.Count
-                        ? _vm.Illusts.Count - 1
-                        : oldIndex;
-                }
+                _vm.AddIllust(m.Illust);
             }
         }
     }

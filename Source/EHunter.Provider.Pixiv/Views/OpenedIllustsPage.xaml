@@ -98,11 +98,10 @@
                     QuerySubmitted="{x:Bind _vm.OpenFromId}" />
             </CommandBar.Content>
             <AppBarButton
-                x:Name="closeButton"
-                IsEnabled="False"
+                IsEnabled="{x:Bind _vm.CanClose, Mode=OneWay}"
                 Icon="Cancel"
                 x:Uid="CloseAppBarButton"
-                Click="{x:Bind CloseImage}">
+                Click="{x:Bind _vm.CloseCurrent}">
                 <AppBarButton.KeyboardAccelerators>
                     <KeyboardAccelerator Key="W" Modifiers="Control" />
                 </AppBarButton.KeyboardAccelerators>
