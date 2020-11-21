@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using EHunter.Provider.Pixiv.Messages;
 using EHunter.Provider.Pixiv.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -29,25 +30,13 @@ namespace EHunter.Provider.Pixiv.Views
                     Parameter: NavigateToUserMessage m
                 })
             {
-                // TODO: SelectedItem doesn't work. Only SelectedIndex + TabItemsSource work.
+                var vm = _vms.FirstOrDefault(x => x.UserInfo?.Id == m.User.Id);
+                if (vm is null)
+                {
+                    _vms.Add(vm = _factory.Create(m.User));
+                }
 
-                //var vm = tabView.TabItems.Cast<UserSearchVM>().FirstOrDefault(x => x.UserInfo?.Id == m.User.Id);
-                //if (vm is null)
-                //{
-                //    tabView.TabItems.Add(vm = new UserSearchVM { UserInfo = m.User });
-                //}
-
-                //tabView.SelectedItem = vm;
-
-                int index;
-                for (index = 0; index < _vms.Count; index++)
-                    if (_vms[index].UserInfo?.Id == m.User.Id)
-                        break;
-
-                if (index == _vms.Count)
-                    _vms.Add(_factory.Create(m.User));
-
-                tabView.SelectedIndex = index;
+                tabView.SelectedItem = vm;
             }
         }
 
@@ -56,6 +45,8 @@ namespace EHunter.Provider.Pixiv.Views
 
         private void AddTab()
         {
+            // TODO: SelectedItem doesn't work properly here
+
             _vms.Add(_factory.Create());
             tabView.SelectedIndex = _vms.Count - 1;
         }
