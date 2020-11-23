@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:commonControls="using:EHunter.Controls"
     xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
     xmlns:themes="using:EHunter.Provider.Pixiv.Themes"
     xmlns:vm="using:EHunter.Provider.Pixiv.ViewModels"
@@ -148,10 +149,12 @@
                                                             MinZoomFactor="1"
                                                             HorizontalScrollBarVisibility="Auto"
                                                             VerticalScrollBarVisibility="Auto">
-                                                            <controls:PixivImage
-                                                                Width="{Binding ActualWidth, ElementName=scrollViewer, Mode=OneWay}"
-                                                                Height="{Binding ActualHeight, ElementName=scrollViewer, Mode=OneWay}"
-                                                                ImageInfo="{x:Bind Original}" />
+                                                            <commonControls:SizeTracker
+                                                                HorizontalContentAlignment="Center"
+                                                                VerticalContentAlignment="Center"
+                                                                TrackedElement="{Binding ElementName=scrollViewer}">
+                                                                <controls:PixivImage ImageInfo="{x:Bind Original}" />
+                                                            </commonControls:SizeTracker>
                                                         </ScrollViewer>
                                                     </DataTemplate>
                                                 </FlipView.ItemTemplate>
