@@ -120,47 +120,89 @@
                 </DataTemplate>
             </tk:MasterDetailsView.ItemTemplate>
             <tk:MasterDetailsView.DetailsTemplate>
-                <DataTemplate x:DataType="vm:IllustHolderVM">
-                    <ContentControl
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        Content="{x:Bind Illust, FallbackValue={x:Null}, Mode=OneWay}">
-                        <ContentControl.ContentTemplateSelector>
-                            <controls:AnimatableIllustTemplateSelector>
-                                <controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
-                                    <DataTemplate x:DataType="m:Illust"
-                                                  x:DefaultBindMode="OneTime">
-                                        <FlipView
-                                            Background="Transparent"
-                                            ItemsSource="{x:Bind Pages}">
-                                            <FlipView.ItemTemplate>
-                                                <DataTemplate x:DataType="m:IllustPage">
-                                                    <ScrollViewer
-                                                        x:Name="scrollViewer"
-                                                        ZoomMode="Enabled"
-                                                        MaxZoomFactor="100"
-                                                        MinZoomFactor="1"
-                                                        HorizontalScrollBarVisibility="Auto"
-                                                        VerticalScrollBarVisibility="Auto">
-                                                        <controls:PixivImage
-                                                            Width="{Binding ActualWidth, ElementName=scrollViewer, Mode=OneWay}"
-                                                            Height="{Binding ActualHeight, ElementName=scrollViewer, Mode=OneWay}"
-                                                            ImageInfo="{x:Bind Original}" />
-                                                    </ScrollViewer>
-                                                </DataTemplate>
-                                            </FlipView.ItemTemplate>
-                                        </FlipView>
-                                    </DataTemplate>
-                                </controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
-                                <controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
-                                    <DataTemplate x:DataType="m:Illust"
-                                                  x:DefaultBindMode="OneTime">
-                                        <controls:AnimatedIllust Illust="{x:Bind}" />
-                                    </DataTemplate>
-                                </controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
-                            </controls:AnimatableIllustTemplateSelector>
-                        </ContentControl.ContentTemplateSelector>
-                    </ContentControl>
+                <DataTemplate x:DataType="vm:IllustHolderVM"
+                              x:DefaultBindMode="OneWay">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="200" />
+                        </Grid.ColumnDefinitions>
+                        <ContentControl
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Content="{x:Bind Illust, FallbackValue={x:Null}}">
+                            <ContentControl.ContentTemplateSelector>
+                                <controls:AnimatableIllustTemplateSelector>
+                                    <controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
+                                        <DataTemplate x:DataType="m:Illust"
+                                                      x:DefaultBindMode="OneTime">
+                                            <FlipView
+                                                Background="Transparent"
+                                                ItemsSource="{x:Bind Pages}">
+                                                <FlipView.ItemTemplate>
+                                                    <DataTemplate x:DataType="m:IllustPage">
+                                                        <ScrollViewer
+                                                            x:Name="scrollViewer"
+                                                            ZoomMode="Enabled"
+                                                            MaxZoomFactor="100"
+                                                            MinZoomFactor="1"
+                                                            HorizontalScrollBarVisibility="Auto"
+                                                            VerticalScrollBarVisibility="Auto">
+                                                            <controls:PixivImage
+                                                                Width="{Binding ActualWidth, ElementName=scrollViewer, Mode=OneWay}"
+                                                                Height="{Binding ActualHeight, ElementName=scrollViewer, Mode=OneWay}"
+                                                                ImageInfo="{x:Bind Original}" />
+                                                        </ScrollViewer>
+                                                    </DataTemplate>
+                                                </FlipView.ItemTemplate>
+                                            </FlipView>
+                                        </DataTemplate>
+                                    </controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
+                                    <controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
+                                        <DataTemplate x:DataType="m:Illust"
+                                                      x:DefaultBindMode="OneTime">
+                                            <controls:AnimatedIllust Illust="{x:Bind}" />
+                                        </DataTemplate>
+                                    </controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
+                                </controls:AnimatableIllustTemplateSelector>
+                            </ContentControl.ContentTemplateSelector>
+                        </ContentControl>
+                        <ScrollViewer
+                            Grid.Column="1"
+                            VerticalScrollMode="Enabled"
+                            HorizontalScrollMode="Disabled">
+                            <StackPanel
+                                Orientation="Vertical"
+                                Spacing="4">
+                                <TextBlock
+                                    Style="{StaticResource TitleTextBlockStyle}"
+                                    Text="{x:Bind Illust.Title, FallbackValue=''}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind Illust.Description, FallbackValue=''}"
+                                    TextWrapping="Wrap" />
+                                <ItemsControl ItemsSource="{x:Bind Illust.Tags, FallbackValue={x:Null}}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="m:Tag"
+                                                      x:DefaultBindMode="OneTime">
+                                            <TextBlock>
+                                                <Run Text="#" /><Run Text="{x:Bind Name}" />
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <tk:WrapPanel
+                                                Orientation="Horizontal"
+                                                HorizontalSpacing="8"
+                                                VerticalSpacing="2" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
                 </DataTemplate>
             </tk:MasterDetailsView.DetailsTemplate>
         </tk:MasterDetailsView>
