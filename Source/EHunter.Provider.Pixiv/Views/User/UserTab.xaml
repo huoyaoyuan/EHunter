@@ -133,6 +133,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <controls:PixivImage
+                    x:Name="userAvatar"
                     Height="100"
                     Width="100"
                     Margin="2"

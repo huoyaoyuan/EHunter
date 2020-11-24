@@ -1,7 +1,9 @@
 ﻿using EHunter.Provider.Pixiv.Messages;
 using EHunter.Provider.Pixiv.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -28,6 +30,16 @@ namespace EHunter.Provider.Pixiv.Views
             {
                 _vm.AddIllust(m.Illust);
             }
+        }
+
+        private void JumpToUser_Clicked(object sender, RoutedEventArgs e)
+        {
+            var s = (FrameworkElement)sender;
+            var avatar = (FrameworkElement)s.FindName("userAvatar");
+
+            var connectedAnimationService = ConnectedAnimationService.GetForCurrentView();
+            connectedAnimationService.PrepareToAnimate("Username", s);
+            connectedAnimationService.PrepareToAnimate("UserAvatar", avatar);
         }
     }
 }

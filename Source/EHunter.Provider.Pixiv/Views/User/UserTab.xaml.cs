@@ -25,10 +25,17 @@ namespace EHunter.Provider.Pixiv.Views.User
         {
             var userTab = (UserTab)sender;
 
-            if (ConnectedAnimationService.GetForCurrentView()
-                .GetAnimation("Username") is { } animation)
+            var connectedAnimationService = ConnectedAnimationService.GetForCurrentView();
+            if (connectedAnimationService
+                .GetAnimation("Username") is { } userNameAnimation)
             {
-                animation.TryStart(userTab.usernameText);
+                userNameAnimation.TryStart(userTab.usernameText);
+            }
+
+            if (connectedAnimationService
+                .GetAnimation("UserAvatar") is { } avatarAnimation)
+            {
+                avatarAnimation.TryStart(userTab.userAvatar);
             }
         }
     }

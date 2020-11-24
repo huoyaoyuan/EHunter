@@ -6,11 +6,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:commonControls="using:EHunter.Controls"
     xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
+    xmlns:res="using:EHunter.Provider.Pixiv.Resources"
     xmlns:themes="using:EHunter.Provider.Pixiv.Themes"
     xmlns:vm="using:EHunter.Provider.Pixiv.ViewModels"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     xmlns:tk="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:res="using:EHunter.Provider.Pixiv.Resources"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -142,6 +142,24 @@
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <controls:PixivImage
+                                        x:Name="userAvatar"
+                                        Height="50"
+                                        Width="50"
+                                        ImageInfo="{x:Bind Illust.User.Avatar, FallbackValue={x:Null}}" />
+                                    <HyperlinkButton
+                                        Grid.Row="2"
+                                        FontSize="16"
+                                        Command="{StaticResource NavigateToUserCommand}"
+                                        CommandParameter="{x:Bind Illust.User, FallbackValue={x:Null}}"
+                                        Click="JumpToUser_Clicked">
+                                        <TextBlock
+                                            FontSize="16"
+                                            Text="{x:Bind Illust.User.Name, FallbackValue={x:Null}}"
+                                            TextWrapping="WrapWholeWords" />
+                                    </HyperlinkButton>
+                                </StackPanel>
                             </StackPanel>
                         </ScrollViewer>
                     </Grid>
