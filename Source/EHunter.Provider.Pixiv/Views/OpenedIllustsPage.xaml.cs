@@ -1,4 +1,6 @@
-﻿using EHunter.Provider.Pixiv.Messages;
+﻿using System;
+using System.Globalization;
+using EHunter.Provider.Pixiv.Messages;
 using EHunter.Provider.Pixiv.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -41,5 +43,7 @@ namespace EHunter.Provider.Pixiv.Views
             connectedAnimationService.PrepareToAnimate("Username", s);
             connectedAnimationService.PrepareToAnimate("UserAvatar", avatar);
         }
+
+        public static string ToShortFullTimeString(DateTime dateTime) => dateTime.ToString("f", CultureInfo.CurrentCulture);
     }
 }

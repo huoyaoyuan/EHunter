@@ -11,6 +11,7 @@
     xmlns:vm="using:EHunter.Provider.Pixiv.ViewModels"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     xmlns:tk="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:local="using:EHunter.Provider.Pixiv.Views"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -160,6 +161,14 @@
                                             TextWrapping="WrapWholeWords" />
                                     </HyperlinkButton>
                                 </StackPanel>
+                                <TextBlock
+                                    Foreground="Gray"
+                                    TextWrapping="WrapWholeWords">
+                                    <Run Text="❤" /><Run Text="{x:Bind Illust.TotalBookmarks, FallbackValue=''}" />
+                                    <Run Text="👀" /><Run Text="{x:Bind Illust.TotalView, FallbackValue=''}" />
+                                    <LineBreak />
+                                    <Run Text="{x:Bind local:OpenedIllustsPage.ToShortFullTimeString(Illust.Created.LocalDateTime), FallbackValue=''}" />
+                                </TextBlock>
                             </StackPanel>
                         </ScrollViewer>
                     </Grid>
