@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:EHunter.Provider.Pixiv.ViewModels"
+    xmlns:search="using:EHunter.Provider.Pixiv.Views.IllustSearch"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <TabView
@@ -20,7 +21,8 @@
                     <TabViewItem.IconSource>
                         <SymbolIconSource Symbol="Find" />
                     </TabViewItem.IconSource>
-
+                    <search:IllustSearchTab
+                        VM="{x:Bind}" />
                 </TabViewItem>
             </DataTemplate>
         </TabView.TabItemTemplate>

@@ -31,6 +31,12 @@ namespace EHunter.Provider.Pixiv.Views
                     _frame.Navigate(typeof(OpenedIllustsPage), m);
                     opened.IsSelected = true;
                 });
+            WeakReferenceMessenger.Default.Register<NavigateToTagMessage>(this,
+                (o, m) =>
+                {
+                    _frame.Navigate(typeof(IllustSearchPage), m);
+                    searchIllust.IsSelected = true;
+                });
         }
 
         private void NavigationView_SelectionChanged(
