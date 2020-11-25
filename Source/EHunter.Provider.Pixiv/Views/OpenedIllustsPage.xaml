@@ -163,9 +163,10 @@
                                 </StackPanel>
                                 <TextBlock
                                     Foreground="Gray"
-                                    TextWrapping="WrapWholeWords">
-                                    <Run Text="❤" /><Run Text="{x:Bind Illust.TotalBookmarks, FallbackValue=''}" />
-                                    <Run Text="👀" /><Run Text="{x:Bind Illust.TotalView, FallbackValue=''}" />
+                                    TextWrapping="WrapWholeWords"
+                                    IsColorFontEnabled="True">
+                                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xEB51;" /><Run Text="{x:Bind Illust.TotalBookmarks, FallbackValue=''}" />
+                                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE7B3;" /><Run Text="{x:Bind Illust.TotalView, FallbackValue=''}" />
                                     <LineBreak />
                                     <Run Text="{x:Bind local:OpenedIllustsPage.ToShortFullTimeString(Illust.Created.LocalDateTime), FallbackValue=''}" />
                                 </TextBlock>
