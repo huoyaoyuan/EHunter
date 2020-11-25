@@ -30,7 +30,7 @@ namespace EHunter.Provider.Pixiv.Views
                     Parameter: NavigateToIllustMessage m
                 })
             {
-                _vm.AddIllust(m.Illust);
+                _vm.GoToIllust(m.Illust);
             }
         }
 

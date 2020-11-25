@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
@@ -25,7 +24,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
             set => SetProperty(ref _selectedIllust, value);
         }
 
-        private int _selectedIndex;
+        private int _selectedIndex = -1;
         public int SelectedIndex
         {
             get => _selectedIndex;
@@ -80,15 +79,20 @@ namespace EHunter.Provider.Pixiv.ViewModels
             }
         }
 
-        public void AddIllust(Illust illust)
+        public void GoToIllust(Illust illust)
         {
-            if (Illusts.FirstOrDefault(x => x.IllustId == illust.Id) is not { } i)
+            for (int i = 0; i < Illusts.Count; i++)
             {
-                Illusts.Add(i = new IllustHolderVM(illust));
-                CanClose = true;
+                if (Illusts[i].IllustId == illust.Id)
+                {
+                    SelectedIndex = i;
+                    return;
+                }
             }
 
-            SelectedIllust = i;
+            Illusts.Add(new IllustHolderVM(illust));
+            SelectedIndex = Illusts.Count - 1;
+            CanClose = true;
         }
     }
 
