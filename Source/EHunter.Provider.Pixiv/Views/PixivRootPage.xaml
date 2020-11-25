@@ -25,15 +25,19 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE736;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="Search">
+            <NavigationViewItem
+                x:Uid="Navigation_Search">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE721;" />
                 </NavigationViewItem.Icon>
                 <NavigationViewItem.MenuItems>
                     <!--<NavigationViewItem Content="For User" />-->
                     <NavigationViewItem
-                        x:Name="searchIllust"
-                        Content="For Illust" />
+                        x:Name="searchIllust" x:Uid="Navigation_Search_Illust">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C5;" />
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
                 </NavigationViewItem.MenuItems>
             </NavigationViewItem>
             <!--<NavigationViewItem Icon="Pin" Content="Pinned Pictures" />-->

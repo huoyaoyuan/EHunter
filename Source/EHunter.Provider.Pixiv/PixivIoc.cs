@@ -12,6 +12,7 @@ namespace EHunter.Provider.Pixiv
             .AddTransient<PixivRecentVM>()
             .AddSingleton<UserVMFactory>()
             .AddTransient<OpenedIllustsVM>()
-            .AddSingleton<ImageCacheService>();
+            .AddSingleton<ImageCacheService>()
+            .AddTransient<IllustSearchPageVM>();
     }
 }

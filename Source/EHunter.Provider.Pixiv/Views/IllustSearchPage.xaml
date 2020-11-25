@@ -4,14 +4,25 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:EHunter.Provider.Pixiv.ViewModels"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <TabView
+        TabItemsSource="{x:Bind _vm.Tabs}"
+        SelectedIndex="{x:Bind _vm.SelectedIndex, Mode=TwoWay}"
+        AddTabButtonClick="{x:Bind _vm.AddTab}"
+        TabCloseRequested="TabCloseRequested">
+        <TabView.TabItemTemplate>
+            <DataTemplate x:DataType="vm:IllustSearchVM"
+                          x:DefaultBindMode="OneWay">
+                <TabViewItem
+                    x:Uid="SearchTab">
+                    <TabViewItem.IconSource>
+                        <SymbolIconSource Symbol="Find" />
+                    </TabViewItem.IconSource>
 
-    <Grid>
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Style="{StaticResource SubheaderTextBlockStyle}"
-            Text="Illust Search Page" />
-    </Grid>
+                </TabViewItem>
+            </DataTemplate>
+        </TabView.TabItemTemplate>
+    </TabView>
 </Page>

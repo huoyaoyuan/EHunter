@@ -165,6 +165,12 @@
   <data name="Navigation_Recent.Content" xml:space="preserve">
     <value>最近更新</value>
   </data>
+  <data name="Navigation_Search.Content" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="Navigation_Search_Illust.Content" xml:space="preserve">
+    <value>搜索绘画</value>
+  </data>
   <data name="Navigation_Users.Content" xml:space="preserve">
     <value>用户</value>
   </data>
@@ -188,6 +194,9 @@
   </data>
   <data name="RefreshButtonToolTip.Content" xml:space="preserve">
     <value>刷新</value>
+  </data>
+  <data name="SearchTab.Header" xml:space="preserve">
+    <value>搜索</value>
   </data>
   <data name="UseProxy.Header" xml:space="preserve">
     <value>使用代理</value>
