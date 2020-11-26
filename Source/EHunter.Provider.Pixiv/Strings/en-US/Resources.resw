@@ -195,7 +195,7 @@
   <data name="RefreshButtonToolTip.Content" xml:space="preserve">
     <value>Refresh</value>
   </data>
-  <data name="SearchTab.Header" xml:space="preserve">
+  <data name="SearchSetter.Value" xml:space="preserve">
     <value>Search</value>
   </data>
   <data name="UseProxy.Header" xml:space="preserve">

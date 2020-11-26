@@ -16,6 +16,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
         internal IllustSearchVM(IllustSearchPageVM parent, Tag tag)
         {
             _parent = parent;
+            EffectiveWord = tag.Name;
             Tag = tag;
             Illusts = new(tag.GetIllustsAsync());
         }

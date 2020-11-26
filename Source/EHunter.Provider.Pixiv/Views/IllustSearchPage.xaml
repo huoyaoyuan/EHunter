@@ -16,11 +16,14 @@
         <TabView.TabItemTemplate>
             <DataTemplate x:DataType="vm:IllustSearchVM"
                           x:DefaultBindMode="OneWay">
-                <TabViewItem
-                    x:Uid="SearchTab">
+                <TabViewItem>
                     <TabViewItem.IconSource>
                         <SymbolIconSource Symbol="Find" />
                     </TabViewItem.IconSource>
+                    <TabViewItem.Header>
+                        <search:IllustSearchTabHeader
+                            VM="{x:Bind}" />
+                    </TabViewItem.Header>
                     <search:IllustSearchTab
                         VM="{x:Bind}" />
                 </TabViewItem>
