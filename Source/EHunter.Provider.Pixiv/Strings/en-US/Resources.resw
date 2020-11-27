@@ -165,6 +165,12 @@
   <data name="Navigation_Recent.Content" xml:space="preserve">
     <value>Recent updated</value>
   </data>
+  <data name="Navigation_Search.Content" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Navigation_Search_Illust.Content" xml:space="preserve">
+    <value>Search illusts</value>
+  </data>
   <data name="Navigation_Users.Content" xml:space="preserve">
     <value>Users</value>
   </data>
@@ -188,6 +194,9 @@
   </data>
   <data name="RefreshButtonToolTip.Content" xml:space="preserve">
     <value>Refresh</value>
+  </data>
+  <data name="SearchSetter.Value" xml:space="preserve">
+    <value>Search</value>
   </data>
   <data name="UseProxy.Header" xml:space="preserve">
     <value>Use Proxy</value>

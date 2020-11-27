@@ -6,6 +6,7 @@
     xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
     xmlns:local="using:EHunter.Provider.Pixiv.Resources">
     <commands:NavigateToUserCommand x:Key="NavigateToUserCommand" />
+    <commands:NavigateToTagCommand x:Key="NavigateToTagCommand" />
 
     <Style TargetType="Selector"
            x:Key="AgeRestrictionSelectorStyle">

@@ -129,9 +129,13 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate x:DataType="m:Tag"
                                                       x:DefaultBindMode="OneTime">
-                                            <TextBlock>
-                                                <Run Text="#" /><Run Text="{x:Bind Name}" />
-                                            </TextBlock>
+                                            <HyperlinkButton
+                                                Command="{StaticResource NavigateToTagCommand}"
+                                                CommandParameter="{x:Bind}">
+                                                <TextBlock>
+                                                    <Run Text="#" /><Run Text="{x:Bind Name}" />
+                                                </TextBlock>
+                                            </HyperlinkButton>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                     <ItemsControl.ItemsPanel>
