@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
     xmlns:m="using:Meowtrix.PixivApi.Models"
+    xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     mc:Ignorable="d"
     x:DefaultBindMode="OneWay">
     <UserControl.Resources>
@@ -14,12 +15,44 @@
             Source="{x:Bind VM.Illusts}" />
     </UserControl.Resources>
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Search">
+                    <VisualState.StateTriggers>
+                        <tktr:IsNullOrEmptyStateTrigger
+                            Value="{x:Bind VM.Tag}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="searchBox.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="ShowTag">
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="True" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="tagText.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <AutoSuggestBox
+            x:Name="searchBox"
+            Visibility="Collapsed"
+            Margin="4"
+            HorizontalAlignment="Stretch"
+            Text="{x:Bind VM.SearchWord, Mode=TwoWay}"
+            QuerySubmitted="{x:Bind VM.DoSearch}" />
+
         <TextBlock
+            x:Name="tagText"
+            Visibility="Collapsed"
             Style="{StaticResource TitleTextBlockStyle}"
             Margin="4">
             <Run Text="#" /><Run Text="{x:Bind VM.Tag.Name}" />
