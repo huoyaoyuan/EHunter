@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
+using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Provider.Pixiv.Resources
@@ -18,6 +19,14 @@ namespace EHunter.Provider.Pixiv.Resources
     }
 
     internal class AgeRestrictionValues : EnumValueCollection<AgeRestriction>
+    {
+    }
+
+    internal class IllustSearchTargetValues : EnumValueCollection<IllustSearchTarget>
+    {
+    }
+
+    internal class IllustSortModeValues : EnumValueCollection<IllustSortMode>
     {
     }
 }

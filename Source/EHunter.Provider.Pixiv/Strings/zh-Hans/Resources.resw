@@ -147,6 +147,30 @@
   <data name="Illustrations.Text" xml:space="preserve">
     <value>绘画作品</value>
   </data>
+  <data name="IllustSearchTarget_ExactTag" xml:space="preserve">
+    <value>Tag（精确）</value>
+  </data>
+  <data name="IllustSearchTarget_PartialTag" xml:space="preserve">
+    <value>Tag（部分）</value>
+  </data>
+  <data name="IllustSearchTarget_TitleCaption" xml:space="preserve">
+    <value>标题和说明</value>
+  </data>
+  <data name="IllustSortMode_Latest" xml:space="preserve">
+    <value>最新</value>
+  </data>
+  <data name="IllustSortMode_Oldest" xml:space="preserve">
+    <value>最旧</value>
+  </data>
+  <data name="IllustSortMode_Popular" xml:space="preserve">
+    <value>最受欢迎</value>
+  </data>
+  <data name="IllustSortMode_PopularWithFemale" xml:space="preserve">
+    <value>受女性欢迎</value>
+  </data>
+  <data name="IllustSortMode_PopularWithMale" xml:space="preserve">
+    <value>受男性欢迎</value>
+  </data>
   <data name="LoadingSetter.Value" xml:space="preserve">
     <value>正在加载</value>
   </data>

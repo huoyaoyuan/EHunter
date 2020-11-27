@@ -24,6 +24,38 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Selector"
+           x:Key="IllustSearchTargetSelectorStyle">
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate x:DataType="x:Int32">
+                    <controls:IllustSearchTargetPresenter IntSearchTarget="{x:Bind}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsSource">
+            <Setter.Value>
+                <local:IllustSearchTargetValues />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Selector"
+           x:Key="IllustSortModeSelectorStyle">
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate x:DataType="x:Int32">
+                    <controls:IllustSortModePresenter IntSortMode="{x:Bind}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsSource">
+            <Setter.Value>
+                <local:IllustSortModeValues />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="ListViewItem" x:Key="ListViewItemGridStyle">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />

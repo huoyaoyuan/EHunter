@@ -147,6 +147,30 @@
   <data name="Illustrations.Text" xml:space="preserve">
     <value>Illustrations</value>
   </data>
+  <data name="IllustSearchTarget_ExactTag" xml:space="preserve">
+    <value>Tag (Exact)</value>
+  </data>
+  <data name="IllustSearchTarget_PartialTag" xml:space="preserve">
+    <value>Tag (Partial)</value>
+  </data>
+  <data name="IllustSearchTarget_TitleCaption" xml:space="preserve">
+    <value>Title and Caption</value>
+  </data>
+  <data name="IllustSortMode_Latest" xml:space="preserve">
+    <value>Latest</value>
+  </data>
+  <data name="IllustSortMode_Oldest" xml:space="preserve">
+    <value>Oldest</value>
+  </data>
+  <data name="IllustSortMode_Popular" xml:space="preserve">
+    <value>Popular</value>
+  </data>
+  <data name="IllustSortMode_PopularWithFemale" xml:space="preserve">
+    <value>Popular with Female</value>
+  </data>
+  <data name="IllustSortMode_PopularWithMale" xml:space="preserve">
+    <value>Popular with Male</value>
+  </data>
   <data name="LoadingSetter.Value" xml:space="preserve">
     <value>Loading</value>
   </data>
