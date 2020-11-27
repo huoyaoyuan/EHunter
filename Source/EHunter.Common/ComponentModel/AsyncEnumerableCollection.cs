@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
 
-namespace EHunter.Provider.Pixiv.ViewModels
+namespace EHunter.ComponentModel
 {
     public class AsyncEnumerableCollection<T> :
         ObservableCollection<T>,

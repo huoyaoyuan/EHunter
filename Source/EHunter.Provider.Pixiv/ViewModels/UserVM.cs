@@ -1,4 +1,5 @@
 ﻿using System;
+using EHunter.ComponentModel;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
