@@ -117,91 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccountGroup.Text" xml:space="preserve">
-    <value>Account</value>
-  </data>
-  <data name="Ages_All.Value" xml:space="preserve">
-    <value>All</value>
-  </data>
-  <data name="Ages_AllAge.Value" xml:space="preserve">
-    <value>All Age</value>
-  </data>
-  <data name="Ages_R18.Value" xml:space="preserve">
-    <value>R18</value>
-  </data>
-  <data name="CloseAppBarButton.Label" xml:space="preserve">
-    <value>Close</value>
-  </data>
-  <data name="CopyLinkToolTip.Content" xml:space="preserve">
-    <value>Copy Link</value>
-  </data>
-  <data name="GoToIllustById.PlaceholderText" xml:space="preserve">
-    <value>Go to illust by ID</value>
-  </data>
-  <data name="GoToUser.Text" xml:space="preserve">
-    <value>Go To User</value>
-  </data>
-  <data name="GoToUserById.Text" xml:space="preserve">
-    <value>Go to user by ID</value>
-  </data>
-  <data name="Illustrations.Text" xml:space="preserve">
-    <value>Illustrations</value>
-  </data>
   <data name="LoadingSetter.Value" xml:space="preserve">
     <value>Loading</value>
   </data>
-  <data name="LoginButton.Content" xml:space="preserve">
-    <value>Login</value>
-  </data>
-  <data name="LoginMode.Header" xml:space="preserve">
-    <value>Login Mode</value>
-  </data>
-  <data name="LoginMode_Password.Content" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="Navigation_Opened.Content" xml:space="preserve">
-    <value>Opened Illustrations</value>
-  </data>
-  <data name="Navigation_Recent.Content" xml:space="preserve">
-    <value>Recent updated</value>
-  </data>
-  <data name="Navigation_Search.Content" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="Navigation_Search_Illust.Content" xml:space="preserve">
-    <value>Search illusts</value>
-  </data>
-  <data name="Navigation_Users.Content" xml:space="preserve">
-    <value>Users</value>
-  </data>
-  <data name="NetworkGroup.Text" xml:space="preserve">
-    <value>Network</value>
-  </data>
-  <data name="NotLoginSetter.Value" xml:space="preserve">
-    <value>Not login</value>
-  </data>
-  <data name="OpenAppBarButton.Label" xml:space="preserve">
-    <value>Open</value>
-  </data>
-  <data name="OpenLinkToolTip.Content" xml:space="preserve">
-    <value>Open Link</value>
-  </data>
-  <data name="Password.Header" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="RefreshButtonToolTip.Content" xml:space="preserve">
-    <value>Refresh</value>
-  </data>
-  <data name="SearchSetter.Value" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="UseProxy.Header" xml:space="preserve">
-    <value>Use Proxy</value>
-  </data>
-  <data name="Username.Header" xml:space="preserve">
-    <value>Username</value>
-  </data>
-  <data name="WaitingForLoginSetter.Value" xml:space="preserve">
-    <value>Waiting for login</value>
+  <data name="NoItemsSetter.Value" xml:space="preserve">
+    <value>No Items</value>
   </data>
 </root>

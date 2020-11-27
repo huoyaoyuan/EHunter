@@ -14,7 +14,12 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="8.0.0-preview3" />
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI" Version="8.0.0-preview3" />
     <PackageReference Include="Microsoft.WinUI" Version="3.0.0-preview3.201113.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Include="Strings\**\*.resw" />
   </ItemGroup>
 
 </Project>

@@ -177,9 +177,6 @@
   <data name="NetworkGroup.Text" xml:space="preserve">
     <value>网络</value>
   </data>
-  <data name="NoIllustSetter.Value" xml:space="preserve">
-    <value>没有作品</value>
-  </data>
   <data name="NotLoginSetter.Value" xml:space="preserve">
     <value>未登录</value>
   </data>

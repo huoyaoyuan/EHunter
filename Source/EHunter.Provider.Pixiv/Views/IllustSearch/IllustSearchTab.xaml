@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:commonControls="using:EHunter.Controls"
     xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
@@ -57,6 +58,11 @@
             Margin="4">
             <Run Text="#" /><Run Text="{x:Bind VM.Tag.Name}" />
         </TextBlock>
+
+        <commonControls:AsyncEnumerableIndicator
+            Grid.Row="1"
+            VerticalAlignment="Stretch"
+            Collection="{x:Bind VM.Illusts, FallbackValue={x:Null}}" />
 
         <GridView
             x:Name="illustsGrid"
