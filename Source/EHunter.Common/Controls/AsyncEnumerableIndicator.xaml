@@ -47,14 +47,19 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
         <TextBlock
             x:Name="waitingText"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
             Style="{StaticResource SubheaderTextBlockStyle}"
             Margin="4" />
+
+        <!-- Not setting IsActive="False" here will cause no animation.
+             WinUI 3 Preview 3 -->
         <ProgressRing
             x:Name="waitingProgress"
+            IsActive="False"
             Grid.Row="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"

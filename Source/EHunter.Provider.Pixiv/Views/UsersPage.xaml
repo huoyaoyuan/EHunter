@@ -11,6 +11,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <TabView
         x:Name="tabView"
+        VerticalAlignment="Stretch"
         TabItemsSource="{x:Bind _vms}"
         TabCloseRequested="TabCloseRequested"
         AddTabButtonClick="{x:Bind AddTab}">
