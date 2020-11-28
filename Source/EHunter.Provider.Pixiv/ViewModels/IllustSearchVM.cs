@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using EHunter.ComponentModel;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
@@ -43,6 +44,13 @@ namespace EHunter.Provider.Pixiv.ViewModels
             private set => SetProperty(ref _effectiveWord, value);
         }
 
+        private AgeRestriction _age = AgeRestriction.All;
+        public AgeRestriction Age
+        {
+            get => _age;
+            set => SetProperty(ref _age, value);
+        }
+
         private IllustSearchTarget _searchTarget = IllustSearchTarget.PartialTag;
         public IllustSearchTarget SearchTarget
         {
@@ -57,6 +65,62 @@ namespace EHunter.Provider.Pixiv.ViewModels
             set => SetProperty(ref _sortMode, value);
         }
 
+        private bool _minBookmarkEnabled;
+        public bool MinBookmarkEnabled
+        {
+            get => _minBookmarkEnabled;
+            set => SetProperty(ref _minBookmarkEnabled, value);
+        }
+
+        private bool _maxBookmarkEnabled;
+        public bool MaxBookmarkEnabled
+        {
+            get => _maxBookmarkEnabled;
+            set => SetProperty(ref _maxBookmarkEnabled, value);
+        }
+
+        private int _minBookmark;
+        public int MinBookmark
+        {
+            get => _minBookmark;
+            set => SetProperty(ref _minBookmark, value);
+        }
+
+        private int _maxBookmark;
+        public int MaxBookmark
+        {
+            get => _maxBookmark;
+            set => SetProperty(ref _maxBookmark, value);
+        }
+
+        private bool _startDateEnabled;
+        public bool StartDateEnabled
+        {
+            get => _startDateEnabled;
+            set => SetProperty(ref _startDateEnabled, value);
+        }
+
+        private bool _endDateEnabled;
+        public bool EndDateEnabled
+        {
+            get => _endDateEnabled;
+            set => SetProperty(ref _endDateEnabled, value);
+        }
+
+        private DateTime _startDate;
+        public DateTime StartDate
+        {
+            get => _startDate;
+            set => SetProperty(ref _startDate, value);
+        }
+
+        private DateTime _endDate;
+        public DateTime EndDate
+        {
+            get => _endDate;
+            set => SetProperty(ref _endDate, value);
+        }
+
         private AsyncEnumerableCollection<Illust>? _illusts;
         public AsyncEnumerableCollection<Illust>? Illusts
         {
@@ -66,11 +130,23 @@ namespace EHunter.Provider.Pixiv.ViewModels
 
         public void DoSearch()
         {
-            EffectiveWord = SearchWord;
-            Illusts = new(_parent.PixivClient.SearchIllustsAsync(SearchWord, SearchTarget, new IllustFilterOptions
+            var options = new IllustFilterOptions
             {
-                SortMode = SortMode
-            }));
+                SortMode = SortMode,
+                MinBookmarkCount = MinBookmarkEnabled ? MinBookmark : null,
+                MaxBookmarkCount = MaxBookmarkEnabled ? MaxBookmark : null,
+                StartDate = StartDateEnabled ? StartDate : null,
+                EndDate = EndDateEnabled ? EndDate : null
+            };
+
+            if (Tag != null)
+                EffectiveWord = SearchWord;
+
+            var query = Tag != null
+                ? Tag.GetIllustsAsync(options)
+                : _parent.PixivClient.SearchIllustsAsync(SearchWord, SearchTarget, options);
+
+            Illusts = new(query.Age(Age));
         }
     }
 
