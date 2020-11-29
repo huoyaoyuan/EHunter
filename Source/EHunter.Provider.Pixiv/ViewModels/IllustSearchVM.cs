@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using EHunter.ComponentModel;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
@@ -9,6 +10,35 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace EHunter.Provider.Pixiv.ViewModels
 {
+    public class EnumValueHolder<T> : ObservableObject
+        where T : struct, Enum
+    {
+        // TODO: part of workaround of https://github.com/microsoft/microsoft-ui-xaml/issues/3339
+
+        public EnumValueHolder()
+        {
+            if (Unsafe.SizeOf<T>() != sizeof(int))
+                throw new NotSupportedException("This type must be used with int-sized enum.");
+        }
+
+        private T _value;
+        public T Value
+        {
+            get => _value;
+            set
+            {
+                if (SetProperty(ref _value, value))
+                    OnPropertyChanged(nameof(IntValue));
+            }
+        }
+
+        public int IntValue
+        {
+            get => Unsafe.As<T, int>(ref _value);
+            set => Value = Unsafe.As<int, T>(ref value);
+        }
+    }
+
     public class IllustSearchVM : ObservableObject
     {
         private readonly IllustSearchPageVM _parent;
@@ -44,26 +74,11 @@ namespace EHunter.Provider.Pixiv.ViewModels
             private set => SetProperty(ref _effectiveWord, value);
         }
 
-        private AgeRestriction _age = AgeRestriction.All;
-        public AgeRestriction Age
-        {
-            get => _age;
-            set => SetProperty(ref _age, value);
-        }
+        public EnumValueHolder<AgeRestriction> SelectedAge { get; } = new();
 
-        private IllustSearchTarget _searchTarget = IllustSearchTarget.PartialTag;
-        public IllustSearchTarget SearchTarget
-        {
-            get => _searchTarget;
-            set => SetProperty(ref _searchTarget, value);
-        }
+        public EnumValueHolder<IllustSearchTarget> SearchTarget { get; } = new();
 
-        private IllustSortMode _sortMode = IllustSortMode.Latest;
-        public IllustSortMode SortMode
-        {
-            get => _sortMode;
-            set => SetProperty(ref _sortMode, value);
-        }
+        public EnumValueHolder<IllustSortMode> SortMode { get; } = new();
 
         private bool _minBookmarkEnabled;
         public bool MinBookmarkEnabled
@@ -132,7 +147,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
         {
             var options = new IllustFilterOptions
             {
-                SortMode = SortMode,
+                SortMode = SortMode.Value,
                 MinBookmarkCount = MinBookmarkEnabled ? MinBookmark : null,
                 MaxBookmarkCount = MaxBookmarkEnabled ? MaxBookmark : null,
                 StartDate = StartDateEnabled ? StartDate : null,
@@ -144,9 +159,9 @@ namespace EHunter.Provider.Pixiv.ViewModels
 
             var query = Tag != null
                 ? Tag.GetIllustsAsync(options)
-                : _parent.PixivClient.SearchIllustsAsync(SearchWord, SearchTarget, options);
+                : _parent.PixivClient.SearchIllustsAsync(SearchWord, SearchTarget.Value, options);
 
-            Illusts = new(query.Age(Age));
+            Illusts = new(query.Age(SelectedAge.Value));
         }
     }
 
