@@ -147,28 +147,28 @@
   <data name="Illustrations.Text" xml:space="preserve">
     <value>绘画作品</value>
   </data>
-  <data name="IllustSearchTarget_ExactTag" xml:space="preserve">
+  <data name="IllustSearchTarget_ExactTag.Value" xml:space="preserve">
     <value>Tag（精确）</value>
   </data>
-  <data name="IllustSearchTarget_PartialTag" xml:space="preserve">
+  <data name="IllustSearchTarget_PartialTag.Value" xml:space="preserve">
     <value>Tag（部分）</value>
   </data>
-  <data name="IllustSearchTarget_TitleCaption" xml:space="preserve">
+  <data name="IllustSearchTarget_TitleCaption.Value" xml:space="preserve">
     <value>标题和说明</value>
   </data>
-  <data name="IllustSortMode_Latest" xml:space="preserve">
+  <data name="IllustSortMode_Latest.Value" xml:space="preserve">
     <value>最新</value>
   </data>
-  <data name="IllustSortMode_Oldest" xml:space="preserve">
+  <data name="IllustSortMode_Oldest.Value" xml:space="preserve">
     <value>最旧</value>
   </data>
-  <data name="IllustSortMode_Popular" xml:space="preserve">
+  <data name="IllustSortMode_Popular.Value" xml:space="preserve">
     <value>最受欢迎</value>
   </data>
-  <data name="IllustSortMode_PopularWithFemale" xml:space="preserve">
+  <data name="IllustSortMode_PopularWithFemale.Value" xml:space="preserve">
     <value>受女性欢迎</value>
   </data>
-  <data name="IllustSortMode_PopularWithMale" xml:space="preserve">
+  <data name="IllustSortMode_PopularWithMale.Value" xml:space="preserve">
     <value>受男性欢迎</value>
   </data>
   <data name="LoadingSetter.Value" xml:space="preserve">
@@ -215,6 +215,9 @@
   </data>
   <data name="RefreshButtonToolTip.Content" xml:space="preserve">
     <value>刷新</value>
+  </data>
+  <data name="SearchButton.Content" xml:space="preserve">
+    <value>搜索</value>
   </data>
   <data name="SearchSetter.Value" xml:space="preserve">
     <value>搜索</value>
