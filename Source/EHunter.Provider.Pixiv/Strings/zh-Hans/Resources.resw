@@ -144,6 +144,18 @@
   <data name="GoToUserById.Text" xml:space="preserve">
     <value>ID直达用户</value>
   </data>
+  <data name="IllustFilter_EndDate.Content" xml:space="preserve">
+    <value>截至日期</value>
+  </data>
+  <data name="IllustFilter_MaxBookmark.Content" xml:space="preserve">
+    <value>最大收藏</value>
+  </data>
+  <data name="IllustFilter_MinBookmark.Content" xml:space="preserve">
+    <value>最小收藏</value>
+  </data>
+  <data name="IllustFilter_StartDate.Content" xml:space="preserve">
+    <value>起始日期</value>
+  </data>
   <data name="Illustrations.Text" xml:space="preserve">
     <value>绘画作品</value>
   </data>
@@ -218,6 +230,9 @@
   </data>
   <data name="SearchButton.Content" xml:space="preserve">
     <value>搜索</value>
+  </data>
+  <data name="SearchRange.Content" xml:space="preserve">
+    <value>搜索范围</value>
   </data>
   <data name="SearchSetter.Value" xml:space="preserve">
     <value>搜索</value>

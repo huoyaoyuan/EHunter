@@ -9,6 +9,7 @@
     xmlns:res="using:EHunter.Provider.Pixiv.Resources"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:sys="using:System"
     mc:Ignorable="d"
     x:DefaultBindMode="OneWay">
     <UserControl.Resources>
@@ -87,9 +88,66 @@
                 Style="{StaticResource AgeRestrictionSelectorStyle}"
                 SelectedItem="{x:Bind VM.SelectedAge.IntValue, Mode=TwoWay}" />
             <DropDownButton
+                x:Uid="SearchRange"
                 Grid.Column="3"
                 Margin="2"
-                HorizontalAlignment="Stretch" />
+                HorizontalAlignment="Stretch">
+                <DropDownButton.Flyout>
+                    <Flyout>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <CheckBox
+                                x:Uid="IllustFilter_MinBookmark"
+                                Grid.Row="0"
+                                IsChecked="{x:Bind VM.MinBookmarkEnabled, Mode=TwoWay}" />
+                            <NumberBox
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                IsEnabled="{x:Bind VM.MinBookmarkEnabled, Mode=OneWay}"
+                                Value="{x:Bind VM.MinBookmark, Mode=TwoWay}" />
+                            <CheckBox
+                                x:Uid="IllustFilter_MaxBookmark"
+                                Grid.Row="1"
+                                IsChecked="{x:Bind VM.MaxBookmarkEnabled, Mode=TwoWay}" />
+                            <NumberBox
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                IsEnabled="{x:Bind VM.MaxBookmarkEnabled, Mode=OneWay}"
+                                Value="{x:Bind VM.MaxBookmark, Mode=TwoWay}" />
+                            <CheckBox
+                                x:Uid="IllustFilter_StartDate"
+                                Grid.Row="2"
+                                IsChecked="{x:Bind VM.StartDateEnabled, Mode=TwoWay}" />
+                            <CalendarDatePicker
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                IsEnabled="{x:Bind VM.StartDateEnabled, Mode=OneWay}"
+                                Date="{x:Bind VM.StartDate, Mode=TwoWay}"
+                                MaxDate="{x:Bind VM.EndDate, Mode=OneWay}" />
+                            <CheckBox
+                                x:Uid="IllustFilter_EndDate"
+                                Grid.Row="3"
+                                IsChecked="{x:Bind VM.EndDateEnabled, Mode=TwoWay}" />
+                            <CalendarDatePicker
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                IsEnabled="{x:Bind VM.EndDateEnabled, Mode=OneWay}"
+                                Date="{x:Bind VM.EndDate, Mode=TwoWay}"
+                                MinDate="{x:Bind VM.StartDate, Mode=OneWay}"
+                                MaxDate="{x:Bind sys:DateTimeOffset.UtcNow.Date, Mode=OneTime}"/>
+                        </Grid>
+                    </Flyout>
+                </DropDownButton.Flyout>
+            </DropDownButton>
             <Button
                 x:Uid="SearchButton"
                 Grid.Column="4"

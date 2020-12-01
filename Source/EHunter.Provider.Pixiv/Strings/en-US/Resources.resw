@@ -144,6 +144,18 @@
   <data name="GoToUserById.Text" xml:space="preserve">
     <value>Go to user by ID</value>
   </data>
+  <data name="IllustFilter_EndDate.Content" xml:space="preserve">
+    <value>End date</value>
+  </data>
+  <data name="IllustFilter_MaxBookmark.Content" xml:space="preserve">
+    <value>Max bookmarks</value>
+  </data>
+  <data name="IllustFilter_MinBookmark.Content" xml:space="preserve">
+    <value>Min bookmarks</value>
+  </data>
+  <data name="IllustFilter_StartDate.Content" xml:space="preserve">
+    <value>Start date</value>
+  </data>
   <data name="Illustrations.Text" xml:space="preserve">
     <value>Illustrations</value>
   </data>
@@ -218,6 +230,9 @@
   </data>
   <data name="SearchButton.Content" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="SearchRange.Content" xml:space="preserve">
+    <value>Search Range</value>
   </data>
   <data name="SearchSetter.Value" xml:space="preserve">
     <value>Search</value>

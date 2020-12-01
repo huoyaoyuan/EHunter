@@ -122,15 +122,15 @@ namespace EHunter.Provider.Pixiv.ViewModels
             set => SetProperty(ref _endDateEnabled, value);
         }
 
-        private DateTime _startDate;
-        public DateTime StartDate
+        private DateTimeOffset _startDate = DateTimeOffset.UtcNow.Date;
+        public DateTimeOffset StartDate
         {
             get => _startDate;
             set => SetProperty(ref _startDate, value);
         }
 
-        private DateTime _endDate;
-        public DateTime EndDate
+        private DateTimeOffset _endDate = DateTimeOffset.UtcNow.Date;
+        public DateTimeOffset EndDate
         {
             get => _endDate;
             set => SetProperty(ref _endDate, value);
@@ -150,8 +150,8 @@ namespace EHunter.Provider.Pixiv.ViewModels
                 SortMode = SortMode.Value,
                 MinBookmarkCount = MinBookmarkEnabled ? MinBookmark : null,
                 MaxBookmarkCount = MaxBookmarkEnabled ? MaxBookmark : null,
-                StartDate = StartDateEnabled ? StartDate : null,
-                EndDate = EndDateEnabled ? EndDate : null
+                StartDate = StartDateEnabled ? StartDate.DateTime : null,
+                EndDate = EndDateEnabled ? EndDate.DateTime : null
             };
 
             if (Tag != null)
