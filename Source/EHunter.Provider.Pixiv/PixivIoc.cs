@@ -9,10 +9,10 @@ namespace EHunter.Provider.Pixiv
         public static IServiceCollection ConfigurePixiv(this IServiceCollection services)
             => services
             .AddSingleton<PixivSettings>()
-            .AddTransient<PixivRecentVM>()
+            .AddSingleton<PixivRecentVM>()
             .AddSingleton<UserVMFactory>()
-            .AddTransient<OpenedIllustsVM>()
+            .AddSingleton<OpenedIllustsVM>()
             .AddSingleton<ImageCacheService>()
-            .AddTransient<IllustSearchPageVM>();
+            .AddSingleton<IllustSearchPageVM>();
     }
 }
