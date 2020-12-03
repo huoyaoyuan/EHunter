@@ -17,7 +17,18 @@
                 Style="{ThemeResource TitleTextBlockStyle}"
                 Margin="0,0,0,6"
                 Text ="Storage" />
-            <TextBox Header="Storage Root" Text="{x:Bind _setting.StorageRoot}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="storageRoot" Header="Storage Root" Text="{x:Bind _setting.StorageRoot}" />
+                <Button
+                    Click="BrowseStorageRoot"
+                    Grid.Column="1"
+                    VerticalAlignment="Bottom"
+                    Content="Browse…" />
+            </Grid>
 
             <TextBlock
                 Style="{ThemeResource TitleTextBlockStyle}"
