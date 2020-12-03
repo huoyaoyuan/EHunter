@@ -231,6 +231,9 @@
   <data name="SearchButton.Content" xml:space="preserve">
     <value>搜索</value>
   </data>
+  <data name="SearchOptions.Header" xml:space="preserve">
+    <value>搜索选项</value>
+  </data>
   <data name="SearchRange.Content" xml:space="preserve">
     <value>搜索范围</value>
   </data>

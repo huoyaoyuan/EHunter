@@ -8,6 +8,7 @@
     xmlns:controls="using:EHunter.Provider.Pixiv.Controls"
     xmlns:res="using:EHunter.Provider.Pixiv.Resources"
     xmlns:m="using:Meowtrix.PixivApi.Models"
+    xmlns:tk="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:sys="using:System"
     mc:Ignorable="d"
@@ -48,13 +49,26 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <AutoSuggestBox
-            x:Name="searchBox"
-            Visibility="Collapsed"
-            Margin="4"
-            HorizontalAlignment="Stretch"
-            Text="{x:Bind VM.SearchWord, Mode=TwoWay}"
-            QuerySubmitted="{x:Bind VM.DoSearch}" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <AutoSuggestBox
+                x:Name="searchBox"
+                Visibility="Collapsed"
+                Margin="4"
+                HorizontalAlignment="Stretch"
+                Text="{x:Bind VM.SearchWord, Mode=TwoWay}"
+                QuerySubmitted="{x:Bind VM.DoSearch}" />
+            <Button
+                x:Uid="SearchButton"
+                Grid.Column="1"
+                Margin="4"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Click="{x:Bind VM.DoSearch}" />
+        </Grid>
 
         <TextBlock
             x:Name="tagText"
@@ -64,98 +78,94 @@
             <Run Text="#" /><Run Text="{x:Bind VM.Tag.Name}" />
         </TextBlock>
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <ComboBox
-                Grid.Column="0"
-                Margin="2"
-                Style="{StaticResource IllustSearchTargetSelectorStyle}"
-                SelectedItem="{x:Bind VM.SearchTarget.IntValue, Mode=TwoWay}" />
-            <ComboBox
-                Grid.Column="1"
-                Margin="2"
-                Style="{StaticResource IllustSortModeSelectorStyle}"
-                SelectedItem="{x:Bind VM.SortMode.IntValue, Mode=TwoWay}" />
-            <ComboBox
-                Grid.Column="2"
-                Margin="2"
-                Style="{StaticResource AgeRestrictionSelectorStyle}"
-                SelectedItem="{x:Bind VM.SelectedAge.IntValue, Mode=TwoWay}" />
-            <DropDownButton
-                x:Uid="SearchRange"
-                Grid.Column="3"
-                Margin="2"
-                HorizontalAlignment="Stretch">
-                <DropDownButton.Flyout>
-                    <Flyout>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <CheckBox
-                                x:Uid="IllustFilter_MinBookmark"
-                                Grid.Row="0"
-                                IsChecked="{x:Bind VM.MinBookmarkEnabled, Mode=TwoWay}" />
-                            <NumberBox
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                IsEnabled="{x:Bind VM.MinBookmarkEnabled, Mode=OneWay}"
-                                Value="{x:Bind VM.MinBookmark, Mode=TwoWay}" />
-                            <CheckBox
-                                x:Uid="IllustFilter_MaxBookmark"
-                                Grid.Row="1"
-                                IsChecked="{x:Bind VM.MaxBookmarkEnabled, Mode=TwoWay}" />
-                            <NumberBox
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                IsEnabled="{x:Bind VM.MaxBookmarkEnabled, Mode=OneWay}"
-                                Value="{x:Bind VM.MaxBookmark, Mode=TwoWay}" />
-                            <CheckBox
-                                x:Uid="IllustFilter_StartDate"
-                                Grid.Row="2"
-                                IsChecked="{x:Bind VM.StartDateEnabled, Mode=TwoWay}" />
-                            <CalendarDatePicker
-                                Grid.Row="2"
-                                Grid.Column="1"
-                                IsEnabled="{x:Bind VM.StartDateEnabled, Mode=OneWay}"
-                                Date="{x:Bind VM.StartDate, Mode=TwoWay}"
-                                MaxDate="{x:Bind VM.EndDate, Mode=OneWay}" />
-                            <CheckBox
-                                x:Uid="IllustFilter_EndDate"
-                                Grid.Row="3"
-                                IsChecked="{x:Bind VM.EndDateEnabled, Mode=TwoWay}" />
-                            <CalendarDatePicker
-                                Grid.Row="3"
-                                Grid.Column="1"
-                                IsEnabled="{x:Bind VM.EndDateEnabled, Mode=OneWay}"
-                                Date="{x:Bind VM.EndDate, Mode=TwoWay}"
-                                MinDate="{x:Bind VM.StartDate, Mode=OneWay}"
-                                MaxDate="{x:Bind sys:DateTimeOffset.UtcNow.Date, Mode=OneTime}"/>
-                        </Grid>
-                    </Flyout>
-                </DropDownButton.Flyout>
-            </DropDownButton>
-            <Button
-                x:Uid="SearchButton"
-                Grid.Column="4"
-                Margin="2"
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Center"
-                Click="{x:Bind VM.DoSearch}" />
-        </Grid>
+        <tk:Expander
+            x:Uid="SearchOptions"
+            Grid.Row="1">
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ComboBox
+                    Grid.Column="0"
+                    Margin="2"
+                    Style="{StaticResource IllustSearchTargetSelectorStyle}"
+                    SelectedItem="{x:Bind VM.SearchTarget.IntValue, Mode=TwoWay}" />
+                <ComboBox
+                    Grid.Column="1"
+                    Margin="2"
+                    Style="{StaticResource IllustSortModeSelectorStyle}"
+                    SelectedItem="{x:Bind VM.SortMode.IntValue, Mode=TwoWay}" />
+                <ComboBox
+                    Grid.Column="2"
+                    Margin="2"
+                    Style="{StaticResource AgeRestrictionSelectorStyle}"
+                    SelectedItem="{x:Bind VM.SelectedAge.IntValue, Mode=TwoWay}" />
+                <DropDownButton
+                    x:Uid="SearchRange"
+                    Grid.Column="3"
+                    Margin="2"
+                    HorizontalAlignment="Stretch">
+                    <DropDownButton.Flyout>
+                        <Flyout>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <CheckBox
+                                    x:Uid="IllustFilter_MinBookmark"
+                                    Grid.Row="0"
+                                    IsChecked="{x:Bind VM.MinBookmarkEnabled, Mode=TwoWay}" />
+                                <NumberBox
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    IsEnabled="{x:Bind VM.MinBookmarkEnabled, Mode=OneWay}"
+                                    Value="{x:Bind VM.MinBookmark, Mode=TwoWay}" />
+                                <CheckBox
+                                    x:Uid="IllustFilter_MaxBookmark"
+                                    Grid.Row="1"
+                                    IsChecked="{x:Bind VM.MaxBookmarkEnabled, Mode=TwoWay}" />
+                                <NumberBox
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    IsEnabled="{x:Bind VM.MaxBookmarkEnabled, Mode=OneWay}"
+                                    Value="{x:Bind VM.MaxBookmark, Mode=TwoWay}" />
+                                <CheckBox
+                                    x:Uid="IllustFilter_StartDate"
+                                    Grid.Row="2"
+                                    IsChecked="{x:Bind VM.StartDateEnabled, Mode=TwoWay}" />
+                                <CalendarDatePicker
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    IsEnabled="{x:Bind VM.StartDateEnabled, Mode=OneWay}"
+                                    Date="{x:Bind VM.StartDate, Mode=TwoWay}"
+                                    MaxDate="{x:Bind VM.EndDate, Mode=OneWay}" />
+                                <CheckBox
+                                    x:Uid="IllustFilter_EndDate"
+                                    Grid.Row="3"
+                                    IsChecked="{x:Bind VM.EndDateEnabled, Mode=TwoWay}" />
+                                <CalendarDatePicker
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    IsEnabled="{x:Bind VM.EndDateEnabled, Mode=OneWay}"
+                                    Date="{x:Bind VM.EndDate, Mode=TwoWay}"
+                                    MinDate="{x:Bind VM.StartDate, Mode=OneWay}"
+                                    MaxDate="{x:Bind sys:DateTimeOffset.UtcNow.Date, Mode=OneTime}"/>
+                            </Grid>
+                        </Flyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
+            </Grid>
+        </tk:Expander>
 
         <commonControls:AsyncEnumerableIndicator
             Grid.Row="2"

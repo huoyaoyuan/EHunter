@@ -231,6 +231,9 @@
   <data name="SearchButton.Content" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="SearchOptions.Header" xml:space="preserve">
+    <value>Search Options</value>
+  </data>
   <data name="SearchRange.Content" xml:space="preserve">
     <value>Search Range</value>
   </data>
