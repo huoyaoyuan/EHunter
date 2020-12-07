@@ -1,10 +1,14 @@
-﻿using EHunter.Provider.Pixiv;
+﻿using System.IO;
+using EHunter.Data;
+using EHunter.Provider.Pixiv;
 using EHunter.Settings;
 using EHunter.UI.Views;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
+using Windows.Storage;
 
 #nullable enable
 
@@ -24,6 +28,9 @@ namespace EHunter.UI
         /// </summary>
         public App()
         {
+            var settings = ApplicationData.Current.LocalSettings;
+            string? storageRoot = (string?)settings.Values[nameof(ICommonSetting.StorageRoot)];
+
             var services = new ServiceCollection()
                 .AddSingleton<ICommonSetting, CommonSetting>()
                 .ConfigurePixiv()
@@ -32,6 +39,12 @@ namespace EHunter.UI
                     o.SizeLimit = 2 * (1L << 30);
                     o.CompactionPercentage = 0.9;
                 });
+
+            if (!string.IsNullOrEmpty(storageRoot) && Directory.Exists(storageRoot))
+            {
+                services.AddPooledDbContextFactory<EHunterDbContext>(
+                    o => o.UseSqlite($"DataSource={Path.Combine(storageRoot, "index.db")}"));
+            }
 
             Ioc.Default.ConfigureServices(services.BuildServiceProvider());
 
