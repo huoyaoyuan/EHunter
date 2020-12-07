@@ -22,7 +22,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="storageRoot" Header="Storage Root" Text="{x:Bind _setting.StorageRoot}" />
+                <TextBox x:Name="storageRoot" Header="Storage Root" Text="{x:Bind _setting.StorageRoot, UpdateSourceTrigger=PropertyChanged}" />
                 <Button
                     Click="BrowseStorageRoot"
                     Grid.Column="1"
