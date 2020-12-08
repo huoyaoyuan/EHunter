@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EHunter.Common\EHunter.Common.csproj" />
+    <ProjectReference Include="..\EHunter.Data\EHunter.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
