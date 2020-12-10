@@ -43,7 +43,8 @@ namespace EHunter.UI
             if (!string.IsNullOrEmpty(storageRoot) && Directory.Exists(storageRoot))
             {
                 services.AddPooledDbContextFactory<EHunterDbContext>(
-                    o => o.UseSqlite($"DataSource={Path.Combine(storageRoot, "index.db")}"));
+                    o => o.UseSqlServer(@$"Server=(localdb)\MSSQLLocalDB;Integrated Security=true;AttachDbFileName={Path.Combine(storageRoot, "index.mdf")}",
+                        sql => sql.UseHierarchyId()));
             }
 
             Ioc.Default.ConfigureServices(services.BuildServiceProvider());
