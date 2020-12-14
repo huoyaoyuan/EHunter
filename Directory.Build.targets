@@ -13,4 +13,8 @@
     <OptionCompare>Binary</OptionCompare>
   </PropertyGroup>
 
+  <ItemGroup Condition="'$(Language)' == 'C#'">
+    <Compile Include="$(MSBuildThisFileDirectory)Source\CLSCompliant.cs" />
+  </ItemGroup>
+
 </Project>
