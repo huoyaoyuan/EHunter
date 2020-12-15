@@ -42,8 +42,9 @@ namespace EHunter.UI
 
             if (!string.IsNullOrEmpty(storageRoot) && Directory.Exists(storageRoot))
             {
+                // If the mdf file does not exist, Database= is required when using AttachDbFileName
                 services.AddPooledDbContextFactory<EHunterDbContext>(
-                    o => o.UseSqlServer(@$"Server=(localdb)\MSSQLLocalDB;Integrated Security=true;AttachDbFileName={Path.Combine(storageRoot, "index.mdf")}",
+                    o => o.UseSqlServer(@$"Server=(localdb)\MSSQLLocalDB;Integrated Security=true;AttachDbFileName={Path.Combine(storageRoot, "index.mdf")};Database=EHunterIndex",
                         sql => sql.UseHierarchyId()));
             }
 
