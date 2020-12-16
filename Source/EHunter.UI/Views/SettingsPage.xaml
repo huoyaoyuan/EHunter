@@ -42,6 +42,11 @@
                 Margin="0,36,0,6"
                 Text ="Database" />
             <TextBox Header="Connection String" Text="{x:Bind _setting.DbConnectionString}" />
+            <TextBlock IsTextSelectionEnabled="True">
+                <Bold>LocalDB Connection String Template:</Bold>
+                <LineBreak />
+                <Run FontFamily="Consolas">Server=(localdb)\MSSQLLocalDB;Integrated Security=true;AttachDbFileName=&lt;path-to-mdf&gt;;Database=&lt;dbname&gt;</Run>
+            </TextBlock>
         </StackPanel>
     </ScrollViewer>
 </Page>

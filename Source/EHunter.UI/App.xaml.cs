@@ -1,5 +1,4 @@
-﻿using System.IO;
-using EHunter.Data;
+﻿using EHunter.Data;
 using EHunter.Provider.Pixiv;
 using EHunter.Settings;
 using EHunter.UI.Views;
@@ -29,6 +28,7 @@ namespace EHunter.UI
         public App()
         {
             var settings = ApplicationData.Current.LocalSettings;
+            string? connectionString = (string?)settings.Values[nameof(ICommonSetting.DbConnectionString)];
             string? storageRoot = (string?)settings.Values[nameof(ICommonSetting.StorageRoot)];
 
             var services = new ServiceCollection()
@@ -40,11 +40,11 @@ namespace EHunter.UI
                     o.CompactionPercentage = 0.9;
                 });
 
-            if (!string.IsNullOrEmpty(storageRoot) && Directory.Exists(storageRoot))
+            if (!string.IsNullOrEmpty(connectionString))
             {
                 // If the mdf file does not exist, Database= is required when using AttachDbFileName
                 services.AddPooledDbContextFactory<EHunterDbContext>(
-                    o => o.UseSqlServer(@$"Server=(localdb)\MSSQLLocalDB;Integrated Security=true;AttachDbFileName={Path.Combine(storageRoot, "index.mdf")};Database=EHunterIndex",
+                    o => o.UseSqlServer(connectionString,
                         sql => sql.UseHierarchyId()));
             }
 
