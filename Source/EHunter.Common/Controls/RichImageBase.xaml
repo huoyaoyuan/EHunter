@@ -4,7 +4,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    x:DefaultBindMode="OneWay">
     <UserControl.ContextFlyout>
         <MenuFlyout>
             <MenuFlyoutItem>
@@ -12,18 +13,18 @@
                     <StandardUICommand x:Name="copyCommand"
                                        Kind="Copy"
                                        CanExecuteRequested="CanCopyRequested"
-                                       ExecuteRequested="{x:Bind CopyRequested}" />
+                                       ExecuteRequested="{x:Bind _bindingHelper.Holder.Copy}" />
                 </MenuFlyoutItem.Command>
             </MenuFlyoutItem>
-            <MenuFlyoutItem Text="Refresh" Icon="Refresh" Click="{x:Bind RefreshImage}" />
+            <MenuFlyoutItem Text="Refresh" Icon="Refresh" Click="{x:Bind _bindingHelper.Holder.Refresh}" />
         </MenuFlyout>
     </UserControl.ContextFlyout>
     <Grid Background="Transparent">
-        <Image x:Name="image"
+        <Image Source="{x:Bind _bindingHelper.Holder.Source, FallbackValue={x:Null}}"
                HorizontalAlignment="Stretch"
                VerticalAlignment="Stretch" />
         <ProgressRing
-            x:Name="loadingProgress"
+            IsActive="{x:Bind _bindingHelper.Holder.IsLoading, FallbackValue=False}"
             HorizontalAlignment="Center"
             VerticalAlignment="Center" />
     </Grid>

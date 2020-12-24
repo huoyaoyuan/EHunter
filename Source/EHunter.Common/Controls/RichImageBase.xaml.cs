@@ -1,5 +1,6 @@
 ﻿using System;
 using EHunter.Services.ImageCaching;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -19,64 +20,104 @@ namespace EHunter.Controls
         protected RichImageBase() => InitializeComponent();
 
         private readonly ImageCacheService _imageCache = Ioc.Default.GetRequiredService<ImageCacheService>();
-        private ImageRequest? _currentRequest;
-        private ImageEntry? _currentEntry;
-
-        protected async void SetImageEntry(ImageRequest? request, bool refreshMemoryCache = false)
+        protected void SetImageEntry(ImageRequest? request)
         {
-            _currentRequest = request;
-            _currentEntry = null;
-
-            if (request is null)
-            {
-                image.Source = null;
-                loadingProgress.IsActive = false;
-                copyCommand.NotifyCanExecuteChanged();
-                return;
-            }
-
-            var bitmap = new BitmapImage();
-            image.Source = bitmap;
-            loadingProgress.IsActive = true;
-            copyCommand.NotifyCanExecuteChanged();
-
-            try
-            {
-                var entry = await _imageCache.GetImageAsync(request, refreshMemoryCache).ConfigureAwait(true);
-
-                var stream = entry.GetWinRTStream();
-
-                if (image.Source == bitmap)
-                {
-                    _currentEntry = entry;
-                    loadingProgress.IsActive = false;
-                    copyCommand.NotifyCanExecuteChanged();
-
-                    await bitmap.SetSourceAsync(stream);
-                }
-            }
-            catch
-            {
-                if (image.Source == bitmap)
-                    loadingProgress.IsActive = false;
-            }
-        }
-
-        private void RefreshImage() => SetImageEntry(_currentRequest, true);
-
-        private void CopyRequested()
-        {
-            if (_currentEntry is null)
-                return;
-
-            var dataPackage = new DataPackage();
-            var stream = _currentEntry.GetWinRTStream();
-            dataPackage.SetBitmap(RandomAccessStreamReference.CreateFromStream(stream));
-            dataPackage.RequestedOperation = DataPackageOperation.Copy;
-            Clipboard.SetContent(dataPackage);
+            _bindingHelper.Holder = request is null
+                ? null
+                : new(request, _imageCache, copyCommand);
         }
 
         private void CanCopyRequested(XamlUICommand sender, CanExecuteRequestedEventArgs args)
-            => args.CanExecute = _currentEntry is not null;
+            => args.CanExecute = _bindingHelper.Holder?.CanCopy ?? false;
+
+        private readonly BindingHelper _bindingHelper = new();
+
+        private class BindingHelper : ObservableObject
+        {
+            private ImageResultHolder? _holder;
+            public ImageResultHolder? Holder
+            {
+                get => _holder;
+                set => SetProperty(ref _holder, value);
+            }
+        }
+        private class ImageResultHolder : ObservableObject
+        {
+            private readonly ImageRequest _request;
+            private readonly ImageCacheService _service;
+            private readonly XamlUICommand _uiCommand;
+            private ImageEntry? _imageEntry;
+
+            public ImageResultHolder(ImageRequest request, ImageCacheService service, XamlUICommand uiCommand)
+            {
+                _request = request;
+                _service = service;
+                _uiCommand = uiCommand;
+                LoadAsync(false);
+            }
+
+            public async void LoadAsync(bool refresh)
+            {
+                _imageEntry = null;
+                _uiCommand.NotifyCanExecuteChanged();
+
+                IsLoading = true;
+                LoadFailed = false;
+                Source = null;
+
+                try
+                {
+                    _imageEntry = await _service.GetImageAsync(_request, refresh).ConfigureAwait(true);
+                }
+                catch
+                {
+                    IsLoading = false;
+                    LoadFailed = true;
+                    return;
+                }
+                Source = new();
+                await Source.SetSourceAsync(_imageEntry.GetWinRTStream());
+                IsLoading = false;
+                _uiCommand.NotifyCanExecuteChanged();
+            }
+
+            public void Refresh() => LoadAsync(true);
+
+            private BitmapImage? _source;
+            public BitmapImage? Source
+            {
+                get => _source;
+                private set => SetProperty(ref _source, value);
+            }
+
+            private bool _loadFailed;
+            public bool LoadFailed
+            {
+                get => _loadFailed;
+                private set => SetProperty(ref _loadFailed, value);
+            }
+
+            private bool _isLoading;
+            public bool IsLoading
+            {
+                get => _isLoading;
+                private set => SetProperty(ref _isLoading, value);
+            }
+
+            public bool CanCopy => !IsLoading && !LoadFailed;
+
+            public void Copy()
+            {
+                if (_imageEntry is null)
+                    return;
+
+                var dataPackage = new DataPackage();
+                var stream = _imageEntry.GetWinRTStream();
+                dataPackage.SetBitmap(RandomAccessStreamReference.CreateFromStream(stream));
+                dataPackage.RequestedOperation = DataPackageOperation.Copy;
+                Clipboard.SetContent(dataPackage);
+            }
+        }
     }
+
 }
