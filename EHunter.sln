@@ -20,7 +20,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Common", "Source\EH
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Provider.Pixiv", "Source\EHunter.Provider.Pixiv\EHunter.Provider.Pixiv.csproj", "{3EB34FF6-E670-49E7-A0FA-97BB6D73E6B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHunter.Data", "Source\EHunter.Data\EHunter.Data.csproj", "{D40AD126-44EB-4D1F-9100-C26328704143}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Data", "Source\EHunter.Data\EHunter.Data.csproj", "{D40AD126-44EB-4D1F-9100-C26328704143}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Data.Test", "Source\EHunter.Data.Test\EHunter.Data.Test.csproj", "{3D777D9C-313C-42D2-9AFA-7597712A193C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHunter.Data.Pixiv", "Source\EHunter.Data.Pixiv\EHunter.Data.Pixiv.csproj", "{18DF676F-DAF9-4AA4-84FB-16D659435F95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -98,6 +102,30 @@ Global
 		{D40AD126-44EB-4D1F-9100-C26328704143}.Release|x64.Build.0 = Release|Any CPU
 		{D40AD126-44EB-4D1F-9100-C26328704143}.Release|x86.ActiveCfg = Release|Any CPU
 		{D40AD126-44EB-4D1F-9100-C26328704143}.Release|x86.Build.0 = Release|Any CPU
+		{3D777D9C-313C-42D2-9AFA-7597712A193C}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{3D777D9C-313C-42D2-9AFA-7597712A193C}.Debug|arm64.Build.0 = Debug|Any CPU
+		{3D777D9C-313C-42D2-9AFA-7597712A193C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3D777D9C-313C-42D2-9AFA-7597712A193C}.Debug|x64.Build.0 = Debug|Any CPU
+		{3D777D9C-313C-42D2-9AFA-7597712A193C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3D777D9C-313C-42D2-9AFA-7597712A193C}.Debug|x86.Build.0 = Debug|Any CPU
+		{3D777D9C-313C-42D2-9AFA-7597712A193C}.Release|arm64.ActiveCfg = Release|Any CPU
+		{3D777D9C-313C-42D2-9AFA-7597712A193C}.Release|arm64.Build.0 = Release|Any CPU
+		{3D777D9C-313C-42D2-9AFA-7597712A193C}.Release|x64.ActiveCfg = Release|Any CPU
+		{3D777D9C-313C-42D2-9AFA-7597712A193C}.Release|x64.Build.0 = Release|Any CPU
+		{3D777D9C-313C-42D2-9AFA-7597712A193C}.Release|x86.ActiveCfg = Release|Any CPU
+		{3D777D9C-313C-42D2-9AFA-7597712A193C}.Release|x86.Build.0 = Release|Any CPU
+		{18DF676F-DAF9-4AA4-84FB-16D659435F95}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{18DF676F-DAF9-4AA4-84FB-16D659435F95}.Debug|arm64.Build.0 = Debug|Any CPU
+		{18DF676F-DAF9-4AA4-84FB-16D659435F95}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{18DF676F-DAF9-4AA4-84FB-16D659435F95}.Debug|x64.Build.0 = Debug|Any CPU
+		{18DF676F-DAF9-4AA4-84FB-16D659435F95}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{18DF676F-DAF9-4AA4-84FB-16D659435F95}.Debug|x86.Build.0 = Debug|Any CPU
+		{18DF676F-DAF9-4AA4-84FB-16D659435F95}.Release|arm64.ActiveCfg = Release|Any CPU
+		{18DF676F-DAF9-4AA4-84FB-16D659435F95}.Release|arm64.Build.0 = Release|Any CPU
+		{18DF676F-DAF9-4AA4-84FB-16D659435F95}.Release|x64.ActiveCfg = Release|Any CPU
+		{18DF676F-DAF9-4AA4-84FB-16D659435F95}.Release|x64.Build.0 = Release|Any CPU
+		{18DF676F-DAF9-4AA4-84FB-16D659435F95}.Release|x86.ActiveCfg = Release|Any CPU
+		{18DF676F-DAF9-4AA4-84FB-16D659435F95}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
