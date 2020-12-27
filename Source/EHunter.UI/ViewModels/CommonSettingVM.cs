@@ -8,9 +8,9 @@ namespace EHunter.UI.ViewModels
 {
     public class CommonSettingVM : ObservableObject
     {
-        private readonly CommonSetting2 _commonSetting;
+        private readonly CommonSetting _commonSetting;
 
-        public CommonSettingVM(ICommonSettingStore settingStore, CommonSetting2 commonSetting)
+        public CommonSettingVM(ICommonSettingStore settingStore, CommonSetting commonSetting)
         {
             _storageRoot = settingStore.StorageRoot;
             _proxyAddress = settingStore.ProxyAddress;

@@ -10,9 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EHunter.UI.Models
 {
-    public class CommonSetting2 : IStorageSetting, IProxySetting, IDatabaseSetting
+    public class CommonSetting : IStorageSetting, IProxySetting, IDatabaseSetting
     {
-        public CommonSetting2(ICommonSettingStore settingStore)
+        public CommonSetting(ICommonSettingStore settingStore)
         {
             _settingStore = settingStore;
 
@@ -87,9 +87,9 @@ namespace EHunter.UI.Models
     {
         public static IServiceCollection AddCommonSettings(this IServiceCollection serviceCollection)
             => serviceCollection
-                .AddSingleton<CommonSetting2>()
-                .AddConversion<IStorageSetting, CommonSetting2>()
-                .AddConversion<IProxySetting, CommonSetting2>()
-                .AddConversion<IDatabaseSetting, CommonSetting2>();
+                .AddSingleton<CommonSetting>()
+                .AddConversion<IStorageSetting, CommonSetting>()
+                .AddConversion<IProxySetting, CommonSetting>()
+                .AddConversion<IDatabaseSetting, CommonSetting>();
     }
 }
