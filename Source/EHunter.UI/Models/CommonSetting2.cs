@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EHunter.UI.Models
 {
-    internal class CommonSetting2 : IStorageSetting, IProxySetting, IDatabaseSetting
+    public class CommonSetting2 : IStorageSetting, IProxySetting, IDatabaseSetting
     {
         public CommonSetting2(ICommonSettingStore settingStore)
         {
