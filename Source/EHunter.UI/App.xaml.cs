@@ -35,6 +35,7 @@ namespace EHunter.UI
 
             var services = new ServiceCollection()
                 .AddSingleton<ICommonSettingStore, CommonSettingStore>()
+                .AddCommonSettings()
                 .AddSingleton<ICommonSetting, CommonSetting>()
                 .ConfigurePixiv()
                 .AddMemoryCache(o =>
