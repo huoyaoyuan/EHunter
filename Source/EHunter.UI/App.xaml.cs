@@ -31,14 +31,12 @@ namespace EHunter.UI
         public App()
         {
             var settings = ApplicationData.Current.LocalSettings;
-            string? connectionString = (string?)settings.Values[nameof(ICommonSetting.DbConnectionString)];
-            string? storageRoot = (string?)settings.Values[nameof(ICommonSetting.StorageRoot)];
+            string? connectionString = (string?)settings.Values[nameof(CommonSettingStore.DbConnectionString)];
 
             var services = new ServiceCollection()
                 .AddSingleton<ICommonSettingStore, CommonSettingStore>()
                 .AddCommonSettings()
                 .AddTransient<CommonSettingVM>()
-                .AddSingleton<ICommonSetting, CommonSetting>()
                 .ConfigurePixiv()
                 .AddMemoryCache(o =>
                 {
