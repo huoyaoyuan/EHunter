@@ -1,4 +1,5 @@
 ﻿using EHunter.Data;
+using EHunter.Data.Pixiv;
 using EHunter.Provider.Pixiv;
 using EHunter.Settings;
 using EHunter.UI.Views;
@@ -44,8 +45,9 @@ namespace EHunter.UI
             {
                 // If the mdf file does not exist, Database= is required when using AttachDbFileName
                 services.AddPooledDbContextFactory<EHunterDbContext>(
-                    o => o.UseSqlServer(connectionString,
-                        sql => sql.UseHierarchyId()));
+                    o => o.UseSqlServer(connectionString));
+                services.AddPooledDbContextFactory<PixivDbContext>(
+                    o => o.UseSqlServer(connectionString));
             }
 
             Ioc.Default.ConfigureServices(services.BuildServiceProvider());
