@@ -2,6 +2,7 @@
 using EHunter.Data.Pixiv;
 using EHunter.Provider.Pixiv;
 using EHunter.Settings;
+using EHunter.UI.Models;
 using EHunter.UI.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +34,7 @@ namespace EHunter.UI
             string? storageRoot = (string?)settings.Values[nameof(ICommonSetting.StorageRoot)];
 
             var services = new ServiceCollection()
+                .AddSingleton<ICommonSettingStore, CommonSettingStore>()
                 .AddSingleton<ICommonSetting, CommonSetting>()
                 .ConfigurePixiv()
                 .AddMemoryCache(o =>
