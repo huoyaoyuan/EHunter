@@ -31,8 +31,8 @@ namespace EHunter.UI.Models
             try
             {
                 newValue = string.IsNullOrEmpty(storageRoot)
-                    ? new DirectoryInfo(storageRoot)
-                    : null;
+                    ? null
+                    : new DirectoryInfo(storageRoot);
             }
             catch
             {
