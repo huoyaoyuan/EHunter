@@ -18,20 +18,21 @@ namespace EHunter.Provider.Pixiv.ViewModels
 #pragma warning restore CA1067 // 在实现 IEquatable<T> 时替代 Object.Equals(object)
     {
         private readonly ApplicationDataContainer _applicationSetting;
-        private readonly ICommonSetting _commonSetting;
+        private readonly IProxySetting _proxySetting;
         private readonly ILogger<PixivSettings>? _logger;
+        private readonly IDisposable _proxySettingDisposable;
 
-        public PixivSettings(ICommonSetting commonSetting, ILogger<PixivSettings>? logger = null)
+        public PixivSettings(IProxySetting proxySetting, ILogger<PixivSettings>? logger = null)
         {
             _applicationSetting = ApplicationData.Current.LocalSettings.CreateContainer("Pixiv", ApplicationDataCreateDisposition.Always);
 
 #pragma warning disable CA1508 // false positive
             _useProxy = (bool?)_applicationSetting.Values[nameof(UseProxy)] ?? false;
+            _proxySetting = proxySetting;
 #pragma warning restore CA1508 // false positive
-            _commonSetting = commonSetting;
             _logger = logger;
-            Client = new PixivClient(_useProxy ? _commonSetting.Proxy : null);
-            _commonSetting.ProxyUpdated += p => Client.SetProxy(_useProxy ? p : null);
+            Client = new PixivClient(_useProxy ? proxySetting.WebProxy : null);
+            _proxySettingDisposable = proxySetting.ProxyChanged.Subscribe(p => Client.SetProxy(_useProxy ? p : null));
 
             if (_applicationSetting.Values["RefreshToken"] is string refreshToken)
             {
@@ -53,7 +54,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
                 if (SetProperty(ref _useProxy, value))
                 {
                     _applicationSetting.Values[nameof(UseProxy)] = value;
-                    Client.SetProxy(_useProxy ? _commonSetting.Proxy : null);
+                    Client.SetProxy(_useProxy ? _proxySetting.WebProxy : null);
                 }
             }
         }
@@ -62,7 +63,11 @@ namespace EHunter.Provider.Pixiv.ViewModels
 
         internal PixivClient Client { get; }
 
-        public void Dispose() => Client.Dispose();
+        public void Dispose()
+        {
+            _proxySettingDisposable.Dispose();
+            Client.Dispose();
+        }
 
         private bool _isLoggingIn;
         public bool IsLoggingIn

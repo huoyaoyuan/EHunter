@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using EHunter.Settings;
+using EHunter.UI.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -14,7 +14,7 @@ namespace EHunter.UI.Views
 {
     public sealed partial class SettingsPage : Page
     {
-        private readonly ICommonSetting _setting = Ioc.Default.GetRequiredService<ICommonSetting>();
+        private readonly CommonSettingVM _setting = Ioc.Default.GetRequiredService<CommonSettingVM>();
 
         public SettingsPage() => InitializeComponent();
 
@@ -39,7 +39,7 @@ namespace EHunter.UI.Views
 
             var folder = await picker.PickSingleFolderAsync();
             if (folder != null)
-                storageRoot.Text = folder.Path;
+                _setting.StorageRoot = folder.Path;
         }
 
         [ComImport, Guid("3E68D4BD-7135-4D10-8018-9FB6D9F33FA1"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
