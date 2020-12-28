@@ -13,51 +13,6 @@
         UseSystemFocusVisuals="False"
         VerticalScrollMode="Auto"
         VerticalScrollBarVisibility="Auto">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="AlreadyLogin">
-                    <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{x:Bind _setting.IsLogin}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="loginOption.Visibility" Value="Collapsed" />
-                        <Setter Target="userInfo.Visibility" Value="Visible" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="PasswordLogin">
-                    <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{x:Bind passwordLoginRadio.IsChecked.Value}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="passwordLogin.Visibility" Value="Visible" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="TokenLogin">
-                    <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{x:Bind tokenLoginRadio.IsChecked.Value}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="tokenLogin.Visibility" Value="Visible" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-            <VisualStateGroup>
-                <VisualState x:Name="LoggingIn">
-                    <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{x:Bind _setting.IsLoggingIn}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="loginProgress.IsActive" Value="True" />
-                        <Setter Target="loginOption.IsEnabled" Value="False" />
-                        <Setter Target="usernameBox.IsEnabled" Value="False" />
-                        <Setter Target="passwordBox.IsEnabled" Value="False" />
-                        <Setter Target="tokenBox.IsEnabled" Value="False" />
-                        <Setter Target="passwordLoginButton.IsEnabled" Value="False" />
-                        <Setter Target="tokenLoginButton.IsEnabled" Value="False" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
         <StackPanel Orientation="Vertical"
                     Margin="4" Spacing="4"
                     x:DefaultBindMode="TwoWay">
@@ -71,51 +26,14 @@
                 Style="{ThemeResource TitleTextBlockStyle}"
                 Margin="0,36,0,6"
                 x:Uid="AccountGroup" />
-            <RadioButtons
-                x:Name="loginOption"
-                x:Uid="LoginMode">
-                <RadioButton x:Name="passwordLoginRadio"
-                             x:Uid="LoginMode_Password"
-                             IsChecked="True" />
-                <RadioButton x:Name="tokenLoginRadio" Content="Refresh Token" />
-            </RadioButtons>
-            <StackPanel Orientation="Vertical"
-                        Spacing="4"
-                        x:Name="passwordLogin"
-                        Visibility="Collapsed">
-                <TextBox x:Uid="Username"
-                         x:Name="usernameBox"
-                         Text="{x:Bind _setting.Username}" />
-                <PasswordBox x:Uid="Password"
-                             x:Name="passwordBox"
-                             Password="{x:Bind _setting.Password}" />
-                <Button x:Uid="LoginButton"
-                        x:Name="passwordLoginButton"
-                        Click="{x:Bind _setting.LoginWithPassword}" />
-            </StackPanel>
-            <StackPanel Orientation="Vertical"
-                        Spacing="4"
-                        x:Name="tokenLogin"
-                        Visibility="Collapsed">
-                <PasswordBox Header="Token"
-                             x:Name="tokenBox"
-                             Password="{x:Bind _setting.RefreshToken}" />
-                <Button x:Uid="LoginButton"
-                        x:Name="tokenLoginButton"
-                        Click="{x:Bind _setting.LoginWithToken}" />
-            </StackPanel>
-            <ProgressRing x:Name="loginProgress"
-                          IsActive="False"
-                          HorizontalAlignment="Left" />
             <Grid x:Name="userInfo"
-                  Visibility="Collapsed"
                   x:DefaultBindMode="OneWay">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <controls:PixivImage ImageInfo="{x:Bind _setting.User.Avatar}" />
-                <TextBlock Grid.Column="1"  Text="{x:Bind _setting.User.Name}" />
+                <controls:PixivImage ImageInfo="{x:Bind _setting.Client.CurrentUser.Avatar}" />
+                <TextBlock Grid.Column="1"  Text="{x:Bind _setting.Client.CurrentUser.Name}" />
             </Grid>
         </StackPanel>
     </ScrollViewer>

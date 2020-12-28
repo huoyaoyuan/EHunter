@@ -5,11 +5,11 @@ using EHunter.ComponentModel;
 
 namespace EHunter.Provider.Pixiv.Models
 {
-    public class PixivSetting2
+    public class PixivSetting
     {
         private readonly PixivSettingStore _settingStore;
 
-        public PixivSetting2(PixivSettingStore settingStore)
+        public PixivSetting(PixivSettingStore settingStore)
         {
             _settingStore = settingStore;
             _useProxy = new ObservableProperty<bool>(_settingStore.UseProxy);

@@ -16,12 +16,12 @@ namespace EHunter.Provider.Pixiv.Services
         private readonly IProxySetting _proxySetting;
         private IDisposable? _proxySettingDisposable;
 
-        private readonly PixivSetting2 _pixivSetting;
+        private readonly PixivSetting _pixivSetting;
         private IDisposable? _pixivSettingDisposable;
 
         private readonly object _propertyLock = new();
 
-        public PixivClientService(IProxySetting proxySetting, PixivSetting2 pixivSetting)
+        public PixivClientService(IProxySetting proxySetting, PixivSetting pixivSetting)
         {
             _proxySetting = proxySetting;
             _pixivSetting = pixivSetting;

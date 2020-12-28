@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
+using EHunter.DependencyInjection;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Extensions.Logging;
@@ -16,21 +17,15 @@ namespace EHunter.Provider.Pixiv.ViewModels
     public class PixivRecentVM : ObservableObject
 #pragma warning restore CA1001 // 具有可释放字段的类型应该是可释放的
     {
-        private readonly PixivClient _client;
+        private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly ILogger<PixivRecentVM>? _logger;
 
-        public PixivRecentVM(PixivSettings settings, ILogger<PixivRecentVM>? logger = null)
+        public PixivRecentVM(ICustomResolver<PixivClient> clientResolver, ILogger<PixivRecentVM>? logger = null)
         {
-            _client = settings.Client;
-            ContinueLogin();
-
-            async void ContinueLogin()
-            {
-                await settings.InitialLoginTask.ConfigureAwait(true);
-                Refresh();
-            }
-
+            _clientResolver = clientResolver;
             _logger = logger;
+
+            Refresh();
         }
 
         public async void Refresh()
@@ -42,7 +37,9 @@ namespace EHunter.Provider.Pixiv.ViewModels
                 _lastCts = null;
             }
 
-            if (_client.IsLogin)
+            var client = _clientResolver.Resolve();
+
+            if (client.IsLogin)
             {
                 State = RecentPageState.InitialLoading;
                 var illusts = Illusts = new ObservableCollection<Illust>();
@@ -51,7 +48,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
                 try
                 {
                     TimeSpan currentOffset = DateTimeOffset.Now.Offset;
-                    var source = _client.GetMyFollowingIllustsAsync().Age(SelectedAge);
+                    var source = client.GetMyFollowingIllustsAsync().Age(SelectedAge);
 
 #pragma warning disable CA1508 // false positive
                     await foreach (var i in source.WithCancellation(cts.Token).ConfigureAwait(true))
