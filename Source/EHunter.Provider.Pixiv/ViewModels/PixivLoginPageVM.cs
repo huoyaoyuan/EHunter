@@ -13,12 +13,12 @@ namespace EHunter.Provider.Pixiv.ViewModels
     public class PixivLoginPageVM : ObservableObject
     {
         private readonly PixivSettingStore _settingStore;
-        private readonly PixivSetting2 _setting;
+        private readonly PixivSetting _setting;
         private readonly PixivClientService _clientService;
 
         public PixivLoginPageVM(
             PixivSettingStore settingStore,
-            PixivSetting2 setting,
+            PixivSetting setting,
             PixivClientService clientService,
             DatabaseAccessor databaseAccessor)
         {

@@ -9,9 +9,9 @@ namespace EHunter.Provider.Pixiv.ViewModels
 {
     public class PixivSettingsVM : ObservableObject
     {
-        private readonly PixivSetting2 _settings;
+        private readonly PixivSetting _settings;
 
-        public PixivSettingsVM(PixivSetting2 settings, ICustomResolver<PixivClient> clientResolver)
+        public PixivSettingsVM(PixivSetting settings, ICustomResolver<PixivClient> clientResolver)
         {
             _settings = settings;
 

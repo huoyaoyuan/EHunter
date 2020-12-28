@@ -12,9 +12,8 @@ namespace EHunter.Provider.Pixiv
     {
         public static IServiceCollection ConfigurePixiv(this IServiceCollection services)
             => services
-            .AddSingleton<PixivSettings>()
             .AddSingleton<PixivSettingStore>()
-            .AddSingleton<PixivSetting2>()
+            .AddSingleton<PixivSetting>()
             .AddSingleton<PixivClientService>()
             .AddConversion<ICustomResolver<PixivClient>, PixivClientService>()
             .AddTransient<PixivLoginPageVM>()
