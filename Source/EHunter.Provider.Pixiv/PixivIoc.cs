@@ -12,17 +12,21 @@ namespace EHunter.Provider.Pixiv
     {
         public static IServiceCollection ConfigurePixiv(this IServiceCollection services)
             => services
+            .ConfigureViewModels()
             .AddSingleton<PixivSettingStore>()
             .AddSingleton<PixivSetting>()
             .AddSingleton<PixivClientService>()
             .AddConversion<ICustomResolver<PixivClient>, PixivClientService>()
+            .AddSingleton<ImageCacheService>()
+            .AddSingleton<DatabaseAccessor>();
+
+        private static IServiceCollection ConfigureViewModels(this IServiceCollection services)
+            => services
             .AddTransient<PixivLoginPageVM>()
             .AddTransient<PixivRecentVM>()
             .AddTransient<UserVMFactory>()
             .AddTransient<OpenedIllustsVM>()
-            .AddSingleton<ImageCacheService>()
             .AddTransient<IllustSearchPageVM>()
-            .AddTransient<PixivSettingsVM>()
-            .AddSingleton<DatabaseAccessor>();
+            .AddTransient<PixivSettingsVM>();
     }
 }
