@@ -1,8 +1,5 @@
-﻿using System;
-using EHunter.Provider.Pixiv.Messages;
-using EHunter.Provider.Pixiv.ViewModels;
+﻿using EHunter.Provider.Pixiv.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -15,27 +12,8 @@ namespace EHunter.Provider.Pixiv.Views
     /// </summary>
     public sealed partial class PixivSettingsPage : Page
     {
-        private readonly PixivSettings _setting = Ioc.Default.GetRequiredService<PixivSettings>();
+        private readonly PixivSettingsVM _setting = Ioc.Default.GetRequiredService<PixivSettingsVM>();
 
-        public PixivSettingsPage()
-        {
-            InitializeComponent();
-
-            Loaded += (s, e) => WeakReferenceMessenger.Default.Register<LoginFailedMessage, PixivSettings>(this,
-                _setting,
-                async (o, m) =>
-                {
-                    var dialog = new ContentDialog
-                    {
-                        Title = "Login Failed",
-                        Content = m.Exception.Message,
-                        XamlRoot = XamlRoot,
-                        CloseButtonText = "OK"
-                    };
-                    await dialog.ShowAsync();
-                });
-
-            Unloaded += (s, e) => WeakReferenceMessenger.Default.UnregisterAll(this, _setting);
-        }
+        public PixivSettingsPage() => InitializeComponent();
     }
 }

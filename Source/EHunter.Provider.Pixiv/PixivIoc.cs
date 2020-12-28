@@ -23,6 +23,7 @@ namespace EHunter.Provider.Pixiv
             .AddTransient<OpenedIllustsVM>()
             .AddSingleton<ImageCacheService>()
             .AddTransient<IllustSearchPageVM>()
+            .AddTransient<PixivSettingsVM>()
             .AddSingleton<DatabaseAccessor>();
     }
 }
