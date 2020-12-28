@@ -5,6 +5,8 @@ using EHunter.Provider.Pixiv.Models;
 using EHunter.Settings;
 using Meowtrix.PixivApi;
 
+#nullable enable
+
 namespace EHunter.Provider.Pixiv.Services
 {
     public sealed class PixivClientService : ICustomResolver<PixivClient>, IDisposable
