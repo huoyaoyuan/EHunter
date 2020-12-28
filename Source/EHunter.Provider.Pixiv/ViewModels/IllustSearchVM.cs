@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using EHunter.ComponentModel;
+using EHunter.DependencyInjection;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -159,7 +160,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
 
             var query = Tag != null
                 ? Tag.GetIllustsAsync(options)
-                : _parent.PixivClient.SearchIllustsAsync(SearchWord, SearchTarget.Value, options);
+                : _parent.ClientResolver.Resolve().SearchIllustsAsync(SearchWord, SearchTarget.Value, options);
 
             Illusts = new(query.Age(SelectedAge.Value));
         }
@@ -167,9 +168,9 @@ namespace EHunter.Provider.Pixiv.ViewModels
 
     public class IllustSearchPageVM : ObservableObject
     {
-        internal readonly PixivClient PixivClient;
+        internal readonly ICustomResolver<PixivClient> ClientResolver;
 
-        public IllustSearchPageVM(PixivSettings settings) => PixivClient = settings.Client;
+        public IllustSearchPageVM(ICustomResolver<PixivClient> clientResolver) => ClientResolver = clientResolver;
 
         public ObservableCollection<IllustSearchVM> Tabs { get; } = new();
 

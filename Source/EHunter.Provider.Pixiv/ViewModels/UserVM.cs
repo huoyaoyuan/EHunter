@@ -1,5 +1,6 @@
 ﻿using System;
 using EHunter.ComponentModel;
+using EHunter.DependencyInjection;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -136,11 +137,11 @@ namespace EHunter.Provider.Pixiv.ViewModels
 
     public class UserVMFactory
     {
-        private readonly PixivSettings _settings;
+        private readonly ICustomResolver<PixivClient> _clientResolver;
 
-        public UserVMFactory(PixivSettings settings) => _settings = settings;
+        public UserVMFactory(ICustomResolver<PixivClient> clientResolver) => _clientResolver = clientResolver;
 
-        public UserVM Create() => new(_settings.Client);
-        public UserVM Create(UserInfo userInfo) => new(userInfo, _settings.Client);
+        public UserVM Create() => new(_clientResolver.Resolve());
+        public UserVM Create(UserInfo userInfo) => new(userInfo, _clientResolver.Resolve());
     }
 }

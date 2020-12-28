@@ -18,11 +18,11 @@ namespace EHunter.Provider.Pixiv
             .AddSingleton<PixivClientService>()
             .AddConversion<ICustomResolver<PixivClient>, PixivClientService>()
             .AddTransient<PixivLoginPageVM>()
-            .AddSingleton<PixivRecentVM>()
-            .AddSingleton<UserVMFactory>()
-            .AddSingleton<OpenedIllustsVM>()
+            .AddTransient<PixivRecentVM>()
+            .AddTransient<UserVMFactory>()
+            .AddTransient<OpenedIllustsVM>()
             .AddSingleton<ImageCacheService>()
-            .AddSingleton<IllustSearchPageVM>()
+            .AddTransient<IllustSearchPageVM>()
             .AddSingleton<DatabaseAccessor>();
     }
 }

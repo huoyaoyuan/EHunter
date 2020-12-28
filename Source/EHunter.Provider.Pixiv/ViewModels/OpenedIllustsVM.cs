@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using EHunter.DependencyInjection;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -10,10 +11,10 @@ namespace EHunter.Provider.Pixiv.ViewModels
 {
     public class OpenedIllustsVM : ObservableObject
     {
-        private readonly PixivClient _client;
+        private readonly ICustomResolver<PixivClient> _clientResolver;
 
-        public OpenedIllustsVM(PixivSettings settings)
-            => _client = settings.Client;
+        public OpenedIllustsVM(ICustomResolver<PixivClient> clientResolver)
+            => _clientResolver = clientResolver;
 
         public ObservableCollection<IllustHolderVM> Illusts { get; } = new();
 
@@ -45,7 +46,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
 
             IdToOpenText = string.Empty;
 
-            var illust = new IllustHolderVM(id, _client.GetIllustDetailAsync(id));
+            var illust = new IllustHolderVM(id, _clientResolver.Resolve().GetIllustDetailAsync(id));
             Illusts.Add(illust);
             SelectedIllust = illust;
         }
