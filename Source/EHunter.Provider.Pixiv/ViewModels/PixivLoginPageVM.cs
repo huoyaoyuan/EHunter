@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using EHunter.Provider.Pixiv.Messages;
 using EHunter.Provider.Pixiv.Models;
 using EHunter.Provider.Pixiv.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 #nullable enable
 
@@ -101,9 +104,9 @@ namespace EHunter.Provider.Pixiv.ViewModels
                 _settingStore.RefreshToken = refreshToken;
                 IsLoggedin = true;
             }
-            catch
+            catch (Exception ex)
             {
-                // login failed message
+                WeakReferenceMessenger.Default.Send(new LoginFailedMessage(ex));
             }
 
             IsLoggingIn = false;
@@ -121,7 +124,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
         {
             if (IsLoggedin && DatabaseInitState != null)
             {
-                // jump to next page
+                WeakReferenceMessenger.Default.Send(new InitializationCompleteMessage());
             }
         }
     }
