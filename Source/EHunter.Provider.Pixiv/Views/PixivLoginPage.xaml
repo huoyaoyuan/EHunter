@@ -97,7 +97,20 @@
         <StackPanel VerticalAlignment="Center"
                     Orientation="Vertical"
                     Margin="4" Spacing="4"
+                    x:Name="loginPanel"
                     x:DefaultBindMode="TwoWay">
+            
+            <FlyoutBase.AttachedFlyout>
+                <Flyout>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock
+                                Text="Login Failed"
+                                Style="{ThemeResource TitleTextBlockStyle}" />
+                        <TextBlock x:Name="loginFailedMessage" />
+                    </StackPanel>
+                </Flyout>
+            </FlyoutBase.AttachedFlyout>
+            
             <ToggleSwitch x:Uid="UseProxy" IsOn="{x:Bind _vm.UseProxy}" />
 
             <RadioButtons

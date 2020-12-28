@@ -1,6 +1,9 @@
-﻿using EHunter.Provider.Pixiv.ViewModels;
+﻿using EHunter.Provider.Pixiv.Messages;
+using EHunter.Provider.Pixiv.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -16,6 +19,17 @@ namespace EHunter.Provider.Pixiv.Views
     {
         private readonly PixivLoginPageVM _vm = Ioc.Default.GetRequiredService<PixivLoginPageVM>();
 
-        public PixivLoginPage() => InitializeComponent();
+        public PixivLoginPage()
+        {
+            InitializeComponent();
+
+            Loaded += (s, e) => WeakReferenceMessenger.Default.Register<PixivLoginPage, LoginFailedMessage>(
+                this, static (self, m) =>
+                {
+                    self.loginFailedMessage.Text = m.Exception.Message;
+                    FlyoutBase.ShowAttachedFlyout(self.loginPanel);
+                });
+            Unloaded += (s, e) => WeakReferenceMessenger.Default.UnregisterAll(this);
+        }
     }
 }
