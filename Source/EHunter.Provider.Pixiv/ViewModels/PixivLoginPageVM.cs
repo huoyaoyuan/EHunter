@@ -38,7 +38,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
             InitDatabase();
             async void InitDatabase()
             {
-                var factory = await databaseAccessor.FactoryTask.ConfigureAwait(false);
+                var factory = await databaseAccessor.FactoryTask.ConfigureAwait(true);
                 DatabaseInitState = factory is not null;
                 CheckInitialize();
             }

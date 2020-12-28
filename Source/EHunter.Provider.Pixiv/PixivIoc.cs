@@ -17,6 +17,7 @@ namespace EHunter.Provider.Pixiv
             .AddSingleton<PixivSetting2>()
             .AddSingleton<PixivClientService>()
             .AddConversion<ICustomResolver<PixivClient>, PixivClientService>()
+            .AddTransient<PixivLoginPageVM>()
             .AddSingleton<PixivRecentVM>()
             .AddSingleton<UserVMFactory>()
             .AddSingleton<OpenedIllustsVM>()
