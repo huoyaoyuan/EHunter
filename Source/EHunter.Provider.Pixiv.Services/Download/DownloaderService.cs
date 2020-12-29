@@ -141,7 +141,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
             });
             await pContext.SaveChangesAsync().ConfigureAwait(false);
             return illust.IsAnimated
-                ? throw new NotImplementedException()
+                ? new AnimatedDownloadTask(illust, storageRoot, eFactory, pFactory)
                 : new NonAnimatedDownloadTask(illust, storageRoot, eFactory, pFactory);
         }
     }
