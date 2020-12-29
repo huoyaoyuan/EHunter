@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -6,6 +8,8 @@ namespace EHunter.Data.Pixiv
 {
     public class PixivDbContext : DbContext
     {
+        public DbSet<PendingDownload> PixivPendingDownloads => Set<PendingDownload>();
+
         public PixivDbContext(DbContextOptions<PixivDbContext> options)
             : base(options)
         {
@@ -28,5 +32,14 @@ namespace EHunter.Data.Pixiv
             Database.UseTransaction(transaction.GetDbTransaction());
             return transaction;
         }
+    }
+
+    public class PendingDownload
+    {
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int ArtworkId { get; set; }
+        public DateTimeOffset Time { get; set; }
+        [ConcurrencyCheck]
+        public int PId { get; set; }
     }
 }

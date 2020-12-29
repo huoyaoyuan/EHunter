@@ -13,12 +13,12 @@
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls" Version="8.0.0-preview3" />
     <PackageReference Include="Microsoft.VCRTForwarders.140" Version="1.0.7" />
     <PackageReference Include="Microsoft.WinUI" Version="3.0.0-preview3.201113.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EHunter.Common\EHunter.Common.csproj" />
     <ProjectReference Include="..\EHunter.Data.Pixiv\EHunter.Data.Pixiv.csproj" />
+    <ProjectReference Include="..\EHunter.Provider.Pixiv.Services\EHunter.Provider.Pixiv.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

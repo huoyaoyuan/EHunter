@@ -1,4 +1,8 @@
-﻿namespace EHunter.Data.Test
+﻿using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+
+namespace EHunter.Data.Test
 {
     internal class Program
     {
@@ -6,6 +10,10 @@
         {
             var factory = new EHunterDbContextFactory();
             using var dbContext = factory.CreateDbContext(args);
+            var query = dbContext.Set<GalleryTag>().Select(x => new { x.TagScopeName, x.TagName })
+                .Concat(dbContext.Set<ImageTag>().Select(x => new { x.TagScopeName, x.TagName }))
+                .Distinct();
+            Console.WriteLine(query.ToQueryString());
         }
     }
 }
