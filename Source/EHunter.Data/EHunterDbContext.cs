@@ -4,15 +4,14 @@ namespace EHunter.Data
 {
     public class EHunterDbContext : DbContext
     {
-        public EHunterDbContext(DbContextOptions options)
+        public EHunterDbContext(DbContextOptions<EHunterDbContext> options)
             : base(options)
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) => BuildModelCore(modelBuilder, false);
-
-        protected static void BuildModelCore(ModelBuilder modelBuilder, bool inherited = true)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
         }
     }
 }
