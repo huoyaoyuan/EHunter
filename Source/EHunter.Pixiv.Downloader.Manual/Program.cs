@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -8,6 +10,7 @@ using EHunter.DependencyInjection;
 using EHunter.Pixiv.Downloader.Manual;
 using EHunter.Provider.Pixiv.Services.Download;
 using Meowtrix.PixivApi;
+using Meowtrix.PixivApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -46,17 +49,79 @@ var downloadService = new DownloaderService(
     pFactory.AsServiceResolver(),
     storageSetting);
 
-Console.Write("Download by id?:");
-if (int.TryParse(Console.ReadLine(), out int id))
 {
-    var task = await downloadService.CreateDownloadTaskAsync(id);
-    var tcs = new TaskCompletionSource();
-    task.Progress
-        .Subscribe(
-            p => Console.WriteLine($"Progress: {p:P}"),
-            ex => tcs.SetException(ex),
-            () => tcs.SetResult());
-    task.Start();
-    await tcs.Task;
-    return;
+    Console.Write("Download by id?:");
+    if (int.TryParse(Console.ReadLine(), out int id))
+    {
+        var task = await downloadService.CreateDownloadTaskAsync(id);
+        var tcs = new TaskCompletionSource();
+        task.Progress
+            .Subscribe(
+                p => Console.WriteLine($"Progress: {p:P}"),
+                ex => tcs.SetException(ex),
+                () => tcs.SetResult());
+        task.Start();
+        await tcs.Task;
+        return;
+    }
+}
+
+Console.Write("Seed folder:");
+var folder = new DirectoryInfo(Console.ReadLine()!);
+
+var skipped = new List<int>();
+
+foreach (var f in folder.EnumerateFiles("*", SearchOption.AllDirectories))
+{
+    if (!int.TryParse(f.Name.Split('_')[0], out int id))
+        continue;
+
+    if (await downloadService.CanDownloadAsync(id) != true)
+    {
+        Console.WriteLine($"{id} already exists. Skipping.");
+        continue;
+    }
+
+
+    Illust i;
+    try
+    {
+        i = await pixivClient.GetIllustDetailAsync(id);
+        if (i.User.Id == 0)
+            throw new InvalidOperationException("Incomplete metadata.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Unable to get metadata for {id}. Skipping. ({ex.Message})");
+        skipped.Add(id);
+        continue;
+    }
+
+    try
+    {
+        Console.WriteLine($"Downloading {id} started.");
+
+        var task = await downloadService.CreateDownloadTaskAsync(i);
+        var tcs = new TaskCompletionSource();
+        task.Progress.Subscribe(_ => { }, ex => tcs.SetException(ex), () => tcs.SetResult());
+        task.Start(f.CreationTimeUtc.ToLocalTime());
+        await tcs.Task;
+
+        Console.WriteLine($"Downloading {id} complete.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Downloading {id} failed: {ex.Message}.");
+        continue;
+    }
+}
+
+if (skipped.Count > 0)
+{
+    var oldColor = Console.ForegroundColor;
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("Skipped images:");
+    foreach (int i in skipped)
+        Console.WriteLine(i);
+    Console.ForegroundColor = oldColor;
 }

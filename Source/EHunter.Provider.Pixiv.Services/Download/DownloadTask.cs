@@ -31,7 +31,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
             _pFactory = pFactory;
         }
 
-        public async void Start()
+        public async void Start(DateTimeOffset? favoratedTime = null)
         {
             await Task.Yield();
 
@@ -44,7 +44,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 var post = new Post
                 {
                     PublishedTime = Illust.Created,
-                    FavoritedTime = DateTimeOffset.Now,
+                    FavoritedTime = favoratedTime ?? DateTimeOffset.Now,
                     Title = Illust.Title,
                     DetailText = Illust.Description,
                     Url = new Uri($"https://www.pixiv.net/artworks/{Illust.Id}"),
@@ -63,7 +63,9 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
                 using var eContext = _eFactory.CreateDbContext();
                 using var pContext = _pFactory.CreateDbContext();
-                using var transaction = pContext.UseTransactionWith(eContext);
+
+                // Has issue with DbContext factory
+                // using var transaction = pContext.UseTransactionWith(eContext);
 
                 var tags = await tagsInfo
                     .ToAsyncEnumerable()
@@ -90,7 +92,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
                 await eContext.SaveChangesAsync().ConfigureAwait(false);
 
-                await transaction.CommitAsync().ConfigureAwait(false);
+                // await transaction.CommitAsync().ConfigureAwait(false);
 
                 ProgressObservable.Complete();
             }
