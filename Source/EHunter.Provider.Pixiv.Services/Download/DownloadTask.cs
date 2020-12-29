@@ -12,21 +12,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EHunter.Provider.Pixiv.Services.Download
 {
-    public class DownloadTask
+    public abstract class DownloadTask
     {
         public Illust Illust { get; }
 
-        private readonly DirectoryInfo _storageRoot;
+        private protected readonly DirectoryInfo StorageRoot;
         private readonly IDbContextFactory<EHunterDbContext> _eFactory;
         private readonly IDbContextFactory<PixivDbContext> _pFactory;
 
-        public DownloadTask(Illust illust,
+        private protected DownloadTask(Illust illust,
             DirectoryInfo storageRoot,
             IDbContextFactory<EHunterDbContext> eFactory,
             IDbContextFactory<PixivDbContext> pFactory)
         {
             Illust = illust;
-            _storageRoot = storageRoot;
+            StorageRoot = storageRoot;
             _eFactory = eFactory;
             _pFactory = pFactory;
         }
@@ -51,51 +51,13 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 };
 
                 string directoryPart = Path.Combine("Pixiv", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo));
-                string directory = Path.Combine(_storageRoot.FullName, directoryPart);
+                string directory = Path.Combine(StorageRoot.FullName, directoryPart);
                 Directory.CreateDirectory(directory);
 
-                if (Illust.IsAnimated)
-                {
-                    string filename = Path.Combine(directory, $"{Illust.Id}.gif");
-                    // TODO: save gif
-                }
-                else
-                {
-                    for (int p = 0; p < Illust.Pages.Count; p++)
-                    {
-                        var page = Illust.Pages[p];
-                        using var response = await page.Original.RequestAsync().ConfigureAwait(false);
-
-                        long? length = response.Content.Headers.ContentLength;
-                        string filename = response.Content.Headers.ContentDisposition?.FileName
-                            ?? $"{Illust.Id}_p{page.Index}.jpg";
-                        string relativeFilename = Path.Combine(directoryPart, filename);
-
-                        using var fs = File.Create(Path.Combine(_storageRoot.FullName, relativeFilename), 8192, FileOptions.Asynchronous);
-                        byte[] buffer = new byte[8192];
-                        long totalBytesRead = 0;
-
-                        using var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                        int bytesRead;
-                        while ((bytesRead = await responseStream.ReadAsync(buffer).ConfigureAwait(false)) > 0)
-                        {
-                            await fs.WriteAsync(buffer.AsMemory(0, bytesRead)).ConfigureAwait(false);
-                            totalBytesRead += bytesRead;
-
-                            double pageProgress = (double)totalBytesRead / length ?? 0;
-
-                            _progressObservable.Next((pageProgress + p) / Illust.Pages.Count);
-                        }
-
-                        await fs.FlushAsync().ConfigureAwait(false);
-                        _progressObservable.Next((p + 1) / (double)Illust.Pages.Count);
-
-                        post.Images.Add(new(ImageType.Static, relativeFilename)
-                        {
-                            PostOrderId = p
-                        });
-                    }
-                }
+#pragma warning disable CA1508 // false positive
+                await foreach (var entry in DownloadAndReturnMetadataAsync(directoryPart).ConfigureAwait(false))
+#pragma warning restore CA1508
+                    post.Images.Add(entry);
 
                 using var eContext = _eFactory.CreateDbContext();
                 using var pContext = _pFactory.CreateDbContext();
@@ -128,16 +90,18 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
                 await transaction.CommitAsync().ConfigureAwait(false);
 
-                _progressObservable.Complete();
+                ProgressObservable.Complete();
             }
             catch (Exception e)
             {
-                _progressObservable.Error(e);
+                ProgressObservable.Error(e);
             }
         }
 
-        private readonly ProgressObservable<double> _progressObservable = new();
-        public IObservable<double> Progress => _progressObservable;
+        protected abstract IAsyncEnumerable<ImageEntry> DownloadAndReturnMetadataAsync(string directoryPart);
+
+        private protected readonly ProgressObservable<double> ProgressObservable = new();
+        public IObservable<double> Progress => ProgressObservable;
     }
 
     internal class ProgressObservable<T> : IObservable<T>

@@ -140,7 +140,9 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 PId = Environment.ProcessId
             });
             await pContext.SaveChangesAsync().ConfigureAwait(false);
-            return new(illust, storageRoot, eFactory, pFactory);
+            return illust.IsAnimated
+                ? throw new NotImplementedException()
+                : new NonAnimatedDownloadTask(illust, storageRoot, eFactory, pFactory);
         }
     }
 }
