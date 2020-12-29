@@ -32,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Provider.Pixiv.Serv
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pixiv", "Pixiv", "{AEB8CBA3-0FF4-411D-87A6-E7EECBC183B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHunter.Pixiv.Downloader.Manual", "Source\EHunter.Pixiv.Downloader.Manual\EHunter.Pixiv.Downloader.Manual.csproj", "{40B5A9D9-1A9D-489F-A7E5-CECBE9B488E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|arm64 = Debug|arm64
@@ -156,6 +158,18 @@ Global
 		{123280CD-1D31-4A43-B5A9-44B317E765CC}.Release|x64.Build.0 = Release|Any CPU
 		{123280CD-1D31-4A43-B5A9-44B317E765CC}.Release|x86.ActiveCfg = Release|Any CPU
 		{123280CD-1D31-4A43-B5A9-44B317E765CC}.Release|x86.Build.0 = Release|Any CPU
+		{40B5A9D9-1A9D-489F-A7E5-CECBE9B488E2}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{40B5A9D9-1A9D-489F-A7E5-CECBE9B488E2}.Debug|arm64.Build.0 = Debug|Any CPU
+		{40B5A9D9-1A9D-489F-A7E5-CECBE9B488E2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{40B5A9D9-1A9D-489F-A7E5-CECBE9B488E2}.Debug|x64.Build.0 = Debug|Any CPU
+		{40B5A9D9-1A9D-489F-A7E5-CECBE9B488E2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{40B5A9D9-1A9D-489F-A7E5-CECBE9B488E2}.Debug|x86.Build.0 = Debug|Any CPU
+		{40B5A9D9-1A9D-489F-A7E5-CECBE9B488E2}.Release|arm64.ActiveCfg = Release|Any CPU
+		{40B5A9D9-1A9D-489F-A7E5-CECBE9B488E2}.Release|arm64.Build.0 = Release|Any CPU
+		{40B5A9D9-1A9D-489F-A7E5-CECBE9B488E2}.Release|x64.ActiveCfg = Release|Any CPU
+		{40B5A9D9-1A9D-489F-A7E5-CECBE9B488E2}.Release|x64.Build.0 = Release|Any CPU
+		{40B5A9D9-1A9D-489F-A7E5-CECBE9B488E2}.Release|x86.ActiveCfg = Release|Any CPU
+		{40B5A9D9-1A9D-489F-A7E5-CECBE9B488E2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,6 +178,7 @@ Global
 		{3EB34FF6-E670-49E7-A0FA-97BB6D73E6B5} = {AEB8CBA3-0FF4-411D-87A6-E7EECBC183B0}
 		{18DF676F-DAF9-4AA4-84FB-16D659435F95} = {AEB8CBA3-0FF4-411D-87A6-E7EECBC183B0}
 		{123280CD-1D31-4A43-B5A9-44B317E765CC} = {AEB8CBA3-0FF4-411D-87A6-E7EECBC183B0}
+		{40B5A9D9-1A9D-489F-A7E5-CECBE9B488E2} = {AEB8CBA3-0FF4-411D-87A6-E7EECBC183B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61F7FEBC-27CC-4EF2-8F47-C08034D933D5}
