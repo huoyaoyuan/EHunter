@@ -1,4 +1,6 @@
-﻿using EHunter.DependencyInjection;
+﻿using EHunter.Data;
+using EHunter.Data.Pixiv;
+using EHunter.DependencyInjection;
 using EHunter.Provider.Pixiv.Models;
 using EHunter.Provider.Pixiv.Services;
 using EHunter.Provider.Pixiv.ViewModels;
@@ -18,7 +20,7 @@ namespace EHunter.Provider.Pixiv
             .AddSingleton<PixivClientService>()
             .AddConversion<ICustomResolver<PixivClient>, PixivClientService>()
             .AddSingleton<ImageCacheService>()
-            .AddSingleton<DatabaseAccessor>();
+            .AddEHunterDbContext<PixivDbContext>();
 
         private static IServiceCollection ConfigureViewModels(this IServiceCollection services)
             => services

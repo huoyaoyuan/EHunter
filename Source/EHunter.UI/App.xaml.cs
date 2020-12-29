@@ -1,16 +1,13 @@
 ﻿using EHunter.Data;
-using EHunter.Data.Pixiv;
 using EHunter.Provider.Pixiv;
 using EHunter.Settings;
 using EHunter.UI.Models;
 using EHunter.UI.ViewModels;
 using EHunter.UI.Views;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
-using Windows.Storage;
 
 #nullable enable
 
@@ -30,28 +27,17 @@ namespace EHunter.UI
         /// </summary>
         public App()
         {
-            var settings = ApplicationData.Current.LocalSettings;
-            string? connectionString = (string?)settings.Values[nameof(CommonSettingStore.DbConnectionString)];
-
             var services = new ServiceCollection()
                 .AddSingleton<ICommonSettingStore, CommonSettingStore>()
                 .AddCommonSettings()
                 .AddTransient<CommonSettingVM>()
+                .AddEHunterDbContext<EHunterDbContext>()
                 .ConfigurePixiv()
                 .AddMemoryCache(o =>
                 {
                     o.SizeLimit = 2 * (1L << 30);
                     o.CompactionPercentage = 0.9;
                 });
-
-            if (!string.IsNullOrEmpty(connectionString))
-            {
-                // If the mdf file does not exist, Database= is required when using AttachDbFileName
-                services.AddPooledDbContextFactory<EHunterDbContext>(
-                    o => o.UseSqlServer(connectionString));
-                services.AddPooledDbContextFactory<PixivDbContext>(
-                    o => o.UseSqlServer(connectionString));
-            }
 
             Ioc.Default.ConfigureServices(services.BuildServiceProvider());
 
