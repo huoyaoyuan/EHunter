@@ -47,7 +47,9 @@ namespace EHunter.Provider.Pixiv.Services.Download
                     FavoritedTime = DateTimeOffset.Now,
                     Title = Illust.Title,
                     DetailText = Illust.Description,
-                    Url = new Uri($"https://www.pixiv.net/artworks/{Illust.Id}")
+                    Url = new Uri($"https://www.pixiv.net/artworks/{Illust.Id}"),
+                    Provider = "Pixiv:Illust",
+                    Identifier = Illust.Id
                 };
 
                 string directoryPart = Path.Combine("Pixiv", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo));
