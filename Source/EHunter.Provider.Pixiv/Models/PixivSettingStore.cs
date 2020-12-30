@@ -23,5 +23,11 @@ namespace EHunter.Provider.Pixiv.Models
             get => _applicationSetting.Values[nameof(UseProxy)] as bool? ?? false;
             set => _applicationSetting.Values[nameof(UseProxy)] = value;
         }
+
+        public int MaxDownloadsInParallel
+        {
+            get => _applicationSetting.Values[nameof(MaxDownloadsInParallel)] as int? ?? 8;
+            set => _applicationSetting.Values[nameof(MaxDownloadsInParallel)] = value;
+        }
     }
 }
