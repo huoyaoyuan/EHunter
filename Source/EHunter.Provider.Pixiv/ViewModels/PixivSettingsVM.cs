@@ -39,7 +39,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
             get => _maxDownloadsInParallel;
             set
             {
-                if (SetProperty(ref _maxDownloadsInParallel, value))
+                if (SetProperty(ref _maxDownloadsInParallel, value) && value > 0)
                     _settings.SetMaxDownloadsInParallel(value);
             }
         }

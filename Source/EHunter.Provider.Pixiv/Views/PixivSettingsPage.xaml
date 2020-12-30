@@ -35,6 +35,14 @@
                 <controls:PixivImage ImageInfo="{x:Bind _setting.Client.CurrentUser.Avatar}" />
                 <TextBlock Grid.Column="1"  Text="{x:Bind _setting.Client.CurrentUser.Name}" />
             </Grid>
+
+            <TextBlock
+                Style="{ThemeResource TitleTextBlockStyle}"
+                Margin="0,36,0,6"
+                x:Uid="DownloadGroup" />
+            <NumberBox
+                x:Uid="MaxDownloadsInParallel"
+                Value="{x:Bind _setting.MaxDownloadsInParallel}" />
         </StackPanel>
     </ScrollViewer>
 </Page>

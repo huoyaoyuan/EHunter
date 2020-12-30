@@ -135,6 +135,9 @@
   <data name="CopyLinkToolTip.Content" xml:space="preserve">
     <value>Copy Link</value>
   </data>
+  <data name="DownloadGroup.Text" xml:space="preserve">
+    <value>Downloading</value>
+  </data>
   <data name="GoToIllustById.PlaceholderText" xml:space="preserve">
     <value>Go to illust by ID</value>
   </data>
@@ -194,6 +197,9 @@
   </data>
   <data name="LoginMode_Password.Content" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="MaxDownloadsInParallel.Header" xml:space="preserve">
+    <value>Max Downloads in Parallel</value>
   </data>
   <data name="Navigation_Opened.Content" xml:space="preserve">
     <value>Opened Illustrations</value>
