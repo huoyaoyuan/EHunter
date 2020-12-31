@@ -18,13 +18,14 @@ namespace EHunter.Provider.Pixiv.ViewModels.Download
             DownloadTask = existingDownload;
             AwaitCandownload();
 
-            async void AwaitCandownload() => CanDownload = await canDownload.ConfigureAwait(false);
+            async void AwaitCandownload()
+                => CanDownload = (await canDownload.ConfigureAwait(true)) ?? false;
         }
 
         public Illust Illust { get; }
 
-        private bool? _canDownload;
-        public bool? CanDownload
+        private bool _canDownload;
+        public bool CanDownload
         {
             get => _canDownload;
             private set => SetProperty(ref _canDownload, value);
@@ -42,6 +43,7 @@ namespace EHunter.Provider.Pixiv.ViewModels.Download
             if ((CanDownload, DownloadTask) != (true, null))
                 throw new InvalidOperationException("Called at wrong status.");
 
+            CanDownload = false;
             DownloadTask = await _manager.CreateDownloadTaskAsync(Illust).ConfigureAwait(true);
         }
     }
