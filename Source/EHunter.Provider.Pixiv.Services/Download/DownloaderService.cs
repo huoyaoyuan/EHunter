@@ -78,6 +78,8 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
         public async ValueTask<bool?> CanDownloadAsync(int artworkId)
         {
+            await Task.Yield();
+
             var pFactory = _pixivDbContextResolver.Resolve();
             var eFactory = _eHunterContextResolver.Resolve();
             if (pFactory is null || eFactory is null)

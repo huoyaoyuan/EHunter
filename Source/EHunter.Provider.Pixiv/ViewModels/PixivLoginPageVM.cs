@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using EHunter.Data;
+using EHunter.Data.Pixiv;
 using EHunter.Provider.Pixiv.Messages;
 using EHunter.Provider.Pixiv.Models;
 using EHunter.Provider.Pixiv.Services;
@@ -22,7 +23,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
             PixivSetting setting,
             PixivClientService clientService,
             EHunterDbContextResolver<EHunterDbContext> eHunterContextResolver,
-            EHunterDbContextResolver<EHunterDbContext> pixivContextResolver)
+            EHunterDbContextResolver<PixivDbContext> pixivContextResolver)
         {
             _settingStore = settingStore;
             _setting = setting;
@@ -41,7 +42,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
             async void InitDatabase()
             {
                 await Task.WhenAll(eHunterContextResolver.InitializeTask, pixivContextResolver.InitializeTask).ConfigureAwait(true);
-                DatabaseInitState = eHunterContextResolver.Resolve() is not null && pixivContextResolver is not null;
+                DatabaseInitState = eHunterContextResolver.Resolve() is not null && pixivContextResolver.Resolve() is not null;
                 CheckInitialize();
             }
         }
