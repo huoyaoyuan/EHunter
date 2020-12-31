@@ -1,5 +1,6 @@
 ﻿using System;
 using EHunter.Provider.Pixiv.Messages;
+using EHunter.Provider.Pixiv.Views.Download;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 
@@ -55,6 +56,8 @@ namespace EHunter.Provider.Pixiv.Views
                 toType = typeof(OpenedIllustsPage);
             else if (args.SelectedItemContainer == searchIllust)
                 toType = typeof(IllustSearchPage);
+            else if (args.SelectedItemContainer == downloads)
+                toType = typeof(PixivDownloadPage);
 
             if (toType is not null && toType != _frame.CurrentSourcePageType)
                 _frame.Navigate(toType);
@@ -77,6 +80,8 @@ namespace EHunter.Provider.Pixiv.Views
                 sender.SelectedItem = opened;
             else if (type == typeof(IllustSearchPage))
                 sender.SelectedItem = searchIllust;
+            else if (type == typeof(PixivDownloadPage))
+                sender.SelectedItem = downloads;
         }
     }
 }

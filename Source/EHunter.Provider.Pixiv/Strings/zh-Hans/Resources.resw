@@ -201,6 +201,9 @@
   <data name="MaxDownloadsInParallel.Header" xml:space="preserve">
     <value>最大并行下载</value>
   </data>
+  <data name="Navigation_Downloads.Content" xml:space="preserve">
+    <value>下载</value>
+  </data>
   <data name="Navigation_Opened.Content" xml:space="preserve">
     <value>打开的作品</value>
   </data>
