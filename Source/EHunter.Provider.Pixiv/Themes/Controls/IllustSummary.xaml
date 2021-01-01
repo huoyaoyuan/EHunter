@@ -56,10 +56,13 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
+                        
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
+                        
                         <controls:PixivImage
                             ImageInfo="{x:Bind local:IllustSummaryTheme.FirstPageMedium(Illust.Pages)}"
                             Margin="2" />
@@ -112,6 +115,10 @@
                             HorizontalAlignment="Center"
                             TextWrapping="Wrap"
                             Text="{x:Bind Illust.Title}" />
+                        <controls:DownloadButton
+                            Grid.Row="2"
+                            HorizontalAlignment="Right"
+                            Illust="{x:Bind Illust}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
