@@ -12,9 +12,9 @@ namespace EHunter.Provider.Pixiv.Services
 {
     public static class GifHelper
     {
-        public static async Task ComposeGifAsync(AnimatedPictureDetail details,
-            Stream stream,
-            Action? onPage = null)
+        public static async Task ComposeGifAsync(
+            AnimatedPictureDetail details,
+            Stream stream)
         {
             var zipArchive = await details.GetZipArchiveAsync().ConfigureAwait(false);
             await ComposeGifAsync(
