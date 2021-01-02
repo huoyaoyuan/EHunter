@@ -4,6 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using EHunter.Data;
 using EHunter.Data.Pixiv;
@@ -31,7 +33,8 @@ namespace EHunter.Provider.Pixiv.Services.Download
             _pFactory = pFactory;
         }
 
-        public async IAsyncEnumerable<double> Start(DateTimeOffset? favoratedTime = null)
+        public async IAsyncEnumerable<double> Start(DateTimeOffset? favoratedTime = null,
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             await Task.Yield();
 
@@ -55,7 +58,8 @@ namespace EHunter.Provider.Pixiv.Services.Download
             Directory.CreateDirectory(directory);
 
 #pragma warning disable CA1508 // false positive
-            await foreach (var (progress, entry) in DownloadAndReturnMetadataAsync(directoryPart).ConfigureAwait(false))
+            await foreach (var (progress, entry) in DownloadAndReturnMetadataAsync(directoryPart, cancellationToken)
+                .ConfigureAwait(false))
 #pragma warning restore CA1508
             {
                 if (entry != null)
@@ -73,12 +77,12 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 .ToAsyncEnumerable()
                 .SelectMany(x => eContext.MapTag(x.tagScopeName, x.tagName))
                 .Distinct()
-                .ToArrayAsync()
+                .ToArrayAsync(cancellationToken)
                 .ConfigureAwait(false);
 
             var pendingTask = pContext.PixivPendingDownloads.Find(Illust.Id);
             pContext.PixivPendingDownloads.Remove(pendingTask);
-            await pContext.SaveChangesAsync().ConfigureAwait(false);
+            await pContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
             eContext.Posts.Add(post);
             if (Illust.Pages.Count == 1)
@@ -92,12 +96,14 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 eContext.Add(gallery);
             }
 
-            await eContext.SaveChangesAsync().ConfigureAwait(false);
+            await eContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
             // await transaction.CommitAsync().ConfigureAwait(false);
         }
 
-        protected abstract IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(string directoryPart);
+        protected abstract IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(
+            string directoryPart,
+            CancellationToken cancellationToken = default);
     }
 
     internal static class EnumerableExtensions

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using EHunter.Data;
 using EHunter.Data.Pixiv;
 using Meowtrix.PixivApi.Models;
@@ -20,12 +22,14 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 throw new InvalidOperationException("Please use animated download task.");
         }
 
-        protected override async IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(string directoryPart)
+        protected override async IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(
+            string directoryPart,
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             for (int p = 0; p < Illust.Pages.Count; p++)
             {
                 var page = Illust.Pages[p];
-                using var response = await page.Original.RequestAsync().ConfigureAwait(false);
+                using var response = await page.Original.RequestAsync(cancellationToken).ConfigureAwait(false);
 
                 long? length = response.Content.Headers.ContentLength;
                 string filename = response.Content.Headers.ContentDisposition?.FileName
@@ -36,11 +40,11 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 byte[] buffer = new byte[8192];
                 long totalBytesRead = 0;
 
-                using var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
                 int bytesRead;
-                while ((bytesRead = await responseStream.ReadAsync(buffer).ConfigureAwait(false)) > 0)
+                while ((bytesRead = await responseStream.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) > 0)
                 {
-                    await fs.WriteAsync(buffer.AsMemory(0, bytesRead)).ConfigureAwait(false);
+                    await fs.WriteAsync(buffer.AsMemory(0, bytesRead), cancellationToken).ConfigureAwait(false);
                     totalBytesRead += bytesRead;
 
                     double pageProgress = (double)totalBytesRead / length ?? 0;
@@ -48,7 +52,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
                     yield return ((pageProgress + p) / Illust.Pages.Count, null);
                 }
 
-                await fs.FlushAsync().ConfigureAwait(false);
+                await fs.FlushAsync(cancellationToken).ConfigureAwait(false);
 
                 yield return ((p + 1) / (double)Illust.Pages.Count, new(ImageType.Static, relativeFilename)
                 {
