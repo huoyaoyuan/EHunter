@@ -78,14 +78,14 @@ namespace EHunter.Provider.Pixiv.ViewModels.Download
 
         private void CheckStartNew()
         {
-            if (ActiveDownloads < _setting.MaxDownloadsInParallel)
+            while (ActiveDownloads < _setting.MaxDownloadsInParallel)
             {
                 var task = DownloadTasks.FirstOrDefault(x => x.State == DownloadTaskState.Waiting);
-                if (task is not null)
-                {
-                    ActiveDownloads++;
-                    task.Start();
-                }
+                if (task is null)
+                    return;
+
+                ActiveDownloads++;
+                task.Start();
             }
         }
 
