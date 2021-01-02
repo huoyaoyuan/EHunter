@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Threading.Tasks;
 using Meowtrix.PixivApi.Models;
 using SixLabors.ImageSharp;
@@ -13,17 +16,29 @@ namespace EHunter.Provider.Pixiv.Services
             Stream stream,
             Action? onPage = null)
         {
+            var zipArchive = await details.GetZipArchiveAsync().ConfigureAwait(false);
+            await ComposeGifAsync(
+                zipArchive,
+                details.Frames.Select(x => (x.File, x.Delay)),
+                stream)
+                .ConfigureAwait(false);
+        }
+
+        public static async Task ComposeGifAsync(
+            ZipArchive zipArchive,
+            IEnumerable<(string file, int frameTime)> frames,
+            Stream stream)
+        {
             Image<Rgba32>? image = null;
 
-            foreach (var (s, frametime) in await details.ExtractFramesAsync().ConfigureAwait(false))
+            foreach (var (filename, frameTime) in frames)
             {
-                using (s)
+                using (var s = zipArchive.GetEntry(filename)?.Open()
+                    ?? throw new InvalidOperationException("Corrupted frame information."))
                 {
                     var frame = await Image.LoadAsync(s).ConfigureAwait(false);
                     image ??= new Image<Rgba32>(frame.Width, frame.Height);
                     image.Frames.AddFrame(frame.Frames[0]);
-
-                    onPage?.Invoke();
                 }
             }
 
