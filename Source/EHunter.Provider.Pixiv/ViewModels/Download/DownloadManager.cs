@@ -92,7 +92,8 @@ namespace EHunter.Provider.Pixiv.ViewModels.Download
         public void Prune()
         {
             for (int i = 0; i < DownloadTasks.Count; i++)
-                if (DownloadTasks[i].State is DownloadTaskState.Completed or DownloadTaskState.Faulted)
+                if (DownloadTasks[i].State is
+                    DownloadTaskState.Completed or DownloadTaskState.Faulted or DownloadTaskState.Canceled)
                     DownloadTasks.RemoveAt(i--);
         }
 

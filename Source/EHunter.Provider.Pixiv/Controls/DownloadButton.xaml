@@ -37,6 +37,20 @@
                     </VisualState.Setters>
                 </VisualState>
 
+                <VisualState x:Name="Canceled">
+                    <VisualState.StateTriggers>
+                        <tktr:IsEqualStateTrigger
+                            Value="{x:Bind _vm.DownloadTask.State, FallbackValue={x:Null}}"
+                            To="Faulted" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="progress.Visibility" Value="Collapsed" />
+                        <Setter Target="statusIcon.Visibility" Value="Visible" />
+                        <Setter Target="statusIcon.Glyph" Value="&#xEA39;" />
+                        <Setter Target="statusIcon.Foreground" Value="Red" />
+                    </VisualState.Setters>
+                </VisualState>
+
                 <VisualState x:Name="Faulted">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger

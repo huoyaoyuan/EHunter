@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using EHunter.Provider.Pixiv.Services.Download;
 using Meowtrix.PixivApi.Models;
@@ -8,10 +9,13 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace EHunter.Provider.Pixiv.ViewModels.Download
 {
+#pragma warning disable CA1001
     public sealed class DownloadTaskVM : ObservableObject
+#pragma warning restore CA1001
     {
         private readonly DownloadManager _downloadManager;
         private readonly DownloadTask _downloadTask;
+        private CancellationTokenSource? _cts;
 
         internal DownloadTaskVM(DownloadManager downloadManager, DownloadTask downloadTask)
         {
@@ -47,24 +51,41 @@ namespace EHunter.Provider.Pixiv.ViewModels.Download
             if (State != DownloadTaskState.Waiting)
                 throw new InvalidOperationException("A task can only be started once.");
 
-            try
-            {
-                State = DownloadTaskState.Active;
+            _cts = new CancellationTokenSource();
 #pragma warning disable CA1508 // false positive
-                await foreach (double p in _downloadTask.Start().ConfigureAwait(true))
+            using (_cts)
 #pragma warning restore CA1508
-                    Progress = p;
-                State = DownloadTaskState.Completed;
-            }
-            catch (Exception ex)
             {
-                Exception = ex;
-                State = DownloadTaskState.Faulted;
+                try
+                {
+                    State = DownloadTaskState.Active;
+#pragma warning disable CA1508 // false positive
+                    await foreach (double p in _downloadTask.Start(cancellationToken: _cts.Token).ConfigureAwait(true))
+#pragma warning restore CA1508
+                        Progress = p;
+                    State = DownloadTaskState.Completed;
+                }
+                catch (TaskCanceledException)
+                {
+                    State = DownloadTaskState.Canceled;
+                }
+                catch (Exception ex)
+                {
+                    Exception = ex;
+                    State = DownloadTaskState.Faulted;
+                }
+                finally
+                {
+                    _downloadManager.CompleteOne(this);
+                }
             }
-            finally
-            {
-                _downloadManager.CompleteOne(this);
-            }
+            _cts = null;
+        }
+
+        public void Cancel()
+        {
+            _cts?.Cancel();
+            State = DownloadTaskState.Canceled;
         }
     }
 
@@ -73,6 +94,7 @@ namespace EHunter.Provider.Pixiv.ViewModels.Download
         Waiting,
         Active,
         Completed,
-        Faulted
+        Faulted,
+        Canceled
     }
 }

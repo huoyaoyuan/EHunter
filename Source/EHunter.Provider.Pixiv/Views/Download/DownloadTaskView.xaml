@@ -17,6 +17,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <VisualStateManager.VisualStateGroups>
@@ -38,6 +39,23 @@
                             Value="{x:Bind _vm.State}"
                             To="Active" />
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="cancelButton.IsEnabled" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="Canceled">
+                    <VisualState.StateTriggers>
+                        <tktr:IsEqualStateTrigger
+                            Value="{x:Bind _vm.State}"
+                            To="Faulted" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="progress.Visibility" Value="Collapsed" />
+                        <Setter Target="statusIcon.Visibility" Value="Visible" />
+                        <Setter Target="statusIcon.Glyph" Value="&#xEA39;" />
+                        <Setter Target="statusIcon.Foreground" Value="Red" />
+                    </VisualState.Setters>
                 </VisualState>
 
                 <VisualState x:Name="Faulted">
@@ -53,7 +71,7 @@
                         <Setter Target="statusIcon.Foreground" Value="Red" />
                     </VisualState.Setters>
                 </VisualState>
-                
+
                 <VisualState x:Name="Completed">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
@@ -98,5 +116,16 @@
             HorizontalAlignment="Left"
             Margin="2"
             FontFamily="{ThemeResource SymbolThemeFontFamily}" />
+
+        <Button
+            x:Name="cancelButton"
+            Grid.Column="2"
+            Grid.RowSpan="2"
+            VerticalAlignment="Center"
+            IsEnabled="False"
+            Style="{ThemeResource TextBlockButtonStyle}"
+            Click="{x:Bind _vm.Cancel}">
+            <SymbolIcon Symbol="Cancel" />
+        </Button>
     </Grid>
 </UserControl>
