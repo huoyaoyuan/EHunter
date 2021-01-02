@@ -98,60 +98,6 @@ namespace EHunter.Provider.Pixiv.Services.Download
         }
 
         protected abstract IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(string directoryPart);
-
-        private protected readonly ProgressObservable<double> ProgressObservable = new();
-        public IObservable<double> Progress => ProgressObservable;
-    }
-
-    internal class ProgressObservable<T> : IObservable<T>
-    {
-        private readonly List<IObserver<T>> _observers = new();
-
-        public IDisposable Subscribe(IObserver<T> observer)
-        {
-            lock (_observers)
-                _observers.Add(observer);
-            return new UnObservable(this, observer);
-        }
-
-        private class UnObservable : IDisposable
-        {
-            private readonly ProgressObservable<T> _owner;
-            private readonly IObserver<T> _observer;
-
-            public UnObservable(ProgressObservable<T> owner, IObserver<T> observer)
-            {
-                _owner = owner;
-                _observer = observer;
-            }
-
-            public void Dispose()
-            {
-                lock (_owner._observers)
-                    _owner._observers.Remove(_observer);
-            }
-        }
-
-        public void Next(T value)
-        {
-            lock (_observers)
-                foreach (var o in _observers)
-                    o.OnNext(value);
-        }
-
-        public void Error(Exception e)
-        {
-            lock (_observers)
-                foreach (var o in _observers)
-                    o.OnError(e);
-        }
-
-        public void Complete()
-        {
-            lock (_observers)
-                foreach (var o in _observers)
-                    o.OnCompleted();
-        }
     }
 
     internal static class EnumerableExtensions

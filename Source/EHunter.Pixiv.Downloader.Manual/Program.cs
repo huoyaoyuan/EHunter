@@ -6,11 +6,11 @@ using System.Linq;
 using System.Net;
 using System.Reactive.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using EHunter.Data;
 using EHunter.Data.Pixiv;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Downloader.Manual;
+using EHunter.Provider.Pixiv.Services;
 using EHunter.Provider.Pixiv.Services.Download;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
@@ -57,14 +57,7 @@ var downloadService = new DownloaderService(
     if (int.TryParse(Console.ReadLine(), out int id))
     {
         var task = await downloadService.CreateDownloadTaskAsync(id);
-        var tcs = new TaskCompletionSource();
-        task.Progress
-            .Subscribe(
-                p => Console.WriteLine($"Progress: {p:P}"),
-                ex => tcs.SetException(ex),
-                () => tcs.SetResult());
-        task.Start();
-        await tcs.Task;
+        await task.Start().ConsumeAsync();
         return;
     }
 }
@@ -105,10 +98,7 @@ foreach (var f in folder.EnumerateFiles("*", SearchOption.AllDirectories))
         Console.WriteLine($"Downloading {id} started.");
 
         var task = await downloadService.CreateDownloadTaskAsync(i);
-        var tcs = new TaskCompletionSource();
-        task.Progress.Subscribe(_ => { }, ex => tcs.SetException(ex), () => tcs.SetResult());
-        task.Start(f.CreationTimeUtc.ToLocalTime());
-        await tcs.Task;
+        await task.Start(f.CreationTimeUtc.ToLocalTime()).ConsumeAsync();
 
         Console.WriteLine($"Downloading {id} complete.");
     }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading;
+using System.Threading.Tasks;
 using EHunter.Provider.Pixiv.Services.Download;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -8,14 +8,10 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace EHunter.Provider.Pixiv.ViewModels.Download
 {
-    public sealed class DownloadTaskVM : ObservableObject, IObserver<double>
+    public sealed class DownloadTaskVM : ObservableObject
     {
-        private double _progress;
         private readonly DownloadManager _downloadManager;
         private readonly DownloadTask _downloadTask;
-
-        private readonly SynchronizationContext? _executionContext = SynchronizationContext.Current;
-        private IDisposable? _subscriber;
 
         internal DownloadTaskVM(DownloadManager downloadManager, DownloadTask downloadTask)
         {
@@ -25,6 +21,7 @@ namespace EHunter.Provider.Pixiv.ViewModels.Download
 
         public Illust Illust => _downloadTask.Illust;
 
+        private double _progress;
         public double Progress
         {
             get => _progress;
@@ -45,49 +42,29 @@ namespace EHunter.Provider.Pixiv.ViewModels.Download
             private set => SetProperty(ref _exception, value);
         }
 
-        internal void Start()
+        internal async void Start()
         {
-            _subscriber = _downloadTask.Progress.Subscribe(this);
-            _downloadTask.Start();
-        }
+            if (State != DownloadTaskState.Waiting)
+                throw new InvalidOperationException("A task can only be started once.");
 
-        void IObserver<double>.OnCompleted()
-        {
-            if (_executionContext is null)
-                State = DownloadTaskState.Completed;
-            else
-                _executionContext.Post(_ => State = DownloadTaskState.Completed, null);
-            _subscriber?.Dispose();
-
-            _downloadManager.CompleteOne(this);
-        }
-
-        void IObserver<double>.OnError(Exception error)
-        {
-            if (_executionContext is null)
+            try
             {
-                Exception = error;
+                State = DownloadTaskState.Active;
+#pragma warning disable CA1508 // false positive
+                await foreach (double p in _downloadTask.Start().ConfigureAwait(true))
+#pragma warning restore CA1508
+                    Progress = p;
+                State = DownloadTaskState.Completed;
+            }
+            catch (Exception ex)
+            {
+                Exception = ex;
                 State = DownloadTaskState.Faulted;
             }
-            else
+            finally
             {
-                _executionContext.Post(o =>
-                  {
-                      Exception = (Exception)o!;
-                      State = DownloadTaskState.Faulted;
-                  }, error);
+                _downloadManager.CompleteOne(this);
             }
-            _subscriber?.Dispose();
-
-            _downloadManager.CompleteOne(this);
-        }
-
-        void IObserver<double>.OnNext(double value)
-        {
-            if (_executionContext is null)
-                Progress = value;
-            else
-                _executionContext.Post(p => Progress = (double)p!, value);
         }
     }
 
