@@ -35,23 +35,9 @@ namespace EHunter.Provider.Pixiv.Services.Download
             using var fs = File.Create(Path.Combine(StorageRoot.FullName, relativeFilename), 8192, FileOptions.Asynchronous);
 
             using var response = await details.GetZipAsync(cancellationToken).ConfigureAwait(false);
-            using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-            long? length = response.Content.Headers.ContentLength;
-
             using var mms = new MemoryStream();
-            byte[] buffer = new byte[8192];
-            int bytesRead;
-            long totalBytesRead = 0;
-
-            while ((bytesRead = await responseStream.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) > 0)
-            {
-                await mms.WriteAsync(buffer.AsMemory(0, bytesRead), cancellationToken).ConfigureAwait(false);
-                totalBytesRead += bytesRead;
-
-                double pageProgress = (double)totalBytesRead / length ?? 0;
-
-                yield return (pageProgress, null);
-            }
+            await foreach (double p in ReadWithProgress(response, mms, cancellationToken))
+                yield return (p, null);
 
             mms.Seek(0, SeekOrigin.Begin);
             await GifHelper.ComposeGifAsync(new ZipArchive(mms),

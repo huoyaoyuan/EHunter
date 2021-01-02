@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -104,6 +106,28 @@ namespace EHunter.Provider.Pixiv.Services.Download
         protected abstract IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(
             string directoryPart,
             CancellationToken cancellationToken = default);
+
+        protected static async IAsyncEnumerable<double> ReadWithProgress(
+            HttpResponseMessage response,
+            Stream destination,
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+            long? length = response.Content.Headers.ContentLength;
+
+            using var memoryOwner = MemoryPool<byte>.Shared.Rent(8192);
+            var buffer = memoryOwner.Memory;
+            int bytesRead;
+            long totalBytesRead = 0;
+
+            while ((bytesRead = await responseStream.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) > 0)
+            {
+                await destination.WriteAsync(buffer[..bytesRead], cancellationToken).ConfigureAwait(false);
+                totalBytesRead += bytesRead;
+
+                yield return (double)totalBytesRead / length ?? 0;
+            }
+        }
     }
 
     internal static class EnumerableExtensions

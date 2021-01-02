@@ -31,26 +31,14 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 var page = Illust.Pages[p];
                 using var response = await page.Original.RequestAsync(cancellationToken).ConfigureAwait(false);
 
-                long? length = response.Content.Headers.ContentLength;
                 string filename = response.Content.Headers.ContentDisposition?.FileName
                     ?? $"{Illust.Id}_p{page.Index}.jpg";
                 string relativeFilename = Path.Combine(directoryPart, filename);
 
                 using var fs = File.Create(Path.Combine(StorageRoot.FullName, relativeFilename), 8192, FileOptions.Asynchronous);
-                byte[] buffer = new byte[8192];
-                long totalBytesRead = 0;
 
-                using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-                int bytesRead;
-                while ((bytesRead = await responseStream.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) > 0)
-                {
-                    await fs.WriteAsync(buffer.AsMemory(0, bytesRead), cancellationToken).ConfigureAwait(false);
-                    totalBytesRead += bytesRead;
-
-                    double pageProgress = (double)totalBytesRead / length ?? 0;
-
+                await foreach (double pageProgress in ReadWithProgress(response, fs, cancellationToken))
                     yield return ((pageProgress + p) / Illust.Pages.Count, null);
-                }
 
                 await fs.FlushAsync(cancellationToken).ConfigureAwait(false);
 
