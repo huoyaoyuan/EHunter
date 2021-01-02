@@ -78,23 +78,29 @@ namespace EHunter.Provider.Pixiv.ViewModels.Download
 
         private void CheckStartNew()
         {
-            if (ActiveDownloads < _setting.MaxDownloadsInParallel)
+            while (ActiveDownloads < _setting.MaxDownloadsInParallel)
             {
                 var task = DownloadTasks.FirstOrDefault(x => x.State == DownloadTaskState.Waiting);
-                if (task is not null)
-                {
-                    ActiveDownloads++;
-                    task.Start();
-                }
+                if (task is null)
+                    return;
+
+                ActiveDownloads++;
+                task.Start();
             }
         }
 
         public void Prune()
         {
             for (int i = 0; i < DownloadTasks.Count; i++)
-                if (DownloadTasks[i].State is
-                    DownloadTaskState.Completed or DownloadTaskState.Faulted or DownloadTaskState.Canceled)
+                if (DownloadTasks[i] is
+                    {
+                        State: not (DownloadTaskState.Waiting or DownloadTaskState.Active),
+                        Illust: { Id: int id }
+                    })
+                {
                     DownloadTasks.RemoveAt(i--);
+                    _taskById.Remove(id);
+                }
         }
 
         public void Dispose() => _settingSubscriber.Dispose();
