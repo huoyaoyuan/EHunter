@@ -33,7 +33,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
             _storageSetting = storageSetting;
         }
 
-        public async IAsyncEnumerable<int> GetResumableDownloads()
+        public async IAsyncEnumerable<DownloadTask> GetResumableDownloads()
         {
             var pFactory = _pixivDbContextResolver.Resolve();
             if (pFactory is null)
@@ -41,19 +41,19 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
             using var pContext = pFactory.CreateDbContext();
 
-            var groups = pContext.PixivPendingDownloads.AsQueryable()
+            var groups = (await pContext.PixivPendingDownloads.AsQueryable()
                 .OrderBy(x => x.Time)
-                .GroupBy(x => x.PId)
-                .AsAsyncEnumerable();
+                .ToArrayAsync()
+                .ConfigureAwait(false))
+                .GroupBy(x => x.PId);
 
-#pragma warning disable CA1508 // false positive
-            await foreach (var g in groups.ConfigureAwait(false))
-#pragma warning restore CA1508
+            foreach (var g in groups)
             {
                 try
                 {
                     using var process = Process.GetProcessById(g.Key);
-                    continue;
+                    if (!process.HasExited)
+                        continue;
                 }
                 catch
                 {
@@ -71,7 +71,17 @@ namespace EHunter.Provider.Pixiv.Services.Download
                     {
                         continue;
                     }
-                    yield return p.ArtworkId;
+
+                    DownloadTask task;
+                    try
+                    {
+                        task = await CreateDownloadTaskAsyncCore(p.ArtworkId, true).ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                    yield return task;
                 }
             }
         }
@@ -125,7 +135,17 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 .ConfigureAwait(false))
             .ConfigureAwait(false);
 
-        public async Task<DownloadTask> CreateDownloadTaskAsync(Illust illust)
+        private async Task<DownloadTask> CreateDownloadTaskAsyncCore(int artworkId, bool resume)
+            => await CreateDownloadTaskAsyncCore(
+                await _client.GetIllustDetailAsync(artworkId)
+                .ConfigureAwait(false),
+                resume)
+            .ConfigureAwait(false);
+
+        public Task<DownloadTask> CreateDownloadTaskAsync(Illust illust)
+            => CreateDownloadTaskAsyncCore(illust, false);
+
+        private async Task<DownloadTask> CreateDownloadTaskAsyncCore(Illust illust, bool resume)
         {
             var pFactory = _pixivDbContextResolver.Resolve()
                 ?? throw new InvalidOperationException("No database connetion");
@@ -134,14 +154,18 @@ namespace EHunter.Provider.Pixiv.Services.Download
             var storageRoot = _storageSetting.StorageRoot
                 ?? throw new InvalidOperationException("No storage");
 
-            using var pContext = pFactory.CreateDbContext();
-            pContext.PixivPendingDownloads.Add(new PendingDownload
+            if (!resume)
             {
-                ArtworkId = illust.Id,
-                Time = DateTimeOffset.Now,
-                PId = Environment.ProcessId
-            });
-            await pContext.SaveChangesAsync().ConfigureAwait(false);
+                using var pContext = pFactory.CreateDbContext();
+                pContext.PixivPendingDownloads.Add(new PendingDownload
+                {
+                    ArtworkId = illust.Id,
+                    Time = DateTimeOffset.Now,
+                    PId = Environment.ProcessId
+                });
+                await pContext.SaveChangesAsync().ConfigureAwait(false);
+            }
+
             return illust.IsAnimated
                 ? new AnimatedDownloadTask(illust, storageRoot, eFactory, pFactory)
                 : new NonAnimatedDownloadTask(illust, storageRoot, eFactory, pFactory);

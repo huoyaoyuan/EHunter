@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using EHunter.DependencyInjection;
 using EHunter.Provider.Pixiv.Models;
 using EHunter.Provider.Pixiv.Services.Download;
+using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
@@ -18,13 +20,28 @@ namespace EHunter.Provider.Pixiv.ViewModels.Download
         private readonly DownloaderService _downloader;
         private readonly IDisposable _settingSubscriber;
 
-        public DownloadManager(PixivSetting setting, DownloaderService downloader)
+        public DownloadManager(PixivSetting setting, DownloaderService downloader, ICustomResolver<PixivClient> clientResolver)
         {
             _setting = setting;
             _downloader = downloader;
 
             _settingSubscriber = _setting.MaxDownloadsInParallelChanged.Subscribe(
                 _ => CheckStartNew());
+            ResumeDownloads();
+
+            async void ResumeDownloads()
+            {
+                var client = clientResolver.Resolve();
+                try
+                {
+                    await foreach (var task in downloader.GetResumableDownloads().ConfigureAwait(true))
+                        CreateAndAddVM(task);
+                }
+                catch
+                {
+                    return;
+                }
+            }
         }
 
         public ObservableCollection<DownloadTaskVM> DownloadTasks { get; } = new();
@@ -59,8 +76,13 @@ namespace EHunter.Provider.Pixiv.ViewModels.Download
         internal async Task<DownloadTaskVM> CreateDownloadTaskAsync(Illust illust)
         {
             var task = await _downloader.CreateDownloadTaskAsync(illust).ConfigureAwait(true);
+            return CreateAndAddVM(task);
+        }
+
+        private DownloadTaskVM CreateAndAddVM(DownloadTask task)
+        {
             var vm = new DownloadTaskVM(this, task);
-            _taskById.Add(illust.Id, vm);
+            _taskById.Add(task.Illust.Id, vm);
             DownloadTasks.Add(vm);
 
             PendingDownloads++;
