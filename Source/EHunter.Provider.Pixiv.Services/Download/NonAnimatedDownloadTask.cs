@@ -23,7 +23,6 @@ namespace EHunter.Provider.Pixiv.Services.Download
         }
 
         protected override async IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(
-            string directoryPart,
             [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             for (int p = 0; p < Illust.Pages.Count; p++)
@@ -33,16 +32,16 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
                 string filename = response.Content.Headers.ContentDisposition?.FileName
                     ?? $"{Illust.Id}_p{page.Index}.jpg";
-                string relativeFilename = Path.Combine(directoryPart, filename);
+                var (relative, absolute) = WithDirectory(filename);
 
-                using var fs = File.Create(Path.Combine(StorageRoot.FullName, relativeFilename), 8192, FileOptions.Asynchronous);
+                using var fs = File.Create(absolute, 8192, FileOptions.Asynchronous);
 
                 await foreach (double pageProgress in ReadWithProgress(response, fs, cancellationToken))
                     yield return ((pageProgress + p) / Illust.Pages.Count, null);
 
                 await fs.FlushAsync(cancellationToken).ConfigureAwait(false);
 
-                yield return ((p + 1) / (double)Illust.Pages.Count, new(ImageType.Static, relativeFilename)
+                yield return ((p + 1) / (double)Illust.Pages.Count, new(ImageType.Static, relative)
                 {
                     PostOrderId = p
                 });

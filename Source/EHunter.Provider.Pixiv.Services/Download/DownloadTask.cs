@@ -55,12 +55,8 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 Identifier = Illust.Id
             };
 
-            string directoryPart = Path.Combine("Pixiv", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo));
-            string directory = Path.Combine(StorageRoot.FullName, directoryPart);
-            Directory.CreateDirectory(directory);
-
 #pragma warning disable CA1508 // false positive
-            await foreach (var (progress, entry) in DownloadAndReturnMetadataAsync(directoryPart, cancellationToken)
+            await foreach (var (progress, entry) in DownloadAndReturnMetadataAsync(cancellationToken)
                 .ConfigureAwait(false))
 #pragma warning restore CA1508
             {
@@ -104,7 +100,6 @@ namespace EHunter.Provider.Pixiv.Services.Download
         }
 
         protected abstract IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(
-            string directoryPart,
             CancellationToken cancellationToken = default);
 
         protected static async IAsyncEnumerable<double> ReadWithProgress(
@@ -127,6 +122,14 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
                 yield return (double)totalBytesRead / length ?? 0;
             }
+        }
+
+        protected (string Relative, string Absolute) WithDirectory(string filename)
+        {
+            string relative = Path.Combine("Pixiv", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo), filename);
+            string absolute = Path.Combine(StorageRoot.FullName, relative);
+            Directory.CreateDirectory(Path.GetDirectoryName(absolute)!);
+            return (relative, absolute);
         }
     }
 

@@ -25,14 +25,13 @@ namespace EHunter.Provider.Pixiv.Services.Download
         }
 
         protected override async IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(
-            string directoryPart,
             [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             string filename = $"{Illust.Id}.gif";
             var details = await Illust.GetAnimatedDetailAsync().ConfigureAwait(false);
 
-            string relativeFilename = Path.Combine(directoryPart, filename);
-            using var fs = File.Create(Path.Combine(StorageRoot.FullName, relativeFilename), 8192, FileOptions.Asynchronous);
+            var (relative, absolute) = WithDirectory(filename);
+            using var fs = File.Create(absolute, 8192, FileOptions.Asynchronous);
 
             using var response = await details.GetZipAsync(cancellationToken).ConfigureAwait(false);
             using var mms = new MemoryStream();
@@ -48,7 +47,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
             await fs.FlushAsync(cancellationToken).ConfigureAwait(false);
 
-            yield return (1, new(ImageType.Animated, relativeFilename)
+            yield return (1, new(ImageType.Animated, relative)
             {
                 PostOrderId = 0
             });
