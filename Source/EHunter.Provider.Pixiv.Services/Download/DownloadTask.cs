@@ -56,14 +56,10 @@ namespace EHunter.Provider.Pixiv.Services.Download
             };
 
 #pragma warning disable CA1508 // false positive
-            await foreach (var (progress, entry) in DownloadAndReturnMetadataAsync(cancellationToken)
+            await foreach (double progress in DownloadAsync(post.Images, cancellationToken)
                 .ConfigureAwait(false))
 #pragma warning restore CA1508
-            {
-                if (entry != null)
-                    post.Images.Add(entry);
                 yield return progress;
-            }
 
             using var eContext = _eFactory.CreateDbContext();
             using var pContext = _pFactory.CreateDbContext();
@@ -99,7 +95,8 @@ namespace EHunter.Provider.Pixiv.Services.Download
             // await transaction.CommitAsync().ConfigureAwait(false);
         }
 
-        protected abstract IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(
+        protected abstract IAsyncEnumerable<double> DownloadAsync(
+            IList<ImageEntry> entries,
             CancellationToken cancellationToken = default);
 
         protected static async IAsyncEnumerable<double> ReadWithProgress(

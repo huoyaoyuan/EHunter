@@ -24,7 +24,8 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 throw new InvalidOperationException("Please use non-animated download task.");
         }
 
-        protected override async IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(
+        protected override async IAsyncEnumerable<double> DownloadAsync(
+            IList<ImageEntry> entries,
             [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             string filename = $"{Illust.Id}.gif";
@@ -36,7 +37,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
             using var response = await details.GetZipAsync(cancellationToken).ConfigureAwait(false);
             using var mms = new MemoryStream();
             await foreach (double p in ReadWithProgress(response, mms, cancellationToken))
-                yield return (p, null);
+                yield return p;
 
             mms.Seek(0, SeekOrigin.Begin);
             await GifHelper.ComposeGifAsync(new ZipArchive(mms),
@@ -47,10 +48,11 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
             await fs.FlushAsync(cancellationToken).ConfigureAwait(false);
 
-            yield return (1, new(ImageType.Animated, relative)
+            entries.Add(new(ImageType.Animated, relative)
             {
                 PostOrderId = 0
             });
+            yield return 1;
         }
     }
 }
