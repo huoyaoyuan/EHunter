@@ -20,7 +20,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 throw new InvalidOperationException("Please use animated download task.");
         }
 
-        protected override async IAsyncEnumerable<ImageEntry> DownloadAndReturnMetadataAsync(string directoryPart)
+        protected override async IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(string directoryPart)
         {
             for (int p = 0; p < Illust.Pages.Count; p++)
             {
@@ -45,16 +45,15 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
                     double pageProgress = (double)totalBytesRead / length ?? 0;
 
-                    ProgressObservable.Next((pageProgress + p) / Illust.Pages.Count);
+                    yield return ((pageProgress + p) / Illust.Pages.Count, null);
                 }
 
                 await fs.FlushAsync().ConfigureAwait(false);
-                ProgressObservable.Next((p + 1) / (double)Illust.Pages.Count);
 
-                yield return new(ImageType.Static, relativeFilename)
+                yield return ((p + 1) / (double)Illust.Pages.Count, new(ImageType.Static, relativeFilename)
                 {
                     PostOrderId = p
-                };
+                });
             }
         }
     }

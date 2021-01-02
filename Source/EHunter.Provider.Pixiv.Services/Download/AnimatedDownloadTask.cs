@@ -22,7 +22,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 throw new InvalidOperationException("Please use non-animated download task.");
         }
 
-        protected override async IAsyncEnumerable<ImageEntry> DownloadAndReturnMetadataAsync(string directoryPart)
+        protected override async IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(string directoryPart)
         {
             string filename = $"{Illust.Id}.gif";
             var details = await Illust.GetAnimatedDetailAsync().ConfigureAwait(false);
@@ -46,7 +46,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
                 double pageProgress = (double)totalBytesRead / length ?? 0;
 
-                ProgressObservable.Next(pageProgress);
+                yield return (pageProgress, null);
             }
 
             mms.Seek(0, SeekOrigin.Begin);
@@ -57,10 +57,10 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
             await fs.FlushAsync().ConfigureAwait(false);
 
-            yield return new(ImageType.Animated, relativeFilename)
+            yield return (1, new(ImageType.Animated, relativeFilename)
             {
                 PostOrderId = 0
-            };
+            });
         }
     }
 }
