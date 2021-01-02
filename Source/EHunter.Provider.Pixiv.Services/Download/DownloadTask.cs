@@ -99,7 +99,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
             IList<ImageEntry> entries,
             CancellationToken cancellationToken = default);
 
-        protected static async IAsyncEnumerable<double> ReadWithProgress(
+        protected static async IAsyncEnumerable<double> ReadWithProgressAsync(
             HttpResponseMessage response,
             Stream destination,
             [EnumeratorCancellation] CancellationToken cancellationToken = default)

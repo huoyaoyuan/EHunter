@@ -37,7 +37,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
                 using var fs = File.Create(absolute, 8192, FileOptions.Asynchronous);
 
-                await foreach (double pageProgress in ReadWithProgress(response, fs, cancellationToken))
+                await foreach (double pageProgress in ReadWithProgressAsync(response, fs, cancellationToken))
                     yield return (pageProgress + p) / Illust.Pages.Count;
 
                 await fs.FlushAsync(cancellationToken).ConfigureAwait(false);

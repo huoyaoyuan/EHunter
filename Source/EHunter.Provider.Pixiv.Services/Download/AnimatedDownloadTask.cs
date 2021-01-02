@@ -36,7 +36,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
             using var response = await details.GetZipAsync(cancellationToken).ConfigureAwait(false);
             using var mms = new MemoryStream();
-            await foreach (double p in ReadWithProgress(response, mms, cancellationToken))
+            await foreach (double p in ReadWithProgressAsync(response, mms, cancellationToken))
                 yield return p;
 
             mms.Seek(0, SeekOrigin.Begin);
