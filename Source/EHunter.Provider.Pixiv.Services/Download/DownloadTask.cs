@@ -53,52 +53,52 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 Identifier = Illust.Id
             };
 
-            string directoryPart = Path.Combine("Pixiv", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo));
-            string directory = Path.Combine(StorageRoot.FullName, directoryPart);
-            Directory.CreateDirectory(directory);
+            try
+            {
+                string directoryPart = Path.Combine("Pixiv", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo));
+                string directory = Path.Combine(StorageRoot.FullName, directoryPart);
+                Directory.CreateDirectory(directory);
 
 #pragma warning disable CA1508 // false positive
-            await foreach (var (progress, entry) in DownloadAndReturnMetadataAsync(directoryPart, cancellationToken)
-                .ConfigureAwait(false))
+                await foreach (var (progress, entry) in DownloadAndReturnMetadataAsync(directoryPart, cancellationToken)
+                    .ConfigureAwait(false))
 #pragma warning restore CA1508
-            {
-                if (entry != null)
-                    post.Images.Add(entry);
-                yield return progress;
+                {
+                    if (entry != null)
+                        post.Images.Add(entry);
+                    yield return progress;
+                }
+
+                using var eContext = _eFactory.CreateDbContext();
+
+                var tags = await tagsInfo
+                    .ToAsyncEnumerable()
+                    .SelectMany(x => eContext.MapTag(x.tagScopeName, x.tagName))
+                    .Distinct()
+                    .ToArrayAsync(cancellationToken)
+                    .ConfigureAwait(false);
+
+                eContext.Posts.Add(post);
+                if (Illust.Pages.Count == 1)
+                {
+                    post.Images[0].Tags.AddRange(tags.Select(x => new ImageTag(x.tagScopeName, x.tagName)));
+                }
+                else
+                {
+                    var gallery = new PostGallery { Name = Illust.Title, Post = post };
+                    gallery.Tags.AddRange(tags.Select(x => new GalleryTag(x.tagScopeName, x.tagName)));
+                    eContext.Add(gallery);
+                }
+
+                await eContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
-
-            using var eContext = _eFactory.CreateDbContext();
-            using var pContext = _pFactory.CreateDbContext();
-
-            // Has issue with DbContext factory
-            // using var transaction = pContext.UseTransactionWith(eContext);
-
-            var tags = await tagsInfo
-                .ToAsyncEnumerable()
-                .SelectMany(x => eContext.MapTag(x.tagScopeName, x.tagName))
-                .Distinct()
-                .ToArrayAsync(cancellationToken)
-                .ConfigureAwait(false);
-
-            var pendingTask = pContext.PixivPendingDownloads.Find(Illust.Id);
-            pContext.PixivPendingDownloads.Remove(pendingTask);
-            await pContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-
-            eContext.Posts.Add(post);
-            if (Illust.Pages.Count == 1)
+            finally
             {
-                post.Images[0].Tags.AddRange(tags.Select(x => new ImageTag(x.tagScopeName, x.tagName)));
+                using var pContext = _pFactory.CreateDbContext();
+                var pendingTask = pContext.PixivPendingDownloads.Find(Illust.Id);
+                pContext.PixivPendingDownloads.Remove(pendingTask);
+                await pContext.SaveChangesAsync(CancellationToken.None).ConfigureAwait(false);
             }
-            else
-            {
-                var gallery = new PostGallery { Name = Illust.Title, Post = post };
-                gallery.Tags.AddRange(tags.Select(x => new GalleryTag(x.tagScopeName, x.tagName)));
-                eContext.Add(gallery);
-            }
-
-            await eContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-
-            // await transaction.CommitAsync().ConfigureAwait(false);
         }
 
         protected abstract IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(
