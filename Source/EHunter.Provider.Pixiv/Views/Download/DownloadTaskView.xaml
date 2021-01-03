@@ -48,7 +48,7 @@
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
                             Value="{x:Bind _vm.State}"
-                            To="Faulted" />
+                            To="Canceled" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="progress.Visibility" Value="Collapsed" />
