@@ -135,6 +135,9 @@
   <data name="CopyLinkToolTip.Content" xml:space="preserve">
     <value>复制链接</value>
   </data>
+  <data name="DownloadGroup.Text" xml:space="preserve">
+    <value>下载</value>
+  </data>
   <data name="GoToIllustById.PlaceholderText" xml:space="preserve">
     <value>ID直达作品</value>
   </data>
@@ -194,6 +197,12 @@
   </data>
   <data name="LoginMode_Password.Content" xml:space="preserve">
     <value>密码</value>
+  </data>
+  <data name="MaxDownloadsInParallel.Header" xml:space="preserve">
+    <value>最大并行下载</value>
+  </data>
+  <data name="Navigation_Downloads.Content" xml:space="preserve">
+    <value>下载</value>
   </data>
   <data name="Navigation_Opened.Content" xml:space="preserve">
     <value>打开的作品</value>

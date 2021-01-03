@@ -40,6 +40,12 @@
                     </NavigationViewItem>
                 </NavigationViewItem.MenuItems>
             </NavigationViewItem>
+            <NavigationViewItem
+                x:Name="downloads" x:Uid="Navigation_Downloads">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE896;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
             <!--<NavigationViewItem Icon="Pin" Content="Pinned Pictures" />-->
         </NavigationView.MenuItems>
         <Frame x:Name="_frame" />

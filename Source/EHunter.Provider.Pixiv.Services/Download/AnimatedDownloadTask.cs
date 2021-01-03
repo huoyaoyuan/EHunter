@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using EHunter.Data;
 using EHunter.Data.Pixiv;
 using Meowtrix.PixivApi.Models;
@@ -20,25 +24,35 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 throw new InvalidOperationException("Please use non-animated download task.");
         }
 
-        protected override async IAsyncEnumerable<ImageEntry> DownloadAndReturnMetadataAsync(string directoryPart)
+        protected override async IAsyncEnumerable<double> DownloadAsync(
+            IList<ImageEntry> entries,
+            [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             string filename = $"{Illust.Id}.gif";
             var details = await Illust.GetAnimatedDetailAsync().ConfigureAwait(false);
-            int current = 0;
 
-            string relativeFilename = Path.Combine(directoryPart, filename);
-            using var fs = File.Create(Path.Combine(StorageRoot.FullName, relativeFilename), 8192, FileOptions.Asynchronous);
+            var (relative, absolute) = WithDirectory(filename);
+            using var fs = File.Create(absolute, 8192, FileOptions.Asynchronous);
 
-            await GifHelper.ComposeGifAsync(details, fs,
-                () => ProgressObservable.Next(++current / (double)details.Frames.Length))
+            using var response = await details.GetZipAsync(cancellationToken).ConfigureAwait(false);
+            using var mms = new MemoryStream();
+            await foreach (double p in ReadWithProgressAsync(response, mms, cancellationToken))
+                yield return p;
+
+            mms.Seek(0, SeekOrigin.Begin);
+            await GifHelper.ComposeGifAsync(new ZipArchive(mms),
+                details.Frames.Select(x => (x.File, x.Delay)),
+                fs,
+                cancellationToken)
                 .ConfigureAwait(false);
 
-            await fs.FlushAsync().ConfigureAwait(false);
+            await fs.FlushAsync(cancellationToken).ConfigureAwait(false);
 
-            yield return new(ImageType.Animated, relativeFilename)
+            entries.Add(new(ImageType.Animated, relative)
             {
                 PostOrderId = 0
-            };
+            });
+            yield return 1;
         }
     }
 }

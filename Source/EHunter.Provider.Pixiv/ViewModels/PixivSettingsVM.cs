@@ -16,6 +16,7 @@ namespace EHunter.Provider.Pixiv.ViewModels
             _settings = settings;
 
             _useProxy = _settings.UseProxy;
+            _maxDownloadsInParallel = _settings.MaxDownloadsInParallel;
             Client = clientResolver.Resolve();
         }
 
@@ -29,6 +30,17 @@ namespace EHunter.Provider.Pixiv.ViewModels
             {
                 if (SetProperty(ref _useProxy, value))
                     _settings.SetUseProxy(value);
+            }
+        }
+
+        private int _maxDownloadsInParallel;
+        public int MaxDownloadsInParallel
+        {
+            get => _maxDownloadsInParallel;
+            set
+            {
+                if (SetProperty(ref _maxDownloadsInParallel, value) && value > 0)
+                    _settings.SetMaxDownloadsInParallel(value);
             }
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using EHunter.Data;
 using EHunter.Data.Pixiv;
 using Meowtrix.PixivApi.Models;
@@ -20,41 +22,31 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 throw new InvalidOperationException("Please use animated download task.");
         }
 
-        protected override async IAsyncEnumerable<ImageEntry> DownloadAndReturnMetadataAsync(string directoryPart)
+        protected override async IAsyncEnumerable<double> DownloadAsync(
+            IList<ImageEntry> entries,
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             for (int p = 0; p < Illust.Pages.Count; p++)
             {
                 var page = Illust.Pages[p];
-                using var response = await page.Original.RequestAsync().ConfigureAwait(false);
+                using var response = await page.Original.RequestAsync(cancellationToken).ConfigureAwait(false);
 
-                long? length = response.Content.Headers.ContentLength;
                 string filename = response.Content.Headers.ContentDisposition?.FileName
                     ?? $"{Illust.Id}_p{page.Index}.jpg";
-                string relativeFilename = Path.Combine(directoryPart, filename);
+                var (relative, absolute) = WithDirectory(filename);
 
-                using var fs = File.Create(Path.Combine(StorageRoot.FullName, relativeFilename), 8192, FileOptions.Asynchronous);
-                byte[] buffer = new byte[8192];
-                long totalBytesRead = 0;
+                using var fs = File.Create(absolute, 8192, FileOptions.Asynchronous);
 
-                using var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                int bytesRead;
-                while ((bytesRead = await responseStream.ReadAsync(buffer).ConfigureAwait(false)) > 0)
-                {
-                    await fs.WriteAsync(buffer.AsMemory(0, bytesRead)).ConfigureAwait(false);
-                    totalBytesRead += bytesRead;
+                await foreach (double pageProgress in ReadWithProgressAsync(response, fs, cancellationToken))
+                    yield return (pageProgress + p) / Illust.Pages.Count;
 
-                    double pageProgress = (double)totalBytesRead / length ?? 0;
+                await fs.FlushAsync(cancellationToken).ConfigureAwait(false);
 
-                    ProgressObservable.Next((pageProgress + p) / Illust.Pages.Count);
-                }
-
-                await fs.FlushAsync().ConfigureAwait(false);
-                ProgressObservable.Next((p + 1) / (double)Illust.Pages.Count);
-
-                yield return new(ImageType.Static, relativeFilename)
+                entries.Add(new(ImageType.Static, relative)
                 {
                     PostOrderId = p
-                };
+                });
+                yield return (p + 1) / (double)Illust.Pages.Count;
             }
         }
     }

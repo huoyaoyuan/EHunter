@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using EHunter.Data;
 using EHunter.Data.Pixiv;
@@ -31,52 +35,42 @@ namespace EHunter.Provider.Pixiv.Services.Download
             _pFactory = pFactory;
         }
 
-        public async void Start(DateTimeOffset? favoratedTime = null)
+        public async IAsyncEnumerable<double> Start(DateTimeOffset? favoratedTime = null,
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             await Task.Yield();
 
+            IEnumerable<(string tagScopeName, string tagName)> tagsInfo =
+                Illust.Tags.Select(x => ("Pixiv:Tag", x.Name))
+                .Append(("Pixiv:ArtistId", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo)));
+
+            var post = new Post
+            {
+                PublishedTime = Illust.Created,
+                FavoritedTime = favoratedTime ?? DateTimeOffset.Now,
+                Title = Illust.Title,
+                DetailText = Illust.Description,
+                Url = new Uri($"https://www.pixiv.net/artworks/{Illust.Id}"),
+                Provider = "Pixiv:Illust",
+                Identifier = Illust.Id
+            };
+
             try
             {
-                IEnumerable<(string tagScopeName, string tagName)> tagsInfo =
-                    Illust.Tags.Select(x => ("Pixiv:Tag", x.Name))
-                    .Append(("Pixiv:ArtistId", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo)));
-
-                var post = new Post
-                {
-                    PublishedTime = Illust.Created,
-                    FavoritedTime = favoratedTime ?? DateTimeOffset.Now,
-                    Title = Illust.Title,
-                    DetailText = Illust.Description,
-                    Url = new Uri($"https://www.pixiv.net/artworks/{Illust.Id}"),
-                    Provider = "Pixiv:Illust",
-                    Identifier = Illust.Id
-                };
-
-                string directoryPart = Path.Combine("Pixiv", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo));
-                string directory = Path.Combine(StorageRoot.FullName, directoryPart);
-                Directory.CreateDirectory(directory);
-
 #pragma warning disable CA1508 // false positive
-                await foreach (var entry in DownloadAndReturnMetadataAsync(directoryPart).ConfigureAwait(false))
+                await foreach (double progress in DownloadAsync(post.Images, cancellationToken)
+                    .ConfigureAwait(false))
 #pragma warning restore CA1508
-                    post.Images.Add(entry);
+                    yield return progress;
 
                 using var eContext = _eFactory.CreateDbContext();
-                using var pContext = _pFactory.CreateDbContext();
-
-                // Has issue with DbContext factory
-                // using var transaction = pContext.UseTransactionWith(eContext);
 
                 var tags = await tagsInfo
                     .ToAsyncEnumerable()
                     .SelectMany(x => eContext.MapTag(x.tagScopeName, x.tagName))
                     .Distinct()
-                    .ToArrayAsync()
+                    .ToArrayAsync(cancellationToken)
                     .ConfigureAwait(false);
-
-                var pendingTask = pContext.PixivPendingDownloads.Find(Illust.Id);
-                pContext.PixivPendingDownloads.Remove(pendingTask);
-                await pContext.SaveChangesAsync().ConfigureAwait(false);
 
                 eContext.Posts.Add(post);
                 if (Illust.Pages.Count == 1)
@@ -90,72 +84,49 @@ namespace EHunter.Provider.Pixiv.Services.Download
                     eContext.Add(gallery);
                 }
 
-                await eContext.SaveChangesAsync().ConfigureAwait(false);
-
-                // await transaction.CommitAsync().ConfigureAwait(false);
-
-                ProgressObservable.Complete();
+                await eContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
-            catch (Exception e)
+            finally
             {
-                ProgressObservable.Error(e);
+                using var pContext = _pFactory.CreateDbContext();
+                var pendingTask = pContext.PixivPendingDownloads.Find(Illust.Id);
+                pContext.PixivPendingDownloads.Remove(pendingTask);
+                await pContext.SaveChangesAsync(CancellationToken.None).ConfigureAwait(false);
             }
         }
 
-        protected abstract IAsyncEnumerable<ImageEntry> DownloadAndReturnMetadataAsync(string directoryPart);
+        protected abstract IAsyncEnumerable<double> DownloadAsync(
+            IList<ImageEntry> entries,
+            CancellationToken cancellationToken = default);
 
-        private protected readonly ProgressObservable<double> ProgressObservable = new();
-        public IObservable<double> Progress => ProgressObservable;
-    }
-
-    internal class ProgressObservable<T> : IObservable<T>
-    {
-        private readonly List<IObserver<T>> _observers = new();
-
-        public IDisposable Subscribe(IObserver<T> observer)
+        protected static async IAsyncEnumerable<double> ReadWithProgressAsync(
+            HttpResponseMessage response,
+            Stream destination,
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
-            lock (_observers)
-                _observers.Add(observer);
-            return new UnObservable(this, observer);
-        }
+            using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+            long? length = response.Content.Headers.ContentLength;
 
-        private class UnObservable : IDisposable
-        {
-            private readonly ProgressObservable<T> _owner;
-            private readonly IObserver<T> _observer;
+            using var memoryOwner = MemoryPool<byte>.Shared.Rent(8192);
+            var buffer = memoryOwner.Memory;
+            int bytesRead;
+            long totalBytesRead = 0;
 
-            public UnObservable(ProgressObservable<T> owner, IObserver<T> observer)
+            while ((bytesRead = await responseStream.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) > 0)
             {
-                _owner = owner;
-                _observer = observer;
-            }
+                await destination.WriteAsync(buffer[..bytesRead], cancellationToken).ConfigureAwait(false);
+                totalBytesRead += bytesRead;
 
-            public void Dispose()
-            {
-                lock (_owner._observers)
-                    _owner._observers.Remove(_observer);
+                yield return (double)totalBytesRead / length ?? 0;
             }
         }
 
-        public void Next(T value)
+        protected (string Relative, string Absolute) WithDirectory(string filename)
         {
-            lock (_observers)
-                foreach (var o in _observers)
-                    o.OnNext(value);
-        }
-
-        public void Error(Exception e)
-        {
-            lock (_observers)
-                foreach (var o in _observers)
-                    o.OnError(e);
-        }
-
-        public void Complete()
-        {
-            lock (_observers)
-                foreach (var o in _observers)
-                    o.OnCompleted();
+            string relative = Path.Combine("Pixiv", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo), filename);
+            string absolute = Path.Combine(StorageRoot.FullName, relative);
+            Directory.CreateDirectory(Path.GetDirectoryName(absolute)!);
+            return (relative, absolute);
         }
     }
 

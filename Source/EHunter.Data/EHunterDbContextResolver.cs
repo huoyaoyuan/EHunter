@@ -45,6 +45,7 @@ namespace EHunter.Data
             catch
             {
                 await pool.DisposeAsync().ConfigureAwait(false);
+                return;
             }
 
             lock (_memberLock)

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Meowtrix.PixivApi.Models;
 using SixLabors.ImageSharp;
@@ -9,21 +13,37 @@ namespace EHunter.Provider.Pixiv.Services
 {
     public static class GifHelper
     {
-        public static async Task ComposeGifAsync(AnimatedPictureDetail details,
+        public static async Task ComposeGifAsync(
+            AnimatedPictureDetail details,
             Stream stream,
-            Action? onPage = null)
+            CancellationToken cancellationToken = default)
+        {
+            var zipArchive = await details.GetZipArchiveAsync(cancellationToken).ConfigureAwait(false);
+            await ComposeGifAsync(zipArchive,
+                details.Frames.Select(x => (x.File, x.Delay)),
+                stream,
+                cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        public static async Task ComposeGifAsync(
+            ZipArchive zipArchive,
+            IEnumerable<(string file, int frameTime)> frames,
+            Stream stream,
+            CancellationToken cancellationToken = default)
         {
             Image<Rgba32>? image = null;
 
-            foreach (var (s, frametime) in await details.ExtractFramesAsync().ConfigureAwait(false))
+            foreach (var (filename, frameTime) in frames)
             {
-                using (s)
+                using (var s = zipArchive.GetEntry(filename)?.Open()
+                    ?? throw new InvalidOperationException("Corrupted frame information."))
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
+
                     var frame = await Image.LoadAsync(s).ConfigureAwait(false);
                     image ??= new Image<Rgba32>(frame.Width, frame.Height);
                     image.Frames.AddFrame(frame.Frames[0]);
-
-                    onPage?.Invoke();
                 }
             }
 
@@ -32,7 +52,7 @@ namespace EHunter.Provider.Pixiv.Services
 
             image.Metadata.GetGifMetadata().RepeatCount = 0;
             image.Frames.RemoveFrame(0);
-            await image.SaveAsGifAsync(stream).ConfigureAwait(false);
+            await image.SaveAsGifAsync(stream, cancellationToken).ConfigureAwait(false);
         }
     }
 }
