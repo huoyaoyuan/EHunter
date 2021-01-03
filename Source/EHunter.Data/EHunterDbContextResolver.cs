@@ -27,10 +27,8 @@ namespace EHunter.Data
                 cs => _ = CreateFactoryAsync(cs));
         }
 
-        private async Task CreateFactoryAsync(string connectionString)
+        private Task CreateFactoryAsync(string connectionString) => Task.Run(async () =>
         {
-            await Task.Yield();
-
             var options = new DbContextOptionsBuilder<TContext>()
                 .UseSqlServer(connectionString)
                 .Options;
@@ -53,7 +51,7 @@ namespace EHunter.Data
                 _pool = pool;
                 _factory = factory;
             }
-        }
+        });
 
         public Task InitializeTask { get; }
 

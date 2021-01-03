@@ -88,14 +88,17 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
         public async ValueTask<bool?> CanDownloadAsync(int artworkId)
         {
-            await Task.Yield();
-
             var pFactory = _pixivDbContextResolver.Resolve();
             var eFactory = _eHunterContextResolver.Resolve();
             if (pFactory is null || eFactory is null)
                 return null;
 
-            if (_storageSetting.StorageRoot?.Exists != true)
+            if (_storageSetting.StorageRoot is null)
+                return null;
+
+            var existsAsync = Task.Run(() => _storageSetting.StorageRoot.Exists);
+
+            if (!await existsAsync.ConfigureAwait(false))
                 return null;
 
             try
