@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 using EHunter.Data;
 using EHunter.Data.Pixiv;
 using Meowtrix.PixivApi.Models;
@@ -22,9 +22,10 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 throw new InvalidOperationException("Please use animated download task.");
         }
 
-        protected override async IAsyncEnumerable<double> DownloadAsync(
+        protected override async Task DownloadAsync(
             IList<ImageEntry> entries,
-            [EnumeratorCancellation] CancellationToken cancellationToken = default)
+            Action<double>? onProgress = null,
+            CancellationToken cancellationToken = default)
         {
             for (int p = 0; p < Illust.Pages.Count; p++)
             {
@@ -37,8 +38,8 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
                 using var fs = File.Create(absolute, 8192, FileOptions.Asynchronous);
 
-                await foreach (double pageProgress in ReadWithProgressAsync(response, fs, cancellationToken))
-                    yield return (pageProgress + p) / Illust.Pages.Count;
+                await ReadAsync(response, fs, pageProgress => onProgress?.Invoke((pageProgress + p) / Illust.Pages.Count), cancellationToken)
+                    .ConfigureAwait(false);
 
                 await fs.FlushAsync(cancellationToken).ConfigureAwait(false);
 
@@ -46,7 +47,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 {
                     PostOrderId = p
                 });
-                yield return (p + 1) / (double)Illust.Pages.Count;
+                onProgress?.Invoke((p + 1) / (double)Illust.Pages.Count);
             }
         }
     }

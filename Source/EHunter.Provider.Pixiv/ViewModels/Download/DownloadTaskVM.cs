@@ -17,6 +17,8 @@ namespace EHunter.Provider.Pixiv.ViewModels.Download
         private readonly DownloadTask _downloadTask;
         private CancellationTokenSource? _cts;
 
+        private readonly SynchronizationContext? _synchronizationContext = SynchronizationContext.Current;
+
         internal DownloadTaskVM(DownloadManager downloadManager, DownloadTask downloadTask)
         {
             _downloadManager = downloadManager;
@@ -59,10 +61,18 @@ namespace EHunter.Provider.Pixiv.ViewModels.Download
                 try
                 {
                     State = DownloadTaskState.Active;
-#pragma warning disable CA1508 // false positive
-                    await foreach (double p in _downloadTask.Start(cancellationToken: _cts.Token).ConfigureAwait(true))
-#pragma warning restore CA1508
-                        Progress = p;
+
+                    await _downloadTask.RunAsync(cancellationToken: _cts.Token,
+                        onProgress: p =>
+                        {
+                            if (_synchronizationContext is null)
+                                Progress = p;
+                            else
+                                _synchronizationContext.Post(
+                                    o => Progress = (double)o!,
+                                    p);
+                        }).ConfigureAwait(true);
+
                     State = DownloadTaskState.Completed;
                 }
                 catch (TaskCanceledException)

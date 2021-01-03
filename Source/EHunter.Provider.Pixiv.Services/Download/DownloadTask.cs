@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using EHunter.Data;
@@ -35,8 +34,9 @@ namespace EHunter.Provider.Pixiv.Services.Download
             _pFactory = pFactory;
         }
 
-        public async IAsyncEnumerable<double> Start(DateTimeOffset? favoratedTime = null,
-            [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public async Task RunAsync(DateTimeOffset? favoratedTime = null,
+            Action<double>? onProgress = null,
+            CancellationToken cancellationToken = default)
         {
             await Task.Yield();
 
@@ -57,11 +57,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
             try
             {
-#pragma warning disable CA1508 // false positive
-                await foreach (double progress in DownloadAsync(post.Images, cancellationToken)
-                    .ConfigureAwait(false))
-#pragma warning restore CA1508
-                    yield return progress;
+                await DownloadAsync(post.Images, onProgress, cancellationToken).ConfigureAwait(false);
 
                 using var eContext = _eFactory.CreateDbContext();
 
@@ -95,14 +91,16 @@ namespace EHunter.Provider.Pixiv.Services.Download
             }
         }
 
-        protected abstract IAsyncEnumerable<double> DownloadAsync(
+        protected abstract Task DownloadAsync(
             IList<ImageEntry> entries,
+            Action<double>? onProgress = null,
             CancellationToken cancellationToken = default);
 
-        protected static async IAsyncEnumerable<double> ReadWithProgressAsync(
+        protected static async Task ReadAsync(
             HttpResponseMessage response,
             Stream destination,
-            [EnumeratorCancellation] CancellationToken cancellationToken = default)
+            Action<double>? onProgress = null,
+            CancellationToken cancellationToken = default)
         {
             using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
             long? length = response.Content.Headers.ContentLength;
@@ -117,7 +115,7 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 await destination.WriteAsync(buffer[..bytesRead], cancellationToken).ConfigureAwait(false);
                 totalBytesRead += bytesRead;
 
-                yield return (double)totalBytesRead / length ?? 0;
+                onProgress?.Invoke((double)totalBytesRead / length ?? 0);
             }
         }
 

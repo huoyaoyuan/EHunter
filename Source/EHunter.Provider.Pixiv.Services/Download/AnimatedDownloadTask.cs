@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 using EHunter.Data;
 using EHunter.Data.Pixiv;
 using Meowtrix.PixivApi.Models;
@@ -24,9 +24,10 @@ namespace EHunter.Provider.Pixiv.Services.Download
                 throw new InvalidOperationException("Please use non-animated download task.");
         }
 
-        protected override async IAsyncEnumerable<double> DownloadAsync(
+        protected override async Task DownloadAsync(
             IList<ImageEntry> entries,
-            [EnumeratorCancellation] CancellationToken cancellationToken)
+            Action<double>? onProgress = null,
+            CancellationToken cancellationToken = default)
         {
             string filename = $"{Illust.Id}.gif";
             var details = await Illust.GetAnimatedDetailAsync().ConfigureAwait(false);
@@ -34,10 +35,10 @@ namespace EHunter.Provider.Pixiv.Services.Download
             var (relative, absolute) = WithDirectory(filename);
             using var fs = File.Create(absolute, 8192, FileOptions.Asynchronous);
 
-            using var response = await details.GetZipAsync(cancellationToken).ConfigureAwait(false);
             using var mms = new MemoryStream();
-            await foreach (double p in ReadWithProgressAsync(response, mms, cancellationToken))
-                yield return p;
+
+            using (var response = await details.GetZipAsync(cancellationToken).ConfigureAwait(false))
+                await ReadAsync(response, mms, onProgress, cancellationToken).ConfigureAwait(false);
 
             mms.Seek(0, SeekOrigin.Begin);
             await GifHelper.ComposeGifAsync(new ZipArchive(mms),
@@ -52,7 +53,6 @@ namespace EHunter.Provider.Pixiv.Services.Download
             {
                 PostOrderId = 0
             });
-            yield return 1;
         }
     }
 }

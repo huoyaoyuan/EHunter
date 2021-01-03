@@ -10,7 +10,6 @@ using EHunter.Data;
 using EHunter.Data.Pixiv;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Downloader.Manual;
-using EHunter.Provider.Pixiv.Services;
 using EHunter.Provider.Pixiv.Services.Download;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
@@ -57,7 +56,7 @@ var downloadService = new DownloaderService(
     if (int.TryParse(Console.ReadLine(), out int id))
     {
         var task = await downloadService.CreateDownloadTaskAsync(id);
-        await task.Start().ConsumeAsync();
+        await task.RunAsync();
         return;
     }
 }
@@ -98,7 +97,7 @@ foreach (var f in folder.EnumerateFiles("*", SearchOption.AllDirectories))
         Console.WriteLine($"Downloading {id} started.");
 
         var task = await downloadService.CreateDownloadTaskAsync(i);
-        await task.Start(f.CreationTimeUtc.ToLocalTime()).ConsumeAsync();
+        await task.RunAsync(f.CreationTimeUtc.ToLocalTime());
 
         Console.WriteLine($"Downloading {id} complete.");
     }
