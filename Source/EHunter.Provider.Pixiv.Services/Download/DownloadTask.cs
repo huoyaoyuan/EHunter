@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -55,19 +57,11 @@ namespace EHunter.Provider.Pixiv.Services.Download
 
             try
             {
-                string directoryPart = Path.Combine("Pixiv", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo));
-                string directory = Path.Combine(StorageRoot.FullName, directoryPart);
-                Directory.CreateDirectory(directory);
-
 #pragma warning disable CA1508 // false positive
-                await foreach (var (progress, entry) in DownloadAndReturnMetadataAsync(directoryPart, cancellationToken)
+                await foreach (double progress in DownloadAsync(post.Images, cancellationToken)
                     .ConfigureAwait(false))
 #pragma warning restore CA1508
-                {
-                    if (entry != null)
-                        post.Images.Add(entry);
                     yield return progress;
-                }
 
                 using var eContext = _eFactory.CreateDbContext();
 
@@ -101,9 +95,39 @@ namespace EHunter.Provider.Pixiv.Services.Download
             }
         }
 
-        protected abstract IAsyncEnumerable<(double progress, ImageEntry? entry)> DownloadAndReturnMetadataAsync(
-            string directoryPart,
+        protected abstract IAsyncEnumerable<double> DownloadAsync(
+            IList<ImageEntry> entries,
             CancellationToken cancellationToken = default);
+
+        protected static async IAsyncEnumerable<double> ReadWithProgressAsync(
+            HttpResponseMessage response,
+            Stream destination,
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+            long? length = response.Content.Headers.ContentLength;
+
+            using var memoryOwner = MemoryPool<byte>.Shared.Rent(8192);
+            var buffer = memoryOwner.Memory;
+            int bytesRead;
+            long totalBytesRead = 0;
+
+            while ((bytesRead = await responseStream.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) > 0)
+            {
+                await destination.WriteAsync(buffer[..bytesRead], cancellationToken).ConfigureAwait(false);
+                totalBytesRead += bytesRead;
+
+                yield return (double)totalBytesRead / length ?? 0;
+            }
+        }
+
+        protected (string Relative, string Absolute) WithDirectory(string filename)
+        {
+            string relative = Path.Combine("Pixiv", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo), filename);
+            string absolute = Path.Combine(StorageRoot.FullName, relative);
+            Directory.CreateDirectory(Path.GetDirectoryName(absolute)!);
+            return (relative, absolute);
+        }
     }
 
     internal static class EnumerableExtensions
