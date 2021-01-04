@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EHunter.Data.Pixiv\EHunter.Data.Pixiv.csproj" />
+    <ProjectReference Include="..\Data\EHunter.Data.Pixiv.csproj" />
   </ItemGroup>
 
 </Project>

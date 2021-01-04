@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EHunter.Provider.Pixiv.Services\EHunter.Provider.Pixiv.Services.csproj" />
+    <ProjectReference Include="..\Provider\EHunter.Provider.Pixiv.Services.csproj" />
   </ItemGroup>
 
 </Project>

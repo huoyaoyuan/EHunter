@@ -12,9 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EHunter.Common\EHunter.Common.csproj" />
-    <ProjectReference Include="..\EHunter.Data.Pixiv\EHunter.Data.Pixiv.csproj" />
-    <ProjectReference Include="..\EHunter.Provider.Pixiv.Services\EHunter.Provider.Pixiv.Services.csproj" />
+    <ProjectReference Include="..\..\EHunter.Common\EHunter.Common.csproj" />
+    <ProjectReference Include="..\Data\EHunter.Data.Pixiv.csproj" />
+    <ProjectReference Include="..\Provider\EHunter.Provider.Pixiv.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
