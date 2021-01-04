@@ -33,6 +33,7 @@ namespace EHunter.Pixiv
             .AddTransient<OpenedIllustsVM>()
             .AddTransient<IllustSearchPageVM>()
             .AddTransient<PixivSettingsVM>()
-            .AddSingleton<DownloadManager>();
+            .AddSingleton<DownloadManager>()
+            .AddTransient<IllustVMFactory>();
     }
 }
