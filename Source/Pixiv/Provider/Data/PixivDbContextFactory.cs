@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Design;
 
 [assembly: InternalsVisibleTo("EHunter.Data.Test")]
 
-namespace EHunter.Data.Pixiv
+namespace EHunter.Pixiv.Data
 {
     internal class PixivDbContextFactory : IDesignTimeDbContextFactory<PixivDbContext>
     {

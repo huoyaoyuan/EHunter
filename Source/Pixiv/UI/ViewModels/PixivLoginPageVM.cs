@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using EHunter.Data;
-using EHunter.Data.Pixiv;
+using EHunter.Pixiv.Data;
 using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.Models;
 using EHunter.Pixiv.Services;

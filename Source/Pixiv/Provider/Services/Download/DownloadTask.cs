@@ -9,7 +9,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EHunter.Data;
-using EHunter.Data.Pixiv;
+using EHunter.Pixiv.Data;
 using Meowtrix.PixivApi.Models;
 using Microsoft.EntityFrameworkCore;
 

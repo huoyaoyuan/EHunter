@@ -1,6 +1,6 @@
 ﻿using EHunter.Data;
-using EHunter.Data.Pixiv;
 using EHunter.DependencyInjection;
+using EHunter.Pixiv.Data;
 using EHunter.Pixiv.Models;
 using EHunter.Pixiv.Services;
 using EHunter.Pixiv.Services.Download;

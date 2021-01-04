@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EHunter.Data.Pixiv.Migrations
+namespace EHunter.Pixiv.Data.Migrations
 {
     public partial class CreatePixiv : Migration
     {
