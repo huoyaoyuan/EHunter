@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EHunter.Data\EHunter.Data.csproj" />
+    <ProjectReference Include="..\..\Common\Data\EHunter.Data.csproj" />
     <ProjectReference Include="..\..\Pixiv\Data\EHunter.Data.Pixiv.csproj" />
   </ItemGroup>
 
