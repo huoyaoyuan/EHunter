@@ -10,8 +10,6 @@ using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-#nullable enable
-
 namespace EHunter.Pixiv.ViewModels.Download
 {
     public sealed class DownloadManager : ObservableObject, IDisposable

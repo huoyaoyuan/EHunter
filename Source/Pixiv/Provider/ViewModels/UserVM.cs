@@ -1,14 +1,9 @@
-﻿using System;
-using EHunter.ComponentModel;
+﻿using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.Services;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.System;
-
-#nullable enable
 
 namespace EHunter.Pixiv.ViewModels
 {
@@ -124,20 +119,20 @@ namespace EHunter.Pixiv.ViewModels
 
         public void CopyUrl()
         {
-            if (UserInfo is null)
-                return;
+            //if (UserInfo is null)
+            //    return;
 
-            var dataPackage = new DataPackage();
-            dataPackage.SetText($"https://www.pixiv.net/users/{UserInfo.Id}");
-            Clipboard.SetContent(dataPackage);
+            //var dataPackage = new DataPackage();
+            //dataPackage.SetText($"https://www.pixiv.net/users/{UserInfo.Id}");
+            //Clipboard.SetContent(dataPackage);
         }
 
         public void OpenUrl()
         {
-            if (UserInfo is null)
-                return;
+            //if (UserInfo is null)
+            //    return;
 
-            _ = Launcher.LaunchUriAsync(new Uri($"https://www.pixiv.net/users/{UserInfo.Id}"));
+            //_ = Launcher.LaunchUriAsync(new Uri($"https://www.pixiv.net/users/{UserInfo.Id}"));
         }
     }
 

@@ -8,8 +8,6 @@ using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-#nullable enable
-
 namespace EHunter.Pixiv.ViewModels
 {
     public class EnumValueHolder<T> : ObservableObject

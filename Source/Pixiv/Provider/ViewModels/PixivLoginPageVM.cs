@@ -8,8 +8,6 @@ using EHunter.Pixiv.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
 
-#nullable enable
-
 namespace EHunter.Pixiv.ViewModels
 {
     public class PixivLoginPageVM : ObservableObject
