@@ -10,7 +10,7 @@ using Windows.Foundation;
 
 namespace EHunter.ComponentModel
 {
-    public class AsyncEnumerableCollection<T> :
+    internal class AsyncEnumerableCollection<T> :
         ObservableCollection<T>,
         ISupportIncrementalLoading,
         IBindableCollection<T>

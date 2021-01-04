@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
+using EHunter.Services;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -51,7 +52,7 @@ namespace EHunter.Pixiv.ViewModels
             _parent = parent;
             EffectiveWord = tag.Name;
             Tag = tag;
-            Illusts = new(tag.GetIllustsAsync());
+            Illusts = _parent.ViewModelService.CreateAsyncCollection(tag.GetIllustsAsync());
         }
 
         private Tag? _tag;
@@ -137,8 +138,8 @@ namespace EHunter.Pixiv.ViewModels
             set => SetProperty(ref _endDate, value);
         }
 
-        private AsyncEnumerableCollection<Illust>? _illusts;
-        public AsyncEnumerableCollection<Illust>? Illusts
+        private IBindableCollection<Illust>? _illusts;
+        public IBindableCollection<Illust>? Illusts
         {
             get => _illusts;
             private set => SetProperty(ref _illusts, value);
@@ -162,15 +163,21 @@ namespace EHunter.Pixiv.ViewModels
                 ? Tag.GetIllustsAsync(options)
                 : _parent.ClientResolver.Resolve().SearchIllustsAsync(SearchWord, SearchTarget.Value, options);
 
-            Illusts = new(query.Age(SelectedAge.Value));
+            Illusts = _parent.ViewModelService.CreateAsyncCollection(query.Age(SelectedAge.Value));
         }
     }
 
     public class IllustSearchPageVM : ObservableObject
     {
         internal readonly ICustomResolver<PixivClient> ClientResolver;
+        internal readonly IViewModelService ViewModelService;
 
-        public IllustSearchPageVM(ICustomResolver<PixivClient> clientResolver) => ClientResolver = clientResolver;
+        public IllustSearchPageVM(ICustomResolver<PixivClient> clientResolver,
+            IViewModelService viewModelService)
+        {
+            ClientResolver = clientResolver;
+            ViewModelService = viewModelService;
+        }
 
         public ObservableCollection<IllustSearchVM> Tabs { get; } = new();
 
