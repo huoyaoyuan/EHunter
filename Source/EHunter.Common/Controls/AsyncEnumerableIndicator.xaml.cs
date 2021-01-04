@@ -13,13 +13,15 @@ namespace EHunter.Controls
     {
         public AsyncEnumerableIndicator() => InitializeComponent();
 
-        public static readonly DependencyProperty CollectionProperty =
-            DependencyProperty.Register(nameof(Collection), typeof(IAsyncEnumerableCollection), typeof(AsyncEnumerableIndicator),
-                new PropertyMetadata(null));
+        private IAsyncEnumerableCollection? _collection;
         public IAsyncEnumerableCollection? Collection
         {
-            get => (IAsyncEnumerableCollection?)GetValue(CollectionProperty);
-            set => SetValue(CollectionProperty, value);
+            get => _collection;
+            set
+            {
+                _collection = value;
+                Bindings.Update();
+            }
         }
     }
 }
