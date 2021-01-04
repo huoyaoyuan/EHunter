@@ -17,7 +17,7 @@ namespace EHunter.Pixiv
         public static IServiceCollection ConfigurePixiv(this IServiceCollection services)
             => services
             .ConfigureViewModels()
-            .AddSingleton<PixivSettingStore>()
+            .AddSingleton<IPixivSettingStore, PixivSettingStore>()
             .AddSingleton<PixivSetting>()
             .AddSingleton<PixivClientService>()
             .AddConversion<ICustomResolver<PixivClient>, PixivClientService>()
