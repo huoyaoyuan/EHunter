@@ -1,4 +1,5 @@
-﻿using EHunter.ComponentModel;
+﻿using System;
+using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.Services;
 using Meowtrix.PixivApi;
@@ -117,23 +118,8 @@ namespace EHunter.Pixiv.ViewModels
             private set => SetProperty(ref _illusts, value);
         }
 
-        public void CopyUrl()
-        {
-            //if (UserInfo is null)
-            //    return;
-
-            //var dataPackage = new DataPackage();
-            //dataPackage.SetText($"https://www.pixiv.net/users/{UserInfo.Id}");
-            //Clipboard.SetContent(dataPackage);
-        }
-
-        public void OpenUrl()
-        {
-            //if (UserInfo is null)
-            //    return;
-
-            //_ = Launcher.LaunchUriAsync(new Uri($"https://www.pixiv.net/users/{UserInfo.Id}"));
-        }
+        public Uri? Url => UserInfo is null ? null
+            : new($"https://www.pixiv.net/users/{UserInfo.Id}");
     }
 
     public class UserVMFactory
