@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
-    <RootNamespace>EHunter.Provider.Pixiv</RootNamespace>
+    <RootNamespace>EHunter.Pixiv</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\UI\EHunter.Common.csproj" />
     <ProjectReference Include="..\Data\EHunter.Data.Pixiv.csproj" />
-    <ProjectReference Include="..\Provider\EHunter.Provider.Pixiv.csproj" />
+    <ProjectReference Include="..\Provider\EHunter.Pixiv.csproj" />
   </ItemGroup>
 
   <ItemGroup>

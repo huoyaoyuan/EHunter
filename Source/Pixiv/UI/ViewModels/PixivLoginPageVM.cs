@@ -2,15 +2,15 @@
 using System.Threading.Tasks;
 using EHunter.Data;
 using EHunter.Data.Pixiv;
-using EHunter.Provider.Pixiv.Messages;
-using EHunter.Provider.Pixiv.Models;
-using EHunter.Provider.Pixiv.Services;
+using EHunter.Pixiv.Messages;
+using EHunter.Pixiv.Models;
+using EHunter.Pixiv.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.ViewModels
+namespace EHunter.Pixiv.ViewModels
 {
     public class PixivLoginPageVM : ObservableObject
     {

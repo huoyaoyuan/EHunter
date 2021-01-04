@@ -5,7 +5,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.ViewModels.Download
+namespace EHunter.Pixiv.ViewModels.Download
 {
     public class DownloadableIllustVM : ObservableObject
     {

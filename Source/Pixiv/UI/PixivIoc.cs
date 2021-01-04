@@ -1,16 +1,16 @@
 ﻿using EHunter.Data;
 using EHunter.Data.Pixiv;
 using EHunter.DependencyInjection;
-using EHunter.Provider.Pixiv.Models;
-using EHunter.Provider.Pixiv.Services;
-using EHunter.Provider.Pixiv.Services.Download;
-using EHunter.Provider.Pixiv.ViewModels;
-using EHunter.Provider.Pixiv.ViewModels.Download;
+using EHunter.Pixiv.Models;
+using EHunter.Pixiv.Services;
+using EHunter.Pixiv.Services.Download;
+using EHunter.Pixiv.ViewModels;
+using EHunter.Pixiv.ViewModels.Download;
 using EHunter.Services.ImageCaching;
 using Meowtrix.PixivApi;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EHunter.Provider.Pixiv
+namespace EHunter.Pixiv
 {
     public static class PixivIoc
     {

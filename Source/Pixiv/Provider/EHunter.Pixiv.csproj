@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>EHunter.Provider.Pixiv</RootNamespace>
+    <RootNamespace>EHunter.Pixiv</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

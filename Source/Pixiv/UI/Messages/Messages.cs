@@ -1,7 +1,7 @@
 ﻿using System;
 using Meowtrix.PixivApi.Models;
 
-namespace EHunter.Provider.Pixiv.Messages
+namespace EHunter.Pixiv.Messages
 {
     internal sealed record LoginFailedMessage(Exception Exception);
 

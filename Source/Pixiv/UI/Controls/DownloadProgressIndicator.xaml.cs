@@ -1,4 +1,4 @@
-﻿using EHunter.Provider.Pixiv.ViewModels.Download;
+﻿using EHunter.Pixiv.ViewModels.Download;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.Controls
+namespace EHunter.Pixiv.Controls
 {
     public sealed partial class DownloadProgressIndicator : UserControl
     {

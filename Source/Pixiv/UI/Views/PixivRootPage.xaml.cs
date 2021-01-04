@@ -1,6 +1,6 @@
 ﻿using System;
-using EHunter.Provider.Pixiv.Messages;
-using EHunter.Provider.Pixiv.Views.Download;
+using EHunter.Pixiv.Messages;
+using EHunter.Pixiv.Views.Download;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 
@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Controls;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.Views
+namespace EHunter.Pixiv.Views
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.

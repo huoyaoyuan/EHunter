@@ -9,7 +9,7 @@ using Windows.System;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.ViewModels
+namespace EHunter.Pixiv.ViewModels
 {
     public class UserVM : ObservableObject
     {

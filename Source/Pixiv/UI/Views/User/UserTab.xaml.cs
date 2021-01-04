@@ -1,4 +1,4 @@
-﻿using EHunter.Provider.Pixiv.ViewModels;
+﻿using EHunter.Pixiv.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace EHunter.Provider.Pixiv.Views.User
+namespace EHunter.Pixiv.Views.User
 {
     public sealed partial class UserTab : UserControl
     {

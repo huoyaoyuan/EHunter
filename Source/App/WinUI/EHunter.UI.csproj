@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\UI\EHunter.Common.csproj" />
-    <ProjectReference Include="..\..\Pixiv\UI\EHunter.Provider.Pixiv.UI.csproj" />
+    <ProjectReference Include="..\..\Pixiv\UI\EHunter.Pixiv.UI.csproj" />
   </ItemGroup>
 
 </Project>

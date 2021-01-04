@@ -4,15 +4,15 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using EHunter.DependencyInjection;
-using EHunter.Provider.Pixiv.Models;
-using EHunter.Provider.Pixiv.Services.Download;
+using EHunter.Pixiv.Models;
+using EHunter.Pixiv.Services.Download;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.ViewModels.Download
+namespace EHunter.Pixiv.ViewModels.Download
 {
     public sealed class DownloadManager : ObservableObject, IDisposable
     {

@@ -3,7 +3,7 @@
 #nullable enable
 #pragma warning disable CA1508
 
-namespace EHunter.Provider.Pixiv.Models
+namespace EHunter.Pixiv.Models
 {
     public class PixivSettingStore
     {

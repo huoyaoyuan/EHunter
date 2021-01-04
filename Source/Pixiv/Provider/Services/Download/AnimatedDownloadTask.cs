@@ -10,7 +10,7 @@ using EHunter.Data.Pixiv;
 using Meowtrix.PixivApi.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EHunter.Provider.Pixiv.Services.Download
+namespace EHunter.Pixiv.Services.Download
 {
     public class AnimatedDownloadTask : DownloadTask
     {

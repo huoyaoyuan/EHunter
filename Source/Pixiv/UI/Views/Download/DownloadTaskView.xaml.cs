@@ -1,4 +1,4 @@
-﻿using EHunter.Provider.Pixiv.ViewModels.Download;
+﻿using EHunter.Pixiv.ViewModels.Download;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.Views.Download
+namespace EHunter.Pixiv.Views.Download
 {
     public sealed partial class DownloadTaskView : UserControl
     {

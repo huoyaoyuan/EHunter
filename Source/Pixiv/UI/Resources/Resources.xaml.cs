@@ -1,4 +1,4 @@
-﻿namespace EHunter.Provider.Pixiv.Resources
+﻿namespace EHunter.Pixiv.Resources
 {
     internal partial class Resources
     {

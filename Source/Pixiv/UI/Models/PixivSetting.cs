@@ -3,7 +3,7 @@ using EHunter.ComponentModel;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.Models
+namespace EHunter.Pixiv.Models
 {
     public class PixivSetting
     {

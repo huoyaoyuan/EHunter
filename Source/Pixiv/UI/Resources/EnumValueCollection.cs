@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 
-namespace EHunter.Provider.Pixiv.Resources
+namespace EHunter.Pixiv.Resources
 {
     // TODO: https://github.com/microsoft/microsoft-ui-xaml/issues/3339
 

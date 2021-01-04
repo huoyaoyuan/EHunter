@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using EHunter.DependencyInjection;
-using EHunter.Provider.Pixiv.Models;
+using EHunter.Pixiv.Models;
 using EHunter.Settings;
 using Meowtrix.PixivApi;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.Services
+namespace EHunter.Pixiv.Services
 {
     public sealed class PixivClientService : ICustomResolver<PixivClient>, IDisposable
     {

@@ -6,7 +6,7 @@ using Meowtrix.PixivApi.Models;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.Controls
+namespace EHunter.Pixiv.Controls
 {
     public class PixivImage : RichImageBase
     {

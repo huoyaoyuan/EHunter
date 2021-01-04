@@ -1,4 +1,4 @@
-﻿using EHunter.Provider.Pixiv.ViewModels.Download;
+﻿using EHunter.Pixiv.ViewModels.Download;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.Controls
+namespace EHunter.Pixiv.Controls
 {
     public sealed partial class DownloadButton : UserControl
     {

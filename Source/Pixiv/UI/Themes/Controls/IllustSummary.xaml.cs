@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Meowtrix.PixivApi.Models;
 
-namespace EHunter.Provider.Pixiv.Themes
+namespace EHunter.Pixiv.Themes
 {
     internal partial class IllustSummaryTheme
     {

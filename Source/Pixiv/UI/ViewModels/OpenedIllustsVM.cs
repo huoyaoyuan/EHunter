@@ -7,7 +7,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.ViewModels
+namespace EHunter.Pixiv.ViewModels
 {
     public class OpenedIllustsVM : ObservableObject
     {

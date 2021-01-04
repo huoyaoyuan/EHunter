@@ -1,11 +1,11 @@
 ﻿<Page
-    x:Class="EHunter.Provider.Pixiv.Views.IllustSearchPage"
+    x:Class="EHunter.Pixiv.Views.IllustSearchPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:EHunter.Provider.Pixiv.ViewModels"
-    xmlns:search="using:EHunter.Provider.Pixiv.Views.IllustSearch"
+    xmlns:vm="using:EHunter.Pixiv.ViewModels"
+    xmlns:search="using:EHunter.Pixiv.Views.IllustSearch"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Required">

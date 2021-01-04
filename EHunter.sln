@@ -18,7 +18,7 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "EHunter.UI (Package)", "Sou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Common", "Source\Common\UI\EHunter.Common.csproj", "{1C7CE301-565F-4CD2-9369-619EFBFB0C4B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Provider.Pixiv.UI", "Source\Pixiv\UI\EHunter.Provider.Pixiv.UI.csproj", "{3EB34FF6-E670-49E7-A0FA-97BB6D73E6B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Pixiv.UI", "Source\Pixiv\UI\EHunter.Pixiv.UI.csproj", "{3EB34FF6-E670-49E7-A0FA-97BB6D73E6B5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Data", "Source\Common\Data\EHunter.Data.csproj", "{D40AD126-44EB-4D1F-9100-C26328704143}"
 EndProject
@@ -28,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Data.Pixiv", "Sourc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Base", "Source\Common\Base\EHunter.Base.csproj", "{B1F6DBB2-C1D6-4FE5-8E35-9E7A6A455159}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Provider.Pixiv.Provider", "Source\Pixiv\Provider\EHunter.Provider.Pixiv.csproj", "{123280CD-1D31-4A43-B5A9-44B317E765CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Pixiv.Provider", "Source\Pixiv\Provider\EHunter.Pixiv.csproj", "{123280CD-1D31-4A43-B5A9-44B317E765CC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pixiv", "Pixiv", "{AEB8CBA3-0FF4-411D-87A6-E7EECBC183B0}"
 EndProject

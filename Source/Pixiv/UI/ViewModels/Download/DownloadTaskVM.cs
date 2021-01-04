@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using EHunter.Provider.Pixiv.Services.Download;
+using EHunter.Pixiv.Services.Download;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.ViewModels.Download
+namespace EHunter.Pixiv.ViewModels.Download
 {
 #pragma warning disable CA1001
     public sealed class DownloadTaskVM : ObservableObject

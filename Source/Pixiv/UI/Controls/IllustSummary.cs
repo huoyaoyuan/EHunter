@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.Controls
+namespace EHunter.Pixiv.Controls
 {
     public class IllustSummary : Control
     {

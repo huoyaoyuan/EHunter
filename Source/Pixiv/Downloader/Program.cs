@@ -10,7 +10,7 @@ using EHunter.Data;
 using EHunter.Data.Pixiv;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Downloader.Manual;
-using EHunter.Provider.Pixiv.Services.Download;
+using EHunter.Pixiv.Services.Download;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.EntityFrameworkCore;

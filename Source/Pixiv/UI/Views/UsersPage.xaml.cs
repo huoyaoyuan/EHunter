@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using EHunter.Provider.Pixiv.Messages;
-using EHunter.Provider.Pixiv.ViewModels;
+using EHunter.Pixiv.Messages;
+using EHunter.Pixiv.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Navigation;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace EHunter.Provider.Pixiv.Views
+namespace EHunter.Pixiv.Views
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.

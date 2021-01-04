@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Windows.Input;
-using EHunter.Provider.Pixiv.Messages;
+using EHunter.Pixiv.Messages;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.Messaging;
 
 #nullable enable
 
-namespace EHunter.Provider.Pixiv.Commands
+namespace EHunter.Pixiv.Commands
 {
     public sealed class NavigateToUserCommand : ICommand
     {
