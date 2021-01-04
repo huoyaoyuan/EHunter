@@ -1,0 +1,31 @@
+﻿<Page
+    x:Class="EHunter.Pixiv.Views.UsersPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:EHunter.Pixiv.ViewModels"
+    xmlns:user="using:EHunter.Pixiv.Views.User"
+    mc:Ignorable="d"
+    NavigationCacheMode="Required"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <TabView
+        x:Name="tabView"
+        VerticalAlignment="Stretch"
+        TabItemsSource="{x:Bind _vms}"
+        TabCloseRequested="TabCloseRequested"
+        AddTabButtonClick="{x:Bind AddTab}">
+        <TabView.TabItemTemplate>
+            <DataTemplate x:DataType="vm:UserVM"
+                          x:DefaultBindMode="OneWay">
+                <TabViewItem>
+                    <TabViewItem.Header>
+                        <user:UserTabHeader VM="{x:Bind}" />
+                    </TabViewItem.Header>
+
+                    <user:UserTab VM="{x:Bind}" />
+                </TabViewItem>
+            </DataTemplate>
+        </TabView.TabItemTemplate>
+    </TabView>
+</Page>

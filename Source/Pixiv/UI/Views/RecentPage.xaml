@@ -1,0 +1,169 @@
+﻿<Page
+    x:Class="EHunter.Pixiv.Views.RecentPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:EHunter.Pixiv.Controls"
+    xmlns:res="using:EHunter.Pixiv.Resources"
+    xmlns:m="using:Meowtrix.PixivApi.Models"
+    xmlns:tkc="using:Microsoft.Toolkit.Collections"
+    xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:sys="using:System"
+    mc:Ignorable="d"
+    NavigationCacheMode="Required"
+    x:DefaultBindMode="OneWay"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <res:Resources>
+            <CollectionViewSource
+                x:Name="cvs"
+                Source="{x:Bind _vm.GroupedIllusts}"
+                IsSourceGrouped="True" />
+        </res:Resources>
+    </Page.Resources>
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WaitingForLogin">
+                    <VisualState.StateTriggers>
+                        <tktr:IsEqualStateTrigger
+                            To="WaitingLogin"
+                            Value="{x:Bind _vm.State}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="waitingPanel.Visibility" Value="Visible" />
+                        <Setter Target="waitingText.Text" x:Uid="WaitingForLoginSetter" />
+                        <Setter Target="waitingProgress.IsActive" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="LoginFailed">
+                    <VisualState.StateTriggers>
+                        <tktr:IsEqualStateTrigger
+                            To="NotLogin"
+                            Value="{x:Bind _vm.State}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="waitingPanel.Visibility" Value="Visible" />
+                        <Setter Target="waitingText.Text" x:Uid="NotLoginSetter" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="InitialLoading">
+                    <VisualState.StateTriggers>
+                        <tktr:IsEqualStateTrigger
+                            To="InitialLoading"
+                            Value="{x:Bind _vm.State}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="waitingPanel.Visibility" Value="Visible" />
+                        <Setter Target="waitingText.Text" x:Uid="LoadingSetter" />
+                        <Setter Target="waitingProgress.IsActive" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Showing">
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="True" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="illustrationGrid.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal"
+                    Margin="4"
+                    Spacing="4">
+            <Button Click="{x:Bind _vm.Refresh}">
+                <SymbolIcon Symbol="Refresh" />
+                <ToolTipService.ToolTip>
+                    <ToolTip x:Uid="RefreshButtonToolTip" />
+                </ToolTipService.ToolTip>
+            </Button>
+            <ComboBox
+                Style="{StaticResource AgeRestrictionSelectorStyle}"
+                SelectedItem="{x:Bind _vm.IntSelectedAge, Mode=TwoWay}" />
+        </StackPanel>
+        <Grid x:Name="waitingPanel"
+              Grid.Row="1"
+              Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Name="waitingText"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Style="{StaticResource SubheaderTextBlockStyle}"
+                Margin="4" />
+            <ProgressRing
+                x:Name="waitingProgress"
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Margin="4" />
+        </Grid>
+        <SemanticZoom
+            x:Name="illustrationGrid"
+            Grid.Row="1"
+            Visibility="Collapsed">
+            <SemanticZoom.ZoomedInView>
+                <GridView
+                    x:Name="gridView"
+                    ItemsSource="{x:Bind cvs.View}"
+                    IsItemClickEnabled="True">
+                    <GridView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate x:DataType="tkc:IReadOnlyObservableGroup">
+                                    <TextBlock
+                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                        Text="{x:Bind (sys:DateTime)Key.ToLongDateString()}" />
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </GridView.GroupStyle>
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="m:Illust"
+                                      x:DefaultBindMode="OneTime">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <controls:IllustSummary
+                                    Illust="{x:Bind}" />
+                                <HyperlinkButton
+                                    Grid.Row="2"
+                                    HorizontalAlignment="Center"
+                                    Content="{x:Bind User.Name}"
+                                    Command="{StaticResource NavigateToUserCommand}"
+                                    CommandParameter="{x:Bind User}"
+                                    Click="NavigateToUser_Click" />
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </SemanticZoom.ZoomedInView>
+
+            <SemanticZoom.ZoomedOutView>
+                <ListView
+                    ItemsSource="{x:Bind cvs.View.CollectionGroups}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="ICollectionViewGroup">
+                            <TextBlock
+                                Text="{x:Bind (sys:DateTime)Group.(tkc:IReadOnlyObservableGroup.Key).ToLongDateString()}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </SemanticZoom.ZoomedOutView>
+        </SemanticZoom>
+        <controls:IllustsFlip
+            Grid.RowSpan="2"
+            SourceList="{x:Bind gridView, Mode=OneTime}" />
+    </Grid>
+</Page>

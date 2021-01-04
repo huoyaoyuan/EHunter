@@ -1,0 +1,66 @@
+﻿<UserControl
+    x:Class="EHunter.Pixiv.Controls.IllustsFlip"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:commands="using:EHunter.Pixiv.Commands"
+    xmlns:local="using:EHunter.Pixiv.Controls"
+    xmlns:m="using:Meowtrix.PixivApi.Models"
+    mc:Ignorable="d">
+    <Grid x:Name="grid"
+          Visibility="Collapsed">
+        <FlipView
+            x:Name="flipView"
+            ItemsSource="{x:Bind SourceList.ItemsSource, Mode=OneWay}">
+            <FlipView.ItemTemplateSelector>
+                <local:AnimatableIllustTemplateSelector>
+                    <local:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
+                        <DataTemplate x:DataType="m:Illust"
+                                      x:DefaultBindMode="OneTime">
+                            <FlipView
+                                ItemsSource="{x:Bind Pages}">
+                                <FlipView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel Orientation="Vertical"/>
+                                    </ItemsPanelTemplate>
+                                </FlipView.ItemsPanel>
+                                <FlipView.ItemTemplate>
+                                    <DataTemplate x:DataType="m:IllustPage">
+                                        <local:PixivImage
+                                            ImageInfo="{x:Bind Large}" />
+                                    </DataTemplate>
+                                </FlipView.ItemTemplate>
+                            </FlipView>
+                        </DataTemplate>
+                    </local:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
+                    <local:AnimatableIllustTemplateSelector.AnimatedTemplate>
+                        <DataTemplate x:DataType="m:Illust"
+                                      x:DefaultBindMode="OneTime">
+                            <local:AnimatedIllust Illust="{x:Bind}" />
+                        </DataTemplate>
+                    </local:AnimatableIllustTemplateSelector.AnimatedTemplate>
+                </local:AnimatableIllustTemplateSelector>
+            </FlipView.ItemTemplateSelector>
+        </FlipView>
+        <CommandBar
+            DefaultLabelPosition="Right"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top">
+            <AppBarButton x:Uid="OpenAppBarButton"
+                          CommandParameter="{x:Bind flipView.SelectedItem, Mode=OneWay}">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C5;" />
+                </AppBarButton.Icon>
+                <AppBarButton.Command>
+                    <commands:NavigateToIllustCommand />
+                </AppBarButton.Command>
+            </AppBarButton>
+            <AppBarButton Icon="Cancel" x:Uid="CloseAppBarButton" Click="{x:Bind CloseDetail}">
+                <AppBarButton.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Escape" />
+                </AppBarButton.KeyboardAccelerators>
+            </AppBarButton>
+        </CommandBar>
+    </Grid>
+</UserControl>
