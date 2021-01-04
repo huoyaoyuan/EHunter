@@ -4,101 +4,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:local="using:EHunter.Provider.Pixiv.Controls"
     mc:Ignorable="d"
     x:DefaultBindMode="OneWay">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Waiting">
-                    <VisualState.StateTriggers>
-                        <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.DownloadTask.State, FallbackValue={x:Null}}"
-                            To="Waiting" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="progress.IsActive" Value="True" />
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState x:Name="Active">
-                    <VisualState.StateTriggers>
-                        <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.DownloadTask.State, FallbackValue={x:Null}}"
-                            To="Active" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="progress.IsActive" Value="True" />
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState x:Name="Canceled">
-                    <VisualState.StateTriggers>
-                        <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.DownloadTask.State, FallbackValue={x:Null}}"
-                            To="Canceled" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="progress.Visibility" Value="Collapsed" />
-                        <Setter Target="statusIcon.Visibility" Value="Visible" />
-                        <Setter Target="statusIcon.Glyph" Value="&#xEA39;" />
-                        <Setter Target="statusIcon.Foreground" Value="Red" />
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState x:Name="Faulted">
-                    <VisualState.StateTriggers>
-                        <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.DownloadTask.State, FallbackValue={x:Null}}"
-                            To="Faulted" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="progress.Visibility" Value="Collapsed" />
-                        <Setter Target="statusIcon.Visibility" Value="Visible" />
-                        <Setter Target="statusIcon.Glyph" Value="&#xEA39;" />
-                        <Setter Target="statusIcon.Foreground" Value="Red" />
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState x:Name="Completed">
-                    <VisualState.StateTriggers>
-                        <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.DownloadTask.State, FallbackValue={x:Null}}"
-                            To="Completed" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="progress.Visibility" Value="Collapsed" />
-                        <Setter Target="statusIcon.Visibility" Value="Visible" />
-                        <Setter Target="statusIcon.Glyph" Value="&#xE930;" />
-                        <Setter Target="statusIcon.Foreground" Value="Green" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-
-        <Button Grid.Column="1"
-                Style="{ThemeResource TextBlockButtonStyle}"
+    <StackPanel Orientation="Horizontal">
+        <local:DownloadProgressIndicator
+            VM="{x:Bind _vm}" />
+        <Button Style="{ThemeResource TextBlockButtonStyle}"
                 IsEnabled="{x:Bind _vm.CanDownload, FallbackValue=False}"
                 Click="{x:Bind _vm.Download}">
             <SymbolIcon Symbol="Download" />
         </Button>
-
-        <!-- TODO: use progress when available -->
-        <ProgressRing
-            x:Name="progress"
-            Grid.Column="0"
-            Margin="2"
-            IsActive="False" />
-
-        <FontIcon
-            x:Name="statusIcon"
-            Grid.Column="0"
-            Margin="2"
-            FontFamily="{ThemeResource SymbolThemeFontFamily}" />
-    </Grid>
+    </StackPanel>
 </UserControl>
