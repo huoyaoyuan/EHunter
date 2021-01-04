@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EHunter.Data\EHunter.Data.csproj" />
-    <ProjectReference Include="..\Pixiv\Data\EHunter.Data.Pixiv.csproj" />
+    <ProjectReference Include="..\..\EHunter.Data\EHunter.Data.csproj" />
+    <ProjectReference Include="..\..\Pixiv\Data\EHunter.Data.Pixiv.csproj" />
   </ItemGroup>
 
 </Project>
