@@ -3,8 +3,6 @@ using EHunter.Pixiv.Models;
 using Meowtrix.PixivApi;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-#nullable enable
-
 namespace EHunter.Pixiv.ViewModels
 {
     public class PixivSettingsVM : ObservableObject

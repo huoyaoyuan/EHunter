@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:commonControls="using:EHunter.Controls"
+    xmlns:commands="using:EHunter.Pixiv.Commands"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
     xmlns:m="using:Meowtrix.PixivApi.Models"
@@ -51,7 +52,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        
+
         <Grid x:Name="gotoGrid"
               Visibility="Collapsed"
               HorizontalAlignment="Center"
@@ -88,12 +89,14 @@
                 Grid.Row="2" Grid.ColumnSpan="2"
                 Margin="4" />
         </Grid>
-        
+
         <Grid x:Name="userGrid"
               VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" /> <!-- User info -->
-                <RowDefinition Height="*" /> <!-- artworks -->
+                <RowDefinition Height="Auto" />
+                <!-- User info -->
+                <RowDefinition Height="*" />
+                <!-- artworks -->
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
@@ -139,7 +142,10 @@
                         Foreground="{ThemeResource SystemBaseMediumColor}" />
                     <Button
                         Style="{ThemeResource TextBlockButtonStyle}"
-                        Click="{x:Bind VM.CopyUrl}">
+                        CommandParameter="{x:Bind VM.Url}">
+                        <Button.Command>
+                            <commands:CopyUrlCommand />
+                        </Button.Command>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE71B;" />
                         <ToolTipService.ToolTip>
                             <ToolTip x:Uid="CopyLinkToolTip" />
@@ -147,7 +153,10 @@
                     </Button>
                     <Button
                         Style="{ThemeResource TextBlockButtonStyle}"
-                        Click="{x:Bind VM.OpenUrl}">
+                        CommandParameter="{x:Bind VM.Url}">
+                        <Button.Command>
+                            <commands:OpenUrlCommand />
+                        </Button.Command>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A7;" />
                         <ToolTipService.ToolTip>
                             <ToolTip x:Uid="OpenLinkToolTip" />

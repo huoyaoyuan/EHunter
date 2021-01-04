@@ -8,18 +8,16 @@ using EHunter.Pixiv.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
 
-#nullable enable
-
 namespace EHunter.Pixiv.ViewModels
 {
     public class PixivLoginPageVM : ObservableObject
     {
-        private readonly PixivSettingStore _settingStore;
+        private readonly IPixivSettingStore _settingStore;
         private readonly PixivSetting _setting;
         private readonly PixivClientService _clientService;
 
         public PixivLoginPageVM(
-            PixivSettingStore settingStore,
+            IPixivSettingStore settingStore,
             PixivSetting setting,
             PixivClientService clientService,
             EHunterDbContextResolver<EHunterDbContext> eHunterContextResolver,

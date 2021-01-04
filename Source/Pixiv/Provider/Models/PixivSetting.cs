@@ -1,15 +1,13 @@
 ﻿using System;
 using EHunter.ComponentModel;
 
-#nullable enable
-
 namespace EHunter.Pixiv.Models
 {
     public class PixivSetting
     {
-        private readonly PixivSettingStore _settingStore;
+        private readonly IPixivSettingStore _settingStore;
 
-        public PixivSetting(PixivSettingStore settingStore)
+        public PixivSetting(IPixivSettingStore settingStore)
         {
             _settingStore = settingStore;
             _useProxy = new ObservableProperty<bool>(_settingStore.UseProxy);

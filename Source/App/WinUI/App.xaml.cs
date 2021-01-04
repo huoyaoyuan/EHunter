@@ -1,5 +1,6 @@
 ﻿using EHunter.Data;
 using EHunter.Pixiv;
+using EHunter.Services;
 using EHunter.Settings;
 using EHunter.UI.Models;
 using EHunter.UI.ViewModels;
@@ -28,6 +29,7 @@ namespace EHunter.UI
         public App()
         {
             var services = new ServiceCollection()
+                .AddSingleton<IViewModelService, ViewModelService>()
                 .AddSingleton<ICommonSettingStore, CommonSettingStore>()
                 .AddCommonSettings()
                 .AddTransient<CommonSettingVM>()

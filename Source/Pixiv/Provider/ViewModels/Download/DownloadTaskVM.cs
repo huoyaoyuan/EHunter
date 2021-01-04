@@ -5,8 +5,6 @@ using EHunter.Pixiv.Services.Download;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-#nullable enable
-
 namespace EHunter.Pixiv.ViewModels.Download
 {
 #pragma warning disable CA1001

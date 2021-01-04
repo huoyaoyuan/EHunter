@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-#nullable enable
-
 namespace EHunter.Pixiv.ViewModels.Download
 {
     public class DownloadableIllustVM : ObservableObject

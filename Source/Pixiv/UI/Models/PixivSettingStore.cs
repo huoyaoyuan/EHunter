@@ -5,7 +5,7 @@
 
 namespace EHunter.Pixiv.Models
 {
-    public class PixivSettingStore
+    public class PixivSettingStore : IPixivSettingStore
     {
         private readonly ApplicationDataContainer _applicationSetting;
         public PixivSettingStore()
