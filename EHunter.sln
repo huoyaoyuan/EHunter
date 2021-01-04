@@ -18,7 +18,7 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "EHunter.UI (Package)", "Sou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Common", "Source\Common\UI\EHunter.Common.csproj", "{1C7CE301-565F-4CD2-9369-619EFBFB0C4B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Provider.Pixiv", "Source\Pixiv\UI\EHunter.Provider.Pixiv.csproj", "{3EB34FF6-E670-49E7-A0FA-97BB6D73E6B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Provider.Pixiv.UI", "Source\Pixiv\UI\EHunter.Provider.Pixiv.UI.csproj", "{3EB34FF6-E670-49E7-A0FA-97BB6D73E6B5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Data", "Source\Common\Data\EHunter.Data.csproj", "{D40AD126-44EB-4D1F-9100-C26328704143}"
 EndProject

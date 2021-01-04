@@ -18,7 +18,7 @@ namespace EHunter.UI.Views
     {
         private readonly List<ProviderMenuItem> _providers = new()
         {
-            new ProviderMenuItem("Pixiv", "ms-appx:///EHunter.Provider.Pixiv/Assets/pixiv.png", typeof(PixivSwitchPage)),
+            new ProviderMenuItem("Pixiv", "ms-appx:///EHunter.Provider.Pixiv.UI/Assets/pixiv.png", typeof(PixivSwitchPage)),
             new ProviderMenuItem("EHentai", "https://exhentai.org/favicon.ico", typeof(EHentaiRootPage)),
         };
 
