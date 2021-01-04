@@ -13,7 +13,6 @@ namespace EHunter.ComponentModel
     public class AsyncEnumerableCollection<T> :
         ObservableCollection<T>,
         ISupportIncrementalLoading,
-        IAsyncEnumerableCollection,
         IBindableCollection<T>
     {
         private readonly ConfiguredCancelableAsyncEnumerable<T>.Enumerator _enumerator;

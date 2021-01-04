@@ -11,7 +11,8 @@ namespace EHunter.ComponentModel
         IReadOnlyList<T>,
         IList,
         INotifyPropertyChanged,
-        INotifyCollectionChanged
+        INotifyCollectionChanged,
+        IAsyncEnumerableCollection
     {
     }
 }
