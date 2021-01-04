@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EHunter.Data\EHunter.Data.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.1" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.1" PrivateAssets="All" />
+    <ProjectReference Include="..\..\Common\Data\EHunter.Data.csproj" />
   </ItemGroup>
 
 </Project>

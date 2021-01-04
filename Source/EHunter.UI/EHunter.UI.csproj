@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EHunter.Common\EHunter.Common.csproj" />
+    <ProjectReference Include="..\Common\UI\EHunter.Common.csproj" />
     <ProjectReference Include="..\Pixiv\UI\EHunter.Provider.Pixiv.csproj" />
   </ItemGroup>
 

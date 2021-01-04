@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EHunter.Base\EHunter.Base.csproj" />
+    <ProjectReference Include="..\Base\EHunter.Base.csproj" />
   </ItemGroup>
 
 </Project>
