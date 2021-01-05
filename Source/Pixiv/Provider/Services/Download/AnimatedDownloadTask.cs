@@ -30,7 +30,7 @@ namespace EHunter.Pixiv.Services.Download
             CancellationToken cancellationToken = default)
         {
             string filename = $"{Illust.Id}.gif";
-            var details = await Illust.GetAnimatedDetailAsync().ConfigureAwait(false);
+            var details = await Illust.GetAnimatedDetailAsync(cancellationToken).ConfigureAwait(false);
 
             var (relative, absolute) = WithDirectory(filename);
             using var fs = File.Create(absolute, 8192, FileOptions.Asynchronous);

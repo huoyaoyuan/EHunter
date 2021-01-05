@@ -121,6 +121,7 @@
                         x:Name="usernameText"
                         Style="{StaticResource TitleTextBlockStyle}"
                         Text="{x:Bind VM.UserInfo.Name, FallbackValue=''}" />
+                    <!-- TODO: use total illusts + comics -->
                     <TextBlock
                         x:Name="illustsCount"
                         VerticalAlignment="Bottom"
