@@ -57,6 +57,7 @@ namespace EHunter.Pixiv.ViewModels
             var illust = new IllustHolderVM(id, GetIllustAsync(id));
             Illusts.Add(illust);
             SelectedIllust = illust;
+            CanClose = true;
         }
 
         private bool _canClose;
