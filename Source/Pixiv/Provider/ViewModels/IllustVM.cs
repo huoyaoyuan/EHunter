@@ -1,4 +1,7 @@
-﻿using EHunter.Pixiv.ViewModels.Download;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using EHunter.Pixiv.ViewModels.Download;
 using Meowtrix.PixivApi.Models;
 
 #nullable enable
@@ -24,5 +27,9 @@ namespace EHunter.Pixiv.ViewModels
         public IllustVMFactory(DownloadManager downloadManager) => _downloadManager = downloadManager;
 
         public IllustVM CreateViewModel(Illust illust) => new(illust, _downloadManager.GetDownloadableVM(illust));
+
+        [return: NotNullIfNotNull("source")]
+        public IAsyncEnumerable<IllustVM>? CreateViewModels(IAsyncEnumerable<Illust>? source)
+            => source?.Select(CreateViewModel);
     }
 }

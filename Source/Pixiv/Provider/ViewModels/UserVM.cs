@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.Services;
@@ -65,10 +64,9 @@ namespace EHunter.Pixiv.ViewModels
 
         private void LoadIllusts()
         {
-            Illusts = _viewModelService.CreateAsyncCollection(
-                UserInfo?.GetIllustsAsync()
-                    .Age(SelectedAge)
-                    .Select(x => _illustVMFactory.CreateViewModel(x)));
+            var illusts = UserInfo?.GetIllustsAsync().Age(SelectedAge);
+            var vms = _illustVMFactory.CreateViewModels(illusts);
+            Illusts = _viewModelService.CreateAsyncCollection(vms);
 
             // TODO: Consider AdvancedCollectionView.Filter
             // Currently doesn't work with mignon/IsR18=true

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
@@ -51,8 +50,8 @@ namespace EHunter.Pixiv.ViewModels
             _parent = parent;
             EffectiveWord = tag.Name;
             Tag = tag;
-            Illusts = _parent.ViewModelService.CreateAsyncCollection(tag.GetIllustsAsync()
-                .Select(x => _parent.IllustVMFactory.CreateViewModel(x)));
+            Illusts = _parent.ViewModelService.CreateAsyncCollection(
+                _parent.IllustVMFactory.CreateViewModels(tag.GetIllustsAsync()));
         }
 
         private Tag? _tag;
@@ -163,8 +162,8 @@ namespace EHunter.Pixiv.ViewModels
                 ? Tag.GetIllustsAsync(options)
                 : _parent.ClientResolver.Resolve().SearchIllustsAsync(SearchWord, SearchTarget.Value, options);
 
-            Illusts = _parent.ViewModelService.CreateAsyncCollection(query.Age(SelectedAge.Value)
-                .Select(x => _parent.IllustVMFactory.CreateViewModel(x)));
+            Illusts = _parent.ViewModelService.CreateAsyncCollection(
+                _parent.IllustVMFactory.CreateViewModels(query.Age(SelectedAge.Value)));
         }
     }
 
