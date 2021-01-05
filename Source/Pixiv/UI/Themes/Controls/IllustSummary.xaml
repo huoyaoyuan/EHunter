@@ -114,10 +114,19 @@
                             HorizontalAlignment="Center"
                             TextWrapping="Wrap"
                             Text="{x:Bind ViewModel.Illust.Title}" />
-                        <controls:DownloadButton
+                        <StackPanel
                             Grid.Row="2"
+                            Orientation="Horizontal"
                             HorizontalAlignment="Right"
-                            Illust="{x:Bind ViewModel.Illust}" />
+                            x:DefaultBindMode="OneWay">
+                            <controls:DownloadProgressIndicator
+                                VM="{x:Bind ViewModel.Downloadable}" />
+                            <Button Style="{ThemeResource TextBlockButtonStyle}"
+                                IsEnabled="{x:Bind ViewModel.Downloadable.CanDownload, FallbackValue=False}"
+                                Click="{x:Bind ViewModel.Downloadable.Download}">
+                                <SymbolIcon Symbol="Download" />
+                            </Button>
+                        </StackPanel>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
