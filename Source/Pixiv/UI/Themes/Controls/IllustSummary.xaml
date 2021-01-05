@@ -26,7 +26,7 @@
                             <VisualStateGroup>
                                 <VisualState x:Name="R18">
                                     <VisualState.StateTriggers>
-                                        <StateTrigger IsActive="{x:Bind Illust.IsR18}" />
+                                        <StateTrigger IsActive="{x:Bind ViewModel.Illust.IsR18}" />
                                     </VisualState.StateTriggers>
                                     <VisualState.Setters>
                                         <Setter Target="r18Tag.Visibility" Value="Visible" />
@@ -37,7 +37,7 @@
                                 <VisualState x:Name="SinglePage">
                                     <VisualState.StateTriggers>
                                         <tktr:IsEqualStateTrigger
-                                            Value="{x:Bind Illust.Pages.Count}"
+                                            Value="{x:Bind ViewModel.Illust.Pages.Count}"
                                             To="1" />
                                     </VisualState.StateTriggers>
                                     <VisualState.Setters>
@@ -48,7 +48,7 @@
                             <VisualStateGroup>
                                 <VisualState x:Name="Animated">
                                     <VisualState.StateTriggers>
-                                        <StateTrigger IsActive="{x:Bind Illust.IsAnimated}" />
+                                        <StateTrigger IsActive="{x:Bind ViewModel.Illust.IsAnimated}" />
                                     </VisualState.StateTriggers>
                                     <VisualState.Setters>
                                         <Setter Target="animatedTag.Visibility" Value="Visible" />
@@ -56,15 +56,15 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        
+
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        
+
                         <controls:PixivImage
-                            ImageInfo="{x:Bind local:IllustSummaryTheme.FirstPageMedium(Illust.Pages)}"
+                            ImageInfo="{x:Bind local:IllustSummaryTheme.FirstPageMedium(ViewModel.Illust.Pages)}"
                             Margin="2" />
                         <Border
                             x:Name="r18Tag"
@@ -89,7 +89,7 @@
                                         Spacing="2">
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF5ED;"
                                           Foreground="{ThemeResource SystemAltHighColor}" />
-                                <TextBlock Foreground="{ThemeResource SystemAltHighColor}" Text="{x:Bind Illust.Pages.Count}" />
+                                <TextBlock Foreground="{ThemeResource SystemAltHighColor}" Text="{x:Bind ViewModel.Illust.Pages.Count}" />
                             </StackPanel>
                         </Border>
                         <Grid x:Name="animatedTag"
@@ -108,17 +108,17 @@
                             HorizontalAlignment="Right"
                             VerticalAlignment="Bottom"
                             IsColorFontEnabled="True">
-                            <Run Text="❤" /><Run Text="{x:Bind Illust.TotalBookmarks}" />
+                            <Run Text="❤" /><Run Text="{x:Bind ViewModel.Illust.TotalBookmarks}" />
                         </TextBlock>
                         <TextBlock
                             Grid.Row="1"
                             HorizontalAlignment="Center"
                             TextWrapping="Wrap"
-                            Text="{x:Bind Illust.Title}" />
+                            Text="{x:Bind ViewModel.Illust.Title}" />
                         <controls:DownloadButton
                             Grid.Row="2"
                             HorizontalAlignment="Right"
-                            Illust="{x:Bind Illust}" />
+                            Illust="{x:Bind ViewModel.Illust}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

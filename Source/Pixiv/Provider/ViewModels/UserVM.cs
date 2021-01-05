@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.Services;
@@ -12,7 +13,7 @@ namespace EHunter.Pixiv.ViewModels
     {
         private readonly PixivClient _client;
         private readonly IViewModelService _viewModelService;
-
+        private readonly IllustVMFactory _illustVMFactory;
         private int _userId;
         public int UserId
         {
@@ -40,16 +41,18 @@ namespace EHunter.Pixiv.ViewModels
             }
         }
 
-        public UserVM(PixivClient client, IViewModelService viewModelService)
+        public UserVM(PixivClient client, IViewModelService viewModelService, IllustVMFactory illustVMFactory)
         {
             _client = client;
             _viewModelService = viewModelService;
+            _illustVMFactory = illustVMFactory;
         }
 
-        public UserVM(UserInfo userInfo, PixivClient client, IViewModelService viewModelService)
+        public UserVM(UserInfo userInfo, PixivClient client, IViewModelService viewModelService, IllustVMFactory illustVMFactory)
         {
             _client = client;
             _viewModelService = viewModelService;
+            _illustVMFactory = illustVMFactory;
             UserInfo = userInfo;
             Load(userInfo);
 
@@ -63,7 +66,9 @@ namespace EHunter.Pixiv.ViewModels
         private void LoadIllusts()
         {
             Illusts = _viewModelService.CreateAsyncCollection(
-                UserInfo?.GetIllustsAsync().Age(SelectedAge));
+                UserInfo?.GetIllustsAsync()
+                    .Age(SelectedAge)
+                    .Select(x => _illustVMFactory.CreateViewModel(x)));
 
             // TODO: Consider AdvancedCollectionView.Filter
             // Currently doesn't work with mignon/IsR18=true
@@ -111,8 +116,8 @@ namespace EHunter.Pixiv.ViewModels
             set => SelectedAge = (AgeRestriction)value;
         }
 
-        private IBindableCollection<Illust>? _illusts;
-        public IBindableCollection<Illust>? Illusts
+        private IBindableCollection<IllustVM>? _illusts;
+        public IBindableCollection<IllustVM>? Illusts
         {
             get => _illusts;
             private set => SetProperty(ref _illusts, value);
@@ -126,15 +131,18 @@ namespace EHunter.Pixiv.ViewModels
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly IViewModelService _viewModelService;
+        private readonly IllustVMFactory _illustVMFactory;
 
         public UserVMFactory(ICustomResolver<PixivClient> clientResolver,
-            IViewModelService viewModelService)
+            IViewModelService viewModelService,
+            IllustVMFactory illustVMFactory)
         {
             _clientResolver = clientResolver;
             _viewModelService = viewModelService;
+            _illustVMFactory = illustVMFactory;
         }
 
-        public UserVM Create() => new(_clientResolver.Resolve(), _viewModelService);
-        public UserVM Create(UserInfo userInfo) => new(userInfo, _clientResolver.Resolve(), _viewModelService);
+        public UserVM Create() => new(_clientResolver.Resolve(), _viewModelService, _illustVMFactory);
+        public UserVM Create(UserInfo userInfo) => new(userInfo, _clientResolver.Resolve(), _viewModelService, _illustVMFactory);
     }
 }

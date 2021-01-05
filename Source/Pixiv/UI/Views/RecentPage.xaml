@@ -6,10 +6,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
-    xmlns:m="using:Meowtrix.PixivApi.Models"
     xmlns:tkc="using:Microsoft.Toolkit.Collections"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:sys="using:System"
+    xmlns:vm="using:EHunter.Pixiv.ViewModels"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     x:DefaultBindMode="OneWay"
@@ -128,7 +128,7 @@
                         </GroupStyle>
                     </GridView.GroupStyle>
                     <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="m:Illust"
+                        <DataTemplate x:DataType="vm:IllustVM"
                                       x:DefaultBindMode="OneTime">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -136,13 +136,13 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <controls:IllustSummary
-                                    Illust="{x:Bind}" />
+                                    ViewModel="{x:Bind}" />
                                 <HyperlinkButton
                                     Grid.Row="2"
                                     HorizontalAlignment="Center"
-                                    Content="{x:Bind User.Name}"
+                                    Content="{x:Bind Illust.User.Name}"
                                     Command="{StaticResource NavigateToUserCommand}"
-                                    CommandParameter="{x:Bind User}"
+                                    CommandParameter="{x:Bind Illust.User}"
                                     Click="NavigateToUser_Click" />
                             </Grid>
                         </DataTemplate>

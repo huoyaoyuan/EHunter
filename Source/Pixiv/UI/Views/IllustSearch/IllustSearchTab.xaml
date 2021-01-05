@@ -7,7 +7,7 @@
     xmlns:commonControls="using:EHunter.Controls"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
-    xmlns:m="using:Meowtrix.PixivApi.Models"
+    xmlns:vm="using:EHunter.Pixiv.ViewModels"
     xmlns:tk="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:sys="using:System"
@@ -179,9 +179,9 @@
             IsItemClickEnabled="True"
             IncrementalLoadingTrigger="Edge">
             <GridView.ItemTemplate>
-                <DataTemplate x:DataType="m:Illust"
+                <DataTemplate x:DataType="vm:IllustVM"
                                   x:DefaultBindMode="OneTime">
-                    <controls:IllustSummary Illust="{Binding}" />
+                    <controls:IllustSummary ViewModel="{Binding}" />
                     <!-- TODO: x:Bind doesn't work here. Investigate why.
                              WinUI 3 Preview 2 -->
                 </DataTemplate>

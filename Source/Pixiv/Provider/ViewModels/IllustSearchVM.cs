@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
@@ -50,7 +51,8 @@ namespace EHunter.Pixiv.ViewModels
             _parent = parent;
             EffectiveWord = tag.Name;
             Tag = tag;
-            Illusts = _parent.ViewModelService.CreateAsyncCollection(tag.GetIllustsAsync());
+            Illusts = _parent.ViewModelService.CreateAsyncCollection(tag.GetIllustsAsync()
+                .Select(x => _parent.IllustVMFactory.CreateViewModel(x)));
         }
 
         private Tag? _tag;
@@ -136,8 +138,8 @@ namespace EHunter.Pixiv.ViewModels
             set => SetProperty(ref _endDate, value);
         }
 
-        private IBindableCollection<Illust>? _illusts;
-        public IBindableCollection<Illust>? Illusts
+        private IBindableCollection<IllustVM>? _illusts;
+        public IBindableCollection<IllustVM>? Illusts
         {
             get => _illusts;
             private set => SetProperty(ref _illusts, value);
@@ -161,7 +163,8 @@ namespace EHunter.Pixiv.ViewModels
                 ? Tag.GetIllustsAsync(options)
                 : _parent.ClientResolver.Resolve().SearchIllustsAsync(SearchWord, SearchTarget.Value, options);
 
-            Illusts = _parent.ViewModelService.CreateAsyncCollection(query.Age(SelectedAge.Value));
+            Illusts = _parent.ViewModelService.CreateAsyncCollection(query.Age(SelectedAge.Value)
+                .Select(x => _parent.IllustVMFactory.CreateViewModel(x)));
         }
     }
 
@@ -169,12 +172,15 @@ namespace EHunter.Pixiv.ViewModels
     {
         internal readonly ICustomResolver<PixivClient> ClientResolver;
         internal readonly IViewModelService ViewModelService;
+        internal readonly IllustVMFactory IllustVMFactory;
 
         public IllustSearchPageVM(ICustomResolver<PixivClient> clientResolver,
-            IViewModelService viewModelService)
+            IViewModelService viewModelService,
+            IllustVMFactory illustVMFactory)
         {
             ClientResolver = clientResolver;
             ViewModelService = viewModelService;
+            IllustVMFactory = illustVMFactory;
         }
 
         public ObservableCollection<IllustSearchVM> Tabs { get; } = new();

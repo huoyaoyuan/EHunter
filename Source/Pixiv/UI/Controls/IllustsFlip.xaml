@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:commands="using:EHunter.Pixiv.Commands"
     xmlns:local="using:EHunter.Pixiv.Controls"
+    xmlns:vm="using:EHunter.Pixiv.ViewModels"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     mc:Ignorable="d">
     <Grid x:Name="grid"
@@ -16,10 +17,10 @@
             <FlipView.ItemTemplateSelector>
                 <local:AnimatableIllustTemplateSelector>
                     <local:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
-                        <DataTemplate x:DataType="m:Illust"
+                        <DataTemplate x:DataType="vm:IllustVM"
                                       x:DefaultBindMode="OneTime">
                             <FlipView
-                                ItemsSource="{x:Bind Pages}">
+                                ItemsSource="{x:Bind Illust.Pages}">
                                 <FlipView.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <VirtualizingStackPanel Orientation="Vertical"/>
@@ -35,9 +36,9 @@
                         </DataTemplate>
                     </local:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
                     <local:AnimatableIllustTemplateSelector.AnimatedTemplate>
-                        <DataTemplate x:DataType="m:Illust"
+                        <DataTemplate x:DataType="vm:IllustVM"
                                       x:DefaultBindMode="OneTime">
-                            <local:AnimatedIllust Illust="{x:Bind}" />
+                            <local:AnimatedIllust Illust="{x:Bind Illust}" />
                         </DataTemplate>
                     </local:AnimatableIllustTemplateSelector.AnimatedTemplate>
                 </local:AnimatableIllustTemplateSelector>

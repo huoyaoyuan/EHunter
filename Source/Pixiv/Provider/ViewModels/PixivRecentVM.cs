@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using EHunter.DependencyInjection;
@@ -16,11 +15,15 @@ namespace EHunter.Pixiv.ViewModels
 #pragma warning restore CA1001 // 具有可释放字段的类型应该是可释放的
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
+        private readonly IllustVMFactory _illustVMFactory;
         private readonly ILogger<PixivRecentVM>? _logger;
 
-        public PixivRecentVM(ICustomResolver<PixivClient> clientResolver, ILogger<PixivRecentVM>? logger = null)
+        public PixivRecentVM(ICustomResolver<PixivClient> clientResolver,
+            IllustVMFactory illustVMFactory,
+            ILogger<PixivRecentVM>? logger = null)
         {
             _clientResolver = clientResolver;
+            _illustVMFactory = illustVMFactory;
             _logger = logger;
 
             Refresh();
@@ -40,8 +43,7 @@ namespace EHunter.Pixiv.ViewModels
             if (client.IsLogin)
             {
                 State = RecentPageState.InitialLoading;
-                var illusts = Illusts = new ObservableCollection<Illust>();
-                var group = GroupedIllusts = new ObservableGroupedCollection<DateTime, Illust>();
+                var group = GroupedIllusts = new();
                 var cts = _lastCts = new CancellationTokenSource();
                 try
                 {
@@ -53,8 +55,8 @@ namespace EHunter.Pixiv.ViewModels
 #pragma warning restore CA1508 // false positive
                     {
                         State = RecentPageState.PartialLoaded;
-                        illusts.Add(i);
-                        group.AddItem(i.Created.ToOffset(currentOffset).LocalDateTime.Date, i);
+                        var vm = _illustVMFactory.CreateViewModel(i);
+                        group.AddItem(i.Created.ToOffset(currentOffset).LocalDateTime.Date, vm);
                     }
 
                     State = RecentPageState.LoadCompleted;
@@ -74,7 +76,6 @@ namespace EHunter.Pixiv.ViewModels
             else
             {
                 State = RecentPageState.NotLogin;
-                Illusts = null;
                 GroupedIllusts = null;
             }
         }
@@ -110,15 +111,8 @@ namespace EHunter.Pixiv.ViewModels
 
         private CancellationTokenSource? _lastCts;
 
-        private ObservableCollection<Illust>? _illusts;
-        public ObservableCollection<Illust>? Illusts
-        {
-            get => _illusts;
-            private set => SetProperty(ref _illusts, value);
-        }
-
-        private ObservableGroupedCollection<DateTime, Illust>? _groupedIllusts;
-        public ObservableGroupedCollection<DateTime, Illust>? GroupedIllusts
+        private ObservableGroupedCollection<DateTime, IllustVM>? _groupedIllusts;
+        public ObservableGroupedCollection<DateTime, IllustVM>? GroupedIllusts
         {
             get => _groupedIllusts;
             private set => SetProperty(ref _groupedIllusts, value);
