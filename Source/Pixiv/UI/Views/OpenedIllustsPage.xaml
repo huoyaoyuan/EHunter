@@ -9,9 +9,9 @@
     xmlns:res="using:EHunter.Pixiv.Resources"
     xmlns:themes="using:EHunter.Pixiv.Themes"
     xmlns:vm="using:EHunter.Pixiv.ViewModels"
+    xmlns:local="using:EHunter.Pixiv.Views"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     xmlns:tk="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:local="using:EHunter.Pixiv.Views"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -57,7 +57,7 @@
                     <controls:PixivImage
                         Height="100"
                         Width="100"
-                        ImageInfo="{x:Bind themes:IllustSummaryTheme.FirstPageMedium(Illust.Pages), FallbackValue={x:Null}, Mode=OneWay}" />
+                        ImageInfo="{x:Bind themes:IllustSummaryTheme.FirstPageMedium(IllustVM.Illust.Pages), FallbackValue={x:Null}, Mode=OneWay}" />
                 </DataTemplate>
             </tk:MasterDetailsView.ItemTemplate>
             <tk:MasterDetailsView.DetailsTemplate>
@@ -71,15 +71,15 @@
                         <ContentControl
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
-                            Content="{x:Bind Illust, FallbackValue={x:Null}}">
+                            Content="{x:Bind IllustVM, FallbackValue={x:Null}}">
                             <ContentControl.ContentTemplateSelector>
                                 <controls:AnimatableIllustTemplateSelector>
                                     <controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
-                                        <DataTemplate x:DataType="m:Illust"
+                                        <DataTemplate x:DataType="vm:IllustVM"
                                                       x:DefaultBindMode="OneTime">
                                             <FlipView
                                                 Background="Transparent"
-                                                ItemsSource="{x:Bind Pages}">
+                                                ItemsSource="{x:Bind Illust.Pages}">
                                                 <FlipView.ItemTemplate>
                                                     <DataTemplate x:DataType="m:IllustPage">
                                                         <ScrollViewer
@@ -102,9 +102,9 @@
                                         </DataTemplate>
                                     </controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
                                     <controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
-                                        <DataTemplate x:DataType="m:Illust"
+                                        <DataTemplate x:DataType="vm:IllustVM"
                                                       x:DefaultBindMode="OneTime">
-                                            <controls:AnimatedIllust Illust="{x:Bind}" />
+                                            <controls:AnimatedIllust Illust="{x:Bind Illust}" />
                                         </DataTemplate>
                                     </controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
                                 </controls:AnimatableIllustTemplateSelector>
@@ -119,13 +119,13 @@
                                 Spacing="4">
                                 <TextBlock
                                     Style="{StaticResource TitleTextBlockStyle}"
-                                    Text="{x:Bind Illust.Title, FallbackValue=''}"
+                                    Text="{x:Bind IllustVM.Illust.Title, FallbackValue=''}"
                                     TextWrapping="Wrap" />
                                 <TextBlock
                                     Style="{StaticResource BodyTextBlockStyle}"
-                                    Text="{x:Bind Illust.Description, FallbackValue=''}"
+                                    Text="{x:Bind IllustVM.Illust.Description, FallbackValue=''}"
                                     TextWrapping="Wrap" />
-                                <ItemsControl ItemsSource="{x:Bind Illust.Tags, FallbackValue={x:Null}}">
+                                <ItemsControl ItemsSource="{x:Bind IllustVM.Illust.Tags, FallbackValue={x:Null}}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate x:DataType="m:Tag"
                                                       x:DefaultBindMode="OneTime">
@@ -152,16 +152,16 @@
                                         x:Name="userAvatar"
                                         Height="50"
                                         Width="50"
-                                        ImageInfo="{x:Bind Illust.User.Avatar, FallbackValue={x:Null}}" />
+                                        ImageInfo="{x:Bind IllustVM.Illust.User.Avatar, FallbackValue={x:Null}}" />
                                     <HyperlinkButton
                                         Grid.Row="2"
                                         FontSize="16"
                                         Command="{StaticResource NavigateToUserCommand}"
-                                        CommandParameter="{x:Bind Illust.User, FallbackValue={x:Null}}"
+                                        CommandParameter="{x:Bind IllustVM.Illust.User, FallbackValue={x:Null}}"
                                         Click="JumpToUser_Clicked">
                                         <TextBlock
                                             FontSize="16"
-                                            Text="{x:Bind Illust.User.Name, FallbackValue={x:Null}}"
+                                            Text="{x:Bind IllustVM.Illust.User.Name, FallbackValue={x:Null}}"
                                             TextWrapping="WrapWholeWords" />
                                     </HyperlinkButton>
                                 </StackPanel>
@@ -169,10 +169,10 @@
                                     Foreground="Gray"
                                     TextWrapping="WrapWholeWords"
                                     IsColorFontEnabled="True">
-                                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xEB51;" /><Run Text="{x:Bind Illust.TotalBookmarks, FallbackValue=''}" />
-                                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE7B3;" /><Run Text="{x:Bind Illust.TotalView, FallbackValue=''}" />
+                                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xEB51;" /><Run Text="{x:Bind IllustVM.Illust.TotalBookmarks, FallbackValue=''}" />
+                                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE7B3;" /><Run Text="{x:Bind IllustVM.Illust.TotalView, FallbackValue=''}" />
                                     <LineBreak />
-                                    <Run Text="{x:Bind local:OpenedIllustsPage.ToShortFullTimeString(Illust.Created.LocalDateTime), FallbackValue=''}" />
+                                    <Run Text="{x:Bind local:OpenedIllustsPage.ToShortFullTimeString(IllustVM.Illust.Created.LocalDateTime), FallbackValue=''}" />
                                 </TextBlock>
                             </StackPanel>
                         </ScrollViewer>

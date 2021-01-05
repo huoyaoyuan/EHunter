@@ -10,9 +10,14 @@ namespace EHunter.Pixiv.ViewModels
     public class OpenedIllustsVM : ObservableObject
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
+        private readonly IllustVMFactory _illustVMFactory;
 
-        public OpenedIllustsVM(ICustomResolver<PixivClient> clientResolver)
-            => _clientResolver = clientResolver;
+        public OpenedIllustsVM(ICustomResolver<PixivClient> clientResolver,
+            IllustVMFactory illustVMFactory)
+        {
+            _clientResolver = clientResolver;
+            _illustVMFactory = illustVMFactory;
+        }
 
         public ObservableCollection<IllustHolderVM> Illusts { get; } = new();
 
@@ -44,7 +49,12 @@ namespace EHunter.Pixiv.ViewModels
 
             IdToOpenText = string.Empty;
 
-            var illust = new IllustHolderVM(id, _clientResolver.Resolve().GetIllustDetailAsync(id));
+            async Task<IllustVM> GetIllustAsync(int id)
+                => _illustVMFactory.CreateViewModel(await _clientResolver.Resolve()
+                    .GetIllustDetailAsync(id)
+                    .ConfigureAwait(false));
+
+            var illust = new IllustHolderVM(id, GetIllustAsync(id));
             Illusts.Add(illust);
             SelectedIllust = illust;
         }
@@ -89,7 +99,7 @@ namespace EHunter.Pixiv.ViewModels
                 }
             }
 
-            Illusts.Add(new IllustHolderVM(illust));
+            Illusts.Add(new(_illustVMFactory.CreateViewModel(illust)));
             SelectedIndex = Illusts.Count - 1;
             CanClose = true;
         }
@@ -97,16 +107,16 @@ namespace EHunter.Pixiv.ViewModels
 
     public class IllustHolderVM : ObservableObject
     {
-        public IllustHolderVM(int illustId, Task<Illust> task)
+        public IllustHolderVM(int illustId, Task<IllustVM> task)
         {
             IllustId = illustId;
             InitIllustAsync(task);
 
-            async void InitIllustAsync(Task<Illust> task)
+            async void InitIllustAsync(Task<IllustVM> task)
             {
                 try
                 {
-                    Illust = await task.ConfigureAwait(true);
+                    IllustVM = await task.ConfigureAwait(true);
                 }
                 catch
                 {
@@ -115,19 +125,19 @@ namespace EHunter.Pixiv.ViewModels
             }
         }
 
-        public IllustHolderVM(Illust illust)
+        public IllustHolderVM(IllustVM vm)
         {
-            IllustId = illust.Id;
-            Illust = illust;
+            IllustId = vm.Illust.Id;
+            IllustVM = vm;
         }
 
         public int IllustId { get; }
 
-        private Illust? _illust;
-        public Illust? Illust
+        private IllustVM? _illustVM;
+        public IllustVM? IllustVM
         {
-            get => _illust;
-            set => SetProperty(ref _illust, value);
+            get => _illustVM;
+            set => SetProperty(ref _illustVM, value);
         }
 
         private bool _notFound;
