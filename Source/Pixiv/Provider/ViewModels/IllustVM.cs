@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using EHunter.Pixiv.ViewModels.Download;
 using Meowtrix.PixivApi.Models;
@@ -18,6 +19,10 @@ namespace EHunter.Pixiv.ViewModels
 
         public Illust Illust { get; }
         public DownloadableIllustVM Downloadable { get; }
+
+        public ImageInfo Preview => Illust.Pages[0].Medium;
+
+        public string CreationTimeDisplayString => Illust.Created.ToLocalTime().ToString("f", CultureInfo.CurrentCulture);
     }
 
     public class IllustVMFactory

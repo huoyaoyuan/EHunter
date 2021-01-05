@@ -25,6 +25,8 @@ namespace EHunter.Pixiv.ViewModels.Download
 
         public Illust Illust => _downloadTask.Illust;
 
+        public ImageInfo IllustPreviewPage => Illust.Pages[0].Medium;
+
         private double _progress;
         public double Progress
         {

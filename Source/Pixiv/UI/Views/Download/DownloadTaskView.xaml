@@ -5,7 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.Pixiv.Controls"
-    xmlns:theme="using:EHunter.Pixiv.Themes"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     mc:Ignorable="d"
     x:DefaultBindMode="OneWay">
@@ -93,7 +92,7 @@
             Grid.RowSpan="2"
             Width="50"
             Height="50"
-            ImageInfo="{x:Bind theme:IllustSummaryTheme.FirstPageMedium(_vm.Illust.Pages)}"/>
+            ImageInfo="{x:Bind _vm.IllustPreviewPage}"/>
 
         <TextBlock
             Grid.Column="1"

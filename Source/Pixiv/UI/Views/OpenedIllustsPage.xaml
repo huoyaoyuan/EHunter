@@ -7,9 +7,7 @@
     xmlns:commonControls="using:EHunter.Controls"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
-    xmlns:themes="using:EHunter.Pixiv.Themes"
     xmlns:vm="using:EHunter.Pixiv.ViewModels"
-    xmlns:local="using:EHunter.Pixiv.Views"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     xmlns:tk="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
@@ -57,7 +55,7 @@
                     <controls:PixivImage
                         Height="100"
                         Width="100"
-                        ImageInfo="{x:Bind themes:IllustSummaryTheme.FirstPageMedium(IllustVM.Illust.Pages), FallbackValue={x:Null}, Mode=OneWay}" />
+                        ImageInfo="{x:Bind IllustVM.Preview, FallbackValue={x:Null}, Mode=OneWay}" />
                 </DataTemplate>
             </tk:MasterDetailsView.ItemTemplate>
             <tk:MasterDetailsView.DetailsTemplate>
@@ -172,7 +170,7 @@
                                     <Run FontFamily="Segoe MDL2 Assets" Text="&#xEB51;" /><Run Text="{x:Bind IllustVM.Illust.TotalBookmarks, FallbackValue=''}" />
                                     <Run FontFamily="Segoe MDL2 Assets" Text="&#xE7B3;" /><Run Text="{x:Bind IllustVM.Illust.TotalView, FallbackValue=''}" />
                                     <LineBreak />
-                                    <Run Text="{x:Bind local:OpenedIllustsPage.ToShortFullTimeString(IllustVM.Illust.Created.LocalDateTime), FallbackValue=''}" />
+                                    <Run Text="{x:Bind IllustVM.CreationTimeDisplayString, FallbackValue=''}" />
                                 </TextBlock>
                             </StackPanel>
                         </ScrollViewer>

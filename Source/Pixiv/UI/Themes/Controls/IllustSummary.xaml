@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:EHunter.Pixiv.Controls"
-    xmlns:local="using:EHunter.Pixiv.Themes"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers">
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
@@ -64,7 +63,7 @@
                         </Grid.RowDefinitions>
 
                         <controls:PixivImage
-                            ImageInfo="{x:Bind local:IllustSummaryTheme.FirstPageMedium(ViewModel.Illust.Pages)}"
+                            ImageInfo="{x:Bind ViewModel.Preview}"
                             Margin="2" />
                         <Border
                             x:Name="r18Tag"
