@@ -52,7 +52,7 @@ namespace EHunter.Pixiv.ViewModels
             async Task<IllustVM> GetIllustAsync(int id)
                 => _illustVMFactory.CreateViewModel(await _clientResolver.Resolve()
                     .GetIllustDetailAsync(id)
-                    .ConfigureAwait(false));
+                    .ConfigureAwait(true));
 
             var illust = new IllustHolderVM(id, GetIllustAsync(id));
             Illusts.Add(illust);
