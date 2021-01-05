@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tk="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     x:DefaultBindMode="OneWay"
     mc:Ignorable="d">
@@ -17,7 +18,8 @@
                             To="Waiting" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="progress.IsActive" Value="True" />
+                        <Setter Target="progress.Visibility" Value="Visible" />
+                        <Setter Target="progress.IsIndeterminate" Value="True" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -28,7 +30,7 @@
                             To="Active" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="progress.IsActive" Value="True" />
+                        <Setter Target="progress.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -76,10 +78,15 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <!-- TODO: use progress when available -->
-        <ProgressRing
+        <!-- TODO: use ProgressRing when available -->
+        <tk:RadialProgressBar
+            Height="20"
+            Width="20"
             x:Name="progress"
-            IsActive="False" />
+            Minimum="0"
+            Maximum="1"
+            Visibility="Collapsed"
+            Value="{x:Bind _vm.DownloadTask.Progress, FallbackValue=0}" />
 
         <FontIcon
             x:Name="statusIcon"
