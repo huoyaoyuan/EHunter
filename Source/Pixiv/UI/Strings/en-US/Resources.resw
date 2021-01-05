@@ -135,6 +135,9 @@
   <data name="CopyLinkToolTip.Content" xml:space="preserve">
     <value>Copy Link</value>
   </data>
+  <data name="DownloadAppBarButton.Label" xml:space="preserve">
+    <value>Download</value>
+  </data>
   <data name="DownloadGroup.Text" xml:space="preserve">
     <value>Downloading</value>
   </data>

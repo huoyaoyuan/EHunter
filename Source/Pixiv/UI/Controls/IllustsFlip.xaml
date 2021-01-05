@@ -47,7 +47,21 @@
         <CommandBar
             DefaultLabelPosition="Right"
             HorizontalAlignment="Right"
-            VerticalAlignment="Top">
+            VerticalAlignment="Top"
+            VerticalContentAlignment="Stretch"
+            x:DefaultBindMode="OneWay">
+            <CommandBar.Content>
+                <StackPanel Orientation="Horizontal">
+                    <local:DownloadProgressIndicator
+                        VerticalAlignment="Center"
+                        Margin="2"
+                        VM="{x:Bind flipView.SelectedItem.(vm:IllustVM.Downloadable)}" />
+                </StackPanel>
+            </CommandBar.Content>
+            <AppBarButton x:Uid="DownloadAppBarButton"
+                          Icon="Download"
+                          IsEnabled="{x:Bind flipView.SelectedItem.(vm:IllustVM.Downloadable).CanDownload}"
+                          Click="{x:Bind flipView.SelectedItem.(vm:IllustVM.Downloadable).Download}" />
             <AppBarButton x:Uid="OpenAppBarButton"
                           CommandParameter="{x:Bind flipView.SelectedItem.(vm:IllustVM.Illust), Mode=OneWay}">
                 <AppBarButton.Icon>
