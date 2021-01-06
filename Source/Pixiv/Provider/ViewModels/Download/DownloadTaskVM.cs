@@ -94,8 +94,15 @@ namespace EHunter.Pixiv.ViewModels.Download
 
         public void Cancel()
         {
-            _cts?.Cancel();
-            State = DownloadTaskState.Canceled;
+            if (_cts is null)
+            {
+                State = DownloadTaskState.Canceled;
+            }
+            else
+            {
+                State = DownloadTaskState.CancelRequested;
+                _cts.Cancel();
+            }
         }
     }
 
@@ -105,6 +112,7 @@ namespace EHunter.Pixiv.ViewModels.Download
         Active,
         Completed,
         Faulted,
+        CancelRequested,
         Canceled
     }
 }
