@@ -36,8 +36,9 @@
             <CommandBar
                 Grid.Column="2"
                 DefaultLabelPosition="Right">
+                <!-- TODO: disable when no selection.
+                     Currently VisualStateManager can't work here. -->
                 <AppBarButton
-                    IsEnabled="{x:Bind _vm.CanClose, Mode=OneWay}"
                     Icon="Download"
                     x:Uid="DownloadAppBarButton"
                     Command="{x:Bind _vm.SelectedIllust.IllustVM.Downloadable, Mode=OneWay}" />
