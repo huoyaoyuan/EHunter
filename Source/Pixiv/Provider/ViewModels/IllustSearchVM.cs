@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
-using EHunter.Services;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -50,8 +49,7 @@ namespace EHunter.Pixiv.ViewModels
             _parent = parent;
             EffectiveWord = tag.Name;
             Tag = tag;
-            Illusts = _parent.ViewModelService.CreateAsyncCollection(
-                _parent.IllustVMFactory.CreateViewModels(tag.GetIllustsAsync()));
+            Illusts = _parent.IllustVMFactory.CreateAsyncCollection(tag.GetIllustsAsync());
         }
 
         private Tag? _tag;
@@ -162,23 +160,19 @@ namespace EHunter.Pixiv.ViewModels
                 ? Tag.GetIllustsAsync(options)
                 : _parent.ClientResolver.Resolve().SearchIllustsAsync(SearchWord, SearchTarget.Value, options);
 
-            Illusts = _parent.ViewModelService.CreateAsyncCollection(
-                _parent.IllustVMFactory.CreateViewModels(query.Age(SelectedAge.Value)));
+            Illusts = _parent.IllustVMFactory.CreateAsyncCollection(query.Age(SelectedAge.Value));
         }
     }
 
     public class IllustSearchPageVM : ObservableObject
     {
         internal readonly ICustomResolver<PixivClient> ClientResolver;
-        internal readonly IViewModelService ViewModelService;
         internal readonly IllustVMFactory IllustVMFactory;
 
         public IllustSearchPageVM(ICustomResolver<PixivClient> clientResolver,
-            IViewModelService viewModelService,
             IllustVMFactory illustVMFactory)
         {
             ClientResolver = clientResolver;
-            ViewModelService = viewModelService;
             IllustVMFactory = illustVMFactory;
         }
 

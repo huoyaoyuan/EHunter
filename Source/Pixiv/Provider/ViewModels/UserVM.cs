@@ -1,7 +1,6 @@
 ﻿using System;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
-using EHunter.Services;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -11,7 +10,6 @@ namespace EHunter.Pixiv.ViewModels
     public class UserVM : ObservableObject
     {
         private readonly PixivClient _client;
-        private readonly IViewModelService _viewModelService;
         private readonly IllustVMFactory _illustVMFactory;
         private int _userId;
         public int UserId
@@ -40,17 +38,15 @@ namespace EHunter.Pixiv.ViewModels
             }
         }
 
-        public UserVM(PixivClient client, IViewModelService viewModelService, IllustVMFactory illustVMFactory)
+        public UserVM(PixivClient client, IllustVMFactory illustVMFactory)
         {
             _client = client;
-            _viewModelService = viewModelService;
             _illustVMFactory = illustVMFactory;
         }
 
-        public UserVM(UserInfo userInfo, PixivClient client, IViewModelService viewModelService, IllustVMFactory illustVMFactory)
+        public UserVM(UserInfo userInfo, PixivClient client, IllustVMFactory illustVMFactory)
         {
             _client = client;
-            _viewModelService = viewModelService;
             _illustVMFactory = illustVMFactory;
             UserInfo = userInfo;
             Load(userInfo);
@@ -64,9 +60,8 @@ namespace EHunter.Pixiv.ViewModels
 
         private void LoadIllusts()
         {
-            var illusts = UserInfo?.GetIllustsAsync().Age(SelectedAge);
-            var vms = _illustVMFactory.CreateViewModels(illusts);
-            Illusts = _viewModelService.CreateAsyncCollection(vms);
+            Illusts = _illustVMFactory.CreateAsyncCollection(
+                UserInfo?.GetIllustsAsync().Age(SelectedAge));
 
             // TODO: Consider AdvancedCollectionView.Filter
             // Currently doesn't work with mignon/IsR18=true
@@ -128,19 +123,16 @@ namespace EHunter.Pixiv.ViewModels
     public class UserVMFactory
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
-        private readonly IViewModelService _viewModelService;
         private readonly IllustVMFactory _illustVMFactory;
 
         public UserVMFactory(ICustomResolver<PixivClient> clientResolver,
-            IViewModelService viewModelService,
             IllustVMFactory illustVMFactory)
         {
             _clientResolver = clientResolver;
-            _viewModelService = viewModelService;
             _illustVMFactory = illustVMFactory;
         }
 
-        public UserVM Create() => new(_clientResolver.Resolve(), _viewModelService, _illustVMFactory);
-        public UserVM Create(UserInfo userInfo) => new(userInfo, _clientResolver.Resolve(), _viewModelService, _illustVMFactory);
+        public UserVM Create() => new(_clientResolver.Resolve(), _illustVMFactory);
+        public UserVM Create(UserInfo userInfo) => new(userInfo, _clientResolver.Resolve(), _illustVMFactory);
     }
 }
