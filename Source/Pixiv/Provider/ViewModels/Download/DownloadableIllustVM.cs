@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using EHunter.Pixiv.Services.Download;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
@@ -10,7 +11,7 @@ namespace EHunter.Pixiv.ViewModels.Download
     {
         private readonly DownloadManager _manager;
 
-        public DownloadableIllustVM(DownloadManager manager, Illust illust, DownloadTaskVM? existingDownload, ValueTask<bool?> canDownload)
+        public DownloadableIllustVM(DownloadManager manager, Illust illust, DownloadTaskVM? existingDownload, ValueTask<DownloadableState> canDownload)
         {
             _manager = manager;
             Illust = illust;
@@ -18,19 +19,21 @@ namespace EHunter.Pixiv.ViewModels.Download
             AwaitCandownload();
 
             async void AwaitCandownload()
-                => CanDownload = (await canDownload.ConfigureAwait(true)) ?? false;
+                => State = await canDownload.ConfigureAwait(true);
         }
 
         public Illust Illust { get; }
 
-        private bool _canDownload;
-        internal bool CanDownload
+        private static readonly EventArgs s_eventArgs = new();
+
+        private DownloadableState _state;
+        public DownloadableState State
         {
-            get => _canDownload;
+            get => _state;
             private set
             {
-                if (SetProperty(ref _canDownload, value))
-                    CanExecuteChanged?.Invoke(this, new());
+                if (SetProperty(ref _state, value))
+                    CanExecuteChanged?.Invoke(this, s_eventArgs);
             }
         }
 
@@ -41,17 +44,15 @@ namespace EHunter.Pixiv.ViewModels.Download
             private set => SetProperty(ref _downloadTask, value);
         }
 
-        internal async void Download()
+        public bool CanExecute(object? parameter) => State == DownloadableState.CanDownload && DownloadTask is null;
+        public async void Execute(object? parameter)
         {
-            if ((CanDownload, DownloadTask) != (true, null))
+            if (!CanExecute(parameter))
                 throw new InvalidOperationException("Called at wrong status.");
 
-            CanDownload = false;
+            State = DownloadableState.AlreadyPending;
             DownloadTask = await _manager.CreateDownloadTaskAsync(Illust).ConfigureAwait(true);
         }
-
-        public bool CanExecute(object? parameter) => CanDownload;
-        public void Execute(object? parameter) => Download();
 
         public event EventHandler? CanExecuteChanged;
     }
