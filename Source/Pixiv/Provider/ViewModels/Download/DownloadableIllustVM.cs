@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace EHunter.Pixiv.ViewModels.Download
 {
-    public class DownloadableIllustVM : ObservableObject
+    public class DownloadableIllustVM : ObservableObject, ICommand
     {
         private readonly DownloadManager _manager;
 
@@ -23,10 +24,14 @@ namespace EHunter.Pixiv.ViewModels.Download
         public Illust Illust { get; }
 
         private bool _canDownload;
-        public bool CanDownload
+        internal bool CanDownload
         {
             get => _canDownload;
-            private set => SetProperty(ref _canDownload, value);
+            private set
+            {
+                if (SetProperty(ref _canDownload, value))
+                    CanExecuteChanged?.Invoke(this, new());
+            }
         }
 
         private DownloadTaskVM? _downloadTask;
@@ -36,7 +41,7 @@ namespace EHunter.Pixiv.ViewModels.Download
             private set => SetProperty(ref _downloadTask, value);
         }
 
-        public async void Download()
+        internal async void Download()
         {
             if ((CanDownload, DownloadTask) != (true, null))
                 throw new InvalidOperationException("Called at wrong status.");
@@ -44,5 +49,10 @@ namespace EHunter.Pixiv.ViewModels.Download
             CanDownload = false;
             DownloadTask = await _manager.CreateDownloadTaskAsync(Illust).ConfigureAwait(true);
         }
+
+        public bool CanExecute(object? parameter) => CanDownload;
+        public void Execute(object? parameter) => Download();
+
+        public event EventHandler? CanExecuteChanged;
     }
 }

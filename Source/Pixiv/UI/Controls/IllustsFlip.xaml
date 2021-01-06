@@ -60,8 +60,7 @@
             </CommandBar.Content>
             <AppBarButton x:Uid="DownloadAppBarButton"
                           Icon="Download"
-                          IsEnabled="{x:Bind flipView.SelectedItem.(vm:IllustVM.Downloadable).CanDownload}"
-                          Click="{x:Bind flipView.SelectedItem.(vm:IllustVM.Downloadable).Download}" />
+                          Command="{x:Bind flipView.SelectedItem.(vm:IllustVM.Downloadable)}" />
             <AppBarButton x:Uid="OpenAppBarButton"
                           CommandParameter="{x:Bind flipView.SelectedItem.(vm:IllustVM.Illust), Mode=OneWay}">
                 <AppBarButton.Icon>
