@@ -34,25 +34,35 @@ namespace EHunter.Pixiv.Services
         {
             Image<Rgba32>? image = null;
 
-            foreach (var (filename, frameTime) in frames)
+            try
             {
-                using (var s = zipArchive.GetEntry(filename)?.Open()
-                    ?? throw new InvalidOperationException("Corrupted frame information."))
+                foreach (var (filename, frameTime) in frames)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
+                    using (var s = zipArchive.GetEntry(filename)?.Open()
+                        ?? throw new InvalidOperationException("Corrupted frame information."))
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
 
-                    var frame = await Image.LoadAsync(s).ConfigureAwait(false);
-                    image ??= new Image<Rgba32>(frame.Width, frame.Height);
-                    image.Frames.AddFrame(frame.Frames[0]);
+                        using var frameImage = await Image.LoadAsync(s).ConfigureAwait(false);
+
+                        image ??= new Image<Rgba32>(frameImage.Width, frameImage.Height);
+                        var frame = frameImage.Frames.RootFrame;
+                        frame.Metadata.GetGifMetadata().FrameDelay = frameTime / 10;
+                        image.Frames.AddFrame(frame);
+                    }
                 }
+
+                if (image is null)
+                    throw new InvalidOperationException("No frame added to the animated illust.");
+
+                image.Metadata.GetGifMetadata().RepeatCount = 0;
+                image.Frames.RemoveFrame(0);
+                await image.SaveAsGifAsync(stream, cancellationToken).ConfigureAwait(false);
             }
-
-            if (image is null)
-                throw new InvalidOperationException("No frame added to the animated illust.");
-
-            image.Metadata.GetGifMetadata().RepeatCount = 0;
-            image.Frames.RemoveFrame(0);
-            await image.SaveAsGifAsync(stream, cancellationToken).ConfigureAwait(false);
+            finally
+            {
+                image?.Dispose();
+            }
         }
     }
 }
