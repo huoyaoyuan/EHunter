@@ -41,11 +41,13 @@ namespace EHunter.Pixiv.Services.Download
                 await ReadAsync(response, mms, onProgress, cancellationToken).ConfigureAwait(false);
 
             mms.Seek(0, SeekOrigin.Begin);
-            await GifHelper.ComposeGifAsync(new ZipArchive(mms),
-                details.Frames.Select(x => (x.File, x.Delay)),
-                fs,
-                cancellationToken)
-                .ConfigureAwait(false);
+
+            using (var zipArchive = new ZipArchive(mms))
+                await GifHelper.ComposeGifAsync(zipArchive,
+                    details.Frames.Select(x => (x.File, x.Delay)),
+                    fs,
+                    cancellationToken)
+                    .ConfigureAwait(false);
 
             await fs.FlushAsync(cancellationToken).ConfigureAwait(false);
 

@@ -18,7 +18,7 @@ namespace EHunter.Pixiv.Services
             Stream stream,
             CancellationToken cancellationToken = default)
         {
-            var zipArchive = await details.GetZipArchiveAsync(cancellationToken).ConfigureAwait(false);
+            using var zipArchive = await details.GetZipArchiveAsync(cancellationToken).ConfigureAwait(false);
             await ComposeGifAsync(zipArchive,
                 details.Frames.Select(x => (x.File, x.Delay)),
                 stream,
