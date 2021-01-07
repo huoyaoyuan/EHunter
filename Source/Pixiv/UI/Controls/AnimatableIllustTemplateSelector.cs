@@ -1,4 +1,5 @@
-﻿using Meowtrix.PixivApi.Models;
+﻿using System;
+using EHunter.Pixiv.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -17,8 +18,9 @@ namespace EHunter.Pixiv.Controls
             => item switch
             {
                 null => null,
-                Illust { IsAnimated: true } => AnimatedTemplate,
-                _ => NonAnimatedTemplate
+                IllustVM { Illust: { IsAnimated: true } } => AnimatedTemplate,
+                IllustVM { Illust: { IsAnimated: false } } => NonAnimatedTemplate,
+                _ => throw new InvalidOperationException($"{nameof(AnimatableIllustTemplateSelector)} must be used with correct type.")
             };
     }
 }
