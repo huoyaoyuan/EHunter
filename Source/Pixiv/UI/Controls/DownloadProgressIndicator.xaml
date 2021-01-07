@@ -34,6 +34,14 @@
                     </VisualState.Setters>
                 </VisualState>
 
+                <VisualState x:Name="CancelRequested">
+                    <VisualState.StateTriggers>
+                        <tktr:IsEqualStateTrigger
+                            Value="{x:Bind _vm.DownloadTask.State, FallbackValue={x:Null}}"
+                            To="CancelRequested" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+
                 <VisualState x:Name="Canceled">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
@@ -67,6 +75,9 @@
                         <tktr:IsEqualStateTrigger
                             Value="{x:Bind _vm.DownloadTask.State, FallbackValue={x:Null}}"
                             To="Completed" />
+                        <tktr:IsEqualStateTrigger
+                            Value="{x:Bind _vm.State, FallbackValue={x:Null}}"
+                            To="AlreadyDownloaded" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="progress.Visibility" Value="Collapsed" />

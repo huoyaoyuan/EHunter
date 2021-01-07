@@ -86,20 +86,20 @@ namespace EHunter.Pixiv.Services.Download
             }
         }
 
-        public async ValueTask<bool?> CanDownloadAsync(int artworkId)
+        public async ValueTask<DownloadableState> CanDownloadAsync(int artworkId)
         {
             var pFactory = _pixivDbContextResolver.Resolve();
             var eFactory = _eHunterContextResolver.Resolve();
             if (pFactory is null || eFactory is null)
-                return null;
+                return DownloadableState.ServiceUnavailable;
 
             if (_storageSetting.StorageRoot is null)
-                return null;
+                return DownloadableState.ServiceUnavailable;
 
             var existsAsync = Task.Run(() => _storageSetting.StorageRoot.Exists);
 
             if (!await existsAsync.ConfigureAwait(false))
-                return null;
+                return DownloadableState.ServiceUnavailable;
 
             try
             {
@@ -108,11 +108,11 @@ namespace EHunter.Pixiv.Services.Download
                     .AsQueryable()
                     .AnyAsync(x => x.ArtworkId == artworkId)
                     .ConfigureAwait(false))
-                    return false;
+                    return DownloadableState.AlreadyPending;
             }
             catch
             {
-                return null;
+                return DownloadableState.ServiceUnavailable;
             }
 
             try
@@ -122,14 +122,14 @@ namespace EHunter.Pixiv.Services.Download
                     .AsQueryable()
                     .AnyAsync(x => x.Provider == "Pixiv:Illust" && x.Identifier == artworkId)
                     .ConfigureAwait(false))
-                    return false;
+                    return DownloadableState.AlreadyDownloaded;
             }
             catch
             {
-                return null;
+                return DownloadableState.ServiceUnavailable;
             }
 
-            return true;
+            return DownloadableState.CanDownload;
         }
 
         public async Task<DownloadTask> CreateDownloadTaskAsync(int artworkId)
@@ -173,5 +173,13 @@ namespace EHunter.Pixiv.Services.Download
                 ? new AnimatedDownloadTask(illust, storageRoot, eFactory, pFactory)
                 : new NonAnimatedDownloadTask(illust, storageRoot, eFactory, pFactory);
         }
+    }
+
+    public enum DownloadableState
+    {
+        ServiceUnavailable,
+        AlreadyPending,
+        AlreadyDownloaded,
+        CanDownload
     }
 }

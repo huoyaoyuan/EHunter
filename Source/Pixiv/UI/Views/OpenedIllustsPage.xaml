@@ -36,11 +36,12 @@
             <CommandBar
                 Grid.Column="2"
                 DefaultLabelPosition="Right">
+                <!-- TODO: disable when no selection.
+                     Currently VisualStateManager can't work here. -->
                 <AppBarButton
-                    x:Uid="DownloadAppBarButton"
                     Icon="Download"
-                    IsEnabled="{x:Bind _vm.SelectedIllust.IllustVM.Downloadable.CanDownload, Mode=OneWay, FallbackValue=False}"
-                    Click="{x:Bind _vm.SelectedIllust.IllustVM.Downloadable.Download, Mode=OneWay}" />
+                    x:Uid="DownloadAppBarButton"
+                    Command="{x:Bind _vm.SelectedIllust.IllustVM.Downloadable, Mode=OneWay}" />
                 <AppBarButton
                     IsEnabled="{x:Bind _vm.CanClose, Mode=OneWay}"
                     Icon="Cancel"
@@ -54,6 +55,7 @@
 
             <!-- CommandBar will cover mouse input. -->
             <AutoSuggestBox
+                x:Name="numberBox"
                 x:Uid="GoToIllustById"
                 VerticalAlignment="Center"
                 Width="200"

@@ -55,6 +55,8 @@ namespace EHunter.Pixiv.Services.Download
                 Identifier = Illust.Id
             };
 
+            bool shouldRemovePending = true;
+
             try
             {
                 await DownloadAsync(post.Images, onProgress, cancellationToken).ConfigureAwait(false);
@@ -82,12 +84,25 @@ namespace EHunter.Pixiv.Services.Download
 
                 await eContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             }
+            catch (TaskCanceledException)
+            {
+                // should remove pending
+                throw;
+            }
+            catch
+            {
+                shouldRemovePending = false;
+                throw;
+            }
             finally
             {
-                using var pContext = _pFactory.CreateDbContext();
-                var pendingTask = pContext.PixivPendingDownloads.Find(Illust.Id);
-                pContext.PixivPendingDownloads.Remove(pendingTask);
-                await pContext.SaveChangesAsync(CancellationToken.None).ConfigureAwait(false);
+                if (shouldRemovePending)
+                {
+                    using var pContext = _pFactory.CreateDbContext();
+                    var pendingTask = pContext.PixivPendingDownloads.Find(Illust.Id);
+                    pContext.PixivPendingDownloads.Remove(pendingTask);
+                    await pContext.SaveChangesAsync(CancellationToken.None).ConfigureAwait(false);
+                }
             }
         }
 

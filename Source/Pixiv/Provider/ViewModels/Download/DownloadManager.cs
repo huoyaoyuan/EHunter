@@ -68,7 +68,7 @@ namespace EHunter.Pixiv.ViewModels.Download
             return new(this, illust, existingDownload,
                 existingDownload is null
                 ? _downloader.CanDownloadAsync(illust.Id)
-                : new(false));
+                : new(DownloadableState.AlreadyPending));
         }
 
         internal async Task<DownloadTaskVM> CreateDownloadTaskAsync(Illust illust)

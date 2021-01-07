@@ -71,12 +71,23 @@ foreach (var f in folder.EnumerateFiles("*", SearchOption.AllDirectories))
     if (!int.TryParse(f.Name.Split('_')[0], out int id))
         continue;
 
-    if (await downloadService.CanDownloadAsync(id) != true)
+    switch (await downloadService.CanDownloadAsync(id))
     {
-        Console.WriteLine($"{id} already exists. Skipping.");
-        continue;
-    }
+        case DownloadableState.CanDownload:
+            break;
 
+        case DownloadableState.AlreadyDownloaded:
+            Console.WriteLine($"{id} already exists. Skipping.");
+            continue;
+
+        case DownloadableState.ServiceUnavailable:
+            Console.WriteLine("Cannot connect to database or storage. Exiting.");
+            return;
+
+        case DownloadableState.AlreadyPending:
+            Console.WriteLine($"{id} pending by unknown source. Skipping.");
+            continue;
+    }
 
     Illust i;
     try
