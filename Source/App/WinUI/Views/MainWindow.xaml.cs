@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using EHunter.Pixiv.Views;
-using EHunter.UI.Views.EHentai;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -19,7 +18,6 @@ namespace EHunter.UI.Views
         private readonly List<ProviderMenuItem> _providers = new()
         {
             new ProviderMenuItem("Pixiv", "ms-appx:///EHunter.Pixiv.UI/Assets/pixiv.png", typeof(PixivSwitchPage)),
-            new ProviderMenuItem("EHentai", "https://exhentai.org/favicon.ico", typeof(EHentaiRootPage)),
         };
 
         public MainWindow()
