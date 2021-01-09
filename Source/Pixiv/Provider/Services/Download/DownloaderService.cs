@@ -33,7 +33,7 @@ namespace EHunter.Pixiv.Services.Download
             _storageSetting = storageSetting;
         }
 
-        public async IAsyncEnumerable<DownloadTask> GetResumableDownloads()
+        public async IAsyncEnumerable<int> GetResumableDownloads()
         {
             var pFactory = _pixivDbContextResolver.Resolve();
             if (pFactory is null)
@@ -72,16 +72,7 @@ namespace EHunter.Pixiv.Services.Download
                         continue;
                     }
 
-                    DownloadTask task;
-                    try
-                    {
-                        task = await CreateDownloadTaskAsyncCore(p.ArtworkId, true).ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-                    yield return task;
+                    yield return p.ArtworkId;
                 }
             }
         }
@@ -132,23 +123,12 @@ namespace EHunter.Pixiv.Services.Download
             return DownloadableState.CanDownload;
         }
 
-        public async Task<DownloadTask> CreateDownloadTaskAsync(int artworkId)
-            => await CreateDownloadTaskAsync(
+        public async Task<DownloadTask> CreateDownloadTaskByIdAsync(int artworkId)
+            => CreateDownloadTask(
                 await _client.GetIllustDetailAsync(artworkId)
-                .ConfigureAwait(false))
-            .ConfigureAwait(false);
+                .ConfigureAwait(false));
 
-        private async Task<DownloadTask> CreateDownloadTaskAsyncCore(int artworkId, bool resume)
-            => await CreateDownloadTaskAsyncCore(
-                await _client.GetIllustDetailAsync(artworkId)
-                .ConfigureAwait(false),
-                resume)
-            .ConfigureAwait(false);
-
-        public Task<DownloadTask> CreateDownloadTaskAsync(Illust illust)
-            => CreateDownloadTaskAsyncCore(illust, false);
-
-        private async Task<DownloadTask> CreateDownloadTaskAsyncCore(Illust illust, bool resume)
+        public DownloadTask CreateDownloadTask(Illust illust)
         {
             var pFactory = _pixivDbContextResolver.Resolve()
                 ?? throw new InvalidOperationException("No database connetion");
@@ -156,11 +136,6 @@ namespace EHunter.Pixiv.Services.Download
                 ?? throw new InvalidOperationException("No database connetion");
             var storageRoot = _storageSetting.StorageRoot
                 ?? throw new InvalidOperationException("No storage");
-
-            if (!resume)
-            {
-                await AddToPendingAsync(illust.Id).ConfigureAwait(false);
-            }
 
             return illust.IsAnimated
                 ? new AnimatedDownloadTask(illust, storageRoot, eFactory, pFactory)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Models;
 using EHunter.Pixiv.Services.Download;
@@ -24,21 +25,26 @@ namespace EHunter.Pixiv.ViewModels.Download
 
             _settingSubscriber = _setting.MaxDownloadsInParallelChanged.Subscribe(
                 _ => CheckStartNew());
-            //ResumeDownloads();
+            ResumeDownloads();
 
-            //async void ResumeDownloads()
-            //{
-            //    var client = clientResolver.Resolve();
-            //    try
-            //    {
-            //        await foreach (var task in downloader.GetResumableDownloads().ConfigureAwait(true))
-            //            CreateAndAddVM(task);
-            //    }
-            //    catch
-            //    {
-            //        return;
-            //    }
-            //}
+            async void ResumeDownloads()
+            {
+                var client = clientResolver.Resolve();
+                try
+                {
+                    await foreach (int id in downloader.GetResumableDownloads().ConfigureAwait(true))
+                    {
+                        var illust = await client.GetIllustDetailAsync(id).ConfigureAwait(true);
+                        var vm = GetOrAddDownloadable(illust);
+                        vm.SetQueued();
+                        QueueOne(vm);
+                    }
+                }
+                catch
+                {
+                    return;
+                }
+            }
         }
 
         private readonly Dictionary<int, WeakReference<IllustDownloadVM>> _wrById = new();

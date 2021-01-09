@@ -50,7 +50,7 @@ namespace EHunter.Pixiv.ViewModels.Download
             {
                 try
                 {
-                    var task = await _downloadManager.Downloader.CreateDownloadTaskAsync(Illust).ConfigureAwait(true);
+                    var task = _downloadManager.Downloader.CreateDownloadTask(Illust);
 
                     await task.RunAsync(cancellationToken: _cts.Token,
                         onProgress: p =>
@@ -92,11 +92,18 @@ namespace EHunter.Pixiv.ViewModels.Download
             if (await _downloadManager.Downloader.CanDownloadAsync(Illust.Id).ConfigureAwait(true)
                 == DownloadableState.CanDownload)
             {
-                State = IllustDownloadState.Waiting;
-                _cancelCommand.SetCanExecute(true);
+                SetQueued();
+
+                await _downloadManager.Downloader.AddToPendingAsync(Illust.Id).ConfigureAwait(true);
                 _downloadManager.QueueOne(this);
-                _downloadCommand.SetCanExecute(false);
             }
+        }
+
+        internal void SetQueued()
+        {
+            State = IllustDownloadState.Waiting;
+            _cancelCommand.SetCanExecute(true);
+            _downloadCommand.SetCanExecute(false);
         }
 
         private readonly ActionCommand _cancelCommand;

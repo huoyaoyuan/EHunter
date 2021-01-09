@@ -55,7 +55,7 @@ var downloadService = new DownloaderService(
     Console.Write("Download by id?:");
     if (int.TryParse(Console.ReadLine(), out int id))
     {
-        var task = await downloadService.CreateDownloadTaskAsync(id);
+        var task = await downloadService.CreateDownloadTaskByIdAsync(id);
         await task.RunAsync();
         return;
     }
@@ -107,7 +107,7 @@ foreach (var f in folder.EnumerateFiles("*", SearchOption.AllDirectories))
     {
         Console.WriteLine($"Downloading {id} started.");
 
-        var task = await downloadService.CreateDownloadTaskAsync(i);
+        var task = downloadService.CreateDownloadTask(i);
         await task.RunAsync(f.CreationTimeUtc.ToLocalTime());
 
         Console.WriteLine($"Downloading {id} complete.");
