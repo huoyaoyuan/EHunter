@@ -76,6 +76,7 @@ namespace EHunter.Pixiv.ViewModels.Download
                 }
                 finally
                 {
+                    await _downloadManager.Downloader.RemoveFromPendingAsync(Illust.Id).ConfigureAwait(true);
                     _downloadManager.CompleteOne(this);
                 }
             }

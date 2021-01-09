@@ -159,19 +159,43 @@ namespace EHunter.Pixiv.Services.Download
 
             if (!resume)
             {
-                using var pContext = pFactory.CreateDbContext();
-                pContext.PixivPendingDownloads.Add(new PendingDownload
-                {
-                    ArtworkId = illust.Id,
-                    Time = DateTimeOffset.Now,
-                    PId = Environment.ProcessId
-                });
-                await pContext.SaveChangesAsync().ConfigureAwait(false);
+                await AddToPendingAsync(illust.Id).ConfigureAwait(false);
             }
 
             return illust.IsAnimated
                 ? new AnimatedDownloadTask(illust, storageRoot, eFactory, pFactory)
                 : new NonAnimatedDownloadTask(illust, storageRoot, eFactory, pFactory);
+        }
+
+        public async Task AddToPendingAsync(int illustId)
+        {
+            var pFactory = _pixivDbContextResolver.Resolve()
+                ?? throw new InvalidOperationException("No database connetion");
+
+            using var pContext = pFactory.CreateDbContext();
+            pContext.PixivPendingDownloads.Add(new PendingDownload
+            {
+                ArtworkId = illustId,
+                Time = DateTimeOffset.Now,
+                PId = Environment.ProcessId
+            });
+            await pContext.SaveChangesAsync().ConfigureAwait(false);
+        }
+
+        public async Task<bool> RemoveFromPendingAsync(int illustId)
+        {
+            var pFactory = _pixivDbContextResolver.Resolve()
+                ?? throw new InvalidOperationException("No database connetion");
+
+            using var pContext = pFactory.CreateDbContext();
+            var pending = pContext.PixivPendingDownloads.Find(illustId);
+            bool removed = pending?.PId == Environment.ProcessId;
+
+            if (removed)
+                pContext.PixivPendingDownloads.Remove(pending!);
+            await pContext.SaveChangesAsync().ConfigureAwait(false);
+
+            return removed;
         }
     }
 
