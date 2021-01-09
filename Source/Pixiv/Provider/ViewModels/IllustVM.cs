@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
+using System.Threading.Tasks;
 using EHunter.ComponentModel;
 using EHunter.Pixiv.ViewModels.Download;
 using EHunter.Services;
@@ -42,7 +42,15 @@ namespace EHunter.Pixiv.ViewModels
 
         [return: NotNullIfNotNull("source")]
         public IAsyncEnumerable<IllustVM>? CreateViewModels(IAsyncEnumerable<Illust>? source)
-            => source?.Select(CreateViewModel);
+        {
+            return source is null ? null : Core(source);
+            // Select does ConfigureAwait(false)
+            async IAsyncEnumerable<IllustVM> Core(IAsyncEnumerable<Illust> source)
+            {
+                await foreach (var illust in source.ConfigureAwait(true))
+                    yield return CreateViewModel(illust);
+            }
+        }
 
         [return: NotNullIfNotNull("source")]
         public IBindableCollection<IllustVM>? CreateAsyncCollection(IAsyncEnumerable<Illust>? source)

@@ -77,50 +77,50 @@ namespace EHunter.Pixiv.Services.Download
             }
         }
 
-        public async ValueTask<DownloadableState> CanDownloadAsync(int artworkId)
+        public ValueTask<DownloadableState> CanDownloadAsync(int artworkId)
         {
             var pFactory = _pixivDbContextResolver.Resolve();
             var eFactory = _eHunterContextResolver.Resolve();
             if (pFactory is null || eFactory is null)
-                return DownloadableState.ServiceUnavailable;
+                return new(DownloadableState.ServiceUnavailable);
 
             if (_storageSetting.StorageRoot is null)
-                return DownloadableState.ServiceUnavailable;
+                return new(DownloadableState.ServiceUnavailable);
 
-            var existsAsync = Task.Run(() => _storageSetting.StorageRoot.Exists);
-
-            if (!await existsAsync.ConfigureAwait(false))
-                return DownloadableState.ServiceUnavailable;
-
-            try
+            return new(Task.Run(async () =>
             {
-                using var pContext = pFactory.CreateDbContext();
-                if (await pContext.PixivPendingDownloads
-                    .AsQueryable()
-                    .AnyAsync(x => x.ArtworkId == artworkId)
-                    .ConfigureAwait(false))
-                    return DownloadableState.AlreadyPending;
-            }
-            catch
-            {
-                return DownloadableState.ServiceUnavailable;
-            }
+                if (!_storageSetting.StorageRoot.Exists)
+                    return DownloadableState.ServiceUnavailable;
+                try
+                {
+                    using var pContext = pFactory.CreateDbContext();
+                    if (await pContext.PixivPendingDownloads
+                        .AsQueryable()
+                        .AnyAsync(x => x.ArtworkId == artworkId)
+                        .ConfigureAwait(false))
+                        return DownloadableState.AlreadyPending;
+                }
+                catch
+                {
+                    return DownloadableState.ServiceUnavailable;
+                }
 
-            try
-            {
-                using var eContext = eFactory.CreateDbContext();
-                if (await eContext.Posts
-                    .AsQueryable()
-                    .AnyAsync(x => x.Provider == "Pixiv:Illust" && x.Identifier == artworkId)
-                    .ConfigureAwait(false))
-                    return DownloadableState.AlreadyDownloaded;
-            }
-            catch
-            {
-                return DownloadableState.ServiceUnavailable;
-            }
+                try
+                {
+                    using var eContext = eFactory.CreateDbContext();
+                    if (await eContext.Posts
+                        .AsQueryable()
+                        .AnyAsync(x => x.Provider == "Pixiv:Illust" && x.Identifier == artworkId)
+                        .ConfigureAwait(false))
+                        return DownloadableState.AlreadyDownloaded;
+                }
+                catch
+                {
+                    return DownloadableState.ServiceUnavailable;
+                }
 
-            return DownloadableState.CanDownload;
+                return DownloadableState.CanDownload;
+            }));
         }
 
         public async Task<DownloadTask> CreateDownloadTaskByIdAsync(int artworkId)
