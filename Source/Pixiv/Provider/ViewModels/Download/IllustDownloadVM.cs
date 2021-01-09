@@ -21,6 +21,7 @@ namespace EHunter.Pixiv.ViewModels.Download
             Illust = illust;
             _downloadManager = downloadManager;
             _downloadCommand = new(Download);
+            _cancelCommand = new(Cancel);
 
             CheckDownloadable();
 
@@ -91,8 +92,24 @@ namespace EHunter.Pixiv.ViewModels.Download
                 == DownloadableState.CanDownload)
             {
                 State = IllustDownloadState.Waiting;
+                _cancelCommand.SetCanExecute(true);
                 _downloadManager.QueueOne(this);
                 _downloadCommand.SetCanExecute(false);
+            }
+        }
+
+        private readonly ActionCommand _cancelCommand;
+        public ICommand CancelCommand => _cancelCommand;
+        private void Cancel()
+        {
+            _cancelCommand.SetCanExecute(false);
+
+            if (_cts is null)
+                State = IllustDownloadState.Canceled;
+            else
+            {
+                _cts.Cancel();
+                State = IllustDownloadState.CancelRequested;
             }
         }
 

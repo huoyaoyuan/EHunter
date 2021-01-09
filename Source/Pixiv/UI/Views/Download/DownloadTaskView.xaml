@@ -121,15 +121,14 @@
             Margin="2"
             FontFamily="{ThemeResource SymbolThemeFontFamily}" />
 
-        <!--<Button
+        <Button
             x:Name="cancelButton"
             Grid.Column="2"
             Grid.RowSpan="2"
             VerticalAlignment="Center"
-            IsEnabled="False"
             Style="{ThemeResource TextBlockButtonStyle}"
-            Click="{x:Bind _vm.Cancel}">
+            Command="{x:Bind _vm.CancelCommand}">
             <SymbolIcon Symbol="Cancel" />
-        </Button>-->
+        </Button>
     </Grid>
 </UserControl>
