@@ -13,14 +13,14 @@ namespace EHunter.Pixiv.ViewModels
 {
     public class IllustVM
     {
-        internal IllustVM(Illust illust, DownloadableVM2 downloadable)
+        internal IllustVM(Illust illust, IllustDownloadVM downloadable)
         {
             Illust = illust;
             Downloadable = downloadable;
         }
 
         public Illust Illust { get; }
-        public DownloadableVM2 Downloadable { get; }
+        public IllustDownloadVM Downloadable { get; }
 
         public ImageInfo Preview => Illust.Pages[0].Medium;
 

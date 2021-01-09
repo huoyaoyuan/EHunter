@@ -9,14 +9,14 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 namespace EHunter.Pixiv.ViewModels.Download
 {
 #pragma warning disable CA1001
-    public class DownloadableVM2 : ObservableObject
+    public class IllustDownloadVM : ObservableObject
 #pragma warning restore CA1001
     {
         private readonly DownloadManager _downloadManager;
         private readonly SynchronizationContext? _synchronizationContext = SynchronizationContext.Current;
         private CancellationTokenSource? _cts;
 
-        public DownloadableVM2(Illust illust, DownloadManager downloadManager)
+        public IllustDownloadVM(Illust illust, DownloadManager downloadManager)
         {
             Illust = illust;
             _downloadManager = downloadManager;
@@ -29,8 +29,8 @@ namespace EHunter.Pixiv.ViewModels.Download
                 (var state, bool canDownload) = await _downloadManager.Downloader.CanDownloadAsync(Illust.Id)
                     .ConfigureAwait(true) switch
                 {
-                    DownloadableState.AlreadyDownloaded => (DownloadableState2.Completed, false),
-                    _ => (DownloadableState2.Idle, true)
+                    DownloadableState.AlreadyDownloaded => (IllustDownloadState.Completed, false),
+                    _ => (IllustDownloadState.Idle, true)
                 };
 
                 State = state;
@@ -40,7 +40,7 @@ namespace EHunter.Pixiv.ViewModels.Download
 
         internal async void Start()
         {
-            State = DownloadableState2.Active;
+            State = IllustDownloadState.Active;
 
             _cts = new CancellationTokenSource();
 #pragma warning disable CA1508 // false positive
@@ -62,20 +62,20 @@ namespace EHunter.Pixiv.ViewModels.Download
                                     p);
                         }).ConfigureAwait(true);
 
-                    State = DownloadableState2.Completed;
+                    State = IllustDownloadState.Completed;
                 }
                 catch (TaskCanceledException)
                 {
-                    State = DownloadableState2.Canceled;
+                    State = IllustDownloadState.Canceled;
                 }
                 catch (Exception ex)
                 {
                     Exception = ex;
-                    State = DownloadableState2.Faulted;
+                    State = IllustDownloadState.Faulted;
                 }
                 finally
                 {
-                    _downloadManager.CompleteOne2(this);
+                    _downloadManager.CompleteOne(this);
                 }
             }
             _cts = null;
@@ -90,14 +90,14 @@ namespace EHunter.Pixiv.ViewModels.Download
             if (await _downloadManager.Downloader.CanDownloadAsync(Illust.Id).ConfigureAwait(true)
                 == DownloadableState.CanDownload)
             {
-                State = DownloadableState2.Waiting;
-                _downloadManager.QueueOne2(this);
+                State = IllustDownloadState.Waiting;
+                _downloadManager.QueueOne(this);
                 _downloadCommand.SetCanExecute(false);
             }
         }
 
-        private DownloadableState2 _state;
-        public DownloadableState2 State
+        private IllustDownloadState _state;
+        public IllustDownloadState State
         {
             get => _state;
             private set => SetProperty(ref _state, value);
@@ -120,7 +120,7 @@ namespace EHunter.Pixiv.ViewModels.Download
         public ImageInfo IllustPreviewPage => Illust.Pages[0].Medium;
     }
 
-    public enum DownloadableState2
+    public enum IllustDownloadState
     {
         Idle,
         Waiting,
