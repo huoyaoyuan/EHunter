@@ -40,6 +40,8 @@ namespace EHunter.Pixiv.ViewModels.Download
 
         internal async void Start()
         {
+            State = DownloadableState2.Active;
+
             _cts = new CancellationTokenSource();
 #pragma warning disable CA1508 // false positive
             using (_cts)
@@ -48,8 +50,6 @@ namespace EHunter.Pixiv.ViewModels.Download
                 try
                 {
                     var task = await _downloadManager.Downloader.CreateDownloadTaskAsync(Illust).ConfigureAwait(true);
-
-                    State = DownloadableState2.Active;
 
                     await task.RunAsync(cancellationToken: _cts.Token,
                         onProgress: p =>

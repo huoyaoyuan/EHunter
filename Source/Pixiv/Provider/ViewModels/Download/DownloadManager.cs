@@ -25,21 +25,21 @@ namespace EHunter.Pixiv.ViewModels.Download
 
             _settingSubscriber = _setting.MaxDownloadsInParallelChanged.Subscribe(
                 _ => CheckStartNew());
-            ResumeDownloads();
+            //ResumeDownloads();
 
-            async void ResumeDownloads()
-            {
-                var client = clientResolver.Resolve();
-                try
-                {
-                    await foreach (var task in downloader.GetResumableDownloads().ConfigureAwait(true))
-                        CreateAndAddVM(task);
-                }
-                catch
-                {
-                    return;
-                }
-            }
+            //async void ResumeDownloads()
+            //{
+            //    var client = clientResolver.Resolve();
+            //    try
+            //    {
+            //        await foreach (var task in downloader.GetResumableDownloads().ConfigureAwait(true))
+            //            CreateAndAddVM(task);
+            //    }
+            //    catch
+            //    {
+            //        return;
+            //    }
+            //}
         }
 
         #region Task2
