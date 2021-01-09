@@ -122,7 +122,7 @@
                             <controls:DownloadProgressIndicator
                                 VM="{x:Bind ViewModel.Downloadable}" />
                             <Button Style="{ThemeResource TextBlockButtonStyle}"
-                                    Command="{x:Bind ViewModel.Downloadable}">
+                                    Command="{x:Bind ViewModel.Downloadable.DownloadCommand}">
                                 <SymbolIcon Symbol="Download" />
                             </Button>
                         </StackPanel>

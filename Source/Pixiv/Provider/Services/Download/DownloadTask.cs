@@ -55,55 +55,30 @@ namespace EHunter.Pixiv.Services.Download
                 Identifier = Illust.Id
             };
 
-            bool shouldRemovePending = true;
+            await DownloadAsync(post.Images, onProgress, cancellationToken).ConfigureAwait(false);
 
-            try
+            using var eContext = _eFactory.CreateDbContext();
+
+            var tags = await tagsInfo
+                .ToAsyncEnumerable()
+                .SelectMany(x => eContext.MapTag(x.tagScopeName, x.tagName))
+                .Distinct()
+                .ToArrayAsync(cancellationToken)
+                .ConfigureAwait(false);
+
+            eContext.Posts.Add(post);
+            if (Illust.Pages.Count == 1)
             {
-                await DownloadAsync(post.Images, onProgress, cancellationToken).ConfigureAwait(false);
-
-                using var eContext = _eFactory.CreateDbContext();
-
-                var tags = await tagsInfo
-                    .ToAsyncEnumerable()
-                    .SelectMany(x => eContext.MapTag(x.tagScopeName, x.tagName))
-                    .Distinct()
-                    .ToArrayAsync(cancellationToken)
-                    .ConfigureAwait(false);
-
-                eContext.Posts.Add(post);
-                if (Illust.Pages.Count == 1)
-                {
-                    post.Images[0].Tags.AddRange(tags.Select(x => new ImageTag(x.tagScopeName, x.tagName)));
-                }
-                else
-                {
-                    var gallery = new PostGallery { Name = Illust.Title, Post = post };
-                    gallery.Tags.AddRange(tags.Select(x => new GalleryTag(x.tagScopeName, x.tagName)));
-                    eContext.Add(gallery);
-                }
-
-                await eContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                post.Images[0].Tags.AddRange(tags.Select(x => new ImageTag(x.tagScopeName, x.tagName)));
             }
-            catch (TaskCanceledException)
+            else
             {
-                // should remove pending
-                throw;
+                var gallery = new PostGallery { Name = Illust.Title, Post = post };
+                gallery.Tags.AddRange(tags.Select(x => new GalleryTag(x.tagScopeName, x.tagName)));
+                eContext.Add(gallery);
             }
-            catch
-            {
-                shouldRemovePending = false;
-                throw;
-            }
-            finally
-            {
-                if (shouldRemovePending)
-                {
-                    using var pContext = _pFactory.CreateDbContext();
-                    var pendingTask = pContext.PixivPendingDownloads.Find(Illust.Id);
-                    pContext.PixivPendingDownloads.Remove(pendingTask);
-                    await pContext.SaveChangesAsync(CancellationToken.None).ConfigureAwait(false);
-                }
-            }
+
+            await eContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
 
         protected abstract Task DownloadAsync(

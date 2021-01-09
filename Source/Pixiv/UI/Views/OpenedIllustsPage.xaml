@@ -41,7 +41,7 @@
                 <AppBarButton
                     Icon="Download"
                     x:Uid="DownloadAppBarButton"
-                    Command="{x:Bind _vm.SelectedIllust.IllustVM.Downloadable, Mode=OneWay}" />
+                    Command="{x:Bind _vm.SelectedIllust.IllustVM.Downloadable.DownloadCommand, Mode=OneWay, FallbackValue={x:Null}}" />
                 <AppBarButton
                     IsEnabled="{x:Bind _vm.CanClose, Mode=OneWay}"
                     Icon="Cancel"

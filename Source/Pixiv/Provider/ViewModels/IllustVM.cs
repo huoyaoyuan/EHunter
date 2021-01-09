@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
+using System.Threading.Tasks;
 using EHunter.ComponentModel;
 using EHunter.Pixiv.ViewModels.Download;
 using EHunter.Services;
@@ -13,14 +13,14 @@ namespace EHunter.Pixiv.ViewModels
 {
     public class IllustVM
     {
-        internal IllustVM(Illust illust, DownloadableIllustVM downloadable)
+        internal IllustVM(Illust illust, IllustDownloadVM downloadable)
         {
             Illust = illust;
             Downloadable = downloadable;
         }
 
         public Illust Illust { get; }
-        public DownloadableIllustVM Downloadable { get; }
+        public IllustDownloadVM Downloadable { get; }
 
         public ImageInfo Preview => Illust.Pages[0].Medium;
 
@@ -38,11 +38,19 @@ namespace EHunter.Pixiv.ViewModels
             _viewModelService = viewModelService;
         }
 
-        public IllustVM CreateViewModel(Illust illust) => new(illust, _downloadManager.GetDownloadableVM(illust));
+        public IllustVM CreateViewModel(Illust illust) => new(illust, _downloadManager.GetOrAddDownloadable(illust));
 
         [return: NotNullIfNotNull("source")]
         public IAsyncEnumerable<IllustVM>? CreateViewModels(IAsyncEnumerable<Illust>? source)
-            => source?.Select(CreateViewModel);
+        {
+            return source is null ? null : Core(source);
+            // Select does ConfigureAwait(false)
+            async IAsyncEnumerable<IllustVM> Core(IAsyncEnumerable<Illust> source)
+            {
+                await foreach (var illust in source.ConfigureAwait(true))
+                    yield return CreateViewModel(illust);
+            }
+        }
 
         [return: NotNullIfNotNull("source")]
         public IBindableCollection<IllustVM>? CreateAsyncCollection(IAsyncEnumerable<Illust>? source)
