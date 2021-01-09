@@ -38,8 +38,6 @@ namespace EHunter.Pixiv.Services.Download
             Action<double>? onProgress = null,
             CancellationToken cancellationToken = default)
         {
-            await Task.Yield();
-
             IEnumerable<(string tagScopeName, string tagName)> tagsInfo =
                 Illust.Tags.Select(x => ("Pixiv:Tag", x.Name))
                 .Append(("Pixiv:ArtistId", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo)));
