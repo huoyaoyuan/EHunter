@@ -15,13 +15,13 @@ namespace EHunter.Pixiv.ViewModels.Download
     public sealed class DownloadManager : ObservableObject, IDisposable
     {
         private readonly PixivSetting _setting;
-        private readonly DownloaderService _downloader;
+        internal readonly DownloaderService Downloader;
         private readonly IDisposable _settingSubscriber;
 
         public DownloadManager(PixivSetting setting, DownloaderService downloader, ICustomResolver<PixivClient> clientResolver)
         {
             _setting = setting;
-            _downloader = downloader;
+            Downloader = downloader;
 
             _settingSubscriber = _setting.MaxDownloadsInParallelChanged.Subscribe(
                 _ => CheckStartNew());
@@ -41,6 +41,47 @@ namespace EHunter.Pixiv.ViewModels.Download
                 }
             }
         }
+
+        #region Task2
+        private readonly Dictionary<int, WeakReference<DownloadableVM2>> _wrById = new();
+        private void PruneDictionary()
+        {
+            foreach (int id in _wrById.Keys.ToArray())
+            {
+                if (!_wrById[id].TryGetTarget(out _))
+                    _wrById.Remove(id);
+            }
+        }
+        private int _pruneCounter;
+        public DownloadableVM2 GetOrAddDownloadable(Illust illust)
+        {
+            if (_wrById.TryGetValue(illust.Id, out var wr))
+            {
+                if (wr.TryGetTarget(out var vm))
+                {
+                    return vm;
+                }
+                else
+                {
+                    vm = new DownloadableVM2(illust, this);
+                    wr.SetTarget(vm);
+                    return vm;
+                }
+            }
+            else
+            {
+                if (++_pruneCounter % 100 == 0)
+                {
+                    _pruneCounter = 0;
+                    PruneDictionary();
+                }
+
+                var vm = new DownloadableVM2(illust, this);
+                _wrById.Add(illust.Id, new(vm));
+                return vm;
+            }
+        }
+        #endregion
 
         public ObservableCollection<DownloadTaskVM> DownloadTasks { get; } = new();
         private readonly Dictionary<int, DownloadTaskVM> _taskById = new();
@@ -67,13 +108,41 @@ namespace EHunter.Pixiv.ViewModels.Download
             var existingDownload = GetExistingTask(illust.Id);
             return new(this, illust, existingDownload,
                 existingDownload is null
-                ? _downloader.CanDownloadAsync(illust.Id)
+                ? Downloader.CanDownloadAsync(illust.Id)
                 : new(DownloadableState.AlreadyPending));
+        }
+
+        internal void QueueOne2(DownloadableVM2 vm)
+        {
+            QueuedTasks2.Add(vm);
+            CheckStartNew2();
+        }
+
+        internal void CompleteOne2(DownloadableVM2 _)
+        {
+            PendingDownloads--;
+            ActiveDownloads--;
+            CheckStartNew();
+        }
+
+        public ObservableCollection<DownloadableVM2> QueuedTasks2 { get; } = new();
+
+        private void CheckStartNew2()
+        {
+            while (ActiveDownloads < _setting.MaxDownloadsInParallel)
+            {
+                var task = QueuedTasks2.FirstOrDefault(x => x.State == DownloadableState2.Waiting);
+                if (task is null)
+                    return;
+
+                ActiveDownloads++;
+                task.Start();
+            }
         }
 
         internal async Task<DownloadTaskVM> CreateDownloadTaskAsync(Illust illust)
         {
-            var task = await _downloader.CreateDownloadTaskAsync(illust).ConfigureAwait(true);
+            var task = await Downloader.CreateDownloadTaskAsync(illust).ConfigureAwait(true);
             return CreateAndAddVM(task);
         }
 
