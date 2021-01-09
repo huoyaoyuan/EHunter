@@ -5,6 +5,7 @@ using System.Windows.Input;
 using EHunter.Pixiv.Services.Download;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using static EHunter.Pixiv.ViewModels.Download.IllustDownloadState;
 
 namespace EHunter.Pixiv.ViewModels.Download
 {
@@ -27,27 +28,31 @@ namespace EHunter.Pixiv.ViewModels.Download
 
             async void CheckDownloadable()
             {
-                (var state, bool canDownload) = await _downloadManager.Downloader.CanDownloadAsync(Illust.Id)
-                    .ConfigureAwait(true) switch
-                {
-                    DownloadableState.AlreadyDownloaded => (IllustDownloadState.Completed, false),
-                    _ => (IllustDownloadState.Idle, true)
-                };
+                var downloadable = await _downloadManager.Downloader.CanDownloadAsync(Illust.Id)
+                    .ConfigureAwait(true);
 
-                State = state;
-                _downloadCommand.SetCanExecute(canDownload);
+                if (State == NotLoaded)
+                {
+                    State = (downloadable switch
+                    {
+                        DownloadableState.AlreadyDownloaded => Completed,
+                        _ => Idle
+                    });
+                }
             }
         }
 
         internal async void Start()
         {
-            State = IllustDownloadState.Active;
+            State = Active;
 
             _cts = new CancellationTokenSource();
 #pragma warning disable CA1508 // false positive
             using (_cts)
 #pragma warning restore CA1508
             {
+                bool shouldRemovePending = true;
+
                 try
                 {
                     var task = _downloadManager.Downloader.CreateDownloadTask(Illust);
@@ -63,20 +68,22 @@ namespace EHunter.Pixiv.ViewModels.Download
                                     p);
                         }).ConfigureAwait(true);
 
-                    State = IllustDownloadState.Completed;
+                    State = Completed;
                 }
                 catch (TaskCanceledException)
                 {
-                    State = IllustDownloadState.Canceled;
+                    State = Canceled;
                 }
                 catch (Exception ex)
                 {
+                    shouldRemovePending = false;
                     Exception = ex;
-                    State = IllustDownloadState.Faulted;
+                    State = Faulted;
                 }
                 finally
                 {
-                    await _downloadManager.Downloader.RemoveFromPendingAsync(Illust.Id).ConfigureAwait(true);
+                    if (shouldRemovePending)
+                        await _downloadManager.Downloader.RemoveFromPendingAsync(Illust.Id).ConfigureAwait(true);
                     _downloadManager.CompleteOne(this);
                 }
             }
@@ -89,35 +96,56 @@ namespace EHunter.Pixiv.ViewModels.Download
         public ICommand DownloadCommand => _downloadCommand;
         private async void Download()
         {
-            if (await _downloadManager.Downloader.CanDownloadAsync(Illust.Id).ConfigureAwait(true)
-                == DownloadableState.CanDownload)
+            bool shoudAddPending = State switch
             {
-                SetQueued();
+                Idle => true,
+                Canceled => true,
+                Faulted => false,
+                _ => throw new InvalidOperationException($"{nameof(Download)} shouldn't be called at state {State}.")
+            };
 
-                await _downloadManager.Downloader.AddToPendingAsync(Illust.Id).ConfigureAwait(true);
-                _downloadManager.QueueOne(this);
+            Progress = 0;
+            SetWaiting();
+
+            switch (await _downloadManager.Downloader.CanDownloadAsync(Illust.Id).ConfigureAwait(true))
+            {
+                case DownloadableState.CanDownload:
+                    break;
+
+                case DownloadableState.AlreadyDownloaded:
+                    State = Completed;
+                    return;
+
+                case DownloadableState.AlreadyPending:
+                    if (shoudAddPending)
+                        return;
+                    break;
+
+                case DownloadableState.ServiceUnavailable:
+                    return;
+
+                default:
+                    throw new InvalidOperationException("New state should be handled here.");
             }
+
+            if (shoudAddPending)
+                await _downloadManager.Downloader.AddToPendingAsync(Illust.Id).ConfigureAwait(true);
+
+            _downloadManager.QueueOne(this);
         }
 
-        internal void SetQueued()
-        {
-            State = IllustDownloadState.Waiting;
-            _cancelCommand.SetCanExecute(true);
-            _downloadCommand.SetCanExecute(false);
-        }
+        internal void SetWaiting() => State = Waiting;
 
         private readonly ActionCommand _cancelCommand;
         public ICommand CancelCommand => _cancelCommand;
         private void Cancel()
         {
-            _cancelCommand.SetCanExecute(false);
-
             if (_cts is null)
-                State = IllustDownloadState.Canceled;
+                State = Canceled;
             else
             {
+                State = CancelRequested;
                 _cts.Cancel();
-                State = IllustDownloadState.CancelRequested;
             }
         }
 
@@ -125,7 +153,14 @@ namespace EHunter.Pixiv.ViewModels.Download
         public IllustDownloadState State
         {
             get => _state;
-            private set => SetProperty(ref _state, value);
+            private set
+            {
+                if (SetProperty(ref _state, value))
+                {
+                    _downloadCommand.SetCanExecute(value is Idle or Faulted or Canceled);
+                    _cancelCommand.SetCanExecute(value is Waiting or Active);
+                }
+            }
         }
 
         private Exception? _exception;
@@ -147,6 +182,7 @@ namespace EHunter.Pixiv.ViewModels.Download
 
     public enum IllustDownloadState
     {
+        NotLoaded,
         Idle,
         Waiting,
         Active,

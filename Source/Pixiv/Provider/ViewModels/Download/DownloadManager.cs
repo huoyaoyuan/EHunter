@@ -36,7 +36,7 @@ namespace EHunter.Pixiv.ViewModels.Download
                     {
                         var illust = await client.GetIllustDetailAsync(id).ConfigureAwait(true);
                         var vm = GetOrAddDownloadable(illust);
-                        vm.SetQueued();
+                        vm.SetWaiting();
                         QueueOne(vm);
                     }
                 }
@@ -102,7 +102,8 @@ namespace EHunter.Pixiv.ViewModels.Download
 
         internal void QueueOne(IllustDownloadVM vm)
         {
-            QueuedTasks.Add(vm);
+            if (!QueuedTasks.Contains(vm))
+                QueuedTasks.Add(vm);
             CheckStartNew();
         }
 

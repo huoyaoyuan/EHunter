@@ -59,6 +59,8 @@
                         <Setter Target="statusIcon.Visibility" Value="Visible" />
                         <Setter Target="statusIcon.Glyph" Value="&#xEA39;" />
                         <Setter Target="statusIcon.Foreground" Value="Red" />
+                        <Setter Target="cancelButton.Visibility" Value="Collapsed" />
+                        <Setter Target="resumeButton.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -73,6 +75,8 @@
                         <Setter Target="statusIcon.Visibility" Value="Visible" />
                         <Setter Target="statusIcon.Glyph" Value="&#xEA39;" />
                         <Setter Target="statusIcon.Foreground" Value="Red" />
+                        <Setter Target="cancelButton.Visibility" Value="Collapsed" />
+                        <Setter Target="resumeButton.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -129,6 +133,17 @@
             Style="{ThemeResource TextBlockButtonStyle}"
             Command="{x:Bind _vm.CancelCommand}">
             <SymbolIcon Symbol="Cancel" />
+        </Button>
+
+        <Button
+            x:Name="resumeButton"
+            Grid.Column="2"
+            Grid.RowSpan="2"
+            VerticalAlignment="Center"
+            Visibility="Collapsed"
+            Style="{ThemeResource TextBlockButtonStyle}"
+            Command="{x:Bind _vm.DownloadCommand}">
+            <SymbolIcon Symbol="Refresh" />
         </Button>
     </Grid>
 </UserControl>
