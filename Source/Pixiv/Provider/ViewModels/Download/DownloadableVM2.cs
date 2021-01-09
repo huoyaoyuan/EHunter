@@ -116,6 +116,8 @@ namespace EHunter.Pixiv.ViewModels.Download
             get => _progress;
             private set => SetProperty(ref _progress, value);
         }
+
+        public ImageInfo IllustPreviewPage => Illust.Pages[0].Medium;
     }
 
     public enum DownloadableState2

@@ -12,8 +12,8 @@ namespace EHunter.Pixiv.Controls
     {
         public DownloadProgressIndicator() => InitializeComponent();
 
-        private DownloadableIllustVM? _vm;
-        public DownloadableIllustVM? VM
+        private DownloadableVM2? _vm;
+        public DownloadableVM2? VM
         {
             get => _vm;
             set

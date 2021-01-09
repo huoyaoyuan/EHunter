@@ -14,7 +14,7 @@
                 <VisualState x:Name="Waiting">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.DownloadTask.State, FallbackValue={x:Null}}"
+                            Value="{x:Bind _vm.State, FallbackValue={x:Null}}"
                             To="Waiting" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
@@ -26,7 +26,7 @@
                 <VisualState x:Name="Active">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.DownloadTask.State, FallbackValue={x:Null}}"
+                            Value="{x:Bind _vm.State, FallbackValue={x:Null}}"
                             To="Active" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
@@ -37,7 +37,7 @@
                 <VisualState x:Name="CancelRequested">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.DownloadTask.State, FallbackValue={x:Null}}"
+                            Value="{x:Bind _vm.State, FallbackValue={x:Null}}"
                             To="CancelRequested" />
                     </VisualState.StateTriggers>
                 </VisualState>
@@ -45,7 +45,7 @@
                 <VisualState x:Name="Canceled">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.DownloadTask.State, FallbackValue={x:Null}}"
+                            Value="{x:Bind _vm.State, FallbackValue={x:Null}}"
                             To="Canceled" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
@@ -59,7 +59,7 @@
                 <VisualState x:Name="Faulted">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.DownloadTask.State, FallbackValue={x:Null}}"
+                            Value="{x:Bind _vm.State, FallbackValue={x:Null}}"
                             To="Faulted" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
@@ -73,7 +73,7 @@
                 <VisualState x:Name="Completed">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.DownloadTask.State, FallbackValue={x:Null}}"
+                            Value="{x:Bind _vm.State, FallbackValue={x:Null}}"
                             To="Completed" />
                         <tktr:IsEqualStateTrigger
                             Value="{x:Bind _vm.State, FallbackValue={x:Null}}"
@@ -97,7 +97,7 @@
             Minimum="0"
             Maximum="1"
             Visibility="Collapsed"
-            Value="{x:Bind _vm.DownloadTask.Progress, FallbackValue=0}" />
+            Value="{x:Bind _vm.Progress, FallbackValue=0}" />
 
         <FontIcon
             x:Name="statusIcon"

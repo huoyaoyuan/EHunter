@@ -38,9 +38,6 @@
                             Value="{x:Bind _vm.State}"
                             To="Active" />
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="cancelButton.IsEnabled" Value="True" />
-                    </VisualState.Setters>
                 </VisualState>
 
                 <VisualState x:Name="CancelRequested">
@@ -124,7 +121,7 @@
             Margin="2"
             FontFamily="{ThemeResource SymbolThemeFontFamily}" />
 
-        <Button
+        <!--<Button
             x:Name="cancelButton"
             Grid.Column="2"
             Grid.RowSpan="2"
@@ -133,6 +130,6 @@
             Style="{ThemeResource TextBlockButtonStyle}"
             Click="{x:Bind _vm.Cancel}">
             <SymbolIcon Symbol="Cancel" />
-        </Button>
+        </Button>-->
     </Grid>
 </UserControl>
