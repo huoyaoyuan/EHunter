@@ -1,5 +1,6 @@
 ﻿using EHunter.Data;
 using EHunter.Pixiv;
+using EHunter.Providers;
 using EHunter.Services;
 using EHunter.Settings;
 using EHunter.UI.Models;
@@ -28,18 +29,25 @@ namespace EHunter.UI
         /// </summary>
         public App()
         {
+            var providers = new IEHunterProvider[] { new PixivUIProvider() };
+
             var services = new ServiceCollection()
                 .AddSingleton<IViewModelService, ViewModelService>()
                 .AddSingleton<ICommonSettingStore, CommonSettingStore>()
                 .AddCommonSettings()
                 .AddTransient<CommonSettingVM>()
                 .AddEHunterDbContext<EHunterDbContext>()
-                .ConfigurePixiv()
                 .AddMemoryCache(o =>
                 {
                     o.SizeLimit = 2 * (1L << 30);
                     o.CompactionPercentage = 0.9;
                 });
+
+            foreach (var provider in providers)
+            {
+                provider.ConfigureServices(services);
+                services.AddSingleton(provider);
+            }
 
             Ioc.Default.ConfigureServices(services.BuildServiceProvider());
 

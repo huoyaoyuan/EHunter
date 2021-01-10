@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="using:EHunter.UI.Views"
+    xmlns:p="using:EHunter.Providers"
     mc:Ignorable="d">
     <NavigationView
         SelectionChanged="NavigationView_SelectionChanged"
@@ -12,8 +12,8 @@
         MenuItemsSource="{x:Bind _providers}"
         PaneDisplayMode="Top">
         <NavigationView.MenuItemTemplate>
-            <DataTemplate x:DataType="local:ProviderMenuItem">
-                <NavigationViewItem Content="{x:Bind Name}">
+            <DataTemplate x:DataType="p:IEHunterProvider">
+                <NavigationViewItem Content="{x:Bind Title}">
                     <NavigationViewItem.Icon>
                         <BitmapIcon ShowAsMonochrome="False" UriSource="{x:Bind IconUri}" />
                     </NavigationViewItem.Icon>

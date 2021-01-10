@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using EHunter.Pixiv.Views;
+﻿using System.Collections.Generic;
+using System.Linq;
+using EHunter.Providers;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -15,10 +17,7 @@ namespace EHunter.UI.Views
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        private readonly List<ProviderMenuItem> _providers = new()
-        {
-            new ProviderMenuItem("Pixiv", "ms-appx:///EHunter.Pixiv.UI/Assets/pixiv.png", typeof(PixivSwitchPage)),
-        };
+        private readonly IList<IEHunterProvider> _providers = Ioc.Default.GetServices<IEHunterProvider>().ToArray();
 
         public MainWindow()
         {
@@ -34,11 +33,11 @@ namespace EHunter.UI.Views
         {
             var targetType = args.IsSettingsSelected
                 ? typeof(SettingsPage)
-                : ((ProviderMenuItem)args.SelectedItem).ContentType;
+                : ((IEHunterProvider)args.SelectedItem).UIRootType;
 
             int newIndex = args.IsSettingsSelected
                 ? int.MaxValue
-                : _providers.IndexOf((ProviderMenuItem)args.SelectedItem);
+                : _providers.IndexOf((IEHunterProvider)args.SelectedItem);
 
             var direction = newIndex > _previousSelectedIndex
                 ? SlideNavigationTransitionEffect.FromRight
@@ -50,23 +49,5 @@ namespace EHunter.UI.Views
 
             _previousSelectedIndex = newIndex;
         }
-    }
-
-    public class ProviderMenuItem
-    {
-#pragma warning disable CA1054
-        public ProviderMenuItem(string name, string iconUri, Type contentType)
-#pragma warning restore CA1054
-        {
-            Name = name;
-            IconUri = new Uri(iconUri);
-            ContentType = contentType;
-        }
-
-        public string Name { get; }
-
-        public Uri IconUri { get; }
-
-        public Type ContentType { get; }
     }
 }
