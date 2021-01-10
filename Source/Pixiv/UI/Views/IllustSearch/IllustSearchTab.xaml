@@ -60,14 +60,14 @@
                 Margin="4"
                 HorizontalAlignment="Stretch"
                 Text="{x:Bind VM.SearchWord, Mode=TwoWay}"
-                QuerySubmitted="{x:Bind VM.DoSearch}" />
+                QuerySubmitted="{x:Bind VM.Refresh}" />
             <Button
                 x:Uid="SearchButton"
                 Grid.Column="1"
                 Margin="4"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Center"
-                Click="{x:Bind VM.DoSearch}" />
+                Click="{x:Bind VM.Refresh}" />
         </Grid>
 
         <TextBlock
@@ -102,7 +102,7 @@
                     Grid.Column="2"
                     Margin="2"
                     Style="{StaticResource AgeRestrictionSelectorStyle}"
-                    SelectedItem="{x:Bind VM.SelectedAge.IntValue, Mode=TwoWay}" />
+                    SelectedItem="{x:Bind VM.IntSelectedAge, Mode=TwoWay}" />
                 <DropDownButton
                     x:Uid="SearchRange"
                     Grid.Column="3"

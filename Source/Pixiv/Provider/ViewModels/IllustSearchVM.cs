@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
-using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
+using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -38,18 +39,20 @@ namespace EHunter.Pixiv.ViewModels
         }
     }
 
-    public class IllustSearchVM : ObservableObject
+    public class IllustSearchVM : IllustCollectionVM
     {
         private readonly IllustSearchPageVM _parent;
 
-        internal IllustSearchVM(IllustSearchPageVM parent) => _parent = parent;
+        internal IllustSearchVM(IllustSearchPageVM parent)
+            : base(parent.IllustVMFactory) => _parent = parent;
 
         internal IllustSearchVM(IllustSearchPageVM parent, Tag tag)
+            : base(parent.IllustVMFactory)
         {
             _parent = parent;
             EffectiveWord = tag.Name;
             Tag = tag;
-            Illusts = _parent.IllustVMFactory.CreateAsyncCollection(tag.GetIllustsAsync());
+            Refresh();
         }
 
         private Tag? _tag;
@@ -72,8 +75,6 @@ namespace EHunter.Pixiv.ViewModels
             get => _effectiveWord;
             private set => SetProperty(ref _effectiveWord, value);
         }
-
-        public EnumValueHolder<AgeRestriction> SelectedAge { get; } = new();
 
         public EnumValueHolder<IllustSearchTarget> SearchTarget { get; } = new();
 
@@ -135,14 +136,7 @@ namespace EHunter.Pixiv.ViewModels
             set => SetProperty(ref _endDate, value);
         }
 
-        private IBindableCollection<IllustVM>? _illusts;
-        public IBindableCollection<IllustVM>? Illusts
-        {
-            get => _illusts;
-            private set => SetProperty(ref _illusts, value);
-        }
-
-        public void DoSearch()
+        protected override IAsyncEnumerable<Illust> LoadIllusts()
         {
             var options = new IllustFilterOptions
             {
@@ -156,11 +150,9 @@ namespace EHunter.Pixiv.ViewModels
             if (Tag != null)
                 EffectiveWord = SearchWord;
 
-            var query = Tag != null
+            return Tag != null
                 ? Tag.GetIllustsAsync(options)
                 : _parent.ClientResolver.Resolve().SearchIllustsAsync(SearchWord, SearchTarget.Value, options);
-
-            Illusts = _parent.IllustVMFactory.CreateAsyncCollection(query.Age(SelectedAge.Value));
         }
     }
 

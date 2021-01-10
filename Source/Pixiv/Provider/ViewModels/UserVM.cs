@@ -1,16 +1,15 @@
 ﻿using System;
-using EHunter.ComponentModel;
+using System.Collections.Generic;
 using EHunter.DependencyInjection;
+using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace EHunter.Pixiv.ViewModels
 {
-    public class UserVM : ObservableObject
+    public class UserVM : IllustCollectionVM
     {
         private readonly PixivClient _client;
-        private readonly IllustVMFactory _illustVMFactory;
         private int _userId;
         public int UserId
         {
@@ -27,7 +26,7 @@ namespace EHunter.Pixiv.ViewModels
                 var user = await _client.GetUserDetailAsync(UserId).ConfigureAwait(true);
                 UserInfo = user;
                 UserDetail = user;
-                LoadIllusts();
+                Refresh();
             }
             catch
             {
@@ -38,34 +37,22 @@ namespace EHunter.Pixiv.ViewModels
             }
         }
 
-        public UserVM(PixivClient client, IllustVMFactory illustVMFactory)
+        public UserVM(PixivClient client, IllustVMFactory illustVMFactory, UserInfo? userInfo = null)
+            : base(illustVMFactory)
         {
             _client = client;
-            _illustVMFactory = illustVMFactory;
-        }
 
-        public UserVM(UserInfo userInfo, PixivClient client, IllustVMFactory illustVMFactory)
-        {
-            _client = client;
-            _illustVMFactory = illustVMFactory;
-            UserInfo = userInfo;
-            Load(userInfo);
+            if (userInfo != null)
+            {
+                UserInfo = userInfo;
+                Load(userInfo);
+            }
 
             async void Load(UserInfo user)
             {
-                LoadIllusts();
+                Refresh();
                 UserDetail = await user.GetDetailAsync().ConfigureAwait(true);
             }
-        }
-
-        private void LoadIllusts()
-        {
-            Illusts = _illustVMFactory.CreateAsyncCollection(
-                UserInfo?.GetIllustsAsync().Age(SelectedAge));
-
-            // TODO: Consider AdvancedCollectionView.Filter
-            // Currently doesn't work with mignon/IsR18=true
-            // 8.0.0-preview2
         }
 
         private UserInfo? _userInfo;
@@ -89,32 +76,7 @@ namespace EHunter.Pixiv.ViewModels
             private set => SetProperty(ref _isLoading, value);
         }
 
-        private AgeRestriction _selectedAge = AgeRestriction.All;
-        public AgeRestriction SelectedAge
-        {
-            get => _selectedAge;
-            set
-            {
-                if (SetProperty(ref _selectedAge, value))
-                {
-                    OnPropertyChanged(nameof(IntSelectedAge));
-                    LoadIllusts();
-                }
-            }
-        }
-
-        public int IntSelectedAge
-        {
-            get => (int)SelectedAge;
-            set => SelectedAge = (AgeRestriction)value;
-        }
-
-        private IBindableCollection<IllustVM>? _illusts;
-        public IBindableCollection<IllustVM>? Illusts
-        {
-            get => _illusts;
-            private set => SetProperty(ref _illusts, value);
-        }
+        protected override IAsyncEnumerable<Illust>? LoadIllusts() => UserInfo?.GetIllustsAsync();
 
         public Uri? Url => UserInfo is null ? null
             : new($"https://www.pixiv.net/users/{UserInfo.Id}");
@@ -133,6 +95,6 @@ namespace EHunter.Pixiv.ViewModels
         }
 
         public UserVM Create() => new(_clientResolver.Resolve(), _illustVMFactory);
-        public UserVM Create(UserInfo userInfo) => new(userInfo, _clientResolver.Resolve(), _illustVMFactory);
+        public UserVM Create(UserInfo userInfo) => new(_clientResolver.Resolve(), _illustVMFactory, userInfo);
     }
 }
