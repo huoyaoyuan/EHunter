@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using EHunter.Pixiv.Messages;
-using EHunter.Pixiv.ViewModels;
+using EHunter.Pixiv.ViewModels.User;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Navigation;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace EHunter.Pixiv.Views
+namespace EHunter.Pixiv.Views.User
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -20,7 +20,7 @@ namespace EHunter.Pixiv.Views
 
         public UsersPage() => InitializeComponent();
 
-        private readonly ObservableCollection<UserVM> _vms = new();
+        private readonly ObservableCollection<JumpToUserVM> _vms = new();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -41,7 +41,7 @@ namespace EHunter.Pixiv.Views
         }
 
         private void TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
-            => _vms.Remove((UserVM)args.Item);
+            => _vms.Remove((JumpToUserVM)args.Item);
 
         private void AddTab()
         {

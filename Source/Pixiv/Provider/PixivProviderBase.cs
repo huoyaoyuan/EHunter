@@ -8,6 +8,7 @@ using EHunter.Pixiv.Services.Download;
 using EHunter.Pixiv.ViewModels;
 using EHunter.Pixiv.ViewModels.Download;
 using EHunter.Pixiv.ViewModels.Search;
+using EHunter.Pixiv.ViewModels.User;
 using EHunter.Providers;
 using Meowtrix.PixivApi;
 using Microsoft.Extensions.DependencyInjection;

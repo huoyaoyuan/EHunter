@@ -1,4 +1,4 @@
-﻿using EHunter.Pixiv.ViewModels;
+﻿using EHunter.Pixiv.ViewModels.User;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -13,11 +13,11 @@ namespace EHunter.Pixiv.Views.User
         public UserTab() => InitializeComponent();
 
         public static readonly DependencyProperty VMProperty
-            = DependencyProperty.Register(nameof(VM), typeof(UserVM), typeof(UserTab),
+            = DependencyProperty.Register(nameof(VM), typeof(JumpToUserVM), typeof(UserTab),
                 new PropertyMetadata(null, VMChanged));
-        public UserVM VM
+        public JumpToUserVM VM
         {
-            get => (UserVM)GetValue(VMProperty);
+            get => (JumpToUserVM)GetValue(VMProperty);
             set => SetValue(VMProperty, value);
         }
 

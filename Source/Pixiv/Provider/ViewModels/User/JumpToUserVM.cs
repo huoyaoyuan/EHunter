@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using EHunter.DependencyInjection;
 using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 
-namespace EHunter.Pixiv.ViewModels
+namespace EHunter.Pixiv.ViewModels.User
 {
-    public class UserVM : IllustCollectionVM
+    public class JumpToUserVM : IllustCollectionVM
     {
         private readonly PixivClient _client;
         private int _userId;
@@ -37,7 +36,7 @@ namespace EHunter.Pixiv.ViewModels
             }
         }
 
-        public UserVM(PixivClient client, IllustVMFactory illustVMFactory, UserInfo? userInfo = null)
+        public JumpToUserVM(PixivClient client, IllustVMFactory illustVMFactory, UserInfo? userInfo = null)
             : base(illustVMFactory)
         {
             _client = client;
@@ -80,21 +79,5 @@ namespace EHunter.Pixiv.ViewModels
 
         public Uri? Url => UserInfo is null ? null
             : new($"https://www.pixiv.net/users/{UserInfo.Id}");
-    }
-
-    public class UserVMFactory
-    {
-        private readonly ICustomResolver<PixivClient> _clientResolver;
-        private readonly IllustVMFactory _illustVMFactory;
-
-        public UserVMFactory(ICustomResolver<PixivClient> clientResolver,
-            IllustVMFactory illustVMFactory)
-        {
-            _clientResolver = clientResolver;
-            _illustVMFactory = illustVMFactory;
-        }
-
-        public UserVM Create() => new(_clientResolver.Resolve(), _illustVMFactory);
-        public UserVM Create(UserInfo userInfo) => new(_clientResolver.Resolve(), _illustVMFactory, userInfo);
     }
 }
