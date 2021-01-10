@@ -1,6 +1,7 @@
 ﻿using System;
 using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.Views.Download;
+using EHunter.Pixiv.Views.Search;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 

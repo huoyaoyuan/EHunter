@@ -1,52 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
-using EHunter.DependencyInjection;
 using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace EHunter.Pixiv.ViewModels
+namespace EHunter.Pixiv.ViewModels.Search
 {
-    public class EnumValueHolder<T> : ObservableObject
-        where T : struct, Enum
-    {
-        // TODO: part of workaround of https://github.com/microsoft/microsoft-ui-xaml/issues/3339
-
-        public EnumValueHolder()
-        {
-            if (Unsafe.SizeOf<T>() != sizeof(int))
-                throw new NotSupportedException("This type must be used with int-sized enum.");
-        }
-
-        private T _value;
-        public T Value
-        {
-            get => _value;
-            set
-            {
-                if (SetProperty(ref _value, value))
-                    OnPropertyChanged(nameof(IntValue));
-            }
-        }
-
-        public int IntValue
-        {
-            get => Unsafe.As<T, int>(ref _value);
-            set => Value = Unsafe.As<int, T>(ref value);
-        }
-    }
-
     public class IllustSearchVM : IllustCollectionVM
     {
-        private readonly IllustSearchPageVM _parent;
+        private readonly IllustSearchManager _parent;
 
-        internal IllustSearchVM(IllustSearchPageVM parent)
+        internal IllustSearchVM(IllustSearchManager parent)
             : base(parent.IllustVMFactory) => _parent = parent;
 
-        internal IllustSearchVM(IllustSearchPageVM parent, Tag tag)
+        internal IllustSearchVM(IllustSearchManager parent, Tag tag)
             : base(parent.IllustVMFactory)
         {
             _parent = parent;
@@ -154,50 +121,5 @@ namespace EHunter.Pixiv.ViewModels
                 ? Tag.GetIllustsAsync(options)
                 : _parent.ClientResolver.Resolve().SearchIllustsAsync(SearchWord, SearchTarget.Value, options);
         }
-    }
-
-    public class IllustSearchPageVM : ObservableObject
-    {
-        internal readonly ICustomResolver<PixivClient> ClientResolver;
-        internal readonly IllustVMFactory IllustVMFactory;
-
-        public IllustSearchPageVM(ICustomResolver<PixivClient> clientResolver,
-            IllustVMFactory illustVMFactory)
-        {
-            ClientResolver = clientResolver;
-            IllustVMFactory = illustVMFactory;
-        }
-
-        public ObservableCollection<IllustSearchVM> Tabs { get; } = new();
-
-        private int _selectedIndex;
-        public int SelectedIndex
-        {
-            get => _selectedIndex;
-            set => SetProperty(ref _selectedIndex, value);
-        }
-
-        public void AddTab()
-        {
-            Tabs.Add(new(this));
-            SelectedIndex = Tabs.Count - 1;
-        }
-
-        public void GoToTag(Tag tag)
-        {
-            for (int i = 0; i < Tabs.Count; i++)
-            {
-                if (Tabs[i].Tag?.Name == tag.Name)
-                {
-                    SelectedIndex = i;
-                    return;
-                }
-            }
-
-            Tabs.Add(new(this, tag));
-            SelectedIndex = Tabs.Count - 1;
-        }
-
-        public void CloseTab(IllustSearchVM tab) => Tabs.Remove(tab);
     }
 }
