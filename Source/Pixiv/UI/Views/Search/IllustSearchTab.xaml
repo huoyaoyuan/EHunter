@@ -182,8 +182,8 @@
                 <DataTemplate x:DataType="vm:IllustVM"
                                   x:DefaultBindMode="OneTime">
                     <controls:IllustSummary ViewModel="{Binding}" />
-                    <!-- TODO: x:Bind doesn't work here. Investigate why.
-                             WinUI 3 Preview 2 -->
+                    <!-- TODO: x:Bind doesn't work here.
+                         https://github.com/microsoft/microsoft-ui-xaml/issues/3916 -->
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
