@@ -1,5 +1,4 @@
 ﻿using EHunter.Pixiv.ViewModels;
-using Meowtrix.PixivApi.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -12,7 +11,7 @@ namespace EHunter.Pixiv.Controls
         public IllustSummary() => DefaultStyleKey = typeof(IllustSummary);
 
         public static readonly DependencyProperty ViewModelProperty
-            = DependencyProperty.Register(nameof(ViewModel), typeof(Illust), typeof(IllustSummary),
+            = DependencyProperty.Register(nameof(ViewModel), typeof(IllustVM), typeof(IllustSummary),
                 new PropertyMetadata(null));
         public IllustVM? ViewModel
         {
