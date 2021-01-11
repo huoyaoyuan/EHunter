@@ -7,6 +7,10 @@ using EHunter.Pixiv.Services;
 using EHunter.Pixiv.Services.Download;
 using EHunter.Pixiv.ViewModels;
 using EHunter.Pixiv.ViewModels.Download;
+using EHunter.Pixiv.ViewModels.Opened;
+using EHunter.Pixiv.ViewModels.Recent;
+using EHunter.Pixiv.ViewModels.Search;
+using EHunter.Pixiv.ViewModels.User;
 using EHunter.Providers;
 using Meowtrix.PixivApi;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,11 +26,11 @@ namespace EHunter.Pixiv
         public void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection
-                .AddTransient<PixivLoginPageVM>()
-                .AddTransient<PixivRecentVM>()
+                .AddTransient<LoginPageVM>()
+                .AddTransient<RecentWatchedVM>()
                 .AddTransient<UserVMFactory>()
                 .AddTransient<OpenedIllustsVM>()
-                .AddTransient<IllustSearchPageVM>()
+                .AddTransient<IllustSearchManager>()
                 .AddTransient<PixivSettingsVM>()
                 .AddSingleton<DownloadManager>()
                 .AddTransient<IllustVMFactory>()

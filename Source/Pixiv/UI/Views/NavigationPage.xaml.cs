@@ -1,6 +1,10 @@
 ﻿using System;
 using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.Views.Download;
+using EHunter.Pixiv.Views.Opened;
+using EHunter.Pixiv.Views.Recent;
+using EHunter.Pixiv.Views.Search;
+using EHunter.Pixiv.Views.User;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 
@@ -14,9 +18,9 @@ namespace EHunter.Pixiv.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class PixivRootPage : Page
+    public sealed partial class NavigationPage : Page
     {
-        public PixivRootPage()
+        public NavigationPage()
         {
             InitializeComponent();
 
@@ -49,7 +53,7 @@ namespace EHunter.Pixiv.Views
             if (args.IsSettingsSelected)
                 toType = typeof(PixivSettingsPage);
             else if (args.SelectedItemContainer == recent)
-                toType = typeof(RecentPage);
+                toType = typeof(RecentWatchedPage);
             else if (args.SelectedItemContainer == users)
                 toType = typeof(UsersPage);
             else if (args.SelectedItemContainer == opened)
@@ -72,7 +76,7 @@ namespace EHunter.Pixiv.Views
             var type = _frame.CurrentSourcePageType;
             if (type == typeof(PixivSettingsPage))
                 sender.SelectedItem = sender.SettingsItem;
-            else if (type == typeof(RecentPage))
+            else if (type == typeof(RecentWatchedPage))
                 sender.SelectedItem = recent;
             else if (type == typeof(UsersPage))
                 sender.SelectedItem = users;

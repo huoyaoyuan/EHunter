@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="EHunter.Pixiv.Views.PixivSwitchPage"
+    x:Class="EHunter.Pixiv.Views.InitialPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:EHunter.Pixiv.Views"
@@ -12,6 +12,6 @@
         <ContentPresenter.ContentTransitions>
             <EntranceThemeTransition />
         </ContentPresenter.ContentTransitions>
-        <local:PixivLoginPage />
+        <local:LoginPage />
     </ContentPresenter>
 </Page>

@@ -14,16 +14,16 @@ namespace EHunter.Pixiv.Views
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
 #pragma warning disable CA1708
-    public sealed partial class PixivLoginPage : Page
+    public sealed partial class LoginPage : Page
 #pragma warning restore CA1708
     {
-        private readonly PixivLoginPageVM _vm = Ioc.Default.GetRequiredService<PixivLoginPageVM>();
+        private readonly LoginPageVM _vm = Ioc.Default.GetRequiredService<LoginPageVM>();
 
-        public PixivLoginPage()
+        public LoginPage()
         {
             InitializeComponent();
 
-            Loaded += (s, e) => WeakReferenceMessenger.Default.Register<PixivLoginPage, LoginFailedMessage>(
+            Loaded += (s, e) => WeakReferenceMessenger.Default.Register<LoginPage, LoginFailedMessage>(
                 this, static (self, m) =>
                 {
                     self.loginFailedMessage.Text = m.Exception.Message;

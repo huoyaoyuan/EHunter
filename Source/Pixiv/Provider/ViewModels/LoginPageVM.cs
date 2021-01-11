@@ -10,13 +10,13 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace EHunter.Pixiv.ViewModels
 {
-    public class PixivLoginPageVM : ObservableObject
+    public class LoginPageVM : ObservableObject
     {
         private readonly IPixivSettingStore _settingStore;
         private readonly PixivSetting _setting;
         private readonly PixivClientService _clientService;
 
-        public PixivLoginPageVM(
+        public LoginPageVM(
             IPixivSettingStore settingStore,
             PixivSetting setting,
             PixivClientService clientService,

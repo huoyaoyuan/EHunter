@@ -1,55 +1,25 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
-using EHunter.ComponentModel;
-using EHunter.DependencyInjection;
+using System.Collections.Generic;
+using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace EHunter.Pixiv.ViewModels
+namespace EHunter.Pixiv.ViewModels.Search
 {
-    public class EnumValueHolder<T> : ObservableObject
-        where T : struct, Enum
+    public class IllustSearchVM : IllustCollectionVM
     {
-        // TODO: part of workaround of https://github.com/microsoft/microsoft-ui-xaml/issues/3339
+        private readonly IllustSearchManager _parent;
 
-        public EnumValueHolder()
-        {
-            if (Unsafe.SizeOf<T>() != sizeof(int))
-                throw new NotSupportedException("This type must be used with int-sized enum.");
-        }
+        internal IllustSearchVM(IllustSearchManager parent)
+            : base(parent.IllustVMFactory) => _parent = parent;
 
-        private T _value;
-        public T Value
-        {
-            get => _value;
-            set
-            {
-                if (SetProperty(ref _value, value))
-                    OnPropertyChanged(nameof(IntValue));
-            }
-        }
-
-        public int IntValue
-        {
-            get => Unsafe.As<T, int>(ref _value);
-            set => Value = Unsafe.As<int, T>(ref value);
-        }
-    }
-
-    public class IllustSearchVM : ObservableObject
-    {
-        private readonly IllustSearchPageVM _parent;
-
-        internal IllustSearchVM(IllustSearchPageVM parent) => _parent = parent;
-
-        internal IllustSearchVM(IllustSearchPageVM parent, Tag tag)
+        internal IllustSearchVM(IllustSearchManager parent, Tag tag)
+            : base(parent.IllustVMFactory)
         {
             _parent = parent;
             EffectiveWord = tag.Name;
             Tag = tag;
-            Illusts = _parent.IllustVMFactory.CreateAsyncCollection(tag.GetIllustsAsync());
+            Refresh();
         }
 
         private Tag? _tag;
@@ -72,8 +42,6 @@ namespace EHunter.Pixiv.ViewModels
             get => _effectiveWord;
             private set => SetProperty(ref _effectiveWord, value);
         }
-
-        public EnumValueHolder<AgeRestriction> SelectedAge { get; } = new();
 
         public EnumValueHolder<IllustSearchTarget> SearchTarget { get; } = new();
 
@@ -135,14 +103,7 @@ namespace EHunter.Pixiv.ViewModels
             set => SetProperty(ref _endDate, value);
         }
 
-        private IBindableCollection<IllustVM>? _illusts;
-        public IBindableCollection<IllustVM>? Illusts
-        {
-            get => _illusts;
-            private set => SetProperty(ref _illusts, value);
-        }
-
-        public void DoSearch()
+        protected override IAsyncEnumerable<Illust> LoadIllusts()
         {
             var options = new IllustFilterOptions
             {
@@ -156,56 +117,9 @@ namespace EHunter.Pixiv.ViewModels
             if (Tag != null)
                 EffectiveWord = SearchWord;
 
-            var query = Tag != null
+            return Tag != null
                 ? Tag.GetIllustsAsync(options)
                 : _parent.ClientResolver.Resolve().SearchIllustsAsync(SearchWord, SearchTarget.Value, options);
-
-            Illusts = _parent.IllustVMFactory.CreateAsyncCollection(query.Age(SelectedAge.Value));
         }
-    }
-
-    public class IllustSearchPageVM : ObservableObject
-    {
-        internal readonly ICustomResolver<PixivClient> ClientResolver;
-        internal readonly IllustVMFactory IllustVMFactory;
-
-        public IllustSearchPageVM(ICustomResolver<PixivClient> clientResolver,
-            IllustVMFactory illustVMFactory)
-        {
-            ClientResolver = clientResolver;
-            IllustVMFactory = illustVMFactory;
-        }
-
-        public ObservableCollection<IllustSearchVM> Tabs { get; } = new();
-
-        private int _selectedIndex;
-        public int SelectedIndex
-        {
-            get => _selectedIndex;
-            set => SetProperty(ref _selectedIndex, value);
-        }
-
-        public void AddTab()
-        {
-            Tabs.Add(new(this));
-            SelectedIndex = Tabs.Count - 1;
-        }
-
-        public void GoToTag(Tag tag)
-        {
-            for (int i = 0; i < Tabs.Count; i++)
-            {
-                if (Tabs[i].Tag?.Name == tag.Name)
-                {
-                    SelectedIndex = i;
-                    return;
-                }
-            }
-
-            Tabs.Add(new(this, tag));
-            SelectedIndex = Tabs.Count - 1;
-        }
-
-        public void CloseTab(IllustSearchVM tab) => Tabs.Remove(tab);
     }
 }

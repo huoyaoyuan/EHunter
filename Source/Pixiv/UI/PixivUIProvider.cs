@@ -12,7 +12,7 @@ namespace EHunter.Pixiv
     {
         public override Uri IconUri => new("ms-appx:///EHunter.Pixiv.UI/Assets/pixiv.png");
 
-        public override Type UIRootType => typeof(PixivSwitchPage);
+        public override Type UIRootType => typeof(InitialPage);
 
         protected override void ConfigureViewServices(IServiceCollection serviceCollection)
             => serviceCollection

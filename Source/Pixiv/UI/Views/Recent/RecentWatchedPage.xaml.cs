@@ -1,4 +1,4 @@
-﻿using EHunter.Pixiv.ViewModels;
+﻿using EHunter.Pixiv.ViewModels.Recent;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -7,16 +7,16 @@ using Microsoft.UI.Xaml.Media.Animation;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace EHunter.Pixiv.Views
+namespace EHunter.Pixiv.Views.Recent
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class RecentPage : Page
+    public sealed partial class RecentWatchedPage : Page
     {
-        private readonly PixivRecentVM _vm = Ioc.Default.GetRequiredService<PixivRecentVM>();
+        private readonly RecentWatchedVM _vm = Ioc.Default.GetRequiredService<RecentWatchedVM>();
 
-        public RecentPage() => InitializeComponent();
+        public RecentWatchedPage() => InitializeComponent();
 
         private void NavigateToUser_Click(object sender, RoutedEventArgs args)
         {
