@@ -10,15 +10,15 @@ namespace EHunter.Pixiv.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class PixivSwitchPage : Page
+    public sealed partial class InitialPage : Page
     {
-        public PixivSwitchPage()
+        public InitialPage()
         {
             InitializeComponent();
 
-            WeakReferenceMessenger.Default.Register<PixivSwitchPage, InitializationCompleteMessage>(
+            WeakReferenceMessenger.Default.Register<InitialPage, InitializationCompleteMessage>(
                 this, static (self, m)
-                => self.presenter.Content = new PixivRootPage());
+                => self.presenter.Content = new NavigationPage());
         }
     }
 }
