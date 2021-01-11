@@ -1,4 +1,5 @@
-﻿using EHunter.Settings;
+﻿using EHunter.Services;
+using EHunter.Settings;
 using EHunter.UI.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
@@ -9,14 +10,16 @@ namespace EHunter.UI.ViewModels
     public class CommonSettingVM : ObservableObject
     {
         private readonly CommonSetting _commonSetting;
+        private readonly IViewModelService _viewModelService;
 
-        public CommonSettingVM(ICommonSettingStore settingStore, CommonSetting commonSetting)
+        public CommonSettingVM(ICommonSettingStore settingStore, CommonSetting commonSetting, IViewModelService viewModelService)
         {
             _storageRoot = settingStore.StorageRoot;
             _proxyAddress = settingStore.ProxyAddress;
             _proxyPort = settingStore.ProxyPort;
             _dbConnectionString = settingStore.DbConnectionString;
             _commonSetting = commonSetting;
+            _viewModelService = viewModelService;
         }
 
         private string _storageRoot;
@@ -62,6 +65,13 @@ namespace EHunter.UI.ViewModels
                 if (SetProperty(ref _dbConnectionString, value))
                     _commonSetting.SetConnectionString(value);
             }
+        }
+
+        public async void BrowseStorageRoot()
+        {
+            string? folder = await _viewModelService.BrowseFolderAsync().ConfigureAwait(true);
+            if (folder != null)
+                StorageRoot = folder;
         }
     }
 }

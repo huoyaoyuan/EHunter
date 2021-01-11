@@ -24,7 +24,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBox x:Name="storageRoot" Header="Storage Root" Text="{x:Bind _setting.StorageRoot}" />
                 <Button
-                    Click="BrowseStorageRoot"
+                    Click="{x:Bind _setting.BrowseStorageRoot}"
                     Grid.Column="1"
                     VerticalAlignment="Bottom"
                     Content="Browse…" />
