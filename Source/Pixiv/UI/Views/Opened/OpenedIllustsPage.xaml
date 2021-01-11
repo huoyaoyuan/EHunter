@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="EHunter.Pixiv.Views.OpenedIllustsPage"
+    x:Class="EHunter.Pixiv.Views.Opened.OpenedIllustsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,6 +8,7 @@
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
     xmlns:vm="using:EHunter.Pixiv.ViewModels"
+    xmlns:vmo="using:EHunter.Pixiv.ViewModels.Opened"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     xmlns:tk="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
@@ -71,7 +72,7 @@
             ItemContainerStyle="{StaticResource ListViewItemGridStyle}"
             MasterPaneWidth="120">
             <tk:MasterDetailsView.ItemTemplate>
-                <DataTemplate x:DataType="vm:IllustHolderVM">
+                <DataTemplate x:DataType="vmo:IllustHolderVM">
                     <controls:PixivImage
                         Height="100"
                         Width="100"
@@ -79,7 +80,7 @@
                 </DataTemplate>
             </tk:MasterDetailsView.ItemTemplate>
             <tk:MasterDetailsView.DetailsTemplate>
-                <DataTemplate x:DataType="vm:IllustHolderVM"
+                <DataTemplate x:DataType="vmo:IllustHolderVM"
                               x:DefaultBindMode="OneWay">
                     <Grid>
                         <Grid.ColumnDefinitions>

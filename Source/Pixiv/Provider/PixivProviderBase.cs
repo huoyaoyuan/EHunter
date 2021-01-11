@@ -7,6 +7,7 @@ using EHunter.Pixiv.Services;
 using EHunter.Pixiv.Services.Download;
 using EHunter.Pixiv.ViewModels;
 using EHunter.Pixiv.ViewModels.Download;
+using EHunter.Pixiv.ViewModels.Opened;
 using EHunter.Pixiv.ViewModels.Recent;
 using EHunter.Pixiv.ViewModels.Search;
 using EHunter.Pixiv.ViewModels.User;

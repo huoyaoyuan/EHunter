@@ -1,6 +1,7 @@
 ﻿using System;
 using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.Views.Download;
+using EHunter.Pixiv.Views.Opened;
 using EHunter.Pixiv.Views.Recent;
 using EHunter.Pixiv.Views.Search;
 using EHunter.Pixiv.Views.User;
