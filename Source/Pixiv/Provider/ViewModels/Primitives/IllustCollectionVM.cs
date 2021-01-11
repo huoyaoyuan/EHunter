@@ -30,6 +30,8 @@ namespace EHunter.Pixiv.ViewModels.Primitives
             // 8.0.0-preview2
         }
 
+        // TODO: https://github.com/microsoft/microsoft-ui-xaml/issues/3339
+
         private AgeRestriction _selectedAge = AgeRestriction.All;
         public AgeRestriction SelectedAge
         {
