@@ -8,19 +8,19 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Collections;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace EHunter.Pixiv.ViewModels
+namespace EHunter.Pixiv.ViewModels.Recent
 {
 #pragma warning disable CA1001 // 具有可释放字段的类型应该是可释放的
-    public class PixivRecentVM : ObservableObject
+    public class RecentWatchedVM : ObservableObject
 #pragma warning restore CA1001 // 具有可释放字段的类型应该是可释放的
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly IllustVMFactory _illustVMFactory;
-        private readonly ILogger<PixivRecentVM>? _logger;
+        private readonly ILogger<RecentWatchedVM>? _logger;
 
-        public PixivRecentVM(ICustomResolver<PixivClient> clientResolver,
+        public RecentWatchedVM(ICustomResolver<PixivClient> clientResolver,
             IllustVMFactory illustVMFactory,
-            ILogger<PixivRecentVM>? logger = null)
+            ILogger<RecentWatchedVM>? logger = null)
         {
             _clientResolver = clientResolver;
             _illustVMFactory = illustVMFactory;
@@ -47,7 +47,7 @@ namespace EHunter.Pixiv.ViewModels
                 var cts = _lastCts = new CancellationTokenSource();
                 try
                 {
-                    TimeSpan currentOffset = DateTimeOffset.Now.Offset;
+                    var currentOffset = DateTimeOffset.Now.Offset;
                     var source = client.GetMyFollowingIllustsAsync().Age(SelectedAge);
 
 #pragma warning disable CA1508 // false positive

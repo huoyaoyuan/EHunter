@@ -7,6 +7,7 @@ using EHunter.Pixiv.Services;
 using EHunter.Pixiv.Services.Download;
 using EHunter.Pixiv.ViewModels;
 using EHunter.Pixiv.ViewModels.Download;
+using EHunter.Pixiv.ViewModels.Recent;
 using EHunter.Pixiv.ViewModels.Search;
 using EHunter.Pixiv.ViewModels.User;
 using EHunter.Providers;
@@ -25,7 +26,7 @@ namespace EHunter.Pixiv
         {
             serviceCollection
                 .AddTransient<LoginPageVM>()
-                .AddTransient<PixivRecentVM>()
+                .AddTransient<RecentWatchedVM>()
                 .AddTransient<UserVMFactory>()
                 .AddTransient<OpenedIllustsVM>()
                 .AddTransient<IllustSearchManager>()

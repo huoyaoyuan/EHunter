@@ -1,6 +1,7 @@
 ﻿using System;
 using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.Views.Download;
+using EHunter.Pixiv.Views.Recent;
 using EHunter.Pixiv.Views.Search;
 using EHunter.Pixiv.Views.User;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -51,7 +52,7 @@ namespace EHunter.Pixiv.Views
             if (args.IsSettingsSelected)
                 toType = typeof(PixivSettingsPage);
             else if (args.SelectedItemContainer == recent)
-                toType = typeof(RecentPage);
+                toType = typeof(RecentWatchedPage);
             else if (args.SelectedItemContainer == users)
                 toType = typeof(UsersPage);
             else if (args.SelectedItemContainer == opened)
@@ -74,7 +75,7 @@ namespace EHunter.Pixiv.Views
             var type = _frame.CurrentSourcePageType;
             if (type == typeof(PixivSettingsPage))
                 sender.SelectedItem = sender.SettingsItem;
-            else if (type == typeof(RecentPage))
+            else if (type == typeof(RecentWatchedPage))
                 sender.SelectedItem = recent;
             else if (type == typeof(UsersPage))
                 sender.SelectedItem = users;
