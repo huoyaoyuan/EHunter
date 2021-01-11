@@ -24,7 +24,7 @@ namespace EHunter.Pixiv
         public void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection
-                .AddTransient<PixivLoginPageVM>()
+                .AddTransient<LoginPageVM>()
                 .AddTransient<PixivRecentVM>()
                 .AddTransient<UserVMFactory>()
                 .AddTransient<OpenedIllustsVM>()

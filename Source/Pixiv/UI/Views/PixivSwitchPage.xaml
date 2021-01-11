@@ -12,6 +12,6 @@
         <ContentPresenter.ContentTransitions>
             <EntranceThemeTransition />
         </ContentPresenter.ContentTransitions>
-        <local:PixivLoginPage />
+        <local:LoginPage />
     </ContentPresenter>
 </Page>
