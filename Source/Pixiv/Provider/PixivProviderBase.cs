@@ -6,6 +6,7 @@ using EHunter.Pixiv.Models;
 using EHunter.Pixiv.Services;
 using EHunter.Pixiv.Services.Download;
 using EHunter.Pixiv.ViewModels;
+using EHunter.Pixiv.ViewModels.Bookmark;
 using EHunter.Pixiv.ViewModels.Download;
 using EHunter.Pixiv.ViewModels.Opened;
 using EHunter.Pixiv.ViewModels.Recent;
@@ -34,6 +35,7 @@ namespace EHunter.Pixiv
                 .AddTransient<PixivSettingsVM>()
                 .AddSingleton<DownloadManager>()
                 .AddTransient<IllustVMFactory>()
+                .AddTransient<MyBookmarkVM>()
 
                 .AddSingleton<PixivSetting>()
                 .AddSingleton<PixivClientService>()
