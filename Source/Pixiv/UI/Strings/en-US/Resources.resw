@@ -204,6 +204,9 @@
   <data name="MaxDownloadsInParallel.Header" xml:space="preserve">
     <value>Max Downloads in Parallel</value>
   </data>
+  <data name="Navigation_Bookmark.Content" xml:space="preserve">
+    <value>Bookmark</value>
+  </data>
   <data name="Navigation_Downloads.Content" xml:space="preserve">
     <value>Downloads</value>
   </data>
