@@ -204,6 +204,9 @@
   <data name="MaxDownloadsInParallel.Header" xml:space="preserve">
     <value>最大并行下载</value>
   </data>
+  <data name="Navigation_Bookmark.Content" xml:space="preserve">
+    <value>收藏</value>
+  </data>
   <data name="Navigation_Downloads.Content" xml:space="preserve">
     <value>下载</value>
   </data>

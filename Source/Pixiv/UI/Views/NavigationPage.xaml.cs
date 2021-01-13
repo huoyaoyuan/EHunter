@@ -1,5 +1,6 @@
 ﻿using System;
 using EHunter.Pixiv.Messages;
+using EHunter.Pixiv.Views.Bookmark;
 using EHunter.Pixiv.Views.Download;
 using EHunter.Pixiv.Views.Opened;
 using EHunter.Pixiv.Views.Recent;
@@ -58,6 +59,8 @@ namespace EHunter.Pixiv.Views
                 toType = typeof(UsersPage);
             else if (args.SelectedItemContainer == opened)
                 toType = typeof(OpenedIllustsPage);
+            else if (args.SelectedItemContainer == bookmark)
+                toType = typeof(MyBookmarkPage);
             else if (args.SelectedItemContainer == searchIllust)
                 toType = typeof(IllustSearchPage);
             else if (args.SelectedItemContainer == downloads)
@@ -82,6 +85,8 @@ namespace EHunter.Pixiv.Views
                 sender.SelectedItem = users;
             else if (type == typeof(OpenedIllustsPage))
                 sender.SelectedItem = opened;
+            else if (type == typeof(MyBookmarkPage))
+                sender.SelectedItem = bookmark;
             else if (type == typeof(IllustSearchPage))
                 sender.SelectedItem = searchIllust;
             else if (type == typeof(PixivDownloadPage))
