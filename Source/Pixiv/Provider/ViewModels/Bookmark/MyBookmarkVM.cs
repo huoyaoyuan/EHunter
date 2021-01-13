@@ -12,7 +12,11 @@ namespace EHunter.Pixiv.ViewModels.Bookmark
 
         public MyBookmarkVM(ICustomResolver<PixivClient> clientResolver,
             IllustVMFactory illustVMFactory)
-            : base(illustVMFactory) => _clientResolver = clientResolver;
+            : base(illustVMFactory)
+        {
+            _clientResolver = clientResolver;
+            Refresh();
+        }
 
         protected override IAsyncEnumerable<Illust>? LoadIllusts()
             => _clientResolver.Resolve().GetMyBookmarksAsync(Visibility.Public);
