@@ -210,6 +210,9 @@
   <data name="Navigation_Downloads.Content" xml:space="preserve">
     <value>Downloads</value>
   </data>
+  <data name="Navigation_FollowingUser.Content" xml:space="preserve">
+    <value>Following Users</value>
+  </data>
   <data name="Navigation_Opened.Content" xml:space="preserve">
     <value>Opened Illustrations</value>
   </data>

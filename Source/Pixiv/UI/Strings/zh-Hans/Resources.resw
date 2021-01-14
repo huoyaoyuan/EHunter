@@ -210,6 +210,9 @@
   <data name="Navigation_Downloads.Content" xml:space="preserve">
     <value>下载</value>
   </data>
+  <data name="Navigation_FollowingUser.Content" xml:space="preserve">
+    <value>关注的用户</value>
+  </data>
   <data name="Navigation_Opened.Content" xml:space="preserve">
     <value>打开的作品</value>
   </data>
