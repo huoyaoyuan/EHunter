@@ -36,6 +36,7 @@ namespace EHunter.Pixiv
                 .AddSingleton<DownloadManager>()
                 .AddTransient<IllustVMFactory>()
                 .AddTransient<MyBookmarkVM>()
+                .AddTransient<MyFollowingVM>()
 
                 .AddSingleton<PixivSetting>()
                 .AddSingleton<PixivClientService>()
