@@ -34,7 +34,8 @@
                   ItemsSource="{x:Bind _vm.Users}"
                   IncrementalLoadingTrigger="Edge">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="m:UserInfoWithPreview">
+                <DataTemplate x:DataType="m:UserInfoWithPreview"
+                              x:DefaultBindMode="OneTime">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -47,10 +48,11 @@
                             ImageInfo="{x:Bind Avatar}" />
                         <HyperlinkButton
                             Grid.Column="1"
+                            MinWidth="300"
                             Content="{x:Bind Name}"
                             Command="{StaticResource NavigateToUserCommand}"
                             CommandParameter="{x:Bind}" />
-                        <!--<ScrollViewer
+                        <ScrollViewer
                             Grid.Column="2"
                             HorizontalScrollMode="Auto"
                             VerticalScrollMode="Disabled">
@@ -61,11 +63,14 @@
                                 </ItemsRepeater.Layout>
                                 <ItemsRepeater.ItemTemplate>
                                     <DataTemplate x:DataType="m:Illust">
-                                        
+                                        <controls:PixivImage
+                                            Width="100"
+                                            Height="100"
+                                            ImageInfo="{x:Bind controls:Helpers.FirstPageMedium(Pages)}" />
                                     </DataTemplate>
                                 </ItemsRepeater.ItemTemplate>
                             </ItemsRepeater>
-                        </ScrollViewer>-->
+                        </ScrollViewer>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
