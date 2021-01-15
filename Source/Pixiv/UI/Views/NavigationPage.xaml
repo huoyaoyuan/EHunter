@@ -25,12 +25,21 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE736;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
+
+            <!-- TODO: nest -->
             <NavigationViewItem
                 x:Name="bookmark" x:Uid="Navigation_Bookmark">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE734;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
+            <NavigationViewItem
+                x:Name="following" x:Uid="Navigation_FollowingUser">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE734;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            
             <NavigationViewItem
                 x:Uid="Navigation_Search">
                 <NavigationViewItem.Icon>

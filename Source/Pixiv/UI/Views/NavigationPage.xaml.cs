@@ -61,6 +61,8 @@ namespace EHunter.Pixiv.Views
                 toType = typeof(OpenedIllustsPage);
             else if (args.SelectedItemContainer == bookmark)
                 toType = typeof(MyBookmarkPage);
+            else if (args.SelectedItemContainer == following)
+                toType = typeof(MyFollowingUsersPage);
             else if (args.SelectedItemContainer == searchIllust)
                 toType = typeof(IllustSearchPage);
             else if (args.SelectedItemContainer == downloads)
@@ -87,6 +89,8 @@ namespace EHunter.Pixiv.Views
                 sender.SelectedItem = opened;
             else if (type == typeof(MyBookmarkPage))
                 sender.SelectedItem = bookmark;
+            else if (type == typeof(MyFollowingUsersPage))
+                sender.SelectedItem = following;
             else if (type == typeof(IllustSearchPage))
                 sender.SelectedItem = searchIllust;
             else if (type == typeof(PixivDownloadPage))
