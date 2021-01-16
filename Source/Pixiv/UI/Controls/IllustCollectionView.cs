@@ -30,5 +30,23 @@ namespace EHunter.Pixiv.Controls
             get => (DataTemplate)GetValue(IllustItemTemplateProperty);
             set => SetValue(IllustItemTemplateProperty, value);
         }
+
+        public static readonly DependencyProperty RefreshButtonVisibilityProperty
+            = DependencyProperty.Register(nameof(RefreshButtonVisibility), typeof(Visibility), typeof(IllustCollectionView),
+                new PropertyMetadata(Visibility.Visible));
+        public Visibility RefreshButtonVisibility
+        {
+            get => (Visibility)GetValue(RefreshButtonVisibilityProperty);
+            set => SetValue(RefreshButtonVisibilityProperty, value);
+        }
+
+        public static readonly DependencyProperty AgeSelectorVisibilityProperty
+            = DependencyProperty.Register(nameof(AgeSelectorVisibility), typeof(Visibility), typeof(IllustCollectionView),
+                new PropertyMetadata(Visibility.Visible));
+        public Visibility AgeSelectorVisibility
+        {
+            get => (Visibility)GetValue(AgeSelectorVisibilityProperty);
+            set => SetValue(AgeSelectorVisibilityProperty, value);
+        }
     }
 }

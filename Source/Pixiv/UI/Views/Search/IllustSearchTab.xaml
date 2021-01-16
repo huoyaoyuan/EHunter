@@ -14,7 +14,9 @@
         <res:Resources />
     </UserControl.Resources>
     <controls:IllustCollectionView
-        ViewModel="{x:Bind VM}">
+        ViewModel="{x:Bind VM}"
+        RefreshButtonVisibility="Collapsed"
+        AgeSelectorVisibility="Collapsed">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Search">

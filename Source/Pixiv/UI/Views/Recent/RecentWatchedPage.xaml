@@ -5,34 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.Pixiv.Controls"
-    xmlns:res="using:EHunter.Pixiv.Resources"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Page.Resources>
-        <res:Resources />
-    </Page.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal"
-                    Margin="4"
-                    Spacing="4">
-            <Button Click="{x:Bind _vm.Refresh}">
-                <SymbolIcon Symbol="Refresh" />
-                <ToolTipService.ToolTip>
-                    <ToolTip x:Uid="RefreshButtonToolTip" />
-                </ToolTipService.ToolTip>
-            </Button>
-            <ComboBox
-                Style="{StaticResource AgeRestrictionSelectorStyle}"
-                SelectedItem="{x:Bind _vm.IntSelectedAge, Mode=TwoWay}" />
-        </StackPanel>
-
-        <controls:IllustCollectionView
-            Grid.Row="1"
-            ViewModel="{x:Bind _vm}" />
-    </Grid>
+    <controls:IllustCollectionView
+        ViewModel="{x:Bind _vm}" />
 </Page>

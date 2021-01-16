@@ -14,7 +14,9 @@
         <res:Resources />
     </Page.Resources>
     <controls:IllustCollectionView
-        ViewModel="{x:Bind _vm}">
+        ViewModel="{x:Bind _vm}"
+        RefreshButtonVisibility="Collapsed"
+        AgeSelectorVisibility="Collapsed">
         <Grid>
             <ComboBox
                 Margin="4"
