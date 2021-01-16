@@ -9,6 +9,7 @@ using EHunter.Pixiv.ViewModels;
 using EHunter.Pixiv.ViewModels.Bookmark;
 using EHunter.Pixiv.ViewModels.Download;
 using EHunter.Pixiv.ViewModels.Opened;
+using EHunter.Pixiv.ViewModels.Ranking;
 using EHunter.Pixiv.ViewModels.Recent;
 using EHunter.Pixiv.ViewModels.Search;
 using EHunter.Pixiv.ViewModels.User;
@@ -37,6 +38,7 @@ namespace EHunter.Pixiv
                 .AddTransient<IllustVMFactory>()
                 .AddTransient<MyBookmarkVM>()
                 .AddTransient<MyFollowingVM>()
+                .AddTransient<RankingVM>()
 
                 .AddSingleton<PixivSetting>()
                 .AddSingleton<PixivClientService>()

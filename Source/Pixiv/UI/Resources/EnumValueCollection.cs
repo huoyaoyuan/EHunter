@@ -29,4 +29,8 @@ namespace EHunter.Pixiv.Resources
     internal class IllustSortModeValues : EnumValueCollection<IllustSortMode>
     {
     }
+
+    internal class IllustRankingModeCollection : EnumValueCollection<IllustRankingMode>
+    {
+    }
 }
