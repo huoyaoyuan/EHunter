@@ -51,7 +51,7 @@ namespace EHunter.Pixiv.ViewModels
             // Select does ConfigureAwait(false)
             async IAsyncEnumerable<IllustVM> Core(IAsyncEnumerable<Illust> source)
             {
-                int i = 0;
+                int i = 1;
                 await foreach (var illust in source.ConfigureAwait(true))
                     yield return CreateViewModel(illust, i++);
             }

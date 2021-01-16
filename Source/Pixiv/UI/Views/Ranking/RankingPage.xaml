@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
+    xmlns:vm="using:EHunter.Pixiv.ViewModels"
     xmlns:sys="using:System"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
@@ -17,6 +18,33 @@
         ViewModel="{x:Bind _vm}"
         RefreshButtonVisibility="Collapsed"
         AgeSelectorVisibility="Collapsed">
+        <controls:IllustCollectionView.IllustItemTemplate>
+            <DataTemplate x:DataType="vm:IllustVM"
+                          x:DefaultBindMode="OneTime">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource SubtitleTextBlockStyle}">
+                        <Run Text="#" /><Run Text="{x:Bind IndexInCollection}" />
+                    </TextBlock>
+                    <controls:IllustSummary
+                        Grid.Row="1"
+                        ViewModel="{x:Bind}" />
+                    <HyperlinkButton
+                        Grid.Row="2"
+                        HorizontalAlignment="Center"
+                        Content="{x:Bind Illust.User.Name}"
+                        Command="{StaticResource NavigateToUserCommand}"
+                        CommandParameter="{x:Bind Illust.User}" />
+                </Grid>
+            </DataTemplate>
+        </controls:IllustCollectionView.IllustItemTemplate>
+
         <Grid>
             <ComboBox
                 Margin="4"

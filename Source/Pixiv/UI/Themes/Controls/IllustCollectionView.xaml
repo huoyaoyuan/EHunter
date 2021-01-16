@@ -23,7 +23,7 @@
                         <controls:IllustSummary
                             ViewModel="{x:Bind}" />
                         <HyperlinkButton
-                            Grid.Row="2"
+                            Grid.Row="1"
                             HorizontalAlignment="Center"
                             Content="{x:Bind Illust.User.Name}"
                             Command="{StaticResource NavigateToUserCommand}"
