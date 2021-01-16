@@ -270,6 +270,9 @@
   <data name="NetworkGroup.Text" xml:space="preserve">
     <value>网络</value>
   </data>
+  <data name="NextDay.Content" xml:space="preserve">
+    <value>后一天</value>
+  </data>
   <data name="NotLoginSetter.Value" xml:space="preserve">
     <value>未登录</value>
   </data>
@@ -281,6 +284,9 @@
   </data>
   <data name="Password.Header" xml:space="preserve">
     <value>密码</value>
+  </data>
+  <data name="PreviousDay.Content" xml:space="preserve">
+    <value>前一天</value>
   </data>
   <data name="RefreshButtonToolTip.Content" xml:space="preserve">
     <value>刷新</value>

@@ -42,7 +42,7 @@ namespace EHunter.Pixiv.ViewModels.Ranking
             }
         }
 
-        private DateTimeOffset _date = DateTimeOffset.Now;
+        private DateTimeOffset _date = DateTimeOffset.Now.Date.AddDays(-1);
         public DateTimeOffset Date
         {
             get => _date;
@@ -52,5 +52,9 @@ namespace EHunter.Pixiv.ViewModels.Ranking
                     Refresh();
             }
         }
+
+        public void PrevDay() => Date -= TimeSpan.FromDays(1);
+
+        public void NextDay() => Date += TimeSpan.FromDays(1);
     }
 }

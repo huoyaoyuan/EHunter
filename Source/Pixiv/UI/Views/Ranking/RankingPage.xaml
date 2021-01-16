@@ -46,19 +46,39 @@
         </controls:IllustCollectionView.IllustItemTemplate>
 
         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
             <ComboBox
                 Margin="4"
-                Grid.Row="0"
                 HorizontalAlignment="Left"
                 Style="{StaticResource IllustRankingModeSelectorStyle}"
                 SelectedValue="{x:Bind _vm.IntSelectedRankingMode, Mode=TwoWay}" />
 
-            <CalendarDatePicker
+            <Button
+                x:Uid="PreviousDay"
+                Grid.Column="1"
                 Margin="4"
-                Grid.Row="0"
+                HorizontalAlignment="Right"
+                Click="{x:Bind _vm.PrevDay}"/>
+            
+            <CalendarDatePicker
+                Grid.Column="2"
+                Margin="4"
                 HorizontalAlignment="Right"
                 Date="{x:Bind _vm.Date, Mode=TwoWay}"
                 MaxDate="{x:Bind sys:DateTimeOffset.Now.Date, Mode=OneTime}"/>
+            
+            <Button
+                x:Uid="NextDay"
+                Grid.Column="3"
+                Margin="4"
+                HorizontalAlignment="Left"
+                Click="{x:Bind _vm.NextDay}"/>
         </Grid>
     </controls:IllustCollectionView>
 </Page>

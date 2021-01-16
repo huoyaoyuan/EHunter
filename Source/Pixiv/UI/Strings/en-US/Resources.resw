@@ -270,6 +270,9 @@
   <data name="NetworkGroup.Text" xml:space="preserve">
     <value>Network</value>
   </data>
+  <data name="NextDay.Content" xml:space="preserve">
+    <value>Next</value>
+  </data>
   <data name="NotLoginSetter.Value" xml:space="preserve">
     <value>Not login</value>
   </data>
@@ -281,6 +284,9 @@
   </data>
   <data name="Password.Header" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="PreviousDay.Content" xml:space="preserve">
+    <value>Previous</value>
   </data>
   <data name="RefreshButtonToolTip.Content" xml:space="preserve">
     <value>Refresh</value>
