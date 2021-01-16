@@ -14,7 +14,7 @@
         <res:Resources />
     </UserControl.Resources>
     <controls:IllustCollectionView
-        ViewModel="{x:Bind VM}"
+        ViewModel="{x:Bind VM, Mode=OneWay}"
         RefreshButtonVisibility="Collapsed"
         AgeSelectorVisibility="Collapsed">
         <VisualStateManager.VisualStateGroups>

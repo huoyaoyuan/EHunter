@@ -87,7 +87,7 @@
         <controls:IllustCollectionView
             x:Name="userGrid"
             VerticalAlignment="Stretch"
-            ViewModel="{x:Bind VM, Mode=OneTime}"
+            ViewModel="{x:Bind VM}"
             RefreshButtonVisibility="Collapsed"
             AgeSelectorVisibility="Collapsed">
             <controls:IllustCollectionView.IllustItemTemplate>
