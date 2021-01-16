@@ -3,5 +3,6 @@
     xmlns:local="using:EHunter.Pixiv.Themes">
     <ResourceDictionary.MergedDictionaries>
         <local:IllustSummaryTheme />
+        <local:IllustCollectionViewTheme />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

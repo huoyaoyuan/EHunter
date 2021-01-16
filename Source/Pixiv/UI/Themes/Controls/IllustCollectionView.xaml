@@ -1,0 +1,73 @@
+﻿<ResourceDictionary
+    x:Class="EHunter.Pixiv.Themes.IllustCollectionViewTheme"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:commonControls="using:EHunter.Controls"
+    xmlns:commands="using:EHunter.Pixiv.Commands"
+    xmlns:controls="using:EHunter.Pixiv.Controls"
+    xmlns:vm="using:EHunter.Pixiv.ViewModels">
+    <commands:NavigateToUserCommand x:Key="NavigateToUserCommand" />
+
+    <Style TargetType="controls:IllustCollectionView">
+        <Setter Property="IllustItemTemplate">
+            <Setter.Value>
+                <DataTemplate x:DataType="vm:IllustVM"
+                              x:DefaultBindMode="OneTime">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <controls:IllustSummary
+                            ViewModel="{x:Bind}" />
+                        <HyperlinkButton
+                            Grid.Row="2"
+                            HorizontalAlignment="Center"
+                            Content="{x:Bind Illust.User.Name}"
+                            Command="{StaticResource NavigateToUserCommand}"
+                            CommandParameter="{x:Bind Illust.User}" />
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:IllustCollectionView"
+                                 x:DefaultBindMode="OneWay">
+                    <Grid>
+                        <Grid.Resources>
+                            <CollectionViewSource
+                                x:Name="cvs"
+                                Source="{x:Bind ViewModel.Illusts }"/>
+                        </Grid.Resources>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <ContentPresenter
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                        <commonControls:AsyncEnumerableIndicator
+                            Grid.Row="1"
+                            Collection="{x:Bind ViewModel.Illusts, FallbackValue={x:Null}}" />
+
+                        <GridView
+                            x:Name="illustsGrid"
+                            Grid.Row="1"
+                            IsItemClickEnabled="True"
+                            ItemTemplate="{TemplateBinding IllustItemTemplate}"
+                            ItemsSource="{x:Bind cvs.View}" />
+
+                        <controls:IllustsFlip
+                            Grid.RowSpan="2"
+                            SourceList="{x:Bind illustsGrid, Mode=OneTime}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
