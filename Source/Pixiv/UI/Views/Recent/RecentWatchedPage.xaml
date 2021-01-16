@@ -6,17 +6,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
-    xmlns:vm="using:EHunter.Pixiv.ViewModels" xmlns:commonControls="using:EHunter.Controls"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
-    x:DefaultBindMode="OneWay"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
-        <res:Resources>
-            <CollectionViewSource
-                x:Name="cvs"
-                Source="{x:Bind _vm.Illusts}" />
-        </res:Resources>
+        <res:Resources />
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -37,41 +31,8 @@
                 SelectedItem="{x:Bind _vm.IntSelectedAge, Mode=TwoWay}" />
         </StackPanel>
 
-        <commonControls:AsyncEnumerableIndicator
+        <controls:IllustCollectionView
             Grid.Row="1"
-            VerticalAlignment="Stretch"
-            Collection="{x:Bind _vm.Illusts, FallbackValue={x:Null}}" />
-
-        <GridView
-            x:Name="illustsGrid"
-            Grid.Row="1"
-            ItemsSource="{x:Bind cvs.View}"
-            IsItemClickEnabled="True"
-            IncrementalLoadingTrigger="Edge">
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="vm:IllustVM"
-                              x:DefaultBindMode="OneTime">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <controls:IllustSummary
-                            ViewModel="{x:Bind}" />
-                        <HyperlinkButton
-                            Grid.Row="2"
-                            HorizontalAlignment="Center"
-                            Content="{x:Bind Illust.User.Name}"
-                            Command="{StaticResource NavigateToUserCommand}"
-                            CommandParameter="{x:Bind Illust.User}"
-                            Click="NavigateToUser_Click" />
-                    </Grid>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
-
-        <controls:IllustsFlip
-            Grid.Row="1"
-            SourceList="{x:Bind illustsGrid, Mode=OneTime}" />
+            ViewModel="{x:Bind _vm}" />
     </Grid>
 </Page>

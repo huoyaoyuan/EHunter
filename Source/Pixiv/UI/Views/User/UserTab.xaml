@@ -4,20 +4,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:commonControls="using:EHunter.Controls"
     xmlns:commands="using:EHunter.Pixiv.Commands"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
-    xmlns:vm="using:EHunter.Pixiv.ViewModels"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     mc:Ignorable="d"
     x:DefaultBindMode="OneWay">
     <UserControl.Resources>
-        <res:Resources>
-            <CollectionViewSource
-                x:Name="cvs"
-                Source="{x:Bind VM.Illusts}" />
-        </res:Resources>
+        <res:Resources />
     </UserControl.Resources>
     <Grid>
         <VisualStateManager.VisualStateGroups>
@@ -90,16 +84,19 @@
                 Margin="4" />
         </Grid>
 
-        <Grid x:Name="userGrid"
-              VerticalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <!-- User info -->
-                <RowDefinition Height="*" />
-                <!-- artworks -->
-            </Grid.RowDefinitions>
+        <controls:IllustCollectionView
+            x:Name="userGrid"
+            VerticalAlignment="Stretch"
+            ViewModel="{x:Bind VM, Mode=OneTime}">
+            <controls:IllustCollectionView.IllustItemTemplate>
+                <DataTemplate>
+                    <!-- TODO: x:Bind doesn't work here.
+                         https://github.com/microsoft/microsoft-ui-xaml/issues/3916 -->
+                    <controls:IllustSummary ViewModel="{Binding}" />
+                </DataTemplate>
+            </controls:IllustCollectionView.IllustItemTemplate>
 
-            <Grid Grid.Row="0">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -170,31 +167,6 @@
                     SelectedItem="{x:Bind VM.IntSelectedAge, Mode=TwoWay}"
                     Style="{StaticResource AgeRestrictionSelectorStyle}" />
             </Grid>
-
-            <commonControls:AsyncEnumerableIndicator
-                Grid.Row="1"
-                VerticalAlignment="Stretch"
-                Collection="{x:Bind VM.Illusts, FallbackValue={x:Null}}" />
-
-            <GridView
-                x:Name="illustsGrid"
-                Grid.Row="1"
-                ItemsSource="{x:Bind cvs.View}"
-                IsItemClickEnabled="True"
-                IncrementalLoadingTrigger="Edge">
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="vm:IllustVM"
-                                  x:DefaultBindMode="OneTime">
-                        <controls:IllustSummary ViewModel="{Binding}" />
-                        <!-- TODO: x:Bind doesn't work here.
-                             https://github.com/microsoft/microsoft-ui-xaml/issues/3916 -->
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
-
-            <controls:IllustsFlip
-                Grid.RowSpan="2"
-                SourceList="{x:Bind illustsGrid}" />
-        </Grid>
+        </controls:IllustCollectionView>
     </Grid>
 </UserControl>
