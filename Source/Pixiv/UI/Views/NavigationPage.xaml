@@ -39,7 +39,13 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE734;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            
+
+            <NavigationViewItem
+                x:Name="ranking" x:Uid="Navigation_Ranking">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7BC;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
             <NavigationViewItem
                 x:Uid="Navigation_Search">
                 <NavigationViewItem.Icon>

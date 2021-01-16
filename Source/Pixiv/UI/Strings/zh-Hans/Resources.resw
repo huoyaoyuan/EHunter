@@ -252,6 +252,9 @@
   <data name="Navigation_Opened.Content" xml:space="preserve">
     <value>打开的作品</value>
   </data>
+  <data name="Navigation_Ranking.Content" xml:space="preserve">
+    <value>排行榜</value>
+  </data>
   <data name="Navigation_Recent.Content" xml:space="preserve">
     <value>最近更新</value>
   </data>
