@@ -162,6 +162,42 @@
   <data name="IllustFilter_StartDate.Content" xml:space="preserve">
     <value>Start date</value>
   </data>
+  <data name="IllustRankingMode_Day" xml:space="preserve">
+    <value>Daily</value>
+  </data>
+  <data name="IllustRankingMode_DayFemale" xml:space="preserve">
+    <value>Popular with Female</value>
+  </data>
+  <data name="IllustRankingMode_DayFemaleR18" xml:space="preserve">
+    <value>R-18 Popular with Female</value>
+  </data>
+  <data name="IllustRankingMode_DayMale" xml:space="preserve">
+    <value>Popular with Male</value>
+  </data>
+  <data name="IllustRankingMode_DayMaleR18" xml:space="preserve">
+    <value>R-18 Popular with Male</value>
+  </data>
+  <data name="IllustRankingMode_DayManga" xml:space="preserve">
+    <value>Manga</value>
+  </data>
+  <data name="IllustRankingMode_DayR18" xml:space="preserve">
+    <value>R-18 Daily</value>
+  </data>
+  <data name="IllustRankingMode_Month" xml:space="preserve">
+    <value>Monthly</value>
+  </data>
+  <data name="IllustRankingMode_Week" xml:space="preserve">
+    <value>Weekly</value>
+  </data>
+  <data name="IllustRankingMode_WeekOriginal" xml:space="preserve">
+    <value>Original</value>
+  </data>
+  <data name="IllustRankingMode_WeekR18" xml:space="preserve">
+    <value>R-18 Weekly</value>
+  </data>
+  <data name="IllustRankingMode_WeekRookie" xml:space="preserve">
+    <value>Rookie</value>
+  </data>
   <data name="Illustrations.Text" xml:space="preserve">
     <value>Illustrations</value>
   </data>

@@ -22,10 +22,7 @@ namespace EHunter.Pixiv.Controls
         public static string LoadFromResources(string key)
             => s_resourceLoader.Value.GetString("Resources/" + key);
 
-        public static string GetIllustRankingMode(int intRankingMode)
-        {
-            var mode = (IllustRankingMode)intRankingMode;
-            return LoadFromResources($"IllustRankingMode_{mode}");
-        }
+        public static string GetIllustRankingMode(IllustRankingMode mode)
+            => LoadFromResources($"IllustRankingMode_{mode}");
     }
 }
