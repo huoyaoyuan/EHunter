@@ -13,10 +13,20 @@ namespace EHunter.Pixiv.ViewModels.Ranking
 
         public RankingVM(ICustomResolver<PixivClient> clientResolver,
             IllustVMFactory illustVMFactory)
-            : base(illustVMFactory) => _clientResolver = clientResolver;
+            : base(illustVMFactory)
+        {
+            _clientResolver = clientResolver;
+            Refresh();
+        }
 
         protected override IAsyncEnumerable<Illust>? LoadIllusts()
             => _clientResolver.Resolve().GetIllustRankingAsync(SelectedRankingMode, Date.Date);
+
+        public int IntSelectedRankingMode
+        {
+            get => (int)SelectedRankingMode;
+            set => SelectedRankingMode = (IllustRankingMode)value;
+        }
 
         private IllustRankingMode _selectedRaningMode;
         public IllustRankingMode SelectedRankingMode
@@ -25,7 +35,10 @@ namespace EHunter.Pixiv.ViewModels.Ranking
             set
             {
                 if (SetProperty(ref _selectedRaningMode, value))
+                {
+                    OnPropertyChanged(nameof(IntSelectedRankingMode));
                     Refresh();
+                }
             }
         }
 
