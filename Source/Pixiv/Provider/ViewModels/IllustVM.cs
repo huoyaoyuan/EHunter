@@ -13,11 +13,14 @@ namespace EHunter.Pixiv.ViewModels
 {
     public class IllustVM
     {
-        internal IllustVM(Illust illust, IllustDownloadVM downloadable)
+        internal IllustVM(Illust illust, IllustDownloadVM downloadable, int indexInCollection = -1)
         {
             Illust = illust;
             Downloadable = downloadable;
+            IndexInCollection = indexInCollection;
         }
+
+        public int? IndexInCollection { get; }
 
         public Illust Illust { get; }
         public IllustDownloadVM Downloadable { get; }
@@ -38,7 +41,8 @@ namespace EHunter.Pixiv.ViewModels
             _viewModelService = viewModelService;
         }
 
-        public IllustVM CreateViewModel(Illust illust) => new(illust, _downloadManager.GetOrAddDownloadable(illust));
+        public IllustVM CreateViewModel(Illust illust, int indexInCollection = -1)
+            => new(illust, _downloadManager.GetOrAddDownloadable(illust), indexInCollection);
 
         [return: NotNullIfNotNull("source")]
         public IAsyncEnumerable<IllustVM>? CreateViewModels(IAsyncEnumerable<Illust>? source)
@@ -47,8 +51,9 @@ namespace EHunter.Pixiv.ViewModels
             // Select does ConfigureAwait(false)
             async IAsyncEnumerable<IllustVM> Core(IAsyncEnumerable<Illust> source)
             {
+                int i = 0;
                 await foreach (var illust in source.ConfigureAwait(true))
-                    yield return CreateViewModel(illust);
+                    yield return CreateViewModel(illust, i++);
             }
         }
 
