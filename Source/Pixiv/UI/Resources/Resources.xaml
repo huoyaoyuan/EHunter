@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:commands="using:EHunter.Pixiv.Commands"
     xmlns:controls="using:EHunter.Pixiv.Controls"
-    xmlns:local="using:EHunter.Pixiv.Resources">
+    xmlns:local="using:EHunter.Pixiv.Resources"
+    xmlns:m="using:Meowtrix.PixivApi.Models">
     <commands:NavigateToUserCommand x:Key="NavigateToUserCommand" />
     <commands:NavigateToTagCommand x:Key="NavigateToTagCommand" />
 
@@ -71,6 +72,47 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <DataTemplate x:Key="UserWithPreviewTemplate"
+                  x:DataType="m:UserInfoWithPreview"
+                  x:DefaultBindMode="OneTime">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <controls:PixivImage
+                Width="100"
+                Height="100"
+                ImageInfo="{x:Bind Avatar}" />
+            <HyperlinkButton
+                Grid.Column="1"
+                MinWidth="300"
+                Content="{x:Bind Name}"
+                Command="{StaticResource NavigateToUserCommand}"
+                CommandParameter="{x:Bind}" />
+            <ScrollViewer
+                Grid.Column="2"
+                HorizontalScrollMode="Auto"
+                VerticalScrollMode="Disabled">
+                <ItemsRepeater
+                    ItemsSource="{x:Bind PreviewIllusts}">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="4" Orientation="Horizontal" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="m:Illust">
+                            <controls:PixivImage
+                                Width="100"
+                                Height="100"
+                                ImageInfo="{x:Bind controls:Helpers.FirstPageMedium(Pages)}" />
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </ScrollViewer>
+        </Grid>
+    </DataTemplate>
 
     <Style TargetType="ListViewItem" x:Key="ListViewItemGridStyle">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />

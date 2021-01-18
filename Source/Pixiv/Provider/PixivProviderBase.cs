@@ -39,6 +39,7 @@ namespace EHunter.Pixiv
                 .AddTransient<MyBookmarkVM>()
                 .AddTransient<MyFollowingVM>()
                 .AddTransient<RankingVM>()
+                .AddTransient<UserSearchVM>()
 
                 .AddSingleton<PixivSetting>()
                 .AddSingleton<PixivClientService>()

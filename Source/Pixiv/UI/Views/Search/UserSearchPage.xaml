@@ -1,14 +1,47 @@
 ﻿<Page
     x:Class="EHunter.Pixiv.Views.Search.UserSearchPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:EHunter.Pixiv.Views.Search"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:EHunter.Controls"
+    xmlns:res="using:EHunter.Pixiv.Resources"
     mc:Ignorable="d"
+    NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <res:Resources />
+    </Page.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
+        <AutoSuggestBox
+            Margin="4"
+            Text="{x:Bind _vm.SearchWord, Mode=TwoWay}"
+            QuerySubmitted="{x:Bind _vm.Search}" />
+        <Button
+            x:Uid="SearchButton"
+            Grid.Column="1"
+            Margin="4"
+            Click="{x:Bind _vm.Search}" />
+
+        <controls:AsyncEnumerableIndicator
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Collection="{x:Bind _vm.Users, Mode=OneWay}" />
+
+        <ListView
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            ItemsSource="{x:Bind _vm.Users, Mode=OneWay}"
+            IncrementalLoadingTrigger="Edge"
+            ItemTemplate="{StaticResource UserWithPreviewTemplate}" />
     </Grid>
 </Page>

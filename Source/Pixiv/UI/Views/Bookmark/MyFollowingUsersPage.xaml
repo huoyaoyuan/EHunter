@@ -32,48 +32,7 @@
 
         <ListView Grid.Row="1"
                   ItemsSource="{x:Bind _vm.Users}"
-                  IncrementalLoadingTrigger="Edge">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="m:UserInfoWithPreview"
-                              x:DefaultBindMode="OneTime">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <controls:PixivImage
-                            Width="100"
-                            Height="100"
-                            ImageInfo="{x:Bind Avatar}" />
-                        <HyperlinkButton
-                            Grid.Column="1"
-                            MinWidth="300"
-                            Content="{x:Bind Name}"
-                            Command="{StaticResource NavigateToUserCommand}"
-                            CommandParameter="{x:Bind}" />
-                        <ScrollViewer
-                            Grid.Column="2"
-                            HorizontalScrollMode="Auto"
-                            VerticalScrollMode="Disabled">
-                            <ItemsRepeater
-                                ItemsSource="{x:Bind PreviewIllusts}">
-                                <ItemsRepeater.Layout>
-                                    <StackLayout Spacing="4" Orientation="Horizontal" />
-                                </ItemsRepeater.Layout>
-                                <ItemsRepeater.ItemTemplate>
-                                    <DataTemplate x:DataType="m:Illust">
-                                        <controls:PixivImage
-                                            Width="100"
-                                            Height="100"
-                                            ImageInfo="{x:Bind controls:Helpers.FirstPageMedium(Pages)}" />
-                                    </DataTemplate>
-                                </ItemsRepeater.ItemTemplate>
-                            </ItemsRepeater>
-                        </ScrollViewer>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                  IncrementalLoadingTrigger="Edge"
+                  ItemTemplate="{StaticResource UserWithPreviewTemplate}" />
     </Grid>
 </Page>
