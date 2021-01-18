@@ -45,21 +45,21 @@ namespace EHunter.Controls
         {
             private readonly ImageRequest _request;
             private readonly ImageCacheService _service;
-            private readonly XamlUICommand _uiCommand;
+            private readonly XamlUICommand _copyCommand;
             private ImageEntry? _imageEntry;
 
             public ImageResultHolder(ImageRequest request, ImageCacheService service, XamlUICommand uiCommand)
             {
                 _request = request;
                 _service = service;
-                _uiCommand = uiCommand;
+                _copyCommand = uiCommand;
                 LoadAsync(false);
             }
 
             public async void LoadAsync(bool refresh)
             {
                 _imageEntry = null;
-                _uiCommand.NotifyCanExecuteChanged();
+                _copyCommand.NotifyCanExecuteChanged();
 
                 IsLoading = true;
                 LoadFailed = false;
@@ -78,7 +78,7 @@ namespace EHunter.Controls
                 Source = new();
                 await Source.SetSourceAsync(_imageEntry.GetWinRTStream());
                 IsLoading = false;
-                _uiCommand.NotifyCanExecuteChanged();
+                _copyCommand.NotifyCanExecuteChanged();
             }
 
             public void Refresh() => LoadAsync(true);
