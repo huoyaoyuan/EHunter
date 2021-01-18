@@ -55,17 +55,6 @@
                 </VisualState>
             </VisualStateGroup>
             <VisualStateGroup>
-                <VisualState x:Name="DatabaseConnecting">
-                    <VisualState.StateTriggers>
-                        <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.DatabaseInitState}"
-                            To="{x:Null}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="databaseConnecting.IsActive" Value="True" />
-                        <Setter Target="databaseConnectStatus.Text" Value="Connecting Database" />
-                    </VisualState.Setters>
-                </VisualState>
                 <VisualState x:Name="DatabaseConnectSuccess">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
@@ -73,8 +62,9 @@
                             To="True" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="databaseConnecting.IsActive" Value="False" />
-                        <Setter Target="databaseConnectStatus.Text" Value="Database Connected" />
+                        <Setter Target="statusIcon.Foreground" Value="Green" />
+                        <Setter Target="statusIcon.Glyph" Value="&#xE930;" />
+                        <Setter Target="databaseConnectStatus.Text" x:Uid="Database_Connected" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="DatabaseConnectFail">
@@ -84,8 +74,19 @@
                             To="False" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="databaseConnecting.IsActive" Value="False" />
-                        <Setter Target="databaseConnectStatus.Text" Value="Database is not available" />
+                        <Setter Target="statusIcon.Foreground" Value="Red" />
+                        <Setter Target="statusIcon.Glyph" Value="&#xEA39;" />
+                        <Setter Target="databaseConnectStatus.Text" x:Uid="Database_Failed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="DatabaseConnecting">
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="True" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="databaseConnecting.IsActive" Value="True" />
+                        <Setter Target="databaseConnecting.Visibility" Value="Visible" />
+                        <Setter Target="databaseConnectStatus.Text" x:Uid="Database_Connecting" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -155,9 +156,16 @@
         </StackPanel>
         <StackPanel
             Grid.Row="1"
-            Orientation="Horizontal" Spacing="4">
-            <ProgressRing x:Name="databaseConnecting" IsActive="True" />
-            <TextBlock x:Name="databaseConnectStatus" />
+            Orientation="Horizontal"
+            Margin="4"
+            Spacing="4">
+            <FontIcon
+                x:Name="statusIcon"
+                FontFamily="{ThemeResource SymbolThemeFontFamily}" />
+            <ProgressRing x:Name="databaseConnecting" Visibility="Collapsed" />
+            <TextBlock
+                x:Name="databaseConnectStatus"
+                Style="{StaticResource SubtitleTextBlockStyle}" />
         </StackPanel>
     </Grid>
 </Page>

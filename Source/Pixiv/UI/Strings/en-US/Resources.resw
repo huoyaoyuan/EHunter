@@ -135,6 +135,15 @@
   <data name="CopyLinkToolTip.Content" xml:space="preserve">
     <value>Copy Link</value>
   </data>
+  <data name="Database_Connected.Value" xml:space="preserve">
+    <value>Database Connected</value>
+  </data>
+  <data name="Database_Connecting.Value" xml:space="preserve">
+    <value>Connecting Database</value>
+  </data>
+  <data name="Database_Failed.Value" xml:space="preserve">
+    <value>Can't Connect Database</value>
+  </data>
   <data name="DownloadAppBarButton.Label" xml:space="preserve">
     <value>Download</value>
   </data>
