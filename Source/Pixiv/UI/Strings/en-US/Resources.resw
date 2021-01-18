@@ -264,6 +264,9 @@
   <data name="Navigation_Search_Illust.Content" xml:space="preserve">
     <value>Search illusts</value>
   </data>
+  <data name="Navigation_Search_User.Content" xml:space="preserve">
+    <value>Search user</value>
+  </data>
   <data name="Navigation_Users.Content" xml:space="preserve">
     <value>Users</value>
   </data>
