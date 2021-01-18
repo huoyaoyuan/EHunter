@@ -70,8 +70,7 @@
                 Grid.Column="2"
                 Margin="4"
                 HorizontalAlignment="Right"
-                Date="{x:Bind _vm.Date, Mode=TwoWay}"
-                MaxDate="{x:Bind sys:DateTimeOffset.Now.Date, Mode=OneTime}"/>
+                Date="{x:Bind _vm.Date, Mode=TwoWay}" />
             
             <Button
                 x:Uid="NextDay"
