@@ -103,10 +103,6 @@ namespace EHunter.Pixiv.ViewModels.Download
                 Faulted => false,
                 _ => throw new InvalidOperationException($"{nameof(Download)} shouldn't be called at state {State}.")
             };
-
-            Progress = 0;
-            SetWaiting();
-
             switch (await _downloadManager.Downloader.CanDownloadAsync(Illust.Id).ConfigureAwait(true))
             {
                 case DownloadableState.CanDownload:
@@ -130,6 +126,9 @@ namespace EHunter.Pixiv.ViewModels.Download
 
             if (shoudAddPending)
                 await _downloadManager.Downloader.AddToPendingAsync(Illust.Id).ConfigureAwait(true);
+
+            Progress = 0;
+            SetWaiting();
 
             _downloadManager.QueueOne(this);
         }
