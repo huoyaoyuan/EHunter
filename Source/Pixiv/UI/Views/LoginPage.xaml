@@ -9,6 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid
         HorizontalAlignment="Center"
+        VerticalAlignment="Center"
         x:DefaultBindMode="OneWay">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -17,7 +18,7 @@
                         <StateTrigger IsActive="{x:Bind _vm.IsLoggedin}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="loginOption.Visibility" Value="Collapsed" />
+                        <Setter Target="loginPanel.Visibility" Value="Collapsed" />
                         <Setter Target="loggedIn.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
@@ -95,68 +96,89 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel VerticalAlignment="Center"
-                    Orientation="Vertical"
-                    Margin="4" Spacing="4"
-                    x:Name="loginPanel"
-                    x:DefaultBindMode="TwoWay">
+        <Grid
+            Height="350"
+            Width="400"
+            Padding="20"
+            Background="#40808080">
+            <StackPanel
+                Orientation="Vertical"
+                Spacing="4"
+                x:Name="loginPanel"
+                x:DefaultBindMode="TwoWay">
             
-            <FlyoutBase.AttachedFlyout>
-                <Flyout>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock
-                                Text="Login Failed"
-                                Style="{ThemeResource TitleTextBlockStyle}" />
-                        <TextBlock x:Name="loginFailedMessage" />
-                    </StackPanel>
-                </Flyout>
-            </FlyoutBase.AttachedFlyout>
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock
+                                    Text="Login Failed"
+                                    Style="{ThemeResource TitleTextBlockStyle}" />
+                            <TextBlock x:Name="loginFailedMessage" />
+                        </StackPanel>
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
             
-            <ToggleSwitch x:Uid="UseProxy" IsOn="{x:Bind _vm.UseProxy}" />
+                <ToggleSwitch x:Uid="UseProxy" IsOn="{x:Bind _vm.UseProxy}" />
 
-            <RadioButtons
-                x:Name="loginOption"
-                x:Uid="LoginMode">
-                <RadioButton x:Name="passwordLoginRadio"
-                             x:Uid="LoginMode_Password"
-                             IsChecked="True" />
-                <RadioButton x:Name="tokenLoginRadio" Content="Refresh Token" />
-            </RadioButtons>
-            <StackPanel Orientation="Vertical"
-                        Spacing="4"
-                        x:Name="passwordLogin"
-                        Visibility="Collapsed">
-                <TextBox x:Uid="Username"
-                         x:Name="usernameBox"
-                         Text="{x:Bind _vm.Username}" />
-                <PasswordBox x:Uid="Password"
-                             x:Name="passwordBox"
-                             Password="{x:Bind _vm.Password}" />
-                <Button x:Uid="LoginButton"
-                        x:Name="passwordLoginButton"
-                        Click="{x:Bind _vm.LoginWithPassword}" />
+                <RadioButtons
+                    x:Name="loginOption"
+                    x:Uid="LoginMode">
+                    <RadioButton x:Name="passwordLoginRadio"
+                                 x:Uid="LoginMode_Password"
+                                 IsChecked="True" />
+                    <RadioButton x:Name="tokenLoginRadio" Content="Refresh Token" />
+                </RadioButtons>
+                <StackPanel Orientation="Vertical"
+                            Spacing="4"
+                            x:Name="passwordLogin"
+                            Visibility="Collapsed">
+                    <TextBox x:Uid="Username"
+                             x:Name="usernameBox"
+                             Text="{x:Bind _vm.Username}" />
+                    <PasswordBox x:Uid="Password"
+                                 x:Name="passwordBox"
+                                 Password="{x:Bind _vm.Password}" />
+                    <Button x:Uid="LoginButton"
+                            x:Name="passwordLoginButton"
+                            Click="{x:Bind _vm.LoginWithPassword}" />
+                </StackPanel>
+                <StackPanel Orientation="Vertical"
+                            Spacing="4"
+                            x:Name="tokenLogin"
+                            Visibility="Collapsed">
+                    <PasswordBox Header="Token"
+                                 x:Name="tokenBox"
+                                 Password="{x:Bind _vm.RefreshToken}" />
+                    <Button x:Uid="LoginButton"
+                            x:Name="tokenLoginButton"
+                            Click="{x:Bind _vm.LoginWithToken}" />
+                </StackPanel>
+                <ProgressRing x:Name="loginProgress"
+                              IsActive="False"
+                              HorizontalAlignment="Left" />
             </StackPanel>
-            <StackPanel Orientation="Vertical"
-                        Spacing="4"
-                        x:Name="tokenLogin"
-                        Visibility="Collapsed">
-                <PasswordBox Header="Token"
-                             x:Name="tokenBox"
-                             Password="{x:Bind _vm.RefreshToken}" />
-                <Button x:Uid="LoginButton"
-                        x:Name="tokenLoginButton"
-                        Click="{x:Bind _vm.LoginWithToken}" />
+
+            <StackPanel
+                x:Name="loggedIn"
+                Orientation="Horizontal"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="4"
+                Visibility="Collapsed">
+                <FontIcon
+                    VerticalAlignment="Center"
+                    Foreground="Green"
+                    Glyph="&#xE930;"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}" />
+                <TextBlock
+                    x:Uid="LoggedIn"
+                    Style="{StaticResource SubtitleTextBlockStyle}" />
             </StackPanel>
-            <ProgressRing x:Name="loginProgress"
-                          IsActive="False"
-                          HorizontalAlignment="Left" />
-            <TextBlock x:Name="loggedIn"
-                       Text="Logged In"
-                       Visibility="Collapsed" />
-        </StackPanel>
+        </Grid>
         <StackPanel
             Grid.Row="1"
             Orientation="Horizontal"
+            HorizontalAlignment="Center"
             Margin="4"
             Spacing="4">
             <FontIcon

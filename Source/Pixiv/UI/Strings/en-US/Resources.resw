@@ -237,6 +237,9 @@
   <data name="LoadingSetter.Value" xml:space="preserve">
     <value>Loading</value>
   </data>
+  <data name="LoggedIn.Text" xml:space="preserve">
+    <value>Logged In</value>
+  </data>
   <data name="LoginButton.Content" xml:space="preserve">
     <value>Login</value>
   </data>

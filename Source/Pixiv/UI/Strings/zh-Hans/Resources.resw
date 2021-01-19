@@ -237,6 +237,9 @@
   <data name="LoadingSetter.Value" xml:space="preserve">
     <value>正在加载</value>
   </data>
+  <data name="LoggedIn.Text" xml:space="preserve">
+    <value>已登录</value>
+  </data>
   <data name="LoginButton.Content" xml:space="preserve">
     <value>登录</value>
   </data>
