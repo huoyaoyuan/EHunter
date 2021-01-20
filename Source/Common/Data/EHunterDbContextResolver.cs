@@ -29,6 +29,9 @@ namespace EHunter.Data
 
         private Task CreateFactoryAsync(string connectionString) => Task.Run(async () =>
         {
+            if (string.IsNullOrWhiteSpace(connectionString))
+                return;
+
             var options = new DbContextOptionsBuilder<TContext>()
                 .UseSqlServer(connectionString)
                 .Options;
