@@ -1,5 +1,6 @@
 ﻿#nullable enable
 
+using System.IO;
 using Windows.Storage.Streams;
 
 namespace EHunter.Services.ImageCaching
@@ -10,8 +11,16 @@ namespace EHunter.Services.ImageCaching
 
         public ImageEntry(byte[] data) => _data = data;
 
-#pragma warning disable CA1024
-        public IRandomAccessStream GetWinRTStream() => new ClonableStream(_data);
-#pragma warning restore CA1024
+        public IRandomAccessStream GetWinRTStream()
+        {
+            // projected stream will cause dead lock in BitmapSource.SetSource (non-Async)
+
+            using var mms = new MemoryStream(_data);
+            var inmms = new InMemoryRandomAccessStream();
+            mms.CopyTo(inmms.AsStream());
+            inmms.Seek(0);
+
+            return inmms;
+        }
     }
 }

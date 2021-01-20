@@ -1,5 +1,4 @@
-﻿using System;
-using EHunter.Services.ImageCaching;
+﻿using EHunter.Services.ImageCaching;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
@@ -76,7 +75,9 @@ namespace EHunter.Controls
                     return;
                 }
                 Source = new();
-                await Source.SetSourceAsync(_imageEntry.GetWinRTStream());
+                // https://github.com/microsoft/microsoft-ui-xaml/issues/3857
+                // SetSourceAsync may cause native ObjectDisposedException
+                Source.SetSource(_imageEntry.GetWinRTStream());
                 IsLoading = false;
                 _copyCommand.NotifyCanExecuteChanged();
             }
