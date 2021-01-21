@@ -77,7 +77,7 @@ namespace EHunter.Controls
                 Source = new();
                 // https://github.com/microsoft/microsoft-ui-xaml/issues/3857
                 // SetSourceAsync may cause native ObjectDisposedException
-                Source.SetSource(_imageEntry.GetWinRTStream());
+                Source.SetSource(await _imageEntry.GetWinRTStream().ConfigureAwait(true));
                 IsLoading = false;
                 _copyCommand.NotifyCanExecuteChanged();
             }
@@ -107,13 +107,13 @@ namespace EHunter.Controls
 
             public bool CanCopy => !IsLoading && !LoadFailed;
 
-            public void Copy()
+            public async void Copy()
             {
                 if (_imageEntry is null)
                     return;
 
                 var dataPackage = new DataPackage();
-                var stream = _imageEntry.GetWinRTStream();
+                var stream = await _imageEntry.GetWinRTStream().ConfigureAwait(true);
                 dataPackage.SetBitmap(RandomAccessStreamReference.CreateFromStream(stream));
                 dataPackage.RequestedOperation = DataPackageOperation.Copy;
                 Clipboard.SetContent(dataPackage);
