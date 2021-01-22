@@ -1,7 +1,5 @@
 ﻿using System.IO;
 
-#nullable enable
-
 namespace EHunter.Services.ImageCaching
 {
     public sealed class ImageEntry

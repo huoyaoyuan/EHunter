@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 
-#nullable enable
-
 namespace EHunter.Services.ImageCaching
 {
     public class ImageCacheService
