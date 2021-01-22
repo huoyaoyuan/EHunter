@@ -1,4 +1,5 @@
-﻿using EHunter.Services.ImageCaching;
+﻿using System.IO;
+using EHunter.Services.ImageCaching;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
@@ -75,10 +76,19 @@ namespace EHunter.Controls
                     return;
                 }
                 Source = new();
-                // https://github.com/microsoft/microsoft-ui-xaml/issues/3857
-                // SetSourceAsync may cause random exception
-                using var stream = await _imageEntry.GetWinRTStream().ConfigureAwait(true);
-                Source.SetSource(stream);
+
+                // https://github.com/microsoft/CsWinRT/issues/682
+                // only WinRT stream with SetSource can avoid random exception
+                using (var stream = _imageEntry.GetStream())
+                using (var winrtStream = new InMemoryRandomAccessStream())
+                {
+                    // random ObjectDisposedException in CopyTo
+                    // fixed in CsWinRT latest master
+                    await stream.CopyToAsync(winrtStream.AsStream()).ConfigureAwait(true);
+                    winrtStream.Seek(0);
+                    Source.SetSource(winrtStream);
+                }
+
                 IsLoading = false;
                 _copyCommand.NotifyCanExecuteChanged();
             }
@@ -114,8 +124,13 @@ namespace EHunter.Controls
                     return;
 
                 var dataPackage = new DataPackage();
-                using var stream = await _imageEntry.GetWinRTStream().ConfigureAwait(true);
-                dataPackage.SetBitmap(RandomAccessStreamReference.CreateFromStream(stream));
+
+                using var stream = _imageEntry.GetStream();
+                var winrtStream = new InMemoryRandomAccessStream(); // don't dispose - used by clipboard
+                await stream.CopyToAsync(winrtStream.AsStream()).ConfigureAwait(true);
+                // requires CloneStream, only supported by InMemoryRandomAccessStream
+                dataPackage.SetBitmap(RandomAccessStreamReference.CreateFromStream(winrtStream));
+
                 dataPackage.RequestedOperation = DataPackageOperation.Copy;
                 Clipboard.SetContent(dataPackage);
             }
