@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Reactive.Linq;
+using System.Collections.Generic;
 
 namespace EHunter.ComponentModel
 {
-    public class ObservableProperty<T>
+    public class ObservableProperty<T> : IObservable<T>
     {
-        public ObservableProperty(T initialValue)
-        {
-            _value = initialValue;
-            ValueObservable = Observable.FromEvent<T>(a => ValueChanged += a, a => ValueChanged -= a);
-        }
+        public ObservableProperty(T initialValue) => _value = initialValue;
 
         private T _value;
         public T Value
@@ -18,12 +14,34 @@ namespace EHunter.ComponentModel
             set
             {
                 _value = value;
-                ValueChanged?.Invoke(value);
+                foreach (var o in _observers.ToArray())
+                    o.OnNext(value);
             }
         }
 
-        private event Action<T>? ValueChanged;
+        public IObservable<T> ValueObservable => this;
 
-        public IObservable<T> ValueObservable { get; }
+        private readonly List<IObserver<T>> _observers = new();
+#pragma warning disable CA1033
+        IDisposable IObservable<T>.Subscribe(IObserver<T> observer)
+#pragma warning restore CA1033
+        {
+            _observers.Add(observer);
+            return new Subscriber(this, observer);
+        }
+
+        private class Subscriber : IDisposable
+        {
+            private readonly ObservableProperty<T> _owner;
+            private readonly IObserver<T> _observer;
+
+            public Subscriber(ObservableProperty<T> owner, IObserver<T> observer)
+            {
+                _owner = owner;
+                _observer = observer;
+            }
+
+            public void Dispose() => _owner._observers.Remove(_observer);
+        }
     }
 }
