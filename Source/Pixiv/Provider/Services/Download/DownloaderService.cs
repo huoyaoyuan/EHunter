@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using EHunter.Data;
 using EHunter.DependencyInjection;
