@@ -276,6 +276,9 @@
   <data name="Navigation_Search_Illust.Content" xml:space="preserve">
     <value>搜索绘画</value>
   </data>
+  <data name="Navigation_Search_User.Content" xml:space="preserve">
+    <value>搜索用户</value>
+  </data>
   <data name="Navigation_Users.Content" xml:space="preserve">
     <value>用户</value>
   </data>

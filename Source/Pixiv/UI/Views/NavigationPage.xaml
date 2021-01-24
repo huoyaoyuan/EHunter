@@ -36,7 +36,7 @@
             <NavigationViewItem
                 x:Name="following" x:Uid="Navigation_FollowingUser">
                 <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE734;" />
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE902;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
 
@@ -52,7 +52,6 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE721;" />
                 </NavigationViewItem.Icon>
                 <NavigationViewItem.MenuItems>
-                    <!--<NavigationViewItem Content="For User" />-->
                     <NavigationViewItem
                         x:Name="searchIllust" x:Uid="Navigation_Search_Illust">
                         <NavigationViewItem.Icon>
@@ -60,6 +59,12 @@
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
                 </NavigationViewItem.MenuItems>
+            </NavigationViewItem>
+            <NavigationViewItem
+                x:Name="searchUser" x:Uid="Navigation_Search_User">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8B8;" />
+                </NavigationViewItem.Icon>
             </NavigationViewItem>
             <NavigationViewItem
                 x:Name="downloads" x:Uid="Navigation_Downloads">

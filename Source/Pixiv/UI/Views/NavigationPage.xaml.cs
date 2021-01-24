@@ -68,6 +68,8 @@ namespace EHunter.Pixiv.Views
                 toType = typeof(RankingPage);
             else if (args.SelectedItemContainer == searchIllust)
                 toType = typeof(IllustSearchPage);
+            else if (args.SelectedItemContainer == searchUser)
+                toType = typeof(UserSearchPage);
             else if (args.SelectedItemContainer == downloads)
                 toType = typeof(PixivDownloadPage);
 
@@ -98,6 +100,8 @@ namespace EHunter.Pixiv.Views
                 sender.SelectedItem = ranking;
             else if (type == typeof(IllustSearchPage))
                 sender.SelectedItem = searchIllust;
+            else if (type == typeof(UserSearchPage))
+                sender.SelectedItem = searchUser;
             else if (type == typeof(PixivDownloadPage))
                 sender.SelectedItem = downloads;
         }
