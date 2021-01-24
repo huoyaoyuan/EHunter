@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
@@ -12,6 +11,8 @@ namespace EHunter.UI.Models
 {
     public class CommonSetting : IStorageSetting, IProxySetting, IDatabaseSetting
     {
+        private readonly ICommonSettingStore _settingStore;
+
         public CommonSetting(ICommonSettingStore settingStore)
         {
             _settingStore = settingStore;
@@ -21,10 +22,7 @@ namespace EHunter.UI.Models
             SetConnectionString(settingStore.DbConnectionString);
         }
 
-        private readonly ObservableProperty<DirectoryInfo?> _storageRoot
-            = new(null);
-        public DirectoryInfo? StorageRoot => _storageRoot.Value;
-        public IObservable<DirectoryInfo?> StorageChanged => _storageRoot.ValueObservable;
+        public ObservableProperty<DirectoryInfo?> StorageRoot { get; } = new(null);
         public bool TrySetStorageRoot(string storageRoot)
         {
             DirectoryInfo? newValue;
@@ -40,14 +38,11 @@ namespace EHunter.UI.Models
             }
 
             _settingStore.StorageRoot = storageRoot;
-            _storageRoot.Value = newValue;
+            StorageRoot.Value = newValue;
             return true;
         }
 
-        private readonly ObservableProperty<IWebProxy?> _proxy
-            = new(null);
-        public IWebProxy? WebProxy => _proxy.Value;
-        public IObservable<IWebProxy?> ProxyChanged => _proxy.ValueObservable;
+        public ObservableProperty<IWebProxy?> Proxy { get; } = new(null);
         public bool TrySetProxy(string host, int port)
         {
             WebProxy? newValue = null;
@@ -66,20 +61,15 @@ namespace EHunter.UI.Models
 
             _settingStore.ProxyAddress = host;
             _settingStore.ProxyPort = port;
-            _proxy.Value = newValue;
+            Proxy.Value = newValue;
             return true;
         }
 
-        private readonly ObservableProperty<string> _connectionString
-            = new("");
-        private readonly ICommonSettingStore _settingStore;
-
-        public string ConnectionString => _connectionString.Value;
-        public IObservable<string> ConnectionStringChanged => _connectionString.ValueObservable;
+        public ObservableProperty<string> ConnectionString { get; } = new("");
         public void SetConnectionString(string connectionString)
         {
             _settingStore.DbConnectionString = connectionString;
-            _connectionString.Value = connectionString;
+            ConnectionString.Value = connectionString;
         }
     }
 

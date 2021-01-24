@@ -23,7 +23,7 @@ namespace EHunter.Pixiv.ViewModels.Download
             _setting = setting;
             Downloader = downloader;
 
-            _settingSubscriber = _setting.MaxDownloadsInParallelChanged.Subscribe(
+            _settingSubscriber = _setting.MaxDownloadsInParallel.Subscribe(
                 _ => CheckStartNew());
             ResumeDownloads();
 
@@ -118,7 +118,7 @@ namespace EHunter.Pixiv.ViewModels.Download
 
         private void CheckStartNew()
         {
-            while (ActiveDownloads < _setting.MaxDownloadsInParallel)
+            while (ActiveDownloads < _setting.MaxDownloadsInParallel.Value)
             {
                 var task = QueuedTasks.FirstOrDefault(x => x.State == IllustDownloadState.Waiting);
                 if (task is null)

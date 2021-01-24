@@ -1,12 +1,10 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
+using EHunter.ComponentModel;
 
 namespace EHunter.Settings
 {
     public interface IProxySetting
     {
-        IWebProxy? WebProxy { get; }
-
-        IObservable<IWebProxy?> ProxyChanged { get; }
+        ObservableProperty<IWebProxy?> Proxy { get; }
     }
 }

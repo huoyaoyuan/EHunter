@@ -1,12 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using EHunter.ComponentModel;
 
 namespace EHunter.Settings
 {
     public interface IStorageSetting
     {
-        DirectoryInfo? StorageRoot { get; }
-
-        IObservable<DirectoryInfo?> StorageChanged { get; }
+        ObservableProperty<DirectoryInfo?> StorageRoot { get; }
     }
 }

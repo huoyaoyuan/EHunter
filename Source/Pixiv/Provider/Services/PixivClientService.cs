@@ -33,7 +33,7 @@ namespace EHunter.Pixiv.Services
 
         private async Task<string> LoginAsync(Func<PixivClient, Task<string>> loginMethod)
         {
-            var client = new PixivClient(_pixivSetting.UseProxy ? _proxySetting.WebProxy : null);
+            var client = new PixivClient(_pixivSetting.UseProxy.Value ? _proxySetting.Proxy.Value : null);
             string refreshToken = await loginMethod(client).ConfigureAwait(false);
 
             lock (_propertyLock)
@@ -44,12 +44,12 @@ namespace EHunter.Pixiv.Services
                 oldClient?.Dispose();
 
                 _proxySettingDisposable?.Dispose();
-                _proxySettingDisposable = _proxySetting.ProxyChanged.Subscribe(p =>
-                    client.SetProxy(_pixivSetting.UseProxy ? p : null));
+                _proxySettingDisposable = _proxySetting.Proxy.Subscribe(p =>
+                    client.SetProxy(_pixivSetting.UseProxy.Value ? p : null));
 
                 _pixivSettingDisposable?.Dispose();
-                _pixivSettingDisposable = _pixivSetting.UseProxyChanged.Subscribe(use =>
-                    client.SetProxy(use ? _proxySetting.WebProxy : null));
+                _pixivSettingDisposable = _pixivSetting.UseProxy.Subscribe(use =>
+                    client.SetProxy(use ? _proxySetting.Proxy.Value : null));
             }
 
             return refreshToken;

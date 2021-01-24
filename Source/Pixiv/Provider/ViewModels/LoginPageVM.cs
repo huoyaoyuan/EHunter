@@ -27,7 +27,7 @@ namespace EHunter.Pixiv.ViewModels
             _setting = setting;
             _clientService = clientService;
 
-            _useProxy = setting.UseProxy;
+            _useProxy = setting.UseProxy.Value;
 
             string? savedToken = settingStore.RefreshToken;
             if (!string.IsNullOrEmpty(savedToken))

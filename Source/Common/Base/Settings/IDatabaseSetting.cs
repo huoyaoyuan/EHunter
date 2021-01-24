@@ -1,10 +1,9 @@
-﻿using System;
+﻿using EHunter.ComponentModel;
 
 namespace EHunter.Settings
 {
     public interface IDatabaseSetting
     {
-        public string ConnectionString { get; }
-        public IObservable<string> ConnectionStringChanged { get; }
+        public ObservableProperty<string> ConnectionString { get; }
     }
 }

@@ -17,14 +17,11 @@ namespace EHunter.ComponentModel
             }
         }
 
-        public IObservable<T> ValueObservable => this;
-
         private Action<T>? _actions;
-#pragma warning disable CA1033
-        IDisposable IObservable<T>.Subscribe(IObserver<T> observer)
-#pragma warning restore CA1033
+        public IDisposable Subscribe(IObserver<T> observer)
         {
             _actions += observer.OnNext;
+            observer.OnNext(Value);
             return new Subscriber(this, observer);
         }
 
