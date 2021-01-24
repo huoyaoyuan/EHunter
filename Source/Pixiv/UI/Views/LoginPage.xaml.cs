@@ -14,7 +14,7 @@ namespace EHunter.Pixiv.Views
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
 #pragma warning disable CA1708
-    public sealed partial class LoginPage : Page
+    public sealed partial class LoginPage : Page, IRecipient<LoginFailedMessage>
 #pragma warning restore CA1708
     {
         private readonly LoginPageVM _vm = Ioc.Default.GetRequiredService<LoginPageVM>();
@@ -23,13 +23,14 @@ namespace EHunter.Pixiv.Views
         {
             InitializeComponent();
 
-            Loaded += (s, e) => WeakReferenceMessenger.Default.Register<LoginPage, LoginFailedMessage>(
-                this, static (self, m) =>
-                {
-                    self.loginFailedMessage.Text = m.Exception.Message;
-                    FlyoutBase.ShowAttachedFlyout(self.loginPanel);
-                });
+            Loaded += (s, e) => WeakReferenceMessenger.Default.Register(this);
             Unloaded += (s, e) => WeakReferenceMessenger.Default.UnregisterAll(this);
+        }
+
+        void IRecipient<LoginFailedMessage>.Receive(LoginFailedMessage message)
+        {
+            loginFailedMessage.Text = message.Exception.Message;
+            FlyoutBase.ShowAttachedFlyout(loginPanel);
         }
     }
 }

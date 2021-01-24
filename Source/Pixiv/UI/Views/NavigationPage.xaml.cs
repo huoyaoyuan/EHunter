@@ -20,30 +20,15 @@ namespace EHunter.Pixiv.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class NavigationPage : Page
+    public sealed partial class NavigationPage : Page,
+        IRecipient<NavigateToUserMessage>,
+        IRecipient<NavigateToIllustMessage>,
+        IRecipient<NavigateToTagMessage>
     {
         public NavigationPage()
         {
             InitializeComponent();
-
-            WeakReferenceMessenger.Default.Register<NavigateToUserMessage>(this,
-                (o, m) =>
-                {
-                    _frame.Navigate(typeof(UsersPage), m);
-                    users.IsSelected = true;
-                });
-            WeakReferenceMessenger.Default.Register<NavigateToIllustMessage>(this,
-                (o, m) =>
-                {
-                    _frame.Navigate(typeof(OpenedIllustsPage), m);
-                    opened.IsSelected = true;
-                });
-            WeakReferenceMessenger.Default.Register<NavigateToTagMessage>(this,
-                (o, m) =>
-                {
-                    _frame.Navigate(typeof(IllustSearchPage), m);
-                    searchIllust.IsSelected = true;
-                });
+            WeakReferenceMessenger.Default.RegisterAll(this);
         }
 
         private void NavigationView_SelectionChanged(
@@ -104,6 +89,24 @@ namespace EHunter.Pixiv.Views
                 sender.SelectedItem = searchUser;
             else if (type == typeof(PixivDownloadPage))
                 sender.SelectedItem = downloads;
+        }
+
+        void IRecipient<NavigateToUserMessage>.Receive(NavigateToUserMessage message)
+        {
+            _frame.Navigate(typeof(UsersPage), message);
+            users.IsSelected = true;
+        }
+
+        void IRecipient<NavigateToIllustMessage>.Receive(NavigateToIllustMessage message)
+        {
+            _frame.Navigate(typeof(OpenedIllustsPage), message);
+            opened.IsSelected = true;
+        }
+
+        void IRecipient<NavigateToTagMessage>.Receive(NavigateToTagMessage message)
+        {
+            _frame.Navigate(typeof(IllustSearchPage), message);
+            searchIllust.IsSelected = true;
         }
     }
 }
