@@ -22,9 +22,8 @@ namespace EHunter.Data
 
         public EHunterDbContextResolver(IDatabaseSetting setting)
         {
-            InitializeTask = CreateFactoryAsync(setting.ConnectionString);
-            _databaseSettingDisposable = setting.ConnectionStringChanged.Subscribe(
-                cs => _ = CreateFactoryAsync(cs));
+            _databaseSettingDisposable = setting.ConnectionString.Subscribe(
+                cs => InitializeTask = CreateFactoryAsync(cs));
         }
 
         private Task CreateFactoryAsync(string connectionString) => Task.Run(async () =>
@@ -56,7 +55,7 @@ namespace EHunter.Data
             }
         });
 
-        public Task InitializeTask { get; }
+        public Task InitializeTask { get; private set; } = null!;
 
         public IDbContextFactory<TContext>? Resolve() => _factory;
 

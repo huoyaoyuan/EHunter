@@ -83,12 +83,14 @@ namespace EHunter.Pixiv.Services.Download
             if (pFactory is null || eFactory is null)
                 return new(DownloadableState.ServiceUnavailable);
 
-            if (_storageSetting.StorageRoot is null)
+            var storageRoot = _storageSetting.StorageRoot.Value;
+
+            if (storageRoot is null)
                 return new(DownloadableState.ServiceUnavailable);
 
             return new(Task.Run(async () =>
             {
-                if (!_storageSetting.StorageRoot.Exists)
+                if (!storageRoot.Exists)
                     return DownloadableState.ServiceUnavailable;
                 try
                 {
@@ -133,7 +135,7 @@ namespace EHunter.Pixiv.Services.Download
                 ?? throw new InvalidOperationException("No database connetion");
             var eFactory = _eHunterContextResolver.Resolve()
                 ?? throw new InvalidOperationException("No database connetion");
-            var storageRoot = _storageSetting.StorageRoot
+            var storageRoot = _storageSetting.StorageRoot.Value
                 ?? throw new InvalidOperationException("No storage");
 
             return illust.IsAnimated

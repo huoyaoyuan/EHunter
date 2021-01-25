@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace EHunter.ComponentModel
 {
@@ -14,19 +13,15 @@ namespace EHunter.ComponentModel
             set
             {
                 _value = value;
-                foreach (var o in _observers.ToArray())
-                    o.OnNext(value);
+                _actions?.Invoke(value);
             }
         }
 
-        public IObservable<T> ValueObservable => this;
-
-        private readonly List<IObserver<T>> _observers = new();
-#pragma warning disable CA1033
-        IDisposable IObservable<T>.Subscribe(IObserver<T> observer)
-#pragma warning restore CA1033
+        private Action<T>? _actions;
+        public IDisposable Subscribe(IObserver<T> observer)
         {
-            _observers.Add(observer);
+            _actions += observer.OnNext;
+            observer.OnNext(Value);
             return new Subscriber(this, observer);
         }
 
@@ -41,7 +36,7 @@ namespace EHunter.ComponentModel
                 _observer = observer;
             }
 
-            public void Dispose() => _owner._observers.Remove(_observer);
+            public void Dispose() => _owner._actions -= _observer.OnNext;
         }
     }
 }

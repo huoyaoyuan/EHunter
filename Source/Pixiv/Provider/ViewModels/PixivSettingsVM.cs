@@ -13,8 +13,8 @@ namespace EHunter.Pixiv.ViewModels
         {
             _settings = settings;
 
-            _useProxy = _settings.UseProxy;
-            _maxDownloadsInParallel = _settings.MaxDownloadsInParallel;
+            _useProxy = _settings.UseProxy.Value;
+            _maxDownloadsInParallel = _settings.MaxDownloadsInParallel.Value;
             Client = clientResolver.Resolve();
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using EHunter.ComponentModel;
+﻿using EHunter.ComponentModel;
 
 namespace EHunter.Pixiv.Models
 {
@@ -10,28 +9,24 @@ namespace EHunter.Pixiv.Models
         public PixivSetting(IPixivSettingStore settingStore)
         {
             _settingStore = settingStore;
-            _useProxy = new ObservableProperty<bool>(_settingStore.UseProxy);
-            _maxDownloadsInParallel = new ObservableProperty<int>(_settingStore.MaxDownloadsInParallel);
+            UseProxy = new ObservableProperty<bool>(_settingStore.UseProxy);
+            MaxDownloadsInParallel = new ObservableProperty<int>(_settingStore.MaxDownloadsInParallel);
         }
 
-        private readonly ObservableProperty<bool> _useProxy;
-        public bool UseProxy => _useProxy.Value;
-        public IObservable<bool> UseProxyChanged => _useProxy.ValueObservable;
+        public ObservableProperty<bool> UseProxy { get; }
 
         public void SetUseProxy(bool value)
         {
-            _useProxy.Value = value;
+            UseProxy.Value = value;
             _settingStore.UseProxy = value;
         }
 
-        private readonly ObservableProperty<int> _maxDownloadsInParallel;
-        public int MaxDownloadsInParallel => _maxDownloadsInParallel.Value;
-        public IObservable<int> MaxDownloadsInParallelChanged => _maxDownloadsInParallel.ValueObservable;
+        public ObservableProperty<int> MaxDownloadsInParallel { get; }
 
         public void SetMaxDownloadsInParallel(int value)
         {
             _settingStore.MaxDownloadsInParallel = value;
-            _maxDownloadsInParallel.Value = value;
+            MaxDownloadsInParallel.Value = value;
         }
     }
 }

@@ -1,21 +1,13 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using EHunter.ComponentModel;
 using EHunter.Settings;
 
 namespace EHunter.Pixiv.Downloader.Manual
 {
-    internal class DummyStorageSetting : IStorageSetting, IObservable<DirectoryInfo?>
+    internal class DummyStorageSetting : IStorageSetting
     {
-        public DummyStorageSetting(string storageRoot) => StorageRoot = new DirectoryInfo(storageRoot);
+        public DummyStorageSetting(string storageRoot) => StorageRoot = new(new DirectoryInfo(storageRoot));
 
-        public DirectoryInfo? StorageRoot { get; }
-        public IObservable<DirectoryInfo?> StorageChanged => this;
-
-        public IDisposable Subscribe(IObserver<DirectoryInfo?> observer) => new DummyDisposable();
-
-        private class DummyDisposable : IDisposable
-        {
-            public void Dispose() { }
-        }
+        public ObservableProperty<DirectoryInfo?> StorageRoot { get; }
     }
 }
