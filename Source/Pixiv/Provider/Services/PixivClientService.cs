@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Models;
@@ -12,17 +13,36 @@ namespace EHunter.Pixiv.Services
         private PixivClient? _client;
 
         private readonly IProxySetting _proxySetting;
-        private IDisposable? _proxySettingDisposable;
+        private readonly IDisposable _proxySettingDisposable;
 
         private readonly PixivSetting _pixivSetting;
-        private IDisposable? _pixivSettingDisposable;
-
-        private readonly object _propertyLock = new();
+        private readonly IDisposable _pixivSettingDisposable;
 
         public PixivClientService(IProxySetting proxySetting, PixivSetting pixivSetting)
         {
             _proxySetting = proxySetting;
             _pixivSetting = pixivSetting;
+
+            _proxySettingDisposable = proxySetting.Proxy.Subscribe(_ => UpdateEffectiveProxy(_client));
+            _pixivSettingDisposable = pixivSetting.UseProxy.Subscribe(_ => UpdateEffectiveProxy(_client));
+        }
+
+        private void UpdateEffectiveProxy(PixivClient? client)
+        {
+            if (client is null)
+                return;
+            var handler = GetEffectiveHandler();
+
+            client.SetHandler(handler);
+        }
+
+        private HttpClientHandler GetEffectiveHandler()
+        {
+            return new HttpClientHandler
+            {
+                UseProxy = _pixivSetting.UseProxy.Value,
+                Proxy = _proxySetting.Proxy.Value
+            };
         }
 
         public Task<string> LoginAsync(string username, string password)
@@ -33,24 +53,12 @@ namespace EHunter.Pixiv.Services
 
         private async Task<string> LoginAsync(Func<PixivClient, Task<string>> loginMethod)
         {
-            var client = new PixivClient(_pixivSetting.UseProxy.Value ? _proxySetting.Proxy.Value : null);
+            var client = new PixivClient(GetEffectiveHandler());
             string refreshToken = await loginMethod(client).ConfigureAwait(false);
 
-            lock (_propertyLock)
-            {
-                var oldClient = _client;
-                _client = client;
-
-                oldClient?.Dispose();
-
-                _proxySettingDisposable?.Dispose();
-                _proxySettingDisposable = _proxySetting.Proxy.Subscribe(p =>
-                    client.SetProxy(_pixivSetting.UseProxy.Value ? p : null));
-
-                _pixivSettingDisposable?.Dispose();
-                _pixivSettingDisposable = _pixivSetting.UseProxy.Subscribe(use =>
-                    client.SetProxy(use ? _proxySetting.Proxy.Value : null));
-            }
+            var oldClient = _client;
+            _client = client;
+            oldClient?.Dispose();
 
             return refreshToken;
         }
@@ -60,8 +68,8 @@ namespace EHunter.Pixiv.Services
 
         public void Dispose()
         {
-            _proxySettingDisposable?.Dispose();
-            _pixivSettingDisposable?.Dispose();
+            _proxySettingDisposable.Dispose();
+            _pixivSettingDisposable.Dispose();
             _client?.Dispose();
         }
     }
