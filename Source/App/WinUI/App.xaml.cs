@@ -3,7 +3,7 @@ using EHunter.Pixiv;
 using EHunter.Providers;
 using EHunter.Services;
 using EHunter.Settings;
-using EHunter.UI.Models;
+using EHunter.UI.Services;
 using EHunter.UI.ViewModels;
 using EHunter.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +33,7 @@ namespace EHunter.UI
 
             var services = new ServiceCollection()
                 .AddSingleton<IViewModelService, ViewModelService>()
+                .AddSingleton<ISettingsStore, WinRTSettingsStore>()
                 .AddSingleton<ICommonSettingStore, CommonSettingStore>()
                 .AddCommonSettings()
                 .AddTransient<CommonSettingVM>()

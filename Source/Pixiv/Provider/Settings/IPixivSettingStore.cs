@@ -1,4 +1,4 @@
-﻿namespace EHunter.Pixiv.Models
+﻿namespace EHunter.Pixiv.Settings
 {
     public interface IPixivSettingStore
     {

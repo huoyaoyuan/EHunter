@@ -1,6 +1,6 @@
 ﻿using EHunter.ComponentModel;
 
-namespace EHunter.Pixiv.Models
+namespace EHunter.Pixiv.Settings
 {
     public class PixivSetting
     {

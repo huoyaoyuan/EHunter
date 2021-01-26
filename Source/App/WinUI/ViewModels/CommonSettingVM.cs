@@ -1,6 +1,5 @@
 ﻿using EHunter.Services;
 using EHunter.Settings;
-using EHunter.UI.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 #nullable enable
