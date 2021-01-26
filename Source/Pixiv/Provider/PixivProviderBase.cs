@@ -2,9 +2,9 @@
 using EHunter.Data;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Data;
-using EHunter.Pixiv.Models;
 using EHunter.Pixiv.Services;
 using EHunter.Pixiv.Services.Download;
+using EHunter.Pixiv.Settings;
 using EHunter.Pixiv.ViewModels;
 using EHunter.Pixiv.ViewModels.Bookmark;
 using EHunter.Pixiv.ViewModels.Download;

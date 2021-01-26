@@ -1,5 +1,5 @@
 ﻿using System;
-using EHunter.Pixiv.Models;
+using EHunter.Pixiv.Settings;
 using EHunter.Pixiv.Views;
 using EHunter.Services.ImageCaching;
 using Microsoft.Extensions.DependencyInjection;

@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using EHunter.Data;
 using EHunter.Pixiv.Data;
 using EHunter.Pixiv.Messages;
-using EHunter.Pixiv.Models;
 using EHunter.Pixiv.Services;
+using EHunter.Pixiv.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
 

@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using EHunter.DependencyInjection;
-using EHunter.Pixiv.Models;
+using EHunter.Pixiv.Settings;
 using EHunter.Settings;
 using Meowtrix.PixivApi;
 
