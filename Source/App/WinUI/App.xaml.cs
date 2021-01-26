@@ -3,7 +3,6 @@ using EHunter.Pixiv;
 using EHunter.Providers;
 using EHunter.Services;
 using EHunter.Settings;
-using EHunter.UI.Models;
 using EHunter.UI.Services;
 using EHunter.UI.ViewModels;
 using EHunter.UI.Views;
