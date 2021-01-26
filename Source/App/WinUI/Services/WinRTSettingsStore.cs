@@ -25,7 +25,7 @@ namespace EHunter.UI.Services
         public void SetIntValue(string name, int value) => _container.Values[name] = value;
 
         public string? GetStringValue(string name) => _container.Values[name] as string;
-        public void SetStringValue(string name, string value) => _container.Values[name] = value;
+        public void SetStringValue(string name, string? value) => _container.Values[name] = value;
 
         public bool? GetBoolValue(string name) => _container.Values[name] as bool?;
         public void SetBoolValue(string name, bool value) => _container.Values[name] = value;

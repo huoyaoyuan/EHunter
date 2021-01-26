@@ -9,7 +9,7 @@
         void SetIntValue(string name, int value);
 
         string? GetStringValue(string name);
-        void SetStringValue(string name, string value);
+        void SetStringValue(string name, string? value);
 
         bool? GetBoolValue(string name);
         void SetBoolValue(string name, bool value);

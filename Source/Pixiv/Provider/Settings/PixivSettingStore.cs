@@ -11,7 +11,7 @@ namespace EHunter.Pixiv.Settings
         public string? RefreshToken
         {
             get => _settingsStore.GetStringValue(nameof(RefreshToken));
-            set => _settingsStore.SetStringValue(nameof(RefreshToken), value!);
+            set => _settingsStore.SetStringValue(nameof(RefreshToken), value);
         }
 
         public bool UseProxy
