@@ -2,12 +2,9 @@
 using System.Net;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
-using EHunter.Settings;
 using Microsoft.Extensions.DependencyInjection;
 
-#nullable enable
-
-namespace EHunter.UI.Models
+namespace EHunter.Settings
 {
     public class CommonSetting : IStorageSetting, IProxySetting, IDatabaseSetting
     {
