@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.UI", "Source\App\Wi
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "EHunter.UI (Package)", "Source\App\Package\EHunter.UI (Package).wapproj", "{0536649C-B5DD-482B-B620-2C1B03FCFAB8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Common", "Source\Common\UI\EHunter.Common.csproj", "{1C7CE301-565F-4CD2-9369-619EFBFB0C4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Common.UI", "Source\Common\UI\EHunter.Common.UI.csproj", "{1C7CE301-565F-4CD2-9369-619EFBFB0C4B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EHunter.Pixiv.UI", "Source\Pixiv\UI\EHunter.Pixiv.UI.csproj", "{3EB34FF6-E670-49E7-A0FA-97BB6D73E6B5}"
 EndProject
