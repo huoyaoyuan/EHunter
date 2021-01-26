@@ -22,18 +22,43 @@ namespace EHunter.Pixiv.Services
                     _ => throw new InvalidOperationException("This handler only accepts Pixiv api hosts.")
                 };
 
-                var socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
-                await socket.ConnectAsync(IPAddress.Parse(ip), 443, cancellationToken: ct)
-                    .ConfigureAwait(false);
-                var networkStream = new NetworkStream(socket, true);
-                var sslStream = new SslStream(networkStream, false,
-#pragma warning disable CA5359
-                    // TODO: handle hard coded server fingerprint
-                    (sender, cert, chain, error) => true);
-#pragma warning restore CA5359
+                var socket = new Socket(SocketType.Stream, ProtocolType.Tcp)
+                {
+                    NoDelay = true
+                };
 
-                await sslStream.AuthenticateAsClientAsync("").ConfigureAwait(false);
-                return sslStream;
+                try
+                {
+                    await socket.ConnectAsync(IPAddress.Parse(ip), 443, cancellationToken: ct)
+                        .ConfigureAwait(false);
+                    var networkStream = new NetworkStream(socket, true);
+                    var sslStream = new SslStream(networkStream, false,
+                        (sender, cert, chain, error) =>
+                        {
+                            if (error == SslPolicyErrors.None)
+                                return true;
+
+                            if (error == SslPolicyErrors.RemoteCertificateNameMismatch
+                                && cert != null)
+                            {
+                                // TODO: Parse the X509Cert correctly
+
+                                if (cert.Subject.Contains("pixiv", StringComparison.Ordinal)
+                                    || cert.Subject.Contains("pximg", StringComparison.Ordinal))
+                                    return true;
+                            }
+
+                            return false;
+                        });
+
+                    await sslStream.AuthenticateAsClientAsync("").ConfigureAwait(false);
+                    return sslStream;
+                }
+                catch
+                {
+                    socket.Dispose();
+                    throw;
+                }
             }
         });
 
@@ -45,8 +70,10 @@ namespace EHunter.Pixiv.Services
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            string? newUri = request.RequestUri!.ToString().Replace("https", "http", StringComparison.Ordinal);
-            request.RequestUri = new(newUri);
+            var ub = new UriBuilder(request.RequestUri!);
+            if (ub.Scheme == "https")
+                ub.Scheme = "http";
+            request.RequestUri = ub.Uri;
             return _handler.SendAsync(request, cancellationToken);
         }
     }
