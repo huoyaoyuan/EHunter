@@ -42,6 +42,7 @@ namespace EHunter.Pixiv
                 .AddTransient<UserSearchVM>()
 
                 .AddSingleton<PixivSetting>()
+                .AddSingleton<IPixivSettingStore, PixivSettingStore>()
                 .AddSingleton<PixivClientService>()
                 .AddConversion<ICustomResolver<PixivClient>, PixivClientService>()
                 .AddEHunterDbContext<PixivDbContext>()

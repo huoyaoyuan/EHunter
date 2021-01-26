@@ -1,5 +1,4 @@
 ﻿using System;
-using EHunter.Pixiv.Settings;
 using EHunter.Pixiv.Views;
 using EHunter.Services.ImageCaching;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +15,6 @@ namespace EHunter.Pixiv
 
         protected override void ConfigureViewServices(IServiceCollection serviceCollection)
             => serviceCollection
-                .AddSingleton<IPixivSettingStore, PixivSettingStore>()
                 .AddSingleton<ImageCacheService>();
     }
 }
