@@ -22,25 +22,17 @@ namespace EHunter.Controls
         private readonly ImageCacheService _imageCache = Ioc.Default.GetRequiredService<ImageCacheService>();
         protected void SetImageEntry(ImageRequest? request)
         {
-            _bindingHelper.Holder = request is null
+            _holder = request is null
                 ? null
                 : new(request, _imageCache, copyCommand);
+            Bindings.Update();
         }
 
         private void CanCopyRequested(XamlUICommand sender, CanExecuteRequestedEventArgs args)
-            => args.CanExecute = _bindingHelper.Holder?.CanCopy ?? false;
+            => args.CanExecute = _holder?.CanCopy ?? false;
 
-        private readonly BindingHelper _bindingHelper = new();
+        private ImageResultHolder? _holder;
 
-        private class BindingHelper : ObservableObject
-        {
-            private ImageResultHolder? _holder;
-            public ImageResultHolder? Holder
-            {
-                get => _holder;
-                set => SetProperty(ref _holder, value);
-            }
-        }
         private class ImageResultHolder : ObservableObject
         {
             private readonly ImageRequest _request;

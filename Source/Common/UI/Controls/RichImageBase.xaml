@@ -13,18 +13,18 @@
                     <StandardUICommand x:Name="copyCommand"
                                        Kind="Copy"
                                        CanExecuteRequested="CanCopyRequested"
-                                       ExecuteRequested="{x:Bind _bindingHelper.Holder.Copy}" />
+                                       ExecuteRequested="{x:Bind _holder.Copy}" />
                 </MenuFlyoutItem.Command>
             </MenuFlyoutItem>
-            <MenuFlyoutItem Text="Refresh" Icon="Refresh" Click="{x:Bind _bindingHelper.Holder.Refresh}" />
+            <MenuFlyoutItem Text="Refresh" Icon="Refresh" Click="{x:Bind _holder.Refresh}" />
         </MenuFlyout>
     </UserControl.ContextFlyout>
     <Grid Background="Transparent">
-        <Image Source="{x:Bind _bindingHelper.Holder.Source, FallbackValue={x:Null}}"
+        <Image Source="{x:Bind _holder.Source, FallbackValue={x:Null}}"
                HorizontalAlignment="Stretch"
                VerticalAlignment="Stretch" />
         <ProgressRing
-            IsActive="{x:Bind _bindingHelper.Holder.IsLoading, FallbackValue=False}"
+            IsActive="{x:Bind _holder.IsLoading, FallbackValue=False}"
             HorizontalAlignment="Center"
             VerticalAlignment="Center" />
     </Grid>
