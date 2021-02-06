@@ -67,7 +67,8 @@ namespace EHunter.Controls
                     LoadFailed = true;
                     return;
                 }
-                Source = new();
+
+                var source = new BitmapImage();
 
                 // https://github.com/microsoft/CsWinRT/issues/682
                 // only WinRT stream with SetSource can avoid random exception
@@ -78,9 +79,10 @@ namespace EHunter.Controls
                     // fixed in CsWinRT latest master
                     await stream.CopyToAsync(winrtStream.AsStream()).ConfigureAwait(true);
                     winrtStream.Seek(0);
-                    Source.SetSource(winrtStream);
+                    source.SetSource(winrtStream);
                 }
 
+                Source = source;
                 IsLoading = false;
                 _copyCommand.NotifyCanExecuteChanged();
             }
