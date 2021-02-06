@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using EHunter.Pixiv.Settings;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.ApplicationModel.Resources;
@@ -24,5 +25,8 @@ namespace EHunter.Pixiv.Controls
 
         public static string GetIllustRankingMode(IllustRankingMode mode)
             => LoadFromResources($"IllustRankingMode_{mode}");
+
+        public static string GetPixivConnectionMode(PixivConnectionMode mode)
+            => LoadFromResources($"PixivConnectionMode_{mode}");
     }
 }

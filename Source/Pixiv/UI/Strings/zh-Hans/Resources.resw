@@ -300,6 +300,18 @@
   <data name="Password.Header" xml:space="preserve">
     <value>密码</value>
   </data>
+  <data name="PixivConnectionMode_ApplicationProxy" xml:space="preserve">
+    <value>程序代理</value>
+  </data>
+  <data name="PixivConnectionMode_DirectConnect" xml:space="preserve">
+    <value>直连（绕过GFW）</value>
+  </data>
+  <data name="PixivConnectionMode_NoProxy" xml:space="preserve">
+    <value>无代理</value>
+  </data>
+  <data name="PixivConnectionMode_SystemProxy" xml:space="preserve">
+    <value>系统代理</value>
+  </data>
   <data name="PreviousDay.Content" xml:space="preserve">
     <value>前一天</value>
   </data>
