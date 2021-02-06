@@ -73,14 +73,12 @@
         </Setter>
     </Style>
 
-    <Style TargetType="RadioButtons"
+    <Style TargetType="Selector"
            x:Key="PixivConnectionModeSelectorStyle">
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate x:DataType="x:Int32">
-                    <RadioButton>
-                        <controls:PixivConnectionModePresenter IntConnectionMode="{x:Bind}" />
-                    </RadioButton>
+                    <controls:PixivConnectionModePresenter IntConnectionMode="{x:Bind}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>

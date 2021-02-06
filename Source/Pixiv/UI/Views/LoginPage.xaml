@@ -4,9 +4,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:res="using:EHunter.Pixiv.Resources"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <res:Resources />
+    </Page.Resources>
     <Grid
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
@@ -97,16 +101,16 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid
-            Height="350"
+            Height="400"
             Width="400"
             Padding="20"
             Background="#40808080">
             <StackPanel
                 Orientation="Vertical"
-                Spacing="4"
+                Spacing="10"
                 x:Name="loginPanel"
                 x:DefaultBindMode="TwoWay">
-            
+
                 <FlyoutBase.AttachedFlyout>
                     <Flyout>
                         <StackPanel Orientation="Vertical">
@@ -117,8 +121,11 @@
                         </StackPanel>
                     </Flyout>
                 </FlyoutBase.AttachedFlyout>
-            
-                <ToggleSwitch x:Uid="UseProxy" IsOn="{x:Bind _vm.UseProxy}" />
+
+                <ComboBox
+                    x:Uid="UseProxy"
+                    Style="{StaticResource PixivConnectionModeSelectorStyle}"
+                    SelectedItem="{x:Bind _vm.IntConnectionMode}" />
 
                 <RadioButtons
                     x:Name="loginOption"

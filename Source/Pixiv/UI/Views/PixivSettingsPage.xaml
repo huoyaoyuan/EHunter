@@ -5,9 +5,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.Pixiv.Controls"
+    xmlns:res="using:EHunter.Pixiv.Resources"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     x:DefaultBindMode="OneWay">
+    <Page.Resources>
+        <res:Resources />
+    </Page.Resources>
     <ScrollViewer
         IsTabStop="False"
         UseSystemFocusVisuals="False"
@@ -20,7 +24,11 @@
                 Style="{ThemeResource TitleTextBlockStyle}"
                 Margin="0,0,0,6"
                 x:Uid="NetworkGroup" />
-            <ToggleSwitch x:Uid="UseProxy" IsOn="{x:Bind _setting.UseProxy}" />
+
+            <ComboBox
+                x:Uid="UseProxy"
+                Style="{StaticResource PixivConnectionModeSelectorStyle}"
+                SelectedItem="{x:Bind _setting.IntConnectionMode}" />
 
             <TextBlock
                 Style="{ThemeResource TitleTextBlockStyle}"

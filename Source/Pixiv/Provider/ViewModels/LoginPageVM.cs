@@ -28,6 +28,7 @@ namespace EHunter.Pixiv.ViewModels
             _clientService = clientService;
 
             _useProxy = setting.UseProxy.Value;
+            _connectionMode = _setting.ConnectionMode.Value;
 
             string? savedToken = settingStore.RefreshToken;
             if (!string.IsNullOrEmpty(savedToken))
@@ -89,6 +90,26 @@ namespace EHunter.Pixiv.ViewModels
                 if (SetProperty(ref _useProxy, value))
                     _setting.SetUseProxy(value);
             }
+        }
+
+        private PixivConnectionMode _connectionMode;
+        public PixivConnectionMode ConnectionMode
+        {
+            get => _connectionMode;
+            set
+            {
+                if (SetProperty(ref _connectionMode, value))
+                {
+                    OnPropertyChanged(nameof(IntConnectionMode));
+                    _setting.SetConnectionOption(value);
+                }
+            }
+        }
+
+        public int IntConnectionMode
+        {
+            get => (int)ConnectionMode;
+            set => ConnectionMode = (PixivConnectionMode)value;
         }
 
         public void LoginWithPassword() => PerformLogin(_clientService.LoginAsync(Username, Password));
