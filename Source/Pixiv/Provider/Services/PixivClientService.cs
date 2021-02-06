@@ -19,11 +19,29 @@ namespace EHunter.Pixiv.Services
         public PixivClientService(IProxySetting proxySetting, PixivSetting pixivSetting)
         {
             _subscribeDisposable = proxySetting.Proxy
-                .CombineLatest(pixivSetting.UseProxy,
-                    (proxy, use) => new HttpClientHandler
+                .CombineLatest(pixivSetting.ConnectionMode,
+                    (proxy, mode) => mode switch
                     {
-                        Proxy = proxy,
-                        UseProxy = use
+                        PixivConnectionMode.SystemProxy
+                            => new HttpClientHandler
+                            {
+                                UseProxy = true,
+                                Proxy = HttpClient.DefaultProxy
+                            },
+                        PixivConnectionMode.ApplicationProxy
+                            => new HttpClientHandler
+                            {
+                                UseProxy = true,
+                                Proxy = proxy
+                            },
+                        PixivConnectionMode.NoProxy
+                            => new HttpClientHandler
+                            {
+                                UseProxy = false
+                            },
+                        PixivConnectionMode.DirectConnect
+                            => (HttpMessageHandler)new DirectConnectHandler(),
+                        _ => throw new InvalidOperationException($"Unknown enum value {mode}.")
                     })
                 .Subscribe(h =>
                 {
