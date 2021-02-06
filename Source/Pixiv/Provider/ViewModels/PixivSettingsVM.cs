@@ -13,23 +13,12 @@ namespace EHunter.Pixiv.ViewModels
         {
             _settings = settings;
 
-            _useProxy = _settings.UseProxy.Value;
             _maxDownloadsInParallel = _settings.MaxDownloadsInParallel.Value;
+            _connectionMode = _settings.ConnectionMode.Value;
             Client = clientResolver.Resolve();
         }
 
         public PixivClient Client { get; }
-
-        private bool _useProxy;
-        public bool UseProxy
-        {
-            get => _useProxy;
-            set
-            {
-                if (SetProperty(ref _useProxy, value))
-                    _settings.SetUseProxy(value);
-            }
-        }
 
         private int _maxDownloadsInParallel;
         public int MaxDownloadsInParallel
@@ -40,6 +29,23 @@ namespace EHunter.Pixiv.ViewModels
                 if (SetProperty(ref _maxDownloadsInParallel, value) && value > 0)
                     _settings.SetMaxDownloadsInParallel(value);
             }
+        }
+
+        private PixivConnectionMode _connectionMode;
+        public PixivConnectionMode ConnectionMode
+        {
+            get => _connectionMode;
+            set
+            {
+                if (SetProperty(ref _connectionMode, value))
+                    _settings.SetConnectionOption(value);
+            }
+        }
+
+        public int IntConnectionMode
+        {
+            get => (int)ConnectionMode;
+            set => ConnectionMode = (PixivConnectionMode)value;
         }
     }
 }

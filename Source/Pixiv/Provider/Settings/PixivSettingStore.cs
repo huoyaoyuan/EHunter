@@ -14,16 +14,16 @@ namespace EHunter.Pixiv.Settings
             set => _settingsStore.SetStringValue(nameof(RefreshToken), value);
         }
 
-        public bool UseProxy
-        {
-            get => _settingsStore.GetBoolValue(nameof(UseProxy)) ?? false;
-            set => _settingsStore.SetBoolValue(nameof(UseProxy), value);
-        }
-
         public int MaxDownloadsInParallel
         {
             get => _settingsStore.GetIntValue(nameof(MaxDownloadsInParallel)) ?? 8;
             set => _settingsStore.SetIntValue(nameof(MaxDownloadsInParallel), value);
+        }
+
+        public PixivConnectionMode ConnectionMode
+        {
+            get => (PixivConnectionMode?)_settingsStore.GetIntValue(nameof(ConnectionMode)) ?? PixivConnectionMode.ApplicationProxy;
+            set => _settingsStore.SetIntValue(nameof(ConnectionMode), (int)value);
         }
     }
 }

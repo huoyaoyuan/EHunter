@@ -73,6 +73,22 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Selector"
+           x:Key="PixivConnectionModeSelectorStyle">
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate x:DataType="x:Int32">
+                    <controls:PixivConnectionModePresenter IntConnectionMode="{x:Bind}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsSource">
+            <Setter.Value>
+                <local:PixivConnectionModeCollection />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <DataTemplate x:Key="UserWithPreviewTemplate"
                   x:DataType="m:UserInfoWithPreview"
                   x:DefaultBindMode="OneTime">

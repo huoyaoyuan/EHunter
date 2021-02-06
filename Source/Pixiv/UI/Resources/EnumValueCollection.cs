@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
+using EHunter.Pixiv.Settings;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 
@@ -31,6 +32,10 @@ namespace EHunter.Pixiv.Resources
     }
 
     internal class IllustRankingModeCollection : EnumValueCollection<IllustRankingMode>
+    {
+    }
+
+    internal class PixivConnectionModeCollection : EnumValueCollection<PixivConnectionMode>
     {
     }
 }
