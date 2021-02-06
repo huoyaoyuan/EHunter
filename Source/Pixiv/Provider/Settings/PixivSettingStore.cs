@@ -14,12 +14,6 @@ namespace EHunter.Pixiv.Settings
             set => _settingsStore.SetStringValue(nameof(RefreshToken), value);
         }
 
-        public bool UseProxy
-        {
-            get => _settingsStore.GetBoolValue(nameof(UseProxy)) ?? false;
-            set => _settingsStore.SetBoolValue(nameof(UseProxy), value);
-        }
-
         public int MaxDownloadsInParallel
         {
             get => _settingsStore.GetIntValue(nameof(MaxDownloadsInParallel)) ?? 8;

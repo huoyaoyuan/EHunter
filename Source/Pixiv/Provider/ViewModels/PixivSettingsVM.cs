@@ -13,24 +13,12 @@ namespace EHunter.Pixiv.ViewModels
         {
             _settings = settings;
 
-            _useProxy = _settings.UseProxy.Value;
             _maxDownloadsInParallel = _settings.MaxDownloadsInParallel.Value;
             _connectionMode = _settings.ConnectionMode.Value;
             Client = clientResolver.Resolve();
         }
 
         public PixivClient Client { get; }
-
-        private bool _useProxy;
-        public bool UseProxy
-        {
-            get => _useProxy;
-            set
-            {
-                if (SetProperty(ref _useProxy, value))
-                    _settings.SetUseProxy(value);
-            }
-        }
 
         private int _maxDownloadsInParallel;
         public int MaxDownloadsInParallel

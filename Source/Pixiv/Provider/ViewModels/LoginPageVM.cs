@@ -27,7 +27,6 @@ namespace EHunter.Pixiv.ViewModels
             _setting = setting;
             _clientService = clientService;
 
-            _useProxy = setting.UseProxy.Value;
             _connectionMode = _setting.ConnectionMode.Value;
 
             string? savedToken = settingStore.RefreshToken;
@@ -79,17 +78,6 @@ namespace EHunter.Pixiv.ViewModels
         {
             get => _isLoggedin;
             private set => SetProperty(ref _isLoggedin, value);
-        }
-
-        private bool _useProxy;
-        public bool UseProxy
-        {
-            get => _useProxy;
-            set
-            {
-                if (SetProperty(ref _useProxy, value))
-                    _setting.SetUseProxy(value);
-            }
         }
 
         private PixivConnectionMode _connectionMode;

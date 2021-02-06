@@ -9,17 +9,8 @@ namespace EHunter.Pixiv.Settings
         public PixivSetting(IPixivSettingStore settingStore)
         {
             _settingStore = settingStore;
-            UseProxy = new(_settingStore.UseProxy);
             MaxDownloadsInParallel = new(_settingStore.MaxDownloadsInParallel);
             ConnectionMode = new(_settingStore.ConnectionMode);
-        }
-
-        public ObservableProperty<bool> UseProxy { get; }
-
-        public void SetUseProxy(bool value)
-        {
-            UseProxy.Value = value;
-            _settingStore.UseProxy = value;
         }
 
         public ObservableProperty<int> MaxDownloadsInParallel { get; }
