@@ -25,5 +25,11 @@ namespace EHunter.Pixiv.Settings
             get => _settingsStore.GetIntValue(nameof(MaxDownloadsInParallel)) ?? 8;
             set => _settingsStore.SetIntValue(nameof(MaxDownloadsInParallel), value);
         }
+
+        public PixivConnectionMode ConnectionMode
+        {
+            get => (PixivConnectionMode?)_settingsStore.GetIntValue(nameof(ConnectionMode)) ?? PixivConnectionMode.ApplicationProxy;
+            set => _settingsStore.SetIntValue(nameof(ConnectionMode), (int)value);
+        }
     }
 }
