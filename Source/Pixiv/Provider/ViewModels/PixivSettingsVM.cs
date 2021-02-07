@@ -1,14 +1,17 @@
-﻿using EHunter.DependencyInjection;
+﻿using System.Composition;
+using EHunter.DependencyInjection;
 using EHunter.Pixiv.Settings;
 using Meowtrix.PixivApi;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace EHunter.Pixiv.ViewModels
 {
+    [Export]
     public class PixivSettingsVM : ObservableObject
     {
         private readonly PixivSetting _settings;
 
+        [ImportingConstructor]
         public PixivSettingsVM(PixivSetting settings, ICustomResolver<PixivClient> clientResolver)
         {
             _settings = settings;

@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace EHunter.Providers
 {
@@ -8,6 +7,5 @@ namespace EHunter.Providers
         string Title { get; }
         Uri IconUri { get; }
         Type UIRootType { get; }
-        void ConfigureServices(IServiceCollection serviceCollection);
     }
 }

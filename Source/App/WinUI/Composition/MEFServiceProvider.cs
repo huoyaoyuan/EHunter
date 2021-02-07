@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Composition.Hosting;
 
 #nullable enable
@@ -12,7 +13,14 @@ namespace EHunter.UI.Composition
         public MEFServiceProvider(CompositionHost host) => _host = host;
 
         public object? GetService(Type serviceType)
-            => _host.TryGetExport(serviceType, out object obj)
-            ? obj : null;
+        {
+            if (serviceType.IsGenericType && serviceType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                var originalType = serviceType.GetGenericArguments()[0];
+                return _host.GetExports(originalType);
+            }
+
+            return _host.TryGetExport(serviceType, out object obj) ? obj : null;
+        }
     }
 }

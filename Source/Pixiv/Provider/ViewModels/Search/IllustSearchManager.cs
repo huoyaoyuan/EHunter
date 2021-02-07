@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Composition;
 using EHunter.DependencyInjection;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
@@ -6,11 +7,13 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace EHunter.Pixiv.ViewModels.Search
 {
+    [Export, Shared]
     public class IllustSearchManager : ObservableObject
     {
         internal readonly ICustomResolver<PixivClient> ClientResolver;
         internal readonly IllustVMFactory IllustVMFactory;
 
+        [ImportingConstructor]
         public IllustSearchManager(ICustomResolver<PixivClient> clientResolver,
             IllustVMFactory illustVMFactory)
         {

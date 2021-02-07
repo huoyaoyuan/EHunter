@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Composition;
 using System.Threading.Tasks;
 using EHunter.DependencyInjection;
 using Meowtrix.PixivApi;
@@ -7,11 +8,13 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace EHunter.Pixiv.ViewModels.Opened
 {
+    [Export]
     public class OpenedIllustsVM : ObservableObject
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly IllustVMFactory _illustVMFactory;
 
+        [ImportingConstructor]
         public OpenedIllustsVM(ICustomResolver<PixivClient> clientResolver,
             IllustVMFactory illustVMFactory)
         {

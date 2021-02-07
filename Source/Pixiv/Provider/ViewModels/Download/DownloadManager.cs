@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using EHunter.DependencyInjection;
@@ -12,12 +13,14 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace EHunter.Pixiv.ViewModels.Download
 {
+    [Export, Shared]
     public sealed class DownloadManager : ObservableObject, IDisposable
     {
         private readonly PixivSetting _setting;
         internal readonly DownloaderService Downloader;
         private readonly IDisposable _settingSubscriber;
 
+        [ImportingConstructor]
         public DownloadManager(PixivSetting setting, DownloaderService downloader, ICustomResolver<PixivClient> clientResolver)
         {
             _setting = setting;

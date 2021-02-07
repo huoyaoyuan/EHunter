@@ -1,10 +1,11 @@
-﻿using EHunter.Data;
-using EHunter.Pixiv;
-using EHunter.Providers;
+﻿using System.Composition.Hosting;
+using System.Linq;
+using System.Reflection;
+using EHunter.Data;
+using EHunter.Pixiv.Data;
 using EHunter.Services;
-using EHunter.Settings;
+using EHunter.UI.Composition;
 using EHunter.UI.Services;
-using EHunter.UI.ViewModels;
 using EHunter.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -29,28 +30,30 @@ namespace EHunter.UI
         /// </summary>
         public App()
         {
-            var providers = new IEHunterProvider[] { new PixivUIProvider() };
-
             var services = new ServiceCollection()
                 .AddSingleton<IViewModelService, ViewModelService>()
                 .AddSingleton<ISettingsStore, WinRTSettingsStore>()
-                .AddSingleton<ICommonSettingStore, CommonSettingStore>()
-                .AddCommonSettings()
-                .AddTransient<CommonSettingVM>()
                 .AddEHunterDbContext<EHunterDbContext>()
+                .AddEHunterDbContext<PixivDbContext>()
                 .AddMemoryCache(o =>
                 {
                     o.SizeLimit = 2 * (1L << 30);
                     o.CompactionPercentage = 0.9;
                 });
 
-            foreach (var provider in providers)
-            {
-                provider.ConfigureServices(services);
-                services.AddSingleton(provider);
-            }
+            var c = new ContainerConfiguration()
+                .WithAssemblies(new[]
+                    {
+                        "EHunter.Base",
+                        "EHunter.Pixiv",
+                        "EHunter.Pixiv.UI",
+                        "EHunter.UI",
+                    }
+                    .Select(Assembly.Load))
+                .WithServiceCollection(services)
+                .CreateContainer();
 
-            Ioc.Default.ConfigureServices(services.BuildServiceProvider());
+            Ioc.Default.ConfigureServices(new MEFServiceProvider(c));
 
             InitializeComponent();
             Suspending += OnSuspending;

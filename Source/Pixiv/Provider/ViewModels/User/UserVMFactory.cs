@@ -1,14 +1,17 @@
-﻿using EHunter.DependencyInjection;
+﻿using System.Composition;
+using EHunter.DependencyInjection;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.User
 {
+    [Export, Shared]
     public class UserVMFactory
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly IllustVMFactory _illustVMFactory;
 
+        [ImportingConstructor]
         public UserVMFactory(ICustomResolver<PixivClient> clientResolver,
             IllustVMFactory illustVMFactory)
         {
