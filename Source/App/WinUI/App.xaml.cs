@@ -1,8 +1,6 @@
 ﻿using System.Composition.Hosting;
 using System.Linq;
 using System.Reflection;
-using EHunter.Data;
-using EHunter.Pixiv.Data;
 using EHunter.Services;
 using EHunter.UI.Composition;
 using EHunter.UI.Services;
@@ -33,8 +31,6 @@ namespace EHunter.UI
             var services = new ServiceCollection()
                 .AddSingleton<IViewModelService, ViewModelService>()
                 .AddSingleton<ISettingsStore, WinRTSettingsStore>()
-                .AddEHunterDbContext<EHunterDbContext>()
-                .AddEHunterDbContext<PixivDbContext>()
                 .AddMemoryCache(o =>
                 {
                     o.SizeLimit = 2 * (1L << 30);
@@ -45,6 +41,7 @@ namespace EHunter.UI
                 .WithAssemblies(new[]
                     {
                         "EHunter.Base",
+                        "EHunter.Data",
                         "EHunter.Pixiv",
                         "EHunter.Pixiv.UI",
                         "EHunter.UI",

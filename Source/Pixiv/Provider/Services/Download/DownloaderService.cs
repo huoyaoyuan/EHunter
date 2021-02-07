@@ -18,15 +18,15 @@ namespace EHunter.Pixiv.Services.Download
     public class DownloaderService
     {
         private readonly PixivClient _client;
-        private readonly ICustomResolver<IDbContextFactory<EHunterDbContext>?> _eHunterContextResolver;
-        private readonly ICustomResolver<IDbContextFactory<PixivDbContext>?> _pixivDbContextResolver;
+        private readonly IDbContextFactoryResolver<EHunterDbContext> _eHunterContextResolver;
+        private readonly IDbContextFactoryResolver<PixivDbContext> _pixivDbContextResolver;
         private readonly IStorageSetting _storageSetting;
 
         [ImportingConstructor]
         public DownloaderService(
             ICustomResolver<PixivClient> pixivClientResolver,
-            ICustomResolver<IDbContextFactory<EHunterDbContext>?> eHunterContextResolver,
-            ICustomResolver<IDbContextFactory<PixivDbContext>?> pixivDbContextResolver,
+            IDbContextFactoryResolver<EHunterDbContext> eHunterContextResolver,
+            IDbContextFactoryResolver<PixivDbContext> pixivDbContextResolver,
             IStorageSetting storageSetting)
         {
             _client = pixivClientResolver.Resolve();

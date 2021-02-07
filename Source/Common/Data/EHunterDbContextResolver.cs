@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Composition;
 using System.Threading.Tasks;
 using EHunter.DependencyInjection;
 using EHunter.Settings;
@@ -10,8 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EHunter.Data
 {
+    [Export(typeof(EHunterDbContextResolver<>)), Export(typeof(IDbContextFactoryResolver<>)), Shared]
     public sealed class EHunterDbContextResolver<TContext> :
-        ICustomResolver<IDbContextFactory<TContext>?>,
+        IDbContextFactoryResolver<TContext>,
         IDisposable
         where TContext : DbContext
     {
@@ -20,6 +22,7 @@ namespace EHunter.Data
         private readonly IDisposable _databaseSettingDisposable;
         private readonly object _memberLock = new();
 
+        [ImportingConstructor]
         public EHunterDbContextResolver(IDatabaseSetting setting)
         {
             _databaseSettingDisposable = setting.ConnectionString.Subscribe(
