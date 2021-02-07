@@ -9,7 +9,7 @@
     <NavigationView
         SelectionChanged="NavigationView_SelectionChanged"
         IsBackButtonVisible="Collapsed"
-        MenuItemsSource="{x:Bind _providers}"
+        MenuItemsSource="{x:Bind ViewModel.Providers}"
         PaneDisplayMode="Top">
         <NavigationView.MenuItemTemplate>
             <DataTemplate x:DataType="p:IEHunterProvider">

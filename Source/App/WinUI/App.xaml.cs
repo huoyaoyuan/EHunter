@@ -4,6 +4,7 @@ using System.Reflection;
 using EHunter.Services;
 using EHunter.UI.Composition;
 using EHunter.UI.Services;
+using EHunter.UI.ViewModels;
 using EHunter.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -37,7 +38,7 @@ namespace EHunter.UI
                     o.CompactionPercentage = 0.9;
                 });
 
-            var c = new ContainerConfiguration()
+            _host = new ContainerConfiguration()
                 .WithAssemblies(new[]
                     {
                         "EHunter.Base",
@@ -50,7 +51,7 @@ namespace EHunter.UI
                 .WithServiceCollection(services)
                 .CreateContainer();
 
-            Ioc.Default.ConfigureServices(new MEFServiceProvider(c));
+            Ioc.Default.ConfigureServices(new MEFServiceProvider(_host));
 
             InitializeComponent();
             Suspending += OnSuspending;
@@ -63,7 +64,10 @@ namespace EHunter.UI
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            _window = new MainWindow();
+            _window = new MainWindow
+            {
+                ViewModel = _host.GetExport<MainWindowVM>()
+            };
             _window.Activate();
         }
 
@@ -80,5 +84,6 @@ namespace EHunter.UI
         }
 
         private Window? _window;
+        private readonly CompositionHost _host;
     }
 }

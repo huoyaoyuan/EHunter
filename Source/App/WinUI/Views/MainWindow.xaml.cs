@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using EHunter.Providers;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+﻿using EHunter.Providers;
+using EHunter.UI.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
+
+#nullable disable
 
 namespace EHunter.UI.Views
 {
@@ -17,7 +16,7 @@ namespace EHunter.UI.Views
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        private readonly IList<IEHunterProvider> _providers = Ioc.Default.GetServices<IEHunterProvider>().ToArray();
+        public MainWindowVM ViewModel { get; set; }
 
         public MainWindow()
         {
@@ -37,7 +36,7 @@ namespace EHunter.UI.Views
 
             int newIndex = args.IsSettingsSelected
                 ? int.MaxValue
-                : _providers.IndexOf((IEHunterProvider)args.SelectedItem);
+                : ViewModel.Providers.IndexOf((IEHunterProvider)args.SelectedItem);
 
             var direction = newIndex > _previousSelectedIndex
                 ? SlideNavigationTransitionEffect.FromRight
