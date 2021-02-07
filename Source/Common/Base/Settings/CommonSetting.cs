@@ -2,8 +2,6 @@
 using System.IO;
 using System.Net;
 using EHunter.ComponentModel;
-using EHunter.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace EHunter.Settings
 {
@@ -71,15 +69,5 @@ namespace EHunter.Settings
             _settingStore.DbConnectionString = connectionString;
             ConnectionString.Value = connectionString;
         }
-    }
-
-    public static class CommonSettingDependencyInjectionExtensions
-    {
-        public static IServiceCollection AddCommonSettings(this IServiceCollection serviceCollection)
-            => serviceCollection
-                .AddSingleton<CommonSetting>()
-                .AddConversion<IStorageSetting, CommonSetting>()
-                .AddConversion<IProxySetting, CommonSetting>()
-                .AddConversion<IDatabaseSetting, CommonSetting>();
     }
 }

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Composition;
 using System.Threading.Tasks;
-using EHunter.DependencyInjection;
 using EHunter.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Extensions.DependencyInjection;
 
 #pragma warning disable EF1001
 
@@ -70,14 +68,5 @@ namespace EHunter.Data
                 _pool?.Dispose();
             }
         }
-    }
-
-    public static class DataDependencyInjectionExtensions
-    {
-        public static IServiceCollection AddEHunterDbContext<TContext>(this IServiceCollection serviceCollection)
-            where TContext : DbContext
-            => serviceCollection
-            .AddSingleton<EHunterDbContextResolver<TContext>>()
-            .AddConversion<ICustomResolver<IDbContextFactory<TContext>?>, EHunterDbContextResolver<TContext>>();
     }
 }
