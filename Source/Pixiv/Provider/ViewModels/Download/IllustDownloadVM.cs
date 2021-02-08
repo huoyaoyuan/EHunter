@@ -70,7 +70,7 @@ namespace EHunter.Pixiv.ViewModels.Download
 
                     State = Completed;
                 }
-                catch (TaskCanceledException)
+                catch (TaskCanceledException tce) when (tce.InnerException is not TimeoutException)
                 {
                     State = Canceled;
                 }
