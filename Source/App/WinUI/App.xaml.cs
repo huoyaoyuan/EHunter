@@ -4,7 +4,6 @@ using System.Reflection;
 using EHunter.Services;
 using EHunter.UI.Composition;
 using EHunter.UI.Services;
-using EHunter.UI.ViewModels;
 using EHunter.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -64,10 +63,7 @@ namespace EHunter.UI
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            _window = new MainWindow
-            {
-                ViewModel = _host.GetExport<MainWindowVM>()
-            };
+            _window = _host.GetExport<MainWindow>();
             _window.Activate();
         }
 

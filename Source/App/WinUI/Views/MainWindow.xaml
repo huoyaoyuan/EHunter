@@ -4,28 +4,24 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:p="using:EHunter.Providers"
+    xmlns:vm="using:EHunter.UI.ViewModels"
+    xmlns:local="using:EHunter.UI.Views"
     mc:Ignorable="d">
     <NavigationView
-        SelectionChanged="NavigationView_SelectionChanged"
         IsBackButtonVisible="Collapsed"
-        MenuItemsSource="{x:Bind ViewModel.Providers}"
-        PaneDisplayMode="Top">
+        IsSettingsVisible="False"
+        MenuItemsSource="{x:Bind ViewModel.TopNavigationEntries}"
+        PaneDisplayMode="Top"
+        SelectedItem="{x:Bind ViewModel.SelectedEntry, Mode=TwoWay}"
+        Content="{x:Bind local:Helpers.GetExport(CompositionContext, ViewModel.SelectedEntry.ViewType), Mode=OneWay, FallbackValue={x:Null}}">
         <NavigationView.MenuItemTemplate>
-            <DataTemplate x:DataType="p:IEHunterProvider">
+            <DataTemplate x:DataType="vm:NavigationEntry">
                 <NavigationViewItem Content="{x:Bind Title}">
-                    <NavigationViewItem.Icon>
+                    <!--<NavigationViewItem.Icon>
                         <BitmapIcon ShowAsMonochrome="False" UriSource="{x:Bind IconUri}" />
-                    </NavigationViewItem.Icon>
+                    </NavigationViewItem.Icon>-->
                 </NavigationViewItem>
             </DataTemplate>
         </NavigationView.MenuItemTemplate>
-        <Frame x:Name="_frame" IsNavigationStackEnabled="False">
-            <Frame.ContentTransitions>
-                <TransitionCollection>
-                    <NavigationThemeTransition  />
-                </TransitionCollection>
-            </Frame.ContentTransitions>
-        </Frame>
     </NavigationView>
 </Window>
