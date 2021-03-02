@@ -75,9 +75,7 @@ namespace EHunter.Controls
                 using (var stream = _imageEntry.GetStream())
                 using (var winrtStream = new InMemoryRandomAccessStream())
                 {
-                    // random ObjectDisposedException in CopyTo
-                    // fixed in CsWinRT latest master
-                    await stream.CopyToAsync(winrtStream.AsStream()).ConfigureAwait(true);
+                    stream.CopyTo(winrtStream.AsStream());
                     winrtStream.Seek(0);
                     source.SetSource(winrtStream);
                 }
@@ -112,7 +110,7 @@ namespace EHunter.Controls
 
             public bool CanCopy => !IsLoading && !LoadFailed;
 
-            public async void Copy()
+            public void Copy()
             {
                 if (_imageEntry is null)
                     return;
@@ -121,7 +119,7 @@ namespace EHunter.Controls
 
                 using var stream = _imageEntry.GetStream();
                 var winrtStream = new InMemoryRandomAccessStream(); // don't dispose - used by clipboard
-                await stream.CopyToAsync(winrtStream.AsStream()).ConfigureAwait(true);
+                stream.CopyTo(winrtStream.AsStream());
                 // requires CloneStream, only supported by InMemoryRandomAccessStream
                 dataPackage.SetBitmap(RandomAccessStreamReference.CreateFromStream(winrtStream));
 
