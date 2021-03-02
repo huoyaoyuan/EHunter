@@ -22,9 +22,9 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="storageRoot" Header="Storage Root" Text="{x:Bind _setting.StorageRoot}" />
+                <TextBox x:Name="storageRoot" Header="Storage Root" Text="{x:Bind ViewModel.StorageRoot}" />
                 <Button
-                    Click="{x:Bind _setting.BrowseStorageRoot}"
+                    Click="{x:Bind ViewModel.BrowseStorageRoot}"
                     Grid.Column="1"
                     VerticalAlignment="Bottom"
                     Content="Browse…" />
@@ -34,14 +34,14 @@
                 Style="{ThemeResource TitleTextBlockStyle}"
                 Margin="0,36,0,6"
                 Text ="Proxy" />
-            <TextBox Header="Address" Text="{x:Bind _setting.ProxyAddress}" />
-            <NumberBox Header="Port" Value="{x:Bind _setting.ProxyPort}" />
+            <TextBox Header="Address" Text="{x:Bind ViewModel.ProxyAddress}" />
+            <NumberBox Header="Port" Value="{x:Bind ViewModel.ProxyPort}" />
 
             <TextBlock
                 Style="{ThemeResource TitleTextBlockStyle}"
                 Margin="0,36,0,6"
                 Text ="Database" />
-            <TextBox Header="Connection String" Text="{x:Bind _setting.DbConnectionString}" />
+            <TextBox Header="Connection String" Text="{x:Bind ViewModel.DbConnectionString}" />
             <TextBlock IsTextSelectionEnabled="True">
                 <Bold>LocalDB Connection String Template:</Bold>
                 <LineBreak />

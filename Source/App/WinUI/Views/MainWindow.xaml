@@ -12,8 +12,10 @@
         IsSettingsVisible="False"
         MenuItemsSource="{x:Bind ViewModel.TopNavigationEntries}"
         PaneDisplayMode="Top"
-        SelectedItem="{x:Bind ViewModel.SelectedEntry, Mode=TwoWay}"
-        Content="{x:Bind local:Helpers.GetExport(CompositionContext, ViewModel.SelectedEntry.ViewType), Mode=OneWay, FallbackValue={x:Null}}">
+        SelectedItem="{x:Bind ViewModel.SelectedEntry, Mode=TwoWay}">
+        <NavigationView.FooterMenuItems>
+            <vm:NavigationEntry Title="Settings" ViewType="local:SettingsPage" />
+        </NavigationView.FooterMenuItems>
         <NavigationView.MenuItemTemplate>
             <DataTemplate x:DataType="vm:NavigationEntry">
                 <NavigationViewItem Content="{x:Bind Title}">
@@ -23,5 +25,13 @@
                 </NavigationViewItem>
             </DataTemplate>
         </NavigationView.MenuItemTemplate>
+        <ContentControl
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            Content="{x:Bind local:Helpers.GetExport(CompositionContext, ViewModel.SelectedEntry.ViewType), Mode=OneWay, FallbackValue={x:Null}}">
+            <ContentControl.ContentTransitions>
+                <ContentThemeTransition />
+            </ContentControl.ContentTransitions>
+        </ContentControl>
     </NavigationView>
 </Window>

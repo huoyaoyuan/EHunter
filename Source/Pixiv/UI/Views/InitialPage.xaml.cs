@@ -11,7 +11,7 @@ namespace EHunter.Pixiv.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    [Export]
+    [Export, Shared]
     public sealed partial class InitialPage : Page, IRecipient<InitializationCompleteMessage>
     {
         public InitialPage()
