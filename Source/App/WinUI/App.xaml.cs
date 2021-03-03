@@ -1,4 +1,5 @@
-﻿using System.Composition.Hosting;
+﻿using System.Composition.Convention;
+using System.Composition.Hosting;
 using System.Linq;
 using System.Reflection;
 using EHunter.Services;
@@ -29,24 +30,34 @@ namespace EHunter.UI
         public App()
         {
             var services = new ServiceCollection()
-                .AddSingleton<IViewModelService, ViewModelService>()
-                .AddSingleton<ISettingsStore, WinRTSettingsStore>()
                 .AddMemoryCache(o =>
                 {
                     o.SizeLimit = 2 * (1L << 30);
                     o.CompactionPercentage = 0.9;
                 });
 
+            var convensionBuilder = new ConventionBuilder();
+            convensionBuilder
+                .ForType<ViewModelService>()
+                .Export<IViewModelService>()
+                .Shared();
+            convensionBuilder
+                .ForType<WinRTSettingsStore>()
+                .Export<ISettingsStore>()
+                .Shared();
+
             _host = new ContainerConfiguration()
                 .WithAssemblies(new[]
                     {
                         "EHunter.Base",
+                        "EHunter.Common.UI",
                         "EHunter.Data",
                         "EHunter.Pixiv",
                         "EHunter.Pixiv.UI",
                         "EHunter.UI",
                     }
                     .Select(Assembly.Load))
+                .WithDefaultConventions(convensionBuilder)
                 .WithServiceCollection(services)
                 .CreateContainer();
 
