@@ -64,140 +64,151 @@
                 QueryIcon="Forward"
                 QuerySubmitted="{x:Bind _vm.OpenFromId}" />
         </Grid>
-        <tk:MasterDetailsView
-            Grid.Row="1"
-            ItemsSource="{x:Bind _vm.Illusts}"
-            SelectedItem="{x:Bind _vm.SelectedIllust, Mode=TwoWay}"
-            SelectedIndex="{x:Bind _vm.SelectedIndex, Mode=TwoWay}"
-            ItemContainerStyle="{StaticResource ListViewItemGridStyle}"
-            MasterPaneWidth="120">
-            <tk:MasterDetailsView.ItemTemplate>
-                <DataTemplate x:DataType="vmo:IllustHolderVM">
-                    <controls:PixivImage
-                        Height="100"
-                        Width="100"
-                        ImageInfo="{x:Bind IllustVM.Preview, FallbackValue={x:Null}, Mode=OneWay}" />
-                </DataTemplate>
-            </tk:MasterDetailsView.ItemTemplate>
-            <tk:MasterDetailsView.DetailsTemplate>
-                <DataTemplate x:DataType="vmo:IllustHolderVM"
-                              x:DefaultBindMode="OneWay">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="200" />
-                        </Grid.ColumnDefinitions>
-                        <ContentControl
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            Content="{x:Bind IllustVM, FallbackValue={x:Null}}">
-                            <ContentControl.ContentTemplateSelector>
-                                <controls:AnimatableIllustTemplateSelector>
-                                    <controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
-                                        <DataTemplate x:DataType="vm:IllustVM"
-                                                      x:DefaultBindMode="OneTime">
-                                            <FlipView
-                                                Background="Transparent"
-                                                ItemsSource="{x:Bind Illust.Pages}">
-                                                <FlipView.ItemTemplate>
-                                                    <DataTemplate x:DataType="m:IllustPage">
-                                                        <ScrollViewer
-                                                            x:Name="scrollViewer"
-                                                            ZoomMode="Enabled"
-                                                            MaxZoomFactor="100"
-                                                            MinZoomFactor="1"
-                                                            HorizontalScrollBarVisibility="Auto"
-                                                            VerticalScrollBarVisibility="Auto">
-                                                            <commonControls:SizeTracker
-                                                                HorizontalContentAlignment="Center"
-                                                                VerticalContentAlignment="Center"
-                                                                TrackedElement="{Binding ElementName=scrollViewer}">
-                                                                <controls:PixivImage ImageInfo="{x:Bind Original}" />
-                                                            </commonControls:SizeTracker>
-                                                        </ScrollViewer>
-                                                    </DataTemplate>
-                                                </FlipView.ItemTemplate>
-                                            </FlipView>
-                                        </DataTemplate>
-                                    </controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
-                                    <controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
-                                        <DataTemplate x:DataType="vm:IllustVM"
-                                                      x:DefaultBindMode="OneTime">
-                                            <controls:AnimatedIllust Illust="{x:Bind Illust}" />
-                                        </DataTemplate>
-                                    </controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
-                                </controls:AnimatableIllustTemplateSelector>
-                            </ContentControl.ContentTemplateSelector>
-                        </ContentControl>
-                        <ScrollViewer
-                            Grid.Column="1"
-                            VerticalScrollMode="Enabled"
-                            HorizontalScrollMode="Disabled">
-                            <StackPanel
-                                Orientation="Vertical"
-                                Spacing="4">
-                                <TextBlock
-                                    Style="{StaticResource TitleTextBlockStyle}"
-                                    Text="{x:Bind IllustVM.Illust.Title, FallbackValue=''}"
-                                    TextWrapping="Wrap" />
-                                <TextBlock
-                                    Style="{StaticResource BodyTextBlockStyle}"
-                                    Text="{x:Bind IllustVM.Illust.Description, FallbackValue=''}"
-                                    TextWrapping="Wrap" />
-                                <ItemsControl ItemsSource="{x:Bind IllustVM.Illust.Tags, FallbackValue={x:Null}}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate x:DataType="m:Tag"
-                                                      x:DefaultBindMode="OneTime">
-                                            <HyperlinkButton
-                                                Command="{StaticResource NavigateToTagCommand}"
-                                                CommandParameter="{x:Bind}">
-                                                <TextBlock>
-                                                    <Run Text="#" /><Run Text="{x:Bind Name}" />
-                                                </TextBlock>
-                                            </HyperlinkButton>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <tk:WrapPanel
-                                                Orientation="Horizontal"
-                                                HorizontalSpacing="8"
-                                                VerticalSpacing="2" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
-                                <StackPanel Orientation="Horizontal" Spacing="4">
-                                    <controls:PixivImage
-                                        x:Name="userAvatar"
-                                        Height="50"
-                                        Width="50"
-                                        ImageInfo="{x:Bind IllustVM.Illust.User.Avatar, FallbackValue={x:Null}}" />
-                                    <HyperlinkButton
-                                        Grid.Row="2"
-                                        FontSize="16"
-                                        Command="{StaticResource NavigateToUserCommand}"
-                                        CommandParameter="{x:Bind IllustVM.Illust.User, FallbackValue={x:Null}}"
-                                        Click="JumpToUser_Clicked">
-                                        <TextBlock
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ListView
+                Grid.Column="0"
+                ItemsSource="{x:Bind _vm.Illusts}"
+                SelectedItem="{x:Bind _vm.SelectedIllust, Mode=TwoWay}"
+                SelectedIndex="{x:Bind _vm.SelectedIndex, Mode=TwoWay}"
+                ItemContainerStyle="{StaticResource ListViewItemGridStyle}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="vmo:IllustHolderVM">
+                        <controls:PixivImage
+                            Height="100"
+                            Width="100"
+                            ImageInfo="{x:Bind IllustVM.Preview, FallbackValue={x:Null}, Mode=OneWay}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ContentControl
+                Grid.Column="1"
+                Content="{x:Bind _vm.SelectedIllust, Mode=OneWay}"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch">
+                <ContentControl.ContentTemplate>
+                    <DataTemplate x:DataType="vmo:IllustHolderVM"
+                                  x:DefaultBindMode="OneWay">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="200" />
+                            </Grid.ColumnDefinitions>
+                            <ContentControl
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                Content="{x:Bind IllustVM, FallbackValue={x:Null}}">
+                                <ContentControl.ContentTemplateSelector>
+                                    <controls:AnimatableIllustTemplateSelector>
+                                        <controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
+                                            <DataTemplate x:DataType="vm:IllustVM"
+                                                          x:DefaultBindMode="OneTime">
+                                                <FlipView
+                                                    Background="Transparent"
+                                                    ItemsSource="{x:Bind Illust.Pages}">
+                                                    <FlipView.ItemTemplate>
+                                                        <DataTemplate x:DataType="m:IllustPage">
+                                                            <ScrollViewer
+                                                                x:Name="scrollViewer"
+                                                                ZoomMode="Enabled"
+                                                                MaxZoomFactor="100"
+                                                                MinZoomFactor="1"
+                                                                HorizontalScrollBarVisibility="Auto"
+                                                                VerticalScrollBarVisibility="Auto">
+                                                                <commonControls:SizeTracker
+                                                                    HorizontalContentAlignment="Center"
+                                                                    VerticalContentAlignment="Center"
+                                                                    TrackedElement="{Binding ElementName=scrollViewer}">
+                                                                    <controls:PixivImage ImageInfo="{x:Bind Original}" />
+                                                                </commonControls:SizeTracker>
+                                                            </ScrollViewer>
+                                                        </DataTemplate>
+                                                    </FlipView.ItemTemplate>
+                                                </FlipView>
+                                            </DataTemplate>
+                                        </controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
+                                        <controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
+                                            <DataTemplate x:DataType="vm:IllustVM"
+                                                          x:DefaultBindMode="OneTime">
+                                                <controls:AnimatedIllust Illust="{x:Bind Illust}" />
+                                            </DataTemplate>
+                                        </controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
+                                    </controls:AnimatableIllustTemplateSelector>
+                                </ContentControl.ContentTemplateSelector>
+                            </ContentControl>
+                            <ScrollViewer
+                                Grid.Column="1"
+                                VerticalScrollMode="Enabled"
+                                HorizontalScrollMode="Disabled">
+                                <StackPanel
+                                    Orientation="Vertical"
+                                    Spacing="4">
+                                    <TextBlock
+                                        Style="{StaticResource TitleTextBlockStyle}"
+                                        Text="{x:Bind IllustVM.Illust.Title, FallbackValue=''}"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        Style="{StaticResource BodyTextBlockStyle}"
+                                        Text="{x:Bind IllustVM.Illust.Description, FallbackValue=''}"
+                                        TextWrapping="Wrap" />
+                                    <ItemsControl ItemsSource="{x:Bind IllustVM.Illust.Tags, FallbackValue={x:Null}}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="m:Tag"
+                                                          x:DefaultBindMode="OneTime">
+                                                <HyperlinkButton
+                                                    Command="{StaticResource NavigateToTagCommand}"
+                                                    CommandParameter="{x:Bind}">
+                                                    <TextBlock>
+                                                        <Run Text="#" /><Run Text="{x:Bind Name}" />
+                                                    </TextBlock>
+                                                </HyperlinkButton>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <tk:WrapPanel
+                                                    Orientation="Horizontal"
+                                                    HorizontalSpacing="8"
+                                                    VerticalSpacing="2" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <controls:PixivImage
+                                            x:Name="userAvatar"
+                                            Height="50"
+                                            Width="50"
+                                            ImageInfo="{x:Bind IllustVM.Illust.User.Avatar, FallbackValue={x:Null}}" />
+                                        <HyperlinkButton
+                                            Grid.Row="2"
                                             FontSize="16"
-                                            Text="{x:Bind IllustVM.Illust.User.Name, FallbackValue={x:Null}}"
-                                            TextWrapping="WrapWholeWords" />
-                                    </HyperlinkButton>
+                                            Command="{StaticResource NavigateToUserCommand}"
+                                            CommandParameter="{x:Bind IllustVM.Illust.User, FallbackValue={x:Null}}"
+                                            Click="JumpToUser_Clicked">
+                                            <TextBlock
+                                                FontSize="16"
+                                                Text="{x:Bind IllustVM.Illust.User.Name, FallbackValue={x:Null}}"
+                                                TextWrapping="WrapWholeWords" />
+                                        </HyperlinkButton>
+                                    </StackPanel>
+                                    <TextBlock
+                                        Foreground="Gray"
+                                        TextWrapping="WrapWholeWords"
+                                        IsColorFontEnabled="True">
+                                        <Run FontFamily="Segoe MDL2 Assets" Text="&#xEB51;" /><Run Text="{x:Bind IllustVM.Illust.TotalBookmarks, FallbackValue=''}" />
+                                        <Run FontFamily="Segoe MDL2 Assets" Text="&#xE7B3;" /><Run Text="{x:Bind IllustVM.Illust.TotalView, FallbackValue=''}" />
+                                        <LineBreak />
+                                        <Run Text="{x:Bind IllustVM.CreationTimeDisplayString, FallbackValue=''}" />
+                                    </TextBlock>
                                 </StackPanel>
-                                <TextBlock
-                                    Foreground="Gray"
-                                    TextWrapping="WrapWholeWords"
-                                    IsColorFontEnabled="True">
-                                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xEB51;" /><Run Text="{x:Bind IllustVM.Illust.TotalBookmarks, FallbackValue=''}" />
-                                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE7B3;" /><Run Text="{x:Bind IllustVM.Illust.TotalView, FallbackValue=''}" />
-                                    <LineBreak />
-                                    <Run Text="{x:Bind IllustVM.CreationTimeDisplayString, FallbackValue=''}" />
-                                </TextBlock>
-                            </StackPanel>
-                        </ScrollViewer>
-                    </Grid>
-                </DataTemplate>
-            </tk:MasterDetailsView.DetailsTemplate>
-        </tk:MasterDetailsView>
+                            </ScrollViewer>
+                        </Grid>
+                    </DataTemplate>
+                </ContentControl.ContentTemplate>
+            </ContentControl>
+        </Grid>
     </Grid>
 </Page>
