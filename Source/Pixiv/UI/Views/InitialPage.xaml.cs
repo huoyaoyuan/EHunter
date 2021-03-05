@@ -1,4 +1,5 @@
-﻿using EHunter.Pixiv.Messages;
+﻿using System.Composition;
+using EHunter.Pixiv.Messages;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 
@@ -10,6 +11,7 @@ namespace EHunter.Pixiv.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+    [Export, Shared]
     public sealed partial class InitialPage : Page, IRecipient<InitializationCompleteMessage>
     {
         public InitialPage()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Composition;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Reactive.Linq;
@@ -10,12 +11,14 @@ using Meowtrix.PixivApi;
 
 namespace EHunter.Pixiv.Services
 {
+    [Export, Export(typeof(ICustomResolver<PixivClient>)), Shared]
     public sealed class PixivClientService : ICustomResolver<PixivClient>, IDisposable
     {
         private PixivClient? _client;
         private HttpMessageHandler _effectivehandler;
         private readonly IDisposable _subscribeDisposable;
 
+        [ImportingConstructor]
         public PixivClientService(IProxySetting proxySetting, PixivSetting pixivSetting)
         {
             _subscribeDisposable = proxySetting.Proxy

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Composition;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -30,11 +31,13 @@ namespace EHunter.Pixiv.ViewModels
         public string CreationTimeDisplayString => Illust.Created.ToLocalTime().ToString("f", CultureInfo.CurrentCulture);
     }
 
+    [Export, Shared]
     public class IllustVMFactory
     {
         private readonly DownloadManager _downloadManager;
         private readonly IViewModelService _viewModelService;
 
+        [ImportingConstructor]
         public IllustVMFactory(DownloadManager downloadManager, IViewModelService viewModelService)
         {
             _downloadManager = downloadManager;

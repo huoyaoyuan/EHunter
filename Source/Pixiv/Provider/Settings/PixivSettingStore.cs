@@ -1,10 +1,13 @@
-﻿using EHunter.Services;
+﻿using System.Composition;
+using EHunter.Services;
 
 namespace EHunter.Pixiv.Settings
 {
+    [Export(typeof(IPixivSettingStore)), Shared]
     internal class PixivSettingStore : IPixivSettingStore
     {
         private readonly ISettingsStore _settingsStore;
+        [ImportingConstructor]
         public PixivSettingStore(ISettingsStore settingsStore)
             => _settingsStore = settingsStore.GetSubContainer("Pixiv");
 

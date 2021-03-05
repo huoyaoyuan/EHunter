@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Composition;
 using System.Threading.Tasks;
 using EHunter.Data;
 using EHunter.Pixiv.Data;
@@ -10,12 +11,14 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace EHunter.Pixiv.ViewModels
 {
+    [Export]
     public class LoginPageVM : ObservableObject
     {
         private readonly IPixivSettingStore _settingStore;
         private readonly PixivSetting _setting;
         private readonly PixivClientService _clientService;
 
+        [ImportingConstructor]
         public LoginPageVM(
             IPixivSettingStore settingStore,
             PixivSetting setting,

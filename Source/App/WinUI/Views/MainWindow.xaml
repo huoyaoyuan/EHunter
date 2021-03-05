@@ -4,28 +4,47 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:p="using:EHunter.Providers"
+    xmlns:vm="using:EHunter.UI.ViewModels"
+    xmlns:local="using:EHunter.UI.Views"
     mc:Ignorable="d">
     <NavigationView
-        SelectionChanged="NavigationView_SelectionChanged"
         IsBackButtonVisible="Collapsed"
-        MenuItemsSource="{x:Bind _providers}"
-        PaneDisplayMode="Top">
-        <NavigationView.MenuItemTemplate>
-            <DataTemplate x:DataType="p:IEHunterProvider">
-                <NavigationViewItem Content="{x:Bind Title}">
-                    <NavigationViewItem.Icon>
-                        <BitmapIcon ShowAsMonochrome="False" UriSource="{x:Bind IconUri}" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-            </DataTemplate>
-        </NavigationView.MenuItemTemplate>
-        <Frame x:Name="_frame" IsNavigationStackEnabled="False">
-            <Frame.ContentTransitions>
-                <TransitionCollection>
-                    <NavigationThemeTransition  />
-                </TransitionCollection>
-            </Frame.ContentTransitions>
-        </Frame>
+        IsSettingsVisible="False"
+        MenuItemsSource="{x:Bind ViewModel.TopNavigationEntries}"
+        PaneDisplayMode="Top"
+        SelectedItem="{x:Bind ViewModel.SelectedEntry, Mode=TwoWay}">
+        <NavigationView.FooterMenuItems>
+            <vm:GlyphNavigationEntry Title="Settings" ViewType="local:SettingsPage" Glyph="&#xE713;" />
+        </NavigationView.FooterMenuItems>
+        <NavigationView.MenuItemTemplateSelector>
+            <local:NavigationTemplateSelector>
+                <local:NavigationTemplateSelector.IconTemplate>
+                    <DataTemplate x:DataType="vm:IconNavigationEntry">
+                        <NavigationViewItem Content="{x:Bind Title}">
+                            <NavigationViewItem.Icon>
+                                <BitmapIcon ShowAsMonochrome="False" UriSource="{x:Bind IconUri}" />
+                            </NavigationViewItem.Icon>
+                        </NavigationViewItem>
+                    </DataTemplate>
+                </local:NavigationTemplateSelector.IconTemplate>
+                <local:NavigationTemplateSelector.GlyphTemplate>
+                    <DataTemplate x:DataType="vm:GlyphNavigationEntry">
+                        <NavigationViewItem Content="{x:Bind Title}">
+                            <NavigationViewItem.Icon>
+                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="{x:Bind Glyph}" />
+                            </NavigationViewItem.Icon>
+                        </NavigationViewItem>
+                    </DataTemplate>
+                </local:NavigationTemplateSelector.GlyphTemplate>
+            </local:NavigationTemplateSelector>
+        </NavigationView.MenuItemTemplateSelector>
+        <ContentControl
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            Content="{x:Bind local:Helpers.GetExport(CompositionContext, ViewModel.SelectedEntry.ViewType), Mode=OneWay, FallbackValue={x:Null}}">
+            <ContentControl.ContentTransitions>
+                <ContentThemeTransition />
+            </ContentControl.ContentTransitions>
+        </ContentControl>
     </NavigationView>
 </Window>

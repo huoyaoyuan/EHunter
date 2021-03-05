@@ -1,10 +1,10 @@
-﻿using EHunter.Data;
-using EHunter.Pixiv;
-using EHunter.Providers;
+﻿using System.Composition.Convention;
+using System.Composition.Hosting;
+using System.Linq;
+using System.Reflection;
 using EHunter.Services;
-using EHunter.Settings;
+using EHunter.UI.Composition;
 using EHunter.UI.Services;
-using EHunter.UI.ViewModels;
 using EHunter.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -29,28 +29,39 @@ namespace EHunter.UI
         /// </summary>
         public App()
         {
-            var providers = new IEHunterProvider[] { new PixivUIProvider() };
-
             var services = new ServiceCollection()
-                .AddSingleton<IViewModelService, ViewModelService>()
-                .AddSingleton<ISettingsStore, WinRTSettingsStore>()
-                .AddSingleton<ICommonSettingStore, CommonSettingStore>()
-                .AddCommonSettings()
-                .AddTransient<CommonSettingVM>()
-                .AddEHunterDbContext<EHunterDbContext>()
                 .AddMemoryCache(o =>
                 {
                     o.SizeLimit = 2 * (1L << 30);
                     o.CompactionPercentage = 0.9;
                 });
 
-            foreach (var provider in providers)
-            {
-                provider.ConfigureServices(services);
-                services.AddSingleton(provider);
-            }
+            var convensionBuilder = new ConventionBuilder();
+            convensionBuilder
+                .ForType<ViewModelService>()
+                .Export<IViewModelService>()
+                .Shared();
+            convensionBuilder
+                .ForType<WinRTSettingsStore>()
+                .Export<ISettingsStore>()
+                .Shared();
 
-            Ioc.Default.ConfigureServices(services.BuildServiceProvider());
+            _host = new ContainerConfiguration()
+                .WithAssemblies(new[]
+                    {
+                        "EHunter.Base",
+                        "EHunter.Common.UI",
+                        "EHunter.Data",
+                        "EHunter.Pixiv",
+                        "EHunter.Pixiv.UI",
+                        "EHunter.UI",
+                    }
+                    .Select(Assembly.Load))
+                .WithDefaultConventions(convensionBuilder)
+                .WithServiceCollection(services)
+                .CreateContainer();
+
+            Ioc.Default.ConfigureServices(new MEFServiceProvider(_host));
 
             InitializeComponent();
             Suspending += OnSuspending;
@@ -63,7 +74,7 @@ namespace EHunter.UI
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            _window = new MainWindow();
+            _window = _host.GetExport<MainWindow>();
             _window.Activate();
         }
 
@@ -80,5 +91,6 @@ namespace EHunter.UI
         }
 
         private Window? _window;
+        private readonly CompositionHost _host;
     }
 }

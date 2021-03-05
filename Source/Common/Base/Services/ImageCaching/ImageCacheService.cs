@@ -1,12 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System.Composition;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace EHunter.Services.ImageCaching
 {
+    [Export, Shared]
     public class ImageCacheService
     {
         private readonly IMemoryCache _memoryCache;
 
+        [ImportingConstructor]
         public ImageCacheService(IMemoryCache memoryCache) => _memoryCache = memoryCache;
 
         public async Task<ImageEntry> GetImageAsync(ImageRequest request, bool clearMemoryCache)

@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Composition;
 using System.Threading.Tasks;
-using EHunter.DependencyInjection;
 using EHunter.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Extensions.DependencyInjection;
 
 #pragma warning disable EF1001
 
 namespace EHunter.Data
 {
+    [Export(typeof(EHunterDbContextResolver<>)), Export(typeof(IDbContextFactoryResolver<>)), Shared]
     public sealed class EHunterDbContextResolver<TContext> :
-        ICustomResolver<IDbContextFactory<TContext>?>,
+        IDbContextFactoryResolver<TContext>,
         IDisposable
         where TContext : DbContext
     {
@@ -20,6 +20,7 @@ namespace EHunter.Data
         private readonly IDisposable _databaseSettingDisposable;
         private readonly object _memberLock = new();
 
+        [ImportingConstructor]
         public EHunterDbContextResolver(IDatabaseSetting setting)
         {
             _databaseSettingDisposable = setting.ConnectionString.Subscribe(
@@ -67,14 +68,5 @@ namespace EHunter.Data
                 _pool?.Dispose();
             }
         }
-    }
-
-    public static class DataDependencyInjectionExtensions
-    {
-        public static IServiceCollection AddEHunterDbContext<TContext>(this IServiceCollection serviceCollection)
-            where TContext : DbContext
-            => serviceCollection
-            .AddSingleton<EHunterDbContextResolver<TContext>>()
-            .AddConversion<ICustomResolver<IDbContextFactory<TContext>?>, EHunterDbContextResolver<TContext>>();
     }
 }

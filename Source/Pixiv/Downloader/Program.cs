@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using EHunter.Data;
-using EHunter.DependencyInjection;
 using EHunter.Pixiv.Data;
 using EHunter.Pixiv.Downloader.Manual;
 using EHunter.Pixiv.Services.Download;
@@ -45,9 +44,9 @@ using (var pContext = pFactory.CreateDbContext())
     await pContext.Database.MigrateAsync();
 
 var downloadService = new DownloaderService(
-    pixivClient.AsServiceResolver(),
-    eFactory.AsServiceResolver(),
-    pFactory.AsServiceResolver(),
+    new WrappedResolver<PixivClient>(pixivClient),
+    new WrappedDbContextFactory<EHunterDbContext>(eFactory),
+    new WrappedDbContextFactory<PixivDbContext>(pFactory),
     storageSetting);
 
 {
