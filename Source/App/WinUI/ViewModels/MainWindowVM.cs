@@ -16,10 +16,11 @@ namespace EHunter.UI.ViewModels
         public MainWindowVM([ImportMany] IEnumerable<IEHunterProvider> providers)
         {
             Providers = providers.ToImmutableArray();
-            TopNavigationEntries = Providers.Select(x => new NavigationEntry
+            TopNavigationEntries = Providers.Select(x => new IconNavigationEntry
             {
                 Title = x.Title,
-                ViewType = x.UIRootType
+                ViewType = x.UIRootType,
+                IconUri = x.IconUri
             }).ToArray();
         }
 

@@ -14,17 +14,30 @@
         PaneDisplayMode="Top"
         SelectedItem="{x:Bind ViewModel.SelectedEntry, Mode=TwoWay}">
         <NavigationView.FooterMenuItems>
-            <vm:NavigationEntry Title="Settings" ViewType="local:SettingsPage" />
+            <vm:GlyphNavigationEntry Title="Settings" ViewType="local:SettingsPage" Glyph="&#xE713;" />
         </NavigationView.FooterMenuItems>
-        <NavigationView.MenuItemTemplate>
-            <DataTemplate x:DataType="vm:NavigationEntry">
-                <NavigationViewItem Content="{x:Bind Title}">
-                    <!--<NavigationViewItem.Icon>
-                        <BitmapIcon ShowAsMonochrome="False" UriSource="{x:Bind IconUri}" />
-                    </NavigationViewItem.Icon>-->
-                </NavigationViewItem>
-            </DataTemplate>
-        </NavigationView.MenuItemTemplate>
+        <NavigationView.MenuItemTemplateSelector>
+            <local:NavigationTemplateSelector>
+                <local:NavigationTemplateSelector.IconTemplate>
+                    <DataTemplate x:DataType="vm:IconNavigationEntry">
+                        <NavigationViewItem Content="{x:Bind Title}">
+                            <NavigationViewItem.Icon>
+                                <BitmapIcon ShowAsMonochrome="False" UriSource="{x:Bind IconUri}" />
+                            </NavigationViewItem.Icon>
+                        </NavigationViewItem>
+                    </DataTemplate>
+                </local:NavigationTemplateSelector.IconTemplate>
+                <local:NavigationTemplateSelector.GlyphTemplate>
+                    <DataTemplate x:DataType="vm:GlyphNavigationEntry">
+                        <NavigationViewItem Content="{x:Bind Title}">
+                            <NavigationViewItem.Icon>
+                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="{x:Bind Glyph}" />
+                            </NavigationViewItem.Icon>
+                        </NavigationViewItem>
+                    </DataTemplate>
+                </local:NavigationTemplateSelector.GlyphTemplate>
+            </local:NavigationTemplateSelector>
+        </NavigationView.MenuItemTemplateSelector>
         <ContentControl
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
