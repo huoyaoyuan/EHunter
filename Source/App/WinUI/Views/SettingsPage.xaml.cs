@@ -12,8 +12,17 @@ namespace EHunter.UI.Views
     [Export]
     public sealed partial class SettingsPage : Page
     {
+        private CommonSettingVM? _viewModel;
         [Import]
-        public CommonSettingVM? ViewModel { get; set; }
+        public CommonSettingVM? ViewModel
+        {
+            get => _viewModel;
+            set
+            {
+                _viewModel = value;
+                Bindings.Update();
+            }
+        }
 
         public SettingsPage() => InitializeComponent();
     }
