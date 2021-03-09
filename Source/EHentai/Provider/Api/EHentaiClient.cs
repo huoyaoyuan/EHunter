@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
+using EHunter.EHentai.Api.Json;
 
 namespace EHunter.EHentai.Api
 {
@@ -77,8 +81,9 @@ namespace EHunter.EHentai.Api
 
         private static readonly Regex s_galleryRegex
             = new(@"e[x\-]hentai.org/g/(\d+)/([0-9a-f]+)", RegexOptions.Compiled | RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
+        private static readonly JsonSerializerOptions s_apiResponseOptions = new(JsonSerializerDefaults.Web);
 
-        public async Task GetPageAsync(Uri uri)
+        public async Task<ImmutableArray<GalleryMetadata>> GetPageAsync(Uri uri)
         {
             using var request = await _httpClient.GetStreamAsync(uri).ConfigureAwait(false);
 
@@ -95,8 +100,26 @@ namespace EHunter.EHentai.Api
                 var match = s_galleryRegex.Match(url);
                 int gid = int.Parse(match.Groups[1].Value, NumberFormatInfo.InvariantInfo);
                 string token = match.Groups[2].Value;
-                return (gid, token);
+                return new object[] { gid, token };
             }).ToArray();
+
+            var apiRequest = new
+            {
+                method = "gdata",
+                gidlist = galleries,
+                @namespace = 1
+            };
+            var content = JsonContent.Create(apiRequest);
+            await content.LoadIntoBufferAsync().ConfigureAwait(false);
+            using var apiResponse = await _httpClient.PostAsync("https://api.e-hentai.org/api.php", content).ConfigureAwait(false);
+            var rsp = await apiResponse.Content.ReadFromJsonAsync<EHentaiApiResponse>(s_apiResponseOptions).ConfigureAwait(false);
+
+            if (rsp is null)
+                throw new InvalidOperationException("Empty api response.");
+            if (rsp.Error != null)
+                throw new InvalidOperationException(rsp.Error);
+
+            return rsp.Galleries;
         }
     }
 }
