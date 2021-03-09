@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AngleSharp;
+using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
 
 namespace EHunter.EHentai.Api
 {
@@ -67,6 +73,30 @@ namespace EHunter.EHentai.Api
 
             _cookies.Add(new Cookie("ipb_member_id", memberId, null, "exhentai.org"));
             _cookies.Add(new Cookie("ipb_pass_hash", passHash, null, "exhentai.org"));
+        }
+
+        private static readonly Regex s_galleryRegex
+            = new(@"e[x\-]hentai.org/g/(\d+)/([0-9a-f]+)", RegexOptions.Compiled | RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
+
+        public async Task GetPageAsync(Uri uri)
+        {
+            using var request = await _httpClient.GetStreamAsync(uri).ConfigureAwait(false);
+
+            var config = Configuration.Default;
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(req => req.Content(request)).ConfigureAwait(false);
+            var table = document.QuerySelector<IHtmlTableElement>("table.itg");
+
+            var galleries = table.Rows.Skip(1).Select(r =>
+            {
+                string url = r.QuerySelector("td.glname")
+                    .QuerySelector<IHtmlAnchorElement>("a")
+                    .Href;
+                var match = s_galleryRegex.Match(url);
+                int gid = int.Parse(match.Groups[1].Value, NumberFormatInfo.InvariantInfo);
+                string token = match.Groups[2].Value;
+                return (gid, token);
+            }).ToArray();
         }
     }
 }
