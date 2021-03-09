@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -13,6 +12,7 @@ using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using EHunter.EHentai.Api.Json;
+using EHunter.EHentai.Api.Models;
 
 namespace EHunter.EHentai.Api
 {
@@ -83,7 +83,7 @@ namespace EHunter.EHentai.Api
             = new(@"e[x\-]hentai.org/g/(\d+)/([0-9a-f]+)", RegexOptions.Compiled | RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
         private static readonly JsonSerializerOptions s_apiResponseOptions = new(JsonSerializerDefaults.Web);
 
-        public async Task<ImmutableArray<GalleryMetadata>> GetPageAsync(Uri uri)
+        public async Task<IReadOnlyList<Gallery>> GetPageAsync(Uri uri)
         {
             using var request = await _httpClient.GetStreamAsync(uri).ConfigureAwait(false);
 
@@ -119,7 +119,7 @@ namespace EHunter.EHentai.Api
             if (rsp.Error != null)
                 throw new InvalidOperationException(rsp.Error);
 
-            return rsp.Galleries;
+            return rsp.Galleries.Select(g => new Gallery(this, uri, g)).ToArray();
         }
     }
 }
