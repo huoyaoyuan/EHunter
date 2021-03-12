@@ -25,6 +25,7 @@
                VerticalAlignment="Stretch" />
         <ProgressRing
             IsActive="{x:Bind _holder.IsLoading, FallbackValue=False}"
+            Width="24" Height="24"
             HorizontalAlignment="Center"
             VerticalAlignment="Center" />
     </Grid>

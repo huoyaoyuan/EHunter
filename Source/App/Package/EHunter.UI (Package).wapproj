@@ -38,10 +38,9 @@
     <ProjectGuid>0536649c-b5dd-482b-b620-2c1b03fcfab8</ProjectGuid>
     <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-    <DefaultLanguage>zh-CN</DefaultLanguage>
+    <DefaultLanguage>zh-Hans</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <AppxTargetsLocation Condition="'$(AppxTargetsLocation)'==''">$(MSBuildThisFileDirectory)build\</AppxTargetsLocation>
-    <EntryPointProjectUniqueName>..\WinUI\EHunter.UI.csproj</EntryPointProjectUniqueName>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
@@ -70,6 +69,20 @@
       <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
     </ProjectReference>
   </ItemGroup>
+  <PropertyGroup>
+    <Microsoft_ProjectReunion_AppXReference_props>$([MSBuild]::NormalizeDirectory('$(PkgMicrosoft_ProjectReunion)', 'build'))Microsoft.ProjectReunion.AppXReference.props</Microsoft_ProjectReunion_AppXReference_props>
+    <Microsoft_WinUI_AppX_targets>$([MSBuild]::NormalizeDirectory('$(PkgMicrosoft_ProjectReunion_WinUI)', 'build'))Microsoft.WinUI.AppX.targets</Microsoft_WinUI_AppX_targets>
+    <EntryPointProjectUniqueName>..\WinUI\EHunter.UI.csproj</EntryPointProjectUniqueName>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ProjectReunion" Version="[0.5.0-prerelease]">
+      <ExcludeAssets>all</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="[0.5.0-prerelease]">
+      <ExcludeAssets>all</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
-  <Import Project="$(AppxTargetsLocation)Microsoft.WinUI.AppX.targets" />
+  <Import Project="$(Microsoft_ProjectReunion_AppXReference_props)" />
+  <Import Project="$(Microsoft_WinUI_AppX_targets)" />
 </Project>

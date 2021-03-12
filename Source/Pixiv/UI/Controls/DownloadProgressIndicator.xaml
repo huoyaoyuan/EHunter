@@ -4,7 +4,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:tk="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     x:DefaultBindMode="OneWay"
     mc:Ignorable="d">
@@ -89,11 +88,11 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <!-- TODO: use ProgressRing when available -->
-        <tk:RadialProgressBar
+        <ProgressRing
             Height="20"
             Width="20"
             x:Name="progress"
+            IsIndeterminate="False"
             Minimum="0"
             Maximum="1"
             Visibility="Collapsed"

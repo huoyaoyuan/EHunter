@@ -7,8 +7,8 @@
 
   <ItemGroup>
     <PackageReference Include="Meowtrix.PixivApi" Version="0.1.5" />
-    <PackageReference Include="Microsoft.Toolkit" Version="8.0.0-preview4" />
-    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="8.0.0-preview4" />
+    <PackageReference Include="Microsoft.Toolkit" Version="8.0.0-preview5" />
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="8.0.0-preview5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4" PrivateAssets="All" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
     <PackageReference Include="System.Linq.Async" Version="5.0.0" />
