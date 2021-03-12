@@ -58,6 +58,7 @@
         <ProgressRing
             x:Name="waitingProgress"
             Grid.Row="1"
+            IsActive="False"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Width="40" Height="40"
