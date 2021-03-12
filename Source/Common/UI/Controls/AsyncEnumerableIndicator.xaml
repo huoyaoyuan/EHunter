@@ -55,15 +55,12 @@
             Style="{StaticResource SubheaderTextBlockStyle}"
             Margin="4" />
 
-        <!-- Not setting IsActive="False" here will cause no animation.
-             WinUI 3 Preview 3 -->
         <ProgressRing
             x:Name="waitingProgress"
-            IsActive="False"
             Grid.Row="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
+            Width="40" Height="40"
             Margin="4" />
-
     </Grid>
 </UserControl>
