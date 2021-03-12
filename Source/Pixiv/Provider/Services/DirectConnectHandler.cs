@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Security;
 using System.Net.Sockets;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,6 +20,14 @@ namespace EHunter.Pixiv.Services
                     "oauth.secure.pixiv.net" => "210.140.131.199",
                     "app-api.pixiv.net" => "210.140.131.199",
                     "i.pximg.net" => "210.140.92.143",
+                    _ => throw new InvalidOperationException("This handler only accepts Pixiv api hosts.")
+                };
+
+                string expectedCertName = context.DnsEndPoint.Host switch
+                {
+                    "oauth.secure.pixiv.net" => "*.pixiv.net",
+                    "app-api.pixiv.net" => "*.pixiv.net",
+                    "i.pximg.net" => "*.pximg.net",
                     _ => throw new InvalidOperationException("This handler only accepts Pixiv api hosts.")
                 };
 
@@ -41,10 +50,12 @@ namespace EHunter.Pixiv.Services
                             if (error == SslPolicyErrors.RemoteCertificateNameMismatch
                                 && cert != null)
                             {
-                                // TODO: Parse the X509Cert correctly
+                                if (cert is not X509Certificate2 cert2)
+                                    return false;
 
-                                if (cert.Subject.Contains("pixiv", StringComparison.Ordinal)
-                                    || cert.Subject.Contains("pximg", StringComparison.Ordinal))
+                                string name = cert2.GetNameInfo(X509NameType.DnsName, false);
+
+                                if (name == expectedCertName)
                                     return true;
                             }
 
