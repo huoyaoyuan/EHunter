@@ -105,6 +105,8 @@ namespace EHunter.Pixiv.ViewModels
 
         public void LoginWithPassword() => PerformLogin(_clientService.LoginAsync(Username, Password));
 
+        public void LoginWithWebView(Func<string, Task<Uri>> browserTask) => PerformLogin(_clientService.LoginAsync(browserTask));
+
         public void LoginWithToken() => PerformLogin(_clientService.LoginAsync(RefreshToken));
 
         private async void PerformLogin(Task<string> loginTask)

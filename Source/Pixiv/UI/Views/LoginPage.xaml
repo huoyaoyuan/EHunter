@@ -101,7 +101,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid
-            Height="420"
+            Height="300"
             Width="400"
             Padding="20"
             Background="#40808080">
@@ -139,22 +139,13 @@
                             Spacing="4"
                             x:Name="passwordLogin"
                             Visibility="Collapsed">
-                    <TextBox x:Uid="Username"
-                             x:Name="usernameBox"
-                             Text="{x:Bind _vm.Username}" />
-                    <PasswordBox x:Uid="Password"
-                                 x:Name="passwordBox"
-                                 Password="{x:Bind _vm.Password}" />
-                    <Button x:Uid="LoginButton"
-                            x:Name="passwordLoginButton"
-                            Click="{x:Bind _vm.LoginWithPassword}" />
+                    <Button x:Uid="LoginButton" Click="DoPasswordLogin" />
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
                             Spacing="4"
                             x:Name="tokenLogin"
                             Visibility="Collapsed">
-                    <PasswordBox Header="Token"
-                                 x:Name="tokenBox"
+                    <PasswordBox x:Name="tokenBox"
                                  Password="{x:Bind _vm.RefreshToken}" />
                     <Button x:Uid="LoginButton"
                             x:Name="tokenLoginButton"
@@ -181,6 +172,15 @@
                     x:Uid="LoggedIn"
                     Style="{StaticResource SubtitleTextBlockStyle}" />
             </StackPanel>
+        </Grid>
+        <Grid
+            x:Name="loginWebView"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Visibility="Collapsed">
+            <WebView2
+                x:Name="webView"
+                Margin="40" />
         </Grid>
         <StackPanel
             Grid.Row="1"

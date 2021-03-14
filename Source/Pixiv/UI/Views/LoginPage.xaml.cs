@@ -1,7 +1,11 @@
-﻿using EHunter.Pixiv.Messages;
+﻿using System;
+using System.Threading.Tasks;
+using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.ViewModels;
+using EHunter.Pixiv.Views.Login;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 
@@ -31,6 +35,21 @@ namespace EHunter.Pixiv.Views
         {
             loginFailedMessage.Text = message.Exception.Message;
             FlyoutBase.ShowAttachedFlyout(loginPanel);
+        }
+
+        private void DoPasswordLogin(object sender, RoutedEventArgs e)
+        {
+            _vm.LoginWithWebView(async url =>
+            {
+                var dialog = new BrowserLoginDialog
+                {
+                    XamlRoot = XamlRoot,
+                    NavigateUrl = new Uri(url)
+                };
+                await dialog.ShowAsync();
+
+                return dialog.ResultUrl ?? throw new TaskCanceledException();
+            });
         }
     }
 }
