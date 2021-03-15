@@ -45,6 +45,14 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
+            <TextBlock
+                x:Name="tagText"
+                Visibility="Collapsed"
+                Style="{StaticResource TitleTextBlockStyle}"
+                Margin="4">
+                <Run Text="#" /><Run Text="{x:Bind VM.Tag.Name}" />
+            </TextBlock>
+            
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -65,14 +73,6 @@
                     HorizontalContentAlignment="Center"
                     Click="{x:Bind VM.Refresh}" />
             </Grid>
-
-            <TextBlock
-                x:Name="tagText"
-                Visibility="Collapsed"
-                Style="{StaticResource TitleTextBlockStyle}"
-                Margin="4">
-                <Run Text="#" /><Run Text="{x:Bind VM.Tag.Name}" />
-            </TextBlock>
 
             <tk:Expander
                 x:Uid="SearchOptions"

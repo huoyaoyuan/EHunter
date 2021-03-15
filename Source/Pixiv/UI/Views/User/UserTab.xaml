@@ -81,6 +81,8 @@
             <ProgressRing
                 x:Name="gotoProgress"
                 Grid.Row="2" Grid.ColumnSpan="2"
+                Width="32" Height="32"
+                IsActive="False"
                 Margin="4" />
         </Grid>
 
