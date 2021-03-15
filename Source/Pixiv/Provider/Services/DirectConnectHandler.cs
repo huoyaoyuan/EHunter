@@ -20,6 +20,7 @@ namespace EHunter.Pixiv.Services
                     "oauth.secure.pixiv.net" => "210.140.131.199",
                     "app-api.pixiv.net" => "210.140.131.199",
                     "i.pximg.net" => "210.140.92.143",
+                    "s.pximg.net" => "210.140.92.143",
                     _ => throw new InvalidOperationException("This handler only accepts Pixiv api hosts.")
                 };
 
@@ -28,6 +29,7 @@ namespace EHunter.Pixiv.Services
                     "oauth.secure.pixiv.net" => "*.pixiv.net",
                     "app-api.pixiv.net" => "*.pixiv.net",
                     "i.pximg.net" => "*.pximg.net",
+                    "s.pximg.net" => "*.pximg.net",
                     _ => throw new InvalidOperationException("This handler only accepts Pixiv api hosts.")
                 };
 
