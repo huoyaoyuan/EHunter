@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="EHunter.Pixiv.Views.LoginPage"
+    x:Class="EHunter.Pixiv.Views.Login.LoginPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -51,8 +51,6 @@
                     <VisualState.Setters>
                         <Setter Target="loginProgress.IsActive" Value="True" />
                         <Setter Target="loginOption.IsEnabled" Value="False" />
-                        <Setter Target="usernameBox.IsEnabled" Value="False" />
-                        <Setter Target="passwordBox.IsEnabled" Value="False" />
                         <Setter Target="tokenBox.IsEnabled" Value="False" />
                         <Setter Target="passwordLoginButton.IsEnabled" Value="False" />
                         <Setter Target="tokenLoginButton.IsEnabled" Value="False" />
@@ -101,7 +99,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid
-            Height="420"
+            Height="350"
             Width="400"
             Padding="20"
             Background="#40808080">
@@ -139,22 +137,15 @@
                             Spacing="4"
                             x:Name="passwordLogin"
                             Visibility="Collapsed">
-                    <TextBox x:Uid="Username"
-                             x:Name="usernameBox"
-                             Text="{x:Bind _vm.Username}" />
-                    <PasswordBox x:Uid="Password"
-                                 x:Name="passwordBox"
-                                 Password="{x:Bind _vm.Password}" />
                     <Button x:Uid="LoginButton"
                             x:Name="passwordLoginButton"
-                            Click="{x:Bind _vm.LoginWithPassword}" />
+                            Click="DoPasswordLogin" />
                 </StackPanel>
                 <StackPanel Orientation="Vertical"
                             Spacing="4"
                             x:Name="tokenLogin"
                             Visibility="Collapsed">
-                    <PasswordBox Header="Token"
-                                 x:Name="tokenBox"
+                    <PasswordBox x:Name="tokenBox"
                                  Password="{x:Bind _vm.RefreshToken}" />
                     <Button x:Uid="LoginButton"
                             x:Name="tokenLoginButton"

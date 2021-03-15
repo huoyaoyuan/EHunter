@@ -48,20 +48,6 @@ namespace EHunter.Pixiv.ViewModels
             }
         }
 
-        private string _username = string.Empty;
-        public string Username
-        {
-            get => _username;
-            set => SetProperty(ref _username, value);
-        }
-
-        private string _password = string.Empty;
-        public string Password
-        {
-            get => _password;
-            set => SetProperty(ref _password, value);
-        }
-
         private string _refreshToken = string.Empty;
         public string RefreshToken
         {
@@ -103,7 +89,7 @@ namespace EHunter.Pixiv.ViewModels
             set => ConnectionMode = (PixivConnectionMode)value;
         }
 
-        public void LoginWithPassword() => PerformLogin(_clientService.LoginAsync(Username, Password));
+        public void LoginWithWebView(Func<string, Task<Uri>> browserTask) => PerformLogin(_clientService.LoginAsync(browserTask));
 
         public void LoginWithToken() => PerformLogin(_clientService.LoginAsync(RefreshToken));
 

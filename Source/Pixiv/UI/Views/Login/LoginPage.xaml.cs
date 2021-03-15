@@ -1,14 +1,17 @@
-﻿using EHunter.Pixiv.Messages;
+﻿using System;
+using System.Threading.Tasks;
+using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace EHunter.Pixiv.Views
+namespace EHunter.Pixiv.Views.Login
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -31,6 +34,21 @@ namespace EHunter.Pixiv.Views
         {
             loginFailedMessage.Text = message.Exception.Message;
             FlyoutBase.ShowAttachedFlyout(loginPanel);
+        }
+
+        private void DoPasswordLogin(object sender, RoutedEventArgs e)
+        {
+            _vm.LoginWithWebView(async url =>
+            {
+                var dialog = new BrowserLoginDialog
+                {
+                    XamlRoot = XamlRoot,
+                    NavigateUrl = new Uri(url)
+                };
+                await dialog.ShowAsync();
+
+                return dialog.ResultUrl ?? throw new TaskCanceledException();
+            });
         }
     }
 }

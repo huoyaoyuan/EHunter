@@ -54,8 +54,8 @@ namespace EHunter.Pixiv.Services
             Debug.Assert(_effectivehandler != null);
         }
 
-        public Task<string> LoginAsync(string username, string password)
-            => LoginAsync(c => c.LoginAsync(username, password));
+        public Task<string> LoginAsync(Func<string, Task<Uri>> browserTask)
+            => LoginAsync(c => c.LoginAsync(browserTask));
 
         public Task<string> LoginAsync(string refreshToken)
             => LoginAsync(c => c.LoginAsync(refreshToken));
