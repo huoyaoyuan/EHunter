@@ -132,7 +132,7 @@
   <data name="CloseAppBarButton.Label" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="CopyLinkToolTip.Content" xml:space="preserve">
+  <data name="CopyLink.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Copy Link</value>
   </data>
   <data name="Database_Connected.Value" xml:space="preserve">
@@ -294,7 +294,7 @@
   <data name="OpenAppBarButton.Label" xml:space="preserve">
     <value>Open</value>
   </data>
-  <data name="OpenLinkToolTip.Content" xml:space="preserve">
+  <data name="OpenLink.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Open Link</value>
   </data>
   <data name="Password.Header" xml:space="preserve">
@@ -315,7 +315,7 @@
   <data name="PreviousDay.Content" xml:space="preserve">
     <value>Previous</value>
   </data>
-  <data name="RefreshButtonToolTip.Content" xml:space="preserve">
+  <data name="RefreshButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Refresh</value>
   </data>
   <data name="SearchButton.Content" xml:space="preserve">
