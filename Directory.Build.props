@@ -8,8 +8,6 @@
     <AnalysisLevel>5</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-
-    <NoWarn>$(NoWarn);CS8305</NoWarn>
   </PropertyGroup>
 
 </Project>
