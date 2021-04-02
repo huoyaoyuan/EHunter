@@ -15,9 +15,12 @@
             x:Name="flipView"
             ItemsSource="{x:Bind SourceList.ItemsSource, Mode=OneWay}">
             <FlipView.Background>
+                <!-- TODO: Use AcrylicInAppFillColorDefaultInverseBrush when available -->
                 <AcrylicBrush
-                    TintOpacity="0.5"
-                    BackgroundSource="Backdrop" />
+                    TintColor="{ThemeResource SystemBaseMediumColor}"
+                    TintOpacity="0.15"
+                    BackgroundSource="Backdrop"
+                    FallbackColor="{ThemeResource SystemBaseMediumColor}" />
             </FlipView.Background>
             <FlipView.ItemTemplateSelector>
                 <local:AnimatableIllustTemplateSelector>
