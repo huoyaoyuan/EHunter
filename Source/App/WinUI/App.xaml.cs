@@ -2,12 +2,12 @@
 using System.Composition.Hosting;
 using System.Linq;
 using System.Reflection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using EHunter.Services;
 using EHunter.UI.Composition;
 using EHunter.UI.Services;
 using EHunter.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 
 #nullable enable

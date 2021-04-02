@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using EHunter.Pixiv.Messages;
 using Meowtrix.PixivApi.Models;
-using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace EHunter.Pixiv.Commands
 {

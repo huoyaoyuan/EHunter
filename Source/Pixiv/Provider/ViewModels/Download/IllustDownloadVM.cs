@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Pixiv.Services.Download;
 using Meowtrix.PixivApi.Models;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using static EHunter.Pixiv.ViewModels.Download.IllustDownloadState;
 
 namespace EHunter.Pixiv.ViewModels.Download

@@ -1,6 +1,6 @@
 ﻿using System.Composition;
+using CommunityToolkit.Mvvm.Messaging;
 using EHunter.Pixiv.Messages;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,

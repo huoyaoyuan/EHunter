@@ -1,6 +1,6 @@
-﻿using EHunter.Pixiv.Messages;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.ViewModels.Search;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 

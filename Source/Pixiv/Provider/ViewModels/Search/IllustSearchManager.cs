@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Composition;
+using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.DependencyInjection;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace EHunter.Pixiv.ViewModels.Search
 {

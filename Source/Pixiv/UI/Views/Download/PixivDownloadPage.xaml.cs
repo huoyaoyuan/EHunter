@@ -1,5 +1,5 @@
-﻿using EHunter.Pixiv.ViewModels.Download;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using EHunter.Pixiv.ViewModels.Download;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,

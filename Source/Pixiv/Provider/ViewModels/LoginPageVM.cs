@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Composition;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using EHunter.Data;
 using EHunter.Pixiv.Data;
 using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.Services;
 using EHunter.Pixiv.Settings;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace EHunter.Pixiv.ViewModels
 {
