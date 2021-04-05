@@ -14,12 +14,21 @@
         <FlipView
             x:Name="flipView"
             ItemsSource="{x:Bind SourceList.ItemsSource, Mode=OneWay}">
+            <FlipView.Background>
+                <!-- TODO: Use AcrylicInAppFillColorDefaultInverseBrush when available -->
+                <AcrylicBrush
+                    TintColor="{ThemeResource SystemBaseMediumColor}"
+                    TintOpacity="0.15"
+                    BackgroundSource="Backdrop"
+                    FallbackColor="{ThemeResource SystemBaseMediumColor}" />
+            </FlipView.Background>
             <FlipView.ItemTemplateSelector>
                 <local:AnimatableIllustTemplateSelector>
                     <local:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
                         <DataTemplate x:DataType="vm:IllustVM"
                                       x:DefaultBindMode="OneTime">
                             <FlipView
+                                Background="Transparent"
                                 ItemsSource="{x:Bind Illust.Pages}">
                                 <FlipView.ItemsPanel>
                                     <ItemsPanelTemplate>
