@@ -13,6 +13,7 @@ namespace EHunter.Pixiv.Services
     {
         private readonly HttpMessageInvoker _handler = new(new SocketsHttpHandler
         {
+            UseProxy = false,
             ConnectCallback = async (context, ct) =>
             {
                 string ip = context.DnsEndPoint.Host switch
