@@ -9,11 +9,6 @@
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
-
-            <!-- TODO: workaround for Reunion0.5-prerelease
-                 https://github.com/microsoft/microsoft-ui-xaml/issues/4496 -->
-            <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#F9F9F9" />
-            <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="#F9F9F9" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

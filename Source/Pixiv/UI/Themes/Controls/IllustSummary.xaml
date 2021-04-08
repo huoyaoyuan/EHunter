@@ -2,8 +2,8 @@
     x:Class="EHunter.Pixiv.Themes.IllustSummaryTheme"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:EHunter.Pixiv.Controls"
-    xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers">
+    xmlns:tktr="using:CommunityToolkit.WinUI.UI.Triggers"
+    xmlns:controls="using:EHunter.Pixiv.Controls">
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="IllustSummarySetTagBackground" Color="#C0404040" />

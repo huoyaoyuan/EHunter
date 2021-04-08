@@ -4,12 +4,12 @@ using System.Collections.ObjectModel;
 using System.Composition;
 using System.Linq;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Services.Download;
 using EHunter.Pixiv.Settings;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace EHunter.Pixiv.ViewModels.Download
 {

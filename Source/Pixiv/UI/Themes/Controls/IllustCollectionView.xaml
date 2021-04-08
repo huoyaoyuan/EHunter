@@ -58,13 +58,11 @@
                             Grid.Row="1"
                             Orientation="Horizontal">
                             <Button
+                                x:Uid="RefreshButton"
                                 Margin="4"
                                 Visibility="{TemplateBinding RefreshButtonVisibility}"
                                 Click="{x:Bind ViewModel.Refresh}">
                                 <SymbolIcon Symbol="Refresh" />
-                                <ToolTipService.ToolTip>
-                                    <ToolTip x:Uid="RefreshButtonToolTip" />
-                                </ToolTipService.ToolTip>
                             </Button>
                             <ComboBox
                                 Margin="4"

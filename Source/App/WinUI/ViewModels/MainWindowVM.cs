@@ -2,8 +2,8 @@
 using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
+using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Providers;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 #nullable enable
 

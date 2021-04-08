@@ -8,8 +8,12 @@
     <AnalysisLevel>5</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-
-    <NoWarn>$(NoWarn);CS8305</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- https://github.com/microsoft/microsoft-ui-xaml/issues/3648 -->
+    <None Remove="**\*.resw" />
+    <PRIResource Include="**\*.resw" />
+  </ItemGroup>
 
 </Project>

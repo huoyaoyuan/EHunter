@@ -4,10 +4,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tktr="using:CommunityToolkit.WinUI.UI.Triggers"
     xmlns:commands="using:EHunter.Pixiv.Commands"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
-    xmlns:tktr="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     mc:Ignorable="d"
     x:DefaultBindMode="OneWay">
     <UserControl.Resources>
@@ -143,26 +143,22 @@
                         VerticalAlignment="Center"
                         Foreground="{ThemeResource SystemBaseMediumColor}" />
                     <Button
+                        x:Uid="CopyLink"
                         Style="{ThemeResource TextBlockButtonStyle}"
                         CommandParameter="{x:Bind VM.Url}">
                         <Button.Command>
                             <commands:CopyUrlCommand />
                         </Button.Command>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE71B;" />
-                        <ToolTipService.ToolTip>
-                            <ToolTip x:Uid="CopyLinkToolTip" />
-                        </ToolTipService.ToolTip>
                     </Button>
                     <Button
+                        x:Uid="OpenLink"
                         Style="{ThemeResource TextBlockButtonStyle}"
                         CommandParameter="{x:Bind VM.Url}">
                         <Button.Command>
                             <commands:OpenUrlCommand />
                         </Button.Command>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A7;" />
-                        <ToolTipService.ToolTip>
-                            <ToolTip x:Uid="OpenLinkToolTip" />
-                        </ToolTipService.ToolTip>
                     </Button>
                 </StackPanel>
                 <ComboBox

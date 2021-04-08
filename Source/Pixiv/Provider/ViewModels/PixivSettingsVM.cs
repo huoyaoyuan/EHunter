@@ -1,8 +1,8 @@
 ﻿using System.Composition;
+using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Settings;
 using Meowtrix.PixivApi;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace EHunter.Pixiv.ViewModels
 {

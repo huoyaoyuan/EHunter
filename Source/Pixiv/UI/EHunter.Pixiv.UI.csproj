@@ -7,20 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ProjectReunion" Version="0.5.0-prerelease" />
-    <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.5.0-prerelease" />
-    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.5.0-prerelease" />
-    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Layout" Version="8.0.0-preview5" />
-    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Primitives" Version="8.0.0-preview5" />
+    <PackageReference Include="Microsoft.ProjectReunion" Version="0.5.0" />
+    <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.5.0" />
+    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.5.0" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Layout" Version="7.0.1" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\UI\EHunter.Common.UI.csproj" />
     <ProjectReference Include="..\Provider\EHunter.Pixiv.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PRIResource Include="Strings\**\*.resw" />
   </ItemGroup>
 
 </Project>

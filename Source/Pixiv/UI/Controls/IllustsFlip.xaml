@@ -14,12 +14,21 @@
         <FlipView
             x:Name="flipView"
             ItemsSource="{x:Bind SourceList.ItemsSource, Mode=OneWay}">
+            <FlipView.Background>
+                <!-- TODO: Use AcrylicInAppFillColorDefaultInverseBrush when available -->
+                <AcrylicBrush
+                    TintColor="{ThemeResource SystemBaseMediumColor}"
+                    TintOpacity="0.15"
+                    BackgroundSource="Backdrop"
+                    FallbackColor="{ThemeResource SystemBaseMediumColor}" />
+            </FlipView.Background>
             <FlipView.ItemTemplateSelector>
                 <local:AnimatableIllustTemplateSelector>
                     <local:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
                         <DataTemplate x:DataType="vm:IllustVM"
                                       x:DefaultBindMode="OneTime">
                             <FlipView
+                                Background="Transparent"
                                 ItemsSource="{x:Bind Illust.Pages}">
                                 <FlipView.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -50,14 +59,13 @@
             VerticalAlignment="Top"
             VerticalContentAlignment="Stretch"
             x:DefaultBindMode="OneWay">
-            <CommandBar.Content>
-                <StackPanel Orientation="Horizontal">
-                    <local:DownloadProgressIndicator
+            <AppBarElementContainer
+                VerticalContentAlignment="Center">
+                <local:DownloadProgressIndicator
                         VerticalAlignment="Center"
                         Margin="2"
                         VM="{x:Bind flipView.SelectedItem.(vm:IllustVM.Downloadable)}" />
-                </StackPanel>
-            </CommandBar.Content>
+            </AppBarElementContainer>
             <AppBarButton x:Uid="DownloadAppBarButton"
                           Icon="Download"
                           Command="{x:Bind flipView.SelectedItem.(vm:IllustVM.Downloadable).DownloadCommand}" />

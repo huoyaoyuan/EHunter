@@ -2,14 +2,13 @@
 using System.Composition.Hosting;
 using System.Linq;
 using System.Reflection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using EHunter.Services;
 using EHunter.UI.Composition;
 using EHunter.UI.Services;
 using EHunter.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
-using Windows.ApplicationModel;
 
 #nullable enable
 
@@ -64,7 +63,6 @@ namespace EHunter.UI
             Ioc.Default.ConfigureServices(new MEFServiceProvider(_host));
 
             InitializeComponent();
-            Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -76,18 +74,6 @@ namespace EHunter.UI
         {
             _window = _host.GetExport<MainWindow>();
             _window.Activate();
-        }
-
-        /// <summary>
-        /// Invoked when application execution is being suspended.  Application state is saved
-        /// without knowing whether the application will be terminated or resumed with the contents
-        /// of memory still intact.
-        /// </summary>
-        /// <param name="sender">The source of the suspend request.</param>
-        /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
-        {
-            // Save application state and stop any background activity
         }
 
         private Window? _window;

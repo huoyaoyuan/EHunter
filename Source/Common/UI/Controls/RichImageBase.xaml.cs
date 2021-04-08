@@ -1,7 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using EHunter.Services.ImageCaching;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -70,15 +71,8 @@ namespace EHunter.Controls
 
                 var source = new BitmapImage();
 
-                // https://github.com/microsoft/CsWinRT/issues/682
-                // only WinRT stream with SetSource can avoid random exception
                 using (var stream = _imageEntry.GetStream())
-                using (var winrtStream = new InMemoryRandomAccessStream())
-                {
-                    stream.CopyTo(winrtStream.AsStream());
-                    winrtStream.Seek(0);
-                    source.SetSource(winrtStream);
-                }
+                    await source.SetSourceAsync(stream.AsRandomAccessStream());
 
                 Source = source;
                 IsLoading = false;

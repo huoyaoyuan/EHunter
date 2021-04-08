@@ -1,7 +1,7 @@
 ﻿using System.Composition;
+using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Services;
 using EHunter.Settings;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 #nullable enable
 

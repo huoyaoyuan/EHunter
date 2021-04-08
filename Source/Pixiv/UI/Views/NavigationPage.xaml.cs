@@ -1,4 +1,5 @@
 ﻿using System;
+using CommunityToolkit.Mvvm.Messaging;
 using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.Views.Bookmark;
 using EHunter.Pixiv.Views.Download;
@@ -7,7 +8,6 @@ using EHunter.Pixiv.Views.Ranking;
 using EHunter.Pixiv.Views.Recent;
 using EHunter.Pixiv.Views.Search;
 using EHunter.Pixiv.Views.User;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,

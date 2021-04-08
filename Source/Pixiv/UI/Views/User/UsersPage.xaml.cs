@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.ViewModels.User;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 
