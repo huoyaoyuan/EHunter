@@ -14,7 +14,7 @@
         PaneDisplayMode="Top"
         SelectedItem="{x:Bind ViewModel.SelectedEntry, Mode=TwoWay}">
         <NavigationView.FooterMenuItems>
-            <vm:GlyphNavigationEntry Title="Settings" ViewType="local:SettingsPage" Glyph="&#xE713;" />
+            <vm:GlyphNavigationEntry x:Uid="SettingsNavigationEntry" ViewType="local:SettingsPage" Glyph="&#xE713;" />
         </NavigationView.FooterMenuItems>
         <NavigationView.MenuItemTemplateSelector>
             <local:NavigationTemplateSelector>
