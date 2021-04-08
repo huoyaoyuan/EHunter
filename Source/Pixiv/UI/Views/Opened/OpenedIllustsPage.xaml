@@ -29,16 +29,18 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <controls:DownloadProgressIndicator
-                Grid.Column="1"
-                HorizontalAlignment="Right"
-                VM="{x:Bind _vm.SelectedIllust.IllustVM.Downloadable, Mode=OneWay, FallbackValue={x:Null}}"/>
-
             <CommandBar
                 Grid.Column="2"
                 DefaultLabelPosition="Right">
                 <!-- TODO: disable when no selection.
                      Currently VisualStateManager can't work here. -->
+                <AppBarElementContainer
+                    VerticalContentAlignment="Center">
+                    <controls:DownloadProgressIndicator
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VM="{x:Bind _vm.SelectedIllust.IllustVM.Downloadable, Mode=OneWay, FallbackValue={x:Null}}"/>
+                </AppBarElementContainer>
                 <AppBarButton
                     Icon="Download"
                     x:Uid="DownloadAppBarButton"
