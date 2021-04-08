@@ -14,33 +14,34 @@
                     Margin="4" Spacing="4"
                     x:DefaultBindMode="TwoWay">
             <TextBlock
+                x:Uid="SettingSection_Storage"
                 Style="{ThemeResource TitleTextBlockStyle}"
-                Margin="0,0,0,6"
-                Text ="Storage" />
+                Margin="0,0,0,6" />
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="storageRoot" Header="Storage Root" Text="{x:Bind ViewModel.StorageRoot}" />
+                <TextBox x:Name="storageRoot" x:Uid="StorageRoot" Text="{x:Bind ViewModel.StorageRoot}" />
                 <Button
+                    x:Uid="BrowseButton"
+                    Margin="4,0,0,0"
                     Click="{x:Bind ViewModel.BrowseStorageRoot}"
                     Grid.Column="1"
-                    VerticalAlignment="Bottom"
-                    Content="Browse…" />
+                    VerticalAlignment="Bottom" />
             </Grid>
 
             <TextBlock
+                x:Uid="SettingSection_Proxy"
                 Style="{ThemeResource TitleTextBlockStyle}"
-                Margin="0,36,0,6"
-                Text ="Proxy" />
+                Margin="0,36,0,6" />
             <TextBox Header="Address" Text="{x:Bind ViewModel.ProxyAddress}" />
             <NumberBox Header="Port" Value="{x:Bind ViewModel.ProxyPort}" />
 
             <TextBlock
+                x:Uid="SettingSection_Database"
                 Style="{ThemeResource TitleTextBlockStyle}"
-                Margin="0,36,0,6"
-                Text ="Database" />
+                Margin="0,36,0,6" />
             <TextBox Header="Connection String" Text="{x:Bind ViewModel.DbConnectionString}" />
             <TextBlock IsTextSelectionEnabled="True">
                 <Bold>LocalDB Connection String Template:</Bold>
