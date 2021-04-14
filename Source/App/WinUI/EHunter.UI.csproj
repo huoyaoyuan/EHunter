@@ -11,10 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- 10.0.18362.14 has issue loading default styles.
-        https://github.com/microsoft/microsoft-ui-xaml/issues/4414
-        https://github.com/microsoft/CsWinRT/issues/757 -->
-    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.18362.15" RuntimeFrameworkVersion="10.0.18362.15" />
     <!-- SqlClient 2.1.0 is required for Desktop Bridge compatibility -->
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.5" />
