@@ -51,6 +51,8 @@ namespace EHunter.UI
                         "EHunter.Base",
                         "EHunter.Common.UI",
                         "EHunter.Data",
+                        "EHunter.EHentai",
+                        "EHunter.EHentai.UI",
                         "EHunter.Pixiv",
                         "EHunter.Pixiv.UI",
                         "EHunter.UI",
