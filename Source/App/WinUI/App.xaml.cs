@@ -51,10 +51,10 @@ namespace EHunter.UI
                         "EHunter.Base",
                         "EHunter.Common.UI",
                         "EHunter.Data",
-                        "EHunter.EHentai",
-                        "EHunter.EHentai.UI",
                         "EHunter.Pixiv",
                         "EHunter.Pixiv.UI",
+                        "EHunter.EHentai",
+                        "EHunter.EHentai.UI",
                         "EHunter.UI",
                     }
                     .Select(Assembly.Load))
