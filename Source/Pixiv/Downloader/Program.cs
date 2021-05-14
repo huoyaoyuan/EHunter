@@ -145,10 +145,10 @@ if (skipped.Count > 0)
 
             foreach (var o in orders)
             {
-                Directory.CreateDirectory(Path.Combine(storageSetting.StorageRoot.Value!.FullName, "Pixiv", "Deleted"));
+                Directory.CreateDirectory(Path.Combine(storageSetting.StorageRoot.Value!, "Pixiv", "Deleted"));
 
                 string dest = Path.Combine("Pixiv", "Deleted", o.file.Name);
-                o.file.CopyTo(Path.Combine(storageSetting.StorageRoot.Value!.FullName, dest), overwrite: true);
+                o.file.CopyTo(Path.Combine(storageSetting.StorageRoot.Value!, dest), overwrite: true);
 
                 post.Images.Add(new ImageEntry(ImageType.Static, dest)
                 {
