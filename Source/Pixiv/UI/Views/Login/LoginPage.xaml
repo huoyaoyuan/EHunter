@@ -109,18 +109,6 @@
                 Spacing="10"
                 x:Name="loginPanel"
                 x:DefaultBindMode="TwoWay">
-
-                <FlyoutBase.AttachedFlyout>
-                    <Flyout>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock
-                                    Text="Login Failed"
-                                    Style="{ThemeResource TitleTextBlockStyle}" />
-                            <TextBlock x:Name="loginFailedMessage" />
-                        </StackPanel>
-                    </Flyout>
-                </FlyoutBase.AttachedFlyout>
-
                 <ComboBox
                     x:Uid="UseProxy"
                     Style="{StaticResource PixivConnectionModeSelectorStyle}"
