@@ -1,10 +1,7 @@
-﻿using System;
-using Meowtrix.PixivApi.Models;
+﻿using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.Messages
 {
-    public sealed record LoginFailedMessage(Exception Exception);
-
     public sealed record InitializationCompleteMessage();
 
     public sealed record NavigateToIllustMessage(Illust Illust);

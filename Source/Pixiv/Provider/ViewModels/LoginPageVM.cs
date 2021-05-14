@@ -93,9 +93,25 @@ namespace EHunter.Pixiv.ViewModels
 
         public void LoginWithToken() => PerformLogin(_clientService.LoginAsync(RefreshToken));
 
+        private bool _showLoginException;
+        public bool ShowLoginException
+        {
+            get => _showLoginException;
+            set => SetProperty(ref _showLoginException, value);
+        }
+
+        private Exception? _loginException;
+        public Exception? LoginException
+        {
+            get => _loginException;
+            set => SetProperty(ref _loginException, value);
+        }
+
         private async void PerformLogin(Task<string> loginTask)
         {
             IsLoggingIn = true;
+            ShowLoginException = false;
+            LoginException = null;
 
             try
             {
@@ -105,7 +121,8 @@ namespace EHunter.Pixiv.ViewModels
             }
             catch (Exception ex)
             {
-                WeakReferenceMessenger.Default.Send(new LoginFailedMessage(ex));
+                LoginException = ex;
+                ShowLoginException = true;
             }
 
             IsLoggingIn = false;
