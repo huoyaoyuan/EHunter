@@ -140,13 +140,13 @@
                             x:Name="tokenLoginButton"
                             Click="{x:Bind _vm.LoginWithToken}" />
                 </StackPanel>
-                <ProgressRing x:Name="loginProgress"
-                              IsActive="False"
-                              HorizontalAlignment="Left" />
                 <InfoBar
                     Severity="Error"
                     IsOpen="{x:Bind _vm.ShowLoginException, Mode=TwoWay}"
                     Message="{x:Bind _vm.LoginException.Message, Mode=OneWay}" />
+                <ProgressRing x:Name="loginProgress"
+                              IsActive="False"
+                              HorizontalAlignment="Left" />
 
             </StackPanel>
 
