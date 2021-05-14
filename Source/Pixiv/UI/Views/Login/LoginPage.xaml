@@ -98,6 +98,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+
         <Grid
             Height="350"
             Width="400"
@@ -154,6 +155,11 @@
                 <ProgressRing x:Name="loginProgress"
                               IsActive="False"
                               HorizontalAlignment="Left" />
+                <InfoBar
+                    Grid.Row="1"
+                    Severity="Error"
+                    IsOpen="{x:Bind _vm.ShowLoginException, Mode=TwoWay}"
+                    Message="{x:Bind _vm.LoginException.Message, Mode=OneWay}" />
             </StackPanel>
 
             <StackPanel
@@ -172,7 +178,9 @@
                     x:Uid="LoggedIn"
                     Style="{StaticResource SubtitleTextBlockStyle}" />
             </StackPanel>
+
         </Grid>
+        
         <StackPanel
             Grid.Row="1"
             Orientation="Horizontal"
