@@ -4,23 +4,35 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:EHunter.Controls"
+    xmlns:local="using:EHunter.Pixiv.Views"
+    xmlns:bookmark="using:EHunter.Pixiv.Views.Bookmark"
+    xmlns:download="using:EHunter.Pixiv.Views.Download"
+    xmlns:opened="using:EHunter.Pixiv.Views.Opened"
+    xmlns:ranking="using:EHunter.Pixiv.Views.Ranking"
+    xmlns:recent="using:EHunter.Pixiv.Views.Recent"
+    xmlns:search="using:EHunter.Pixiv.Views.Search"
+    xmlns:user="using:EHunter.Pixiv.Views.User"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <NavigationView
         PaneDisplayMode="LeftCompact"
         IsBackEnabled="{x:Bind _frame.CanGoBack, Mode=OneWay}"
-        SelectionChanged="NavigationView_SelectionChanged"
-        BackRequested="NavigationView_BackRequested">
+        controls:NavigationHelper.IsAutoNavigationEnabled="True"
+        controls:NavigationHelper.SettingsViewType="local:PixivSettingsPage">
         <NavigationView.MenuItems>
             <NavigationViewItem
                 x:Name="recent" x:Uid="Navigation_Recent"
-                Icon="AllApps" IsSelected="True" />
+                Icon="AllApps" IsSelected="True"
+                controls:NavigationHelper.NavigationType="recent:RecentWatchedPage" />
             <NavigationViewItem
                 x:Name="users" x:Uid="Navigation_Users"
-                Icon="People" />
+                Icon="People"
+                controls:NavigationHelper.NavigationType="user:UsersPage" />
             <NavigationViewItem
-                x:Name="opened" x:Uid="Navigation_Opened">
+                x:Name="opened" x:Uid="Navigation_Opened"
+                controls:NavigationHelper.NavigationType="opened:OpenedIllustsPage">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE736;" />
                 </NavigationViewItem.Icon>
@@ -28,20 +40,23 @@
 
             <!-- TODO: nest -->
             <NavigationViewItem
-                x:Name="bookmark" x:Uid="Navigation_Bookmark">
+                x:Name="bookmark" x:Uid="Navigation_Bookmark"
+                controls:NavigationHelper.NavigationType="bookmark:MyBookmarkPage">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE734;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
             <NavigationViewItem
-                x:Name="following" x:Uid="Navigation_FollowingUser">
+                x:Name="following" x:Uid="Navigation_FollowingUser"
+                controls:NavigationHelper.NavigationType="bookmark:MyFollowingUsersPage">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE902;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
 
             <NavigationViewItem
-                x:Name="ranking" x:Uid="Navigation_Ranking">
+                x:Name="ranking" x:Uid="Navigation_Ranking"
+                controls:NavigationHelper.NavigationType="ranking:RankingPage">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7BC;" />
                 </NavigationViewItem.Icon>
@@ -53,7 +68,8 @@
                 </NavigationViewItem.Icon>
                 <NavigationViewItem.MenuItems>-->
             <NavigationViewItem
-                x:Name="searchIllust" x:Uid="Navigation_Search_Illust">
+                x:Name="searchIllust" x:Uid="Navigation_Search_Illust"
+                controls:NavigationHelper.NavigationType="search:IllustSearchPage">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C5;" />
                 </NavigationViewItem.Icon>
@@ -61,13 +77,15 @@
                 <!--</NavigationViewItem.MenuItems>
             </NavigationViewItem>-->
             <NavigationViewItem
-                x:Name="searchUser" x:Uid="Navigation_Search_User">
+                x:Name="searchUser" x:Uid="Navigation_Search_User"
+                controls:NavigationHelper.NavigationType="search:UserSearchPage">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8B8;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
             <NavigationViewItem
-                x:Name="downloads" x:Uid="Navigation_Downloads">
+                x:Name="downloads" x:Uid="Navigation_Downloads"
+                controls:NavigationHelper.NavigationType="download:PixivDownloadPage">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE896;" />
                 </NavigationViewItem.Icon>

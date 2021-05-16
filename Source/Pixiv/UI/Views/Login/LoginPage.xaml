@@ -23,7 +23,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="loginPanel.Visibility" Value="Collapsed" />
-                        <Setter Target="loggedIn.Visibility" Value="Visible" />
+                        <Setter Target="loggedIn.IsOpen" Value="True" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PasswordLogin">
@@ -98,6 +98,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+
         <Grid
             Height="350"
             Width="400"
@@ -108,18 +109,6 @@
                 Spacing="10"
                 x:Name="loginPanel"
                 x:DefaultBindMode="TwoWay">
-
-                <FlyoutBase.AttachedFlyout>
-                    <Flyout>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock
-                                    Text="Login Failed"
-                                    Style="{ThemeResource TitleTextBlockStyle}" />
-                            <TextBlock x:Name="loginFailedMessage" />
-                        </StackPanel>
-                    </Flyout>
-                </FlyoutBase.AttachedFlyout>
-
                 <ComboBox
                     x:Uid="UseProxy"
                     Style="{StaticResource PixivConnectionModeSelectorStyle}"
@@ -151,28 +140,25 @@
                             x:Name="tokenLoginButton"
                             Click="{x:Bind _vm.LoginWithToken}" />
                 </StackPanel>
+                <InfoBar
+                    Severity="Error"
+                    IsOpen="{x:Bind _vm.ShowLoginException, Mode=TwoWay}"
+                    Message="{x:Bind _vm.LoginException.Message, Mode=OneWay}" />
                 <ProgressRing x:Name="loginProgress"
                               IsActive="False"
                               HorizontalAlignment="Left" />
+
             </StackPanel>
 
-            <StackPanel
+            <InfoBar
                 x:Name="loggedIn"
-                Orientation="Horizontal"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Spacing="4"
-                Visibility="Collapsed">
-                <FontIcon
-                    VerticalAlignment="Center"
-                    Foreground="Green"
-                    Glyph="&#xE930;"
-                    FontFamily="{ThemeResource SymbolThemeFontFamily}" />
-                <TextBlock
-                    x:Uid="LoggedIn"
-                    Style="{StaticResource SubtitleTextBlockStyle}" />
-            </StackPanel>
+                x:Uid="LoggedIn"
+                IsClosable="False"
+                Severity="Success"
+                VerticalAlignment="Center" />
+
         </Grid>
+        
         <StackPanel
             Grid.Row="1"
             Orientation="Horizontal"
