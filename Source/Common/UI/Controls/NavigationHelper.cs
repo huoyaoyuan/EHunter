@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -60,12 +62,51 @@ namespace EHunter.Controls
                         NavigationView sender,
                         NavigationViewBackRequestedEventArgs args)
                     {
+                        if (sender.Content is not Frame { CanGoBack: true } frame)
+                            return;
 
+                        frame.GoBack();
+                        var type = frame.CurrentSourcePageType;
+                        if (type == GetSettingsViewType(sender))
+                        {
+                            sender.SelectedItem = sender.SettingsItem;
+                            return;
+                        }
+
+                        foreach (var item in RecurseAllItems(sender))
+                            if (type == GetNavigationType(item))
+                            {
+                                sender.SelectedItem = item;
+                                return;
+                            }
                     }
                 }));
         public static bool GetIsAutoNavigationEnabled(NavigationView dependencyObject)
             => (bool)dependencyObject.GetValue(IsAutoNavigationEnabledProperty);
         public static void SetIsAutoNavigationEnabled(NavigationView dependencyObject, bool value)
             => dependencyObject.SetValue(IsAutoNavigationEnabledProperty, value);
+
+        public static IEnumerable<NavigationViewItemBase> RecurseAllItems(NavigationView navigationView)
+        {
+            static IEnumerable<NavigationViewItemBase> Recurse(IEnumerable<object> list)
+            {
+                foreach (object? obj in list)
+                {
+                    switch (obj)
+                    {
+                        case NavigationViewItem item:
+                            yield return item;
+                            foreach (var inner in Recurse(item.MenuItems))
+                                yield return inner;
+                            break;
+                        case NavigationViewItemBase baseItem:
+                            yield return baseItem;
+                            break;
+                    }
+                }
+            }
+
+            return Recurse(navigationView.MenuItems.Concat(navigationView.FooterMenuItems));
+        }
     }
 }

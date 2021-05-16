@@ -19,7 +19,6 @@
     <NavigationView
         PaneDisplayMode="LeftCompact"
         IsBackEnabled="{x:Bind _frame.CanGoBack, Mode=OneWay}"
-        BackRequested="NavigationView_BackRequested"
         controls:NavigationHelper.IsAutoNavigationEnabled="True"
         controls:NavigationHelper.SettingsViewType="local:PixivSettingsPage">
         <NavigationView.MenuItems>
