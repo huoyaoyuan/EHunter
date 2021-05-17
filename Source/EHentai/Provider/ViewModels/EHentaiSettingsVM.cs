@@ -34,14 +34,14 @@ namespace EHunter.EHentai.ViewModels
         public bool IsLogin
         {
             get => _isLogin;
-            set => SetProperty(ref _isLogin, value);
+            private set => SetProperty(ref _isLogin, value);
         }
 
         private bool _isLoggingIn;
         public bool IsLoggingIn
         {
             get => _isLoggingIn;
-            set => SetProperty(ref _isLoggingIn, value);
+            private set => SetProperty(ref _isLoggingIn, value);
         }
 
         private string _username = string.Empty;
@@ -75,11 +75,10 @@ namespace EHunter.EHentai.ViewModels
             {
                 IsLoggingIn = true;
                 var client = _clientResolver.Resolve();
-                await client.LoginAsync(Username, Password).ConfigureAwait(true);
-                var (memberId, passHash) = client.SaveLogin();
+                var (memberId, passHash) = await client.LoginAsync(Username, Password).ConfigureAwait(true);
                 _settingStore.MemberId = memberId;
                 _settingStore.PassHash = passHash;
-                IsLogin = true;
+                IsLogin = client.IsLogin;
             }
             catch
             {

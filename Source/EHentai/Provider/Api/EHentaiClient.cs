@@ -45,8 +45,13 @@ namespace EHunter.EHentai.Api
 
         public void Dispose() => _httpClient.Dispose();
 
-        public async Task LoginAsync(string username, string password)
+        public bool IsLogin { get; private set; }
+
+        public async Task<(string memberId, string passHash)> LoginAsync(string username, string password)
         {
+            if (IsLogin)
+                throw new InvalidOperationException("Logout first.");
+
             using var request = new HttpRequestMessage(HttpMethod.Post, "https://forums.e-hentai.org/index.php?act=Login&CODE=01")
             {
                 Content = new FormUrlEncodedContent(new Dictionary<string, string>
@@ -58,20 +63,22 @@ namespace EHunter.EHentai.Api
             };
 
             await _httpClient.SendAsync(request).ConfigureAwait(false);
+
+            var cookies = _cookies.GetCookies(new Uri("https://e-hentai.org"));
+            var result = (cookies[MemberIdCookie]?.Value ?? throw new InvalidOperationException("No login cookies"),
+                cookies[PassHashCookie]?.Value ?? throw new InvalidOperationException("No login cookies"));
+            IsLogin = true;
+            return result;
         }
 
         private const string MemberIdCookie = "ipb_member_id";
         private const string PassHashCookie = "ipb_pass_hash";
 
-        public (string memberId, string passHash) SaveLogin()
-        {
-            var cookies = _cookies.GetCookies(new Uri("https://e-hentai.org"));
-            return (cookies[MemberIdCookie]?.Value ?? throw new InvalidOperationException("No login cookies"),
-                cookies[PassHashCookie]?.Value ?? throw new InvalidOperationException("No login cookies"));
-        }
-
         public void RestoreLogin(string memberId, string passHash)
         {
+            if (IsLogin)
+                throw new InvalidOperationException("Logout first.");
+
             _cookies.Add(new Cookie(MemberIdCookie, memberId, null, "e-hentai.org"));
             _cookies.Add(new Cookie(PassHashCookie, passHash, null, "e-hentai.org"));
 
@@ -80,13 +87,19 @@ namespace EHunter.EHentai.Api
 
             _cookies.Add(new Cookie(MemberIdCookie, memberId, null, "exhentai.org"));
             _cookies.Add(new Cookie(PassHashCookie, passHash, null, "exhentai.org"));
+
+            IsLogin = true;
         }
 
         public void Logout()
         {
+            if (!IsLogin)
+                throw new InvalidOperationException("Login first.");
+
             RemoveCookies("https://e-hentai.org");
             RemoveCookies("https://forums.e-hentai.org");
             RemoveCookies("https://exhentai.org");
+            IsLogin = false;
 
             void RemoveCookies(string domain)
             {
