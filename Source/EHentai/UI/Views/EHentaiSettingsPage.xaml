@@ -36,6 +36,7 @@
                         <Setter Target="username.Visibility" Value="Collapsed" />
                         <Setter Target="password.Visibility" Value="Collapsed" />
                         <Setter Target="loginButton.Visibility" Value="Collapsed" />
+                        <Setter Target="logoutButton.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -60,6 +61,11 @@
                 x:Name="loginButton"
                 x:Uid="Login"
                 Click="{x:Bind _vm.Login}" />
+            <Button
+                x:Name="logoutButton"
+                x:Uid="Logout"
+                Visibility="Collapsed"
+                Click="{x:Bind _vm.Logout}" />
             
             <TextBlock
                 x:Uid="SettingSection_Connection"

@@ -60,23 +60,44 @@ namespace EHunter.EHentai.Api
             await _httpClient.SendAsync(request).ConfigureAwait(false);
         }
 
+        private const string MemberIdCookie = "ipb_member_id";
+        private const string PassHashCookie = "ipb_pass_hash";
+
         public (string memberId, string passHash) SaveLogin()
         {
             var cookies = _cookies.GetCookies(new Uri("https://e-hentai.org"));
-            return (cookies["ipb_member_id"]?.Value ?? throw new InvalidOperationException("No login cookies"),
-                cookies["ipb_pass_hash"]?.Value ?? throw new InvalidOperationException("No login cookies"));
+            return (cookies[MemberIdCookie]?.Value ?? throw new InvalidOperationException("No login cookies"),
+                cookies[PassHashCookie]?.Value ?? throw new InvalidOperationException("No login cookies"));
         }
 
         public void RestoreLogin(string memberId, string passHash)
         {
-            _cookies.Add(new Cookie("ipb_member_id", memberId, null, "e-hentai.org"));
-            _cookies.Add(new Cookie("ipb_pass_hash", passHash, null, "e-hentai.org"));
+            _cookies.Add(new Cookie(MemberIdCookie, memberId, null, "e-hentai.org"));
+            _cookies.Add(new Cookie(PassHashCookie, passHash, null, "e-hentai.org"));
 
-            _cookies.Add(new Cookie("ipb_member_id", memberId, null, "forums.e-hentai.org"));
-            _cookies.Add(new Cookie("ipb_pass_hash", passHash, null, "forums.e-hentai.org"));
+            _cookies.Add(new Cookie(MemberIdCookie, memberId, null, "forums.e-hentai.org"));
+            _cookies.Add(new Cookie(PassHashCookie, passHash, null, "forums.e-hentai.org"));
 
-            _cookies.Add(new Cookie("ipb_member_id", memberId, null, "exhentai.org"));
-            _cookies.Add(new Cookie("ipb_pass_hash", passHash, null, "exhentai.org"));
+            _cookies.Add(new Cookie(MemberIdCookie, memberId, null, "exhentai.org"));
+            _cookies.Add(new Cookie(PassHashCookie, passHash, null, "exhentai.org"));
+        }
+
+        public void Logout()
+        {
+            RemoveCookies("https://e-hentai.org");
+            RemoveCookies("https://forums.e-hentai.org");
+            RemoveCookies("https://exhentai.org");
+
+            void RemoveCookies(string domain)
+            {
+                var cookies = _cookies.GetCookies(new Uri(domain));
+                var memberId = cookies[MemberIdCookie];
+                if (memberId is not null)
+                    cookies.Remove(memberId);
+                var passHash = cookies[PassHashCookie];
+                if (passHash is not null)
+                    cookies.Remove(passHash);
+            }
         }
 
         private static readonly Regex s_galleryRegex

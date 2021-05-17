@@ -79,6 +79,7 @@ namespace EHunter.EHentai.ViewModels
                 var (memberId, passHash) = client.SaveLogin();
                 _settingStore.MemberId = memberId;
                 _settingStore.PassHash = passHash;
+                IsLogin = true;
             }
             catch
             {
@@ -88,6 +89,15 @@ namespace EHunter.EHentai.ViewModels
             {
                 IsLoggingIn = false;
             }
+        }
+
+        public void Logout()
+        {
+            var client = _clientResolver.Resolve();
+            client.Logout();
+            IsLogin = false;
+            _settingStore.MemberId = null;
+            _settingStore.PassHash = null;
         }
     }
 }
