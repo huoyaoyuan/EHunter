@@ -28,5 +28,11 @@ namespace EHunter.EHentai.Settings
             get => (EHentaiConnectionMode?)_settingsStore.GetIntValue(nameof(ConnectionMode)) ?? EHentaiConnectionMode.ApplicationProxy;
             set => _settingsStore.SetIntValue(nameof(ConnectionMode), (int)value);
         }
+
+        public bool UseExHentai
+        {
+            get => _settingsStore.GetBoolValue(nameof(UseExHentai)) ?? false;
+            set => _settingsStore.SetBoolValue(nameof(UseExHentai), value);
+        }
     }
 }

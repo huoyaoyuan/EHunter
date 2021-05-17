@@ -13,6 +13,7 @@ namespace EHunter.EHentai.Settings
         {
             _settingStore = settingStore;
             ConnectionMode = new(_settingStore.ConnectionMode);
+            UseExHentai = new(_settingStore.UseExHentai);
         }
 
         public ObservableProperty<EHentaiConnectionMode> ConnectionMode { get; }
@@ -21,6 +22,14 @@ namespace EHunter.EHentai.Settings
         {
             _settingStore.ConnectionMode = value;
             ConnectionMode.Value = value;
+        }
+
+        public ObservableProperty<bool> UseExHentai { get; }
+
+        public void SetUseExHentai(bool value)
+        {
+            _settingStore.UseExHentai = value;
+            UseExHentai.Value = value;
         }
     }
 }

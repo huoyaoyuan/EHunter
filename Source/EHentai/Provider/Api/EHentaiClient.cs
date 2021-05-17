@@ -45,6 +45,8 @@ namespace EHunter.EHentai.Api
 
         public void Dispose() => _httpClient.Dispose();
 
+        public bool UseExHentai { get; set; }
+
         public bool IsLogin { get; private set; }
 
         public async Task<(string memberId, string passHash)> LoginAsync(string username, string password)

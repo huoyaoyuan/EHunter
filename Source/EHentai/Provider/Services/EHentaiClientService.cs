@@ -12,13 +12,13 @@ namespace EHunter.EHentai.Services
     [Export, Export(typeof(ICustomResolver<EHentaiClient>)), Shared]
     public sealed class EHentaiClientService : ICustomResolver<EHentaiClient>, IDisposable
     {
-        private readonly IDisposable _subscribeDisposable;
+        private readonly IDisposable _connectionDisposable, _endpointDisposable;
         private readonly EHentaiClient _client = new();
 
         [ImportingConstructor]
         public EHentaiClientService(IProxySetting proxySetting, EHentaiSetting eHentaiSetting, IEHentaiSettingStore settingStore)
         {
-            _subscribeDisposable = proxySetting.Proxy
+            _connectionDisposable = proxySetting.Proxy
                 .CombineLatest(eHentaiSetting.ConnectionMode,
                     (proxy, mode) => mode switch
                     {
@@ -29,6 +29,9 @@ namespace EHunter.EHentai.Services
                     })
                 .Subscribe(proxy => _client.SetProxy(proxy));
 
+            _endpointDisposable = eHentaiSetting.UseExHentai
+                .Subscribe(value => _client.UseExHentai = value);
+
             string? memberId = settingStore.MemberId;
             string? passHash = settingStore.PassHash;
             if (memberId is not null && passHash is not null)
@@ -37,7 +40,8 @@ namespace EHunter.EHentai.Services
 
         public void Dispose()
         {
-            _subscribeDisposable.Dispose();
+            _connectionDisposable.Dispose();
+            _endpointDisposable.Dispose();
             _client.Dispose();
         }
 
