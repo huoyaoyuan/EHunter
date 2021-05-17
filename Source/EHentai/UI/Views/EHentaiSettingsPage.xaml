@@ -56,6 +56,18 @@
                 x:Name="loginButton"
                 x:Uid="Login"
                 Click="{x:Bind _vm.Login}" />
+            
+            <TextBlock
+                x:Uid="SettingSection_Connection"
+                Style="{ThemeResource TitleTextBlockStyle}"
+                Margin="0,36,0,6" />
+            <ComboBox
+                x:Uid="ConnectionMode"
+                SelectedIndex="{x:Bind _vm.IntConnectionMode}">
+                <ComboBoxItem x:Uid="ConnectionMode_SystemProxy" />
+                <ComboBoxItem x:Uid="ConnectionMode_ApplicationProxy" />
+                <ComboBoxItem x:Uid="ConnectionMode_NoProxy" />
+            </ComboBox>
         </StackPanel>
     </ScrollViewer>
 </Page>

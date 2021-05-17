@@ -20,6 +20,7 @@ namespace EHunter.EHentai.ViewModels
             _settingStore = settingStore;
             _clientResolver = clientResolver;
 
+            _connectionMode = settingStore.ConnectionMode;
             string? memberId = settingStore.MemberId;
             string? passHash = settingStore.PassHash;
             if (memberId is not null && passHash is not null)
