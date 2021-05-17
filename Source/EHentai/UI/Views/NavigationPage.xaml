@@ -1,14 +1,18 @@
 ﻿<Page
     x:Class="EHunter.Pixiv.Views.NavigationPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:EHunter.Pixiv.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:EHunter.Controls"
+    xmlns:local="using:EHunter.Pixiv.Views"
     mc:Ignorable="d"
+    NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid>
-
-    </Grid>
+    <NavigationView
+        PaneDisplayMode="LeftCompact"
+        controls:NavigationHelper.IsAutoNavigationEnabled="True"
+        controls:NavigationHelper.SettingsViewType="local:EHentaiSettingsPage">
+        <Frame />
+    </NavigationView>
 </Page>
