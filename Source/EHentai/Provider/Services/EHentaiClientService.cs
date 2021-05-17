@@ -16,7 +16,7 @@ namespace EHunter.EHentai.Services
         private readonly EHentaiClient _client = new();
 
         [ImportingConstructor]
-        public EHentaiClientService(IProxySetting proxySetting, EHentaiSetting eHentaiSetting)
+        public EHentaiClientService(IProxySetting proxySetting, EHentaiSetting eHentaiSetting, IEHentaiSettingStore settingStore)
         {
             _subscribeDisposable = proxySetting.Proxy
                 .CombineLatest(eHentaiSetting.ConnectionMode,
@@ -28,6 +28,11 @@ namespace EHunter.EHentai.Services
                         _ => throw new InvalidOperationException($"Unknown enum value {mode}.")
                     })
                 .Subscribe(proxy => _client.SetProxy(proxy));
+
+            string? memberId = settingStore.MemberId;
+            string? passHash = settingStore.PassHash;
+            if (memberId is not null && passHash is not null)
+                _client.RestoreLogin(memberId, passHash);
         }
 
         public void Dispose()

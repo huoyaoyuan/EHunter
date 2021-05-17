@@ -21,13 +21,7 @@ namespace EHunter.EHentai.ViewModels
             _clientResolver = clientResolver;
 
             _connectionMode = settingStore.ConnectionMode;
-            string? memberId = settingStore.MemberId;
-            string? passHash = settingStore.PassHash;
-            if (memberId is not null && passHash is not null)
-            {
-                _clientResolver.Resolve().RestoreLogin(memberId, passHash);
-                IsLogin = true;
-            }
+            IsLogin = clientResolver.Resolve().IsLogin;
         }
 
         private bool _isLogin;
