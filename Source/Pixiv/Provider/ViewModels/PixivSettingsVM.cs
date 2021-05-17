@@ -44,11 +44,5 @@ namespace EHunter.Pixiv.ViewModels
                     _settings.SetConnectionOption(value);
             }
         }
-
-        public int IntConnectionMode
-        {
-            get => (int)ConnectionMode;
-            set => ConnectionMode = (PixivConnectionMode)value;
-        }
     }
 }

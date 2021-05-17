@@ -29,11 +29,5 @@ namespace EHunter.Pixiv.Controls
                 }
             }
         }
-
-        public int IntConnectionMode
-        {
-            get => (int)ConnectionMode;
-            set => ConnectionMode = (PixivConnectionMode)value;
-        }
     }
 }

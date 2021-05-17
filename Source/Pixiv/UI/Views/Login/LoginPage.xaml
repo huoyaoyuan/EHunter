@@ -112,7 +112,7 @@
                 <ComboBox
                     x:Uid="UseProxy"
                     Style="{StaticResource PixivConnectionModeSelectorStyle}"
-                    SelectedItem="{x:Bind _vm.IntConnectionMode}" />
+                    SelectedItem="{x:Bind _vm.ConnectionMode}" />
 
                 <RadioButtons
                     x:Name="loginOption"

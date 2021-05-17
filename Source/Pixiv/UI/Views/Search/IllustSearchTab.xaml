@@ -88,12 +88,12 @@
                         Grid.Column="0"
                         Margin="2"
                         Style="{StaticResource IllustSearchTargetSelectorStyle}"
-                        SelectedItem="{x:Bind VM.SearchTarget.IntValue, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind VM.SearchTarget.Value, Mode=TwoWay}" />
                     <ComboBox
                         Grid.Column="1"
                         Margin="2"
                         Style="{StaticResource IllustSortModeSelectorStyle}"
-                        SelectedItem="{x:Bind VM.SortMode.IntValue, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind VM.SortMode.Value, Mode=TwoWay}" />
                     <ComboBox
                         Grid.Column="2"
                         Margin="2"

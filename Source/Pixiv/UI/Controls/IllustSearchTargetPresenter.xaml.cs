@@ -11,7 +11,6 @@ namespace EHunter.Pixiv.Controls
     {
         public IllustSearchTargetPresenter() => InitializeComponent();
 
-        // TODO: https://github.com/microsoft/microsoft-ui-xaml/issues/3339
         private IllustSearchTarget _searchTarget;
         public IllustSearchTarget SearchTarget
         {
@@ -21,12 +20,6 @@ namespace EHunter.Pixiv.Controls
                 _searchTarget = value;
                 VisualStateManager.GoToState(this, value.ToString(), false);
             }
-        }
-
-        public int IntSearchTarget
-        {
-            get => (int)SearchTarget;
-            set => SearchTarget = (IllustSearchTarget)value;
         }
     }
 }

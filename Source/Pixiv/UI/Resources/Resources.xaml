@@ -5,6 +5,8 @@
     xmlns:commands="using:EHunter.Pixiv.Commands"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:local="using:EHunter.Pixiv.Resources"
+    xmlns:settings="using:EHunter.Pixiv.Settings"
+    xmlns:api="using:Meowtrix.PixivApi"
     xmlns:m="using:Meowtrix.PixivApi.Models">
     <commands:NavigateToUserCommand x:Key="NavigateToUserCommand" />
     <commands:NavigateToTagCommand x:Key="NavigateToTagCommand" />
@@ -29,8 +31,8 @@
            x:Key="IllustSearchTargetSelectorStyle">
         <Setter Property="ItemTemplate">
             <Setter.Value>
-                <DataTemplate x:DataType="x:Int32">
-                    <controls:IllustSearchTargetPresenter IntSearchTarget="{x:Bind}" />
+                <DataTemplate x:DataType="api:IllustSearchTarget">
+                    <controls:IllustSearchTargetPresenter SearchTarget="{x:Bind}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -45,8 +47,8 @@
            x:Key="IllustSortModeSelectorStyle">
         <Setter Property="ItemTemplate">
             <Setter.Value>
-                <DataTemplate x:DataType="x:Int32">
-                    <controls:IllustSortModePresenter IntSortMode="{x:Bind}" />
+                <DataTemplate x:DataType="api:IllustSortMode">
+                    <controls:IllustSortModePresenter SortMode="{x:Bind}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -61,8 +63,8 @@
            x:Key="IllustRankingModeSelectorStyle">
         <Setter Property="ItemTemplate">
             <Setter.Value>
-                <DataTemplate x:DataType="x:Int32">
-                    <controls:IllustRankingModePresenter IntMode="{x:Bind}" />
+                <DataTemplate x:DataType="api:IllustRankingMode">
+                    <controls:IllustRankingModePresenter Mode="{x:Bind}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -77,8 +79,8 @@
            x:Key="PixivConnectionModeSelectorStyle">
         <Setter Property="ItemTemplate">
             <Setter.Value>
-                <DataTemplate x:DataType="x:Int32">
-                    <controls:PixivConnectionModePresenter IntConnectionMode="{x:Bind}" />
+                <DataTemplate x:DataType="settings:PixivConnectionMode">
+                    <controls:PixivConnectionModePresenter ConnectionMode="{x:Bind}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>

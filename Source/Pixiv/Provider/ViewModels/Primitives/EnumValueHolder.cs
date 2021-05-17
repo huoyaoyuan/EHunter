@@ -7,8 +7,6 @@ namespace EHunter.Pixiv.ViewModels.Primitives
     public class EnumValueHolder<T> : ObservableObject
         where T : struct, Enum
     {
-        // TODO: part of workaround of https://github.com/microsoft/microsoft-ui-xaml/issues/3339
-
         public EnumValueHolder()
         {
             if (Unsafe.SizeOf<T>() != sizeof(int))
@@ -19,17 +17,7 @@ namespace EHunter.Pixiv.ViewModels.Primitives
         public T Value
         {
             get => _value;
-            set
-            {
-                if (SetProperty(ref _value, value))
-                    OnPropertyChanged(nameof(IntValue));
-            }
-        }
-
-        public int IntValue
-        {
-            get => Unsafe.As<T, int>(ref _value);
-            set => Value = Unsafe.As<int, T>(ref value);
+            set => SetProperty(ref _value, value);
         }
     }
 }
