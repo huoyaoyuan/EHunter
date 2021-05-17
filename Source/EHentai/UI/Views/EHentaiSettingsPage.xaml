@@ -4,8 +4,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:EHunter.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <converters:EnumIntConverter x:Key="EnumIntConverter" />
+    </Page.Resources>
     <ScrollViewer
         IsTabStop="False"
         UseSystemFocusVisuals="False"
@@ -63,7 +67,7 @@
                 Margin="0,36,0,6" />
             <ComboBox
                 x:Uid="ConnectionMode"
-                SelectedIndex="{x:Bind _vm.IntConnectionMode}">
+                SelectedIndex="{x:Bind _vm.ConnectionMode, Converter={StaticResource EnumIntConverter}}">
                 <ComboBoxItem x:Uid="ConnectionMode_SystemProxy" />
                 <ComboBoxItem x:Uid="ConnectionMode_ApplicationProxy" />
                 <ComboBoxItem x:Uid="ConnectionMode_NoProxy" />

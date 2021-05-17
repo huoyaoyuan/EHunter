@@ -69,12 +69,6 @@ namespace EHunter.EHentai.ViewModels
             }
         }
 
-        public int IntConnectionMode
-        {
-            get => (int)ConnectionMode;
-            set => ConnectionMode = (EHentaiConnectionMode)value;
-        }
-
         public async void Login()
         {
             try
