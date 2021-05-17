@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Composition;
-using EHunter.EHentai;
-using EHunter.Pixiv.Views;
+using EHunter.EHentai.Views;
 using EHunter.Providers;
 
 #nullable enable
 
-namespace EHunter.Pixiv
+namespace EHunter.EHentai
 {
     [Export(typeof(IEHunterProvider))]
     public class EHentaiUIProvider : EHentaiProvider
