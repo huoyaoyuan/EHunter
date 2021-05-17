@@ -11,7 +11,6 @@ namespace EHunter.Pixiv.Controls
     {
         public AgeRestrictionPresenter() => InitializeComponent();
 
-        // TODO: https://github.com/microsoft/microsoft-ui-xaml/issues/3339
         private AgeRestriction _age;
         public AgeRestriction Age
         {
@@ -21,12 +20,6 @@ namespace EHunter.Pixiv.Controls
                 _age = value;
                 VisualStateManager.GoToState(this, value.ToString(), false);
             }
-        }
-
-        public int IntAge
-        {
-            get => (int)Age;
-            set => Age = (AgeRestriction)value;
         }
     }
 }

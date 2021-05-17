@@ -76,17 +76,8 @@ namespace EHunter.Pixiv.ViewModels
             set
             {
                 if (SetProperty(ref _connectionMode, value))
-                {
-                    OnPropertyChanged(nameof(IntConnectionMode));
                     _setting.SetConnectionOption(value);
-                }
             }
-        }
-
-        public int IntConnectionMode
-        {
-            get => (int)ConnectionMode;
-            set => ConnectionMode = (PixivConnectionMode)value;
         }
 
         public void LoginWithWebView(Func<string, Task<Uri>> browserTask) => PerformLogin(_clientService.LoginAsync(browserTask));

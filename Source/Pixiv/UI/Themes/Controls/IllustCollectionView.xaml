@@ -68,7 +68,7 @@
                                 Margin="4"
                                 Visibility="{TemplateBinding AgeSelectorVisibility}"
                                 Style="{StaticResource AgeRestrictionSelectorStyle}"
-                                SelectedItem="{x:Bind ViewModel.IntSelectedAge, Mode=TwoWay}" />
+                                SelectedItem="{x:Bind ViewModel.SelectedAge, Mode=TwoWay}" />
                         </StackPanel>
 
                         <commonControls:AsyncEnumerableIndicator

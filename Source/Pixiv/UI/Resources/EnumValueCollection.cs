@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 using EHunter.Pixiv.Settings;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.Resources
 {
-    // TODO: https://github.com/microsoft/microsoft-ui-xaml/issues/3339
-
-    internal class EnumValueCollection<T> : Collection<int>
+    internal class EnumValueCollection<T> : Collection<T>
         where T : struct, Enum
     {
         public EnumValueCollection()
         {
-            foreach (T value in Enum.GetValues(typeof(T)))
-                Add(Unsafe.As<T, int>(ref Unsafe.AsRef(in value)));
+            foreach (T value in Enum.GetValues<T>())
+                Add(value);
         }
     }
 

@@ -88,17 +88,17 @@
                         Grid.Column="0"
                         Margin="2"
                         Style="{StaticResource IllustSearchTargetSelectorStyle}"
-                        SelectedItem="{x:Bind VM.SearchTarget.IntValue, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind VM.SearchTarget, Mode=TwoWay}" />
                     <ComboBox
                         Grid.Column="1"
                         Margin="2"
                         Style="{StaticResource IllustSortModeSelectorStyle}"
-                        SelectedItem="{x:Bind VM.SortMode.IntValue, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind VM.SortMode, Mode=TwoWay}" />
                     <ComboBox
                         Grid.Column="2"
                         Margin="2"
                         Style="{StaticResource AgeRestrictionSelectorStyle}"
-                        SelectedItem="{x:Bind VM.IntSelectedAge, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind VM.SelectedAge, Mode=TwoWay}" />
                     <DropDownButton
                         x:Uid="SearchRange"
                         Grid.Column="3"

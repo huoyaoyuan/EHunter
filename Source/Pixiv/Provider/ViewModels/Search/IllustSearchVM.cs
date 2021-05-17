@@ -43,9 +43,19 @@ namespace EHunter.Pixiv.ViewModels.Search
             private set => SetProperty(ref _effectiveWord, value);
         }
 
-        public EnumValueHolder<IllustSearchTarget> SearchTarget { get; } = new();
+        private IllustSearchTarget _searchTarget;
+        public IllustSearchTarget SearchTarget
+        {
+            get => _searchTarget;
+            set => SetProperty(ref _searchTarget, value);
+        }
 
-        public EnumValueHolder<IllustSortMode> SortMode { get; } = new();
+        private IllustSortMode _sortMode;
+        public IllustSortMode SortMode
+        {
+            get => _sortMode;
+            set => SetProperty(ref _sortMode, value);
+        }
 
         private bool _minBookmarkEnabled;
         public bool MinBookmarkEnabled
@@ -107,7 +117,7 @@ namespace EHunter.Pixiv.ViewModels.Search
         {
             var options = new IllustFilterOptions
             {
-                SortMode = SortMode.Value,
+                SortMode = SortMode,
                 MinBookmarkCount = MinBookmarkEnabled ? MinBookmark : null,
                 MaxBookmarkCount = MaxBookmarkEnabled ? MaxBookmark : null,
                 StartDate = StartDateEnabled ? StartDate.DateTime : null,
@@ -119,7 +129,7 @@ namespace EHunter.Pixiv.ViewModels.Search
 
             return Tag != null
                 ? Tag.GetIllustsAsync(options)
-                : _parent.ClientResolver.Resolve().SearchIllustsAsync(SearchWord, SearchTarget.Value, options);
+                : _parent.ClientResolver.Resolve().SearchIllustsAsync(SearchWord, SearchTarget, options);
         }
     }
 }
