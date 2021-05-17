@@ -37,6 +37,7 @@
                         <Setter Target="password.Visibility" Value="Collapsed" />
                         <Setter Target="loginButton.Visibility" Value="Collapsed" />
                         <Setter Target="logoutButton.Visibility" Value="Visible" />
+                        <Setter Target="endPoint.IsEnabled" Value="True" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -78,6 +79,13 @@
                 <ComboBoxItem x:Uid="ConnectionMode_ApplicationProxy" />
                 <ComboBoxItem x:Uid="ConnectionMode_NoProxy" />
             </ComboBox>
+            <ToggleSwitch
+                x:Name="endPoint"
+                x:Uid="EndPoint"
+                OnContent="ExHentai"
+                OffContent="E-Hentai"
+                IsEnabled="False"
+                IsOn="{x:Bind _vm.UseExHentai}" />
         </StackPanel>
     </ScrollViewer>
 </Page>

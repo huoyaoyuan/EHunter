@@ -21,6 +21,7 @@ namespace EHunter.EHentai.ViewModels
             _clientResolver = clientResolver;
 
             _connectionMode = settingStore.ConnectionMode;
+            _useExHentai = settingStore.UseExHentai;
             IsLogin = clientResolver.Resolve().IsLogin;
         }
 
@@ -60,6 +61,17 @@ namespace EHunter.EHentai.ViewModels
             {
                 if (SetProperty(ref _connectionMode, value))
                     _settings.SetConnectionOption(value);
+            }
+        }
+
+        private bool _useExHentai;
+        public bool UseExHentai
+        {
+            get => _useExHentai;
+            set
+            {
+                if (SetProperty(ref _useExHentai, value))
+                    _settings.SetUseExHentai(value);
             }
         }
 

@@ -129,6 +129,9 @@
   <data name="ConnectionMode_SystemProxy.Content" xml:space="preserve">
     <value>System Proxy</value>
   </data>
+  <data name="EndPoint.Header" xml:space="preserve">
+    <value>End Point</value>
+  </data>
   <data name="Login.Content" xml:space="preserve">
     <value>Login</value>
   </data>
