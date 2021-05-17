@@ -13,8 +13,8 @@
            x:Key="AgeRestrictionSelectorStyle">
         <Setter Property="ItemTemplate">
             <Setter.Value>
-                <DataTemplate x:DataType="x:Int32">
-                    <controls:AgeRestrictionPresenter IntAge="{x:Bind}" />
+                <DataTemplate x:DataType="m:AgeRestriction">
+                    <controls:AgeRestrictionPresenter Age="{x:Bind}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>

@@ -19,8 +19,13 @@ namespace EHunter.Pixiv.Resources
         }
     }
 
-    internal class AgeRestrictionValues : EnumValueCollection<AgeRestriction>
+    internal class AgeRestrictionValues : Collection<AgeRestriction>
     {
+        public AgeRestrictionValues()
+        {
+            foreach (AgeRestriction value in Enum.GetValues(typeof(AgeRestriction)))
+                Add(value);
+        }
     }
 
     internal class IllustSearchTargetValues : EnumValueCollection<IllustSearchTarget>

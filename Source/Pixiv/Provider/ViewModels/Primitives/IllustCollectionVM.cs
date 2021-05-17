@@ -39,17 +39,8 @@ namespace EHunter.Pixiv.ViewModels.Primitives
             set
             {
                 if (SetProperty(ref _selectedAge, value))
-                {
-                    OnPropertyChanged(nameof(IntSelectedAge));
                     Refresh();
-                }
             }
-        }
-
-        public int IntSelectedAge
-        {
-            get => (int)SelectedAge;
-            set => SelectedAge = (AgeRestriction)value;
         }
     }
 }
