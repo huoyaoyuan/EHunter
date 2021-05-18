@@ -23,8 +23,11 @@ namespace EHunter.SourceGenerator
                 return;
             }
 
-            static TypeSyntax GetTypeSyntax(ITypeSymbol typeSymbol)
-                 => ParseTypeName(typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
+            static TypeSyntax GetTypeSyntax(ITypeSymbol typeSymbol, bool isNullable)
+            {
+                var typeName = ParseTypeName(typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
+                return isNullable ? NullableType(typeName) : typeName;
+            }
 
             foreach (var classDeclaration in receiver.CandidateClasses)
             {
@@ -49,16 +52,20 @@ namespace EHunter.SourceGenerator
 
                     bool isSetterPublic = true;
                     string? initializer = null;
+                    bool isNullable = false;
 
                     foreach (var namedArgument in attribute.NamedArguments)
                     {
                         switch (namedArgument)
                         {
-                            case { Key: "IsSetterPublic", Value: { Value: bool isSetterPublicValue } }:
-                                isSetterPublic = isSetterPublicValue;
+                            case { Key: "IsSetterPublic", Value: { Value: bool value } }:
+                                isSetterPublic = value;
                                 break;
-                            case { Key: "Initializer", Value: { Value: string initializerValue } }:
-                                initializer = initializerValue;
+                            case { Key: "Initializer", Value: { Value: string value } }:
+                                initializer = value;
+                                break;
+                            case { Key: "IsNullable", Value: { Value: bool value } }:
+                                isNullable = value;
                                 break;
                         }
                     }
@@ -75,7 +82,7 @@ namespace EHunter.SourceGenerator
                             .WithInitializer(EqualsValueClause(
                                 ParseExpression(initializer)
                                 ));
-                    var fieldDeclaration = FieldDeclaration(VariableDeclaration(GetTypeSyntax(type)))
+                    var fieldDeclaration = FieldDeclaration(VariableDeclaration(GetTypeSyntax(type, isNullable)))
                         .AddModifiers(Token(SyntaxKind.PrivateKeyword))
                         .AddDeclarationVariables(variableDeclaration);
 
@@ -96,7 +103,7 @@ namespace EHunter.SourceGenerator
                         .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
                     if (!isSetterPublic)
                         setter = setter.AddModifiers(Token(SyntaxKind.PrivateKeyword));
-                    var propertyDeclaration = PropertyDeclaration(GetTypeSyntax(type), propertyName)
+                    var propertyDeclaration = PropertyDeclaration(GetTypeSyntax(type, isNullable), propertyName)
                         .AddModifiers(Token(SyntaxKind.PublicKeyword))
                         .AddAccessorListAccessors(getter, setter);
 
@@ -115,7 +122,13 @@ namespace EHunter.SourceGenerator
                                 .WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted)
                             )
                         ))
-                        .AddMembers(generatedClass);
+                        .AddMembers(generatedClass)
+                        .WithNamespaceKeyword(
+                            Token(SyntaxKind.NamespaceKeyword)
+                                .WithLeadingTrivia(
+                                    Trivia(NullableDirectiveTrivia(Token(SyntaxKind.EnableKeyword), true))
+                                )
+                        );
                     var compilationUnit = CompilationUnit()
                         .AddMembers(generatedNamespace)
                         .NormalizeWhitespace();

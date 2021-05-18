@@ -17,7 +17,7 @@ namespace EHunter.Pixiv.ViewModels
     [ObservableProperty("IsLoggedin", typeof(bool), IsSetterPublic = false)]
     [ObservableProperty("DatabaseInitState", typeof(bool?))]
     [ObservableProperty("ShowLoginException", typeof(bool))]
-    [ObservableProperty("LoginException", typeof(Exception))]
+    [ObservableProperty("LoginException", typeof(Exception), IsNullable = true)]
     public partial class LoginPageVM : ObservableObject
     {
         private readonly IPixivSettingStore _settingStore;
