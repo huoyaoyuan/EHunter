@@ -48,6 +48,7 @@ namespace EHunter.SourceGenerator
                         continue;
 
                     bool isSetterPublic = true;
+                    string? initializer = null;
 
                     foreach (var namedArgument in attribute.NamedArguments)
                     {
@@ -55,6 +56,9 @@ namespace EHunter.SourceGenerator
                         {
                             case { Key: "IsSetterPublic", Value: { Value: bool isSetterPublicValue } }:
                                 isSetterPublic = isSetterPublicValue;
+                                break;
+                            case { Key: "Initializer", Value: { Value: string initializerValue } }:
+                                initializer = initializerValue;
                                 break;
                         }
                     }
@@ -65,9 +69,15 @@ namespace EHunter.SourceGenerator
                     sb[1] = char.ToLowerInvariant(sb[1]);
                     string fieldName = sb.ToString();
 
+                    var variableDeclaration = VariableDeclarator(fieldName);
+                    if (initializer != null)
+                        variableDeclaration = variableDeclaration
+                            .WithInitializer(EqualsValueClause(
+                                ParseExpression(initializer)
+                                ));
                     var fieldDeclaration = FieldDeclaration(VariableDeclaration(GetTypeSyntax(type)))
                         .AddModifiers(Token(SyntaxKind.PrivateKeyword))
-                        .AddDeclarationVariables(VariableDeclarator(fieldName));
+                        .AddDeclarationVariables(variableDeclaration);
 
                     var getter = AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
                         .WithExpressionBody(ArrowExpressionClause(

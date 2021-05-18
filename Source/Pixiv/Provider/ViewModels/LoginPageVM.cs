@@ -12,6 +12,7 @@ using EHunter.Pixiv.Settings;
 namespace EHunter.Pixiv.ViewModels
 {
     [Export]
+    [ObservableProperty("RefreshToken", typeof(string), Initializer = "string.Empty")]
     [ObservableProperty("IsLoggingIn", typeof(bool), IsSetterPublic = false)]
     [ObservableProperty("IsLoggedin", typeof(bool), IsSetterPublic = false)]
     [ObservableProperty("DatabaseInitState", typeof(bool?))]
@@ -51,13 +52,6 @@ namespace EHunter.Pixiv.ViewModels
                 DatabaseInitState = eHunterContextResolver.Resolve() is not null && pixivContextResolver.Resolve() is not null;
                 CheckInitialize();
             }
-        }
-
-        private string _refreshToken = string.Empty;
-        public string RefreshToken
-        {
-            get => _refreshToken;
-            set => SetProperty(ref _refreshToken, value);
         }
 
         private PixivConnectionMode _connectionMode;

@@ -14,5 +14,6 @@ namespace EHunter
         public string Name { get; }
         public Type Type { get; }
         public bool IsSetterPublic { get; set; } = true;
+        public string? Initializer { get; set; }
     }
 }
