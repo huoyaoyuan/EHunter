@@ -12,7 +12,8 @@ using EHunter.Pixiv.Settings;
 namespace EHunter.Pixiv.ViewModels
 {
     [Export]
-    public class LoginPageVM : ObservableObject
+    [ObservableProperty("ShowLoginException", typeof(bool))]
+    public partial class LoginPageVM : ObservableObject
     {
         private readonly IPixivSettingStore _settingStore;
         private readonly PixivSetting _setting;
@@ -83,13 +84,6 @@ namespace EHunter.Pixiv.ViewModels
         public void LoginWithWebView(Func<string, Task<Uri>> browserTask) => PerformLogin(_clientService.LoginAsync(browserTask));
 
         public void LoginWithToken() => PerformLogin(_clientService.LoginAsync(RefreshToken));
-
-        private bool _showLoginException;
-        public bool ShowLoginException
-        {
-            get => _showLoginException;
-            set => SetProperty(ref _showLoginException, value);
-        }
 
         private Exception? _loginException;
         public Exception? LoginException
