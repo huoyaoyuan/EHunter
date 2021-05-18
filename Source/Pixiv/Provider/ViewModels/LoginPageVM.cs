@@ -13,6 +13,7 @@ namespace EHunter.Pixiv.ViewModels
 {
     [Export]
     [ObservableProperty("RefreshToken", typeof(string), Initializer = "string.Empty")]
+    [ObservableProperty("ConnectionMode", typeof(PixivConnectionMode), ChangedAction = "_setting.SetConnectionOption(value);")]
     [ObservableProperty("IsLoggingIn", typeof(bool), IsSetterPublic = false)]
     [ObservableProperty("IsLoggedin", typeof(bool), IsSetterPublic = false)]
     [ObservableProperty("DatabaseInitState", typeof(bool?))]
@@ -51,17 +52,6 @@ namespace EHunter.Pixiv.ViewModels
                 await Task.WhenAll(eHunterContextResolver.InitializeTask, pixivContextResolver.InitializeTask).ConfigureAwait(true);
                 DatabaseInitState = eHunterContextResolver.Resolve() is not null && pixivContextResolver.Resolve() is not null;
                 CheckInitialize();
-            }
-        }
-
-        private PixivConnectionMode _connectionMode;
-        public PixivConnectionMode ConnectionMode
-        {
-            get => _connectionMode;
-            set
-            {
-                if (SetProperty(ref _connectionMode, value))
-                    _setting.SetConnectionOption(value);
             }
         }
 

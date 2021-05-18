@@ -16,5 +16,6 @@ namespace EHunter
         public bool IsSetterPublic { get; set; } = true;
         public bool IsNullable { get; set; } = true;
         public string? Initializer { get; set; }
+        public string? ChangedAction { get; set; }
     }
 }

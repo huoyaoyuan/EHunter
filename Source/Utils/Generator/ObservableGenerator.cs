@@ -53,6 +53,7 @@ namespace EHunter.SourceGenerator
                     bool isSetterPublic = true;
                     string? initializer = null;
                     bool isNullable = false;
+                    string? changedAction = null;
 
                     foreach (var namedArgument in attribute.NamedArguments)
                     {
@@ -66,6 +67,9 @@ namespace EHunter.SourceGenerator
                                 break;
                             case { Key: "IsNullable", Value: { Value: bool value } }:
                                 isNullable = value;
+                                break;
+                            case { Key: "ChangedAction", Value: { Value: string value } }:
+                                changedAction = value;
                                 break;
                         }
                     }
@@ -91,16 +95,20 @@ namespace EHunter.SourceGenerator
                             IdentifierName(fieldName)
                             ))
                         .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
-                    var setter = AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
-                        .WithExpressionBody(ArrowExpressionClause(
-                            InvocationExpression(IdentifierName("SetProperty"))
-                                .AddArgumentListArguments(
-                                    Argument(IdentifierName(fieldName))
-                                        .WithRefKindKeyword(Token(SyntaxKind.RefKeyword)),
-                                    Argument(IdentifierName("value"))
-                                )
-                            ))
-                        .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
+                    var setProperty = InvocationExpression(IdentifierName("SetProperty"))
+                        .AddArgumentListArguments(
+                            Argument(IdentifierName(fieldName))
+                                .WithRefKindKeyword(Token(SyntaxKind.RefKeyword)),
+                            Argument(IdentifierName("value"))
+                        );
+                    var setter = changedAction is null
+                        ? AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
+                            .WithExpressionBody(ArrowExpressionClause(setProperty))
+                            .WithSemicolonToken(Token(SyntaxKind.SemicolonToken))
+                        : AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
+                            .WithBody(Block(
+                                IfStatement(setProperty, ParseStatement(changedAction))
+                            ));
                     if (!isSetterPublic)
                         setter = setter.AddModifiers(Token(SyntaxKind.PrivateKeyword));
                     var propertyDeclaration = PropertyDeclaration(GetTypeSyntax(type, isNullable), propertyName)
