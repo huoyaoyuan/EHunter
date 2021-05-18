@@ -12,7 +12,11 @@ using EHunter.Pixiv.Settings;
 namespace EHunter.Pixiv.ViewModels
 {
     [Export]
+    [ObservableProperty("IsLoggingIn", typeof(bool), IsSetterPublic = false)]
+    [ObservableProperty("IsLoggedin", typeof(bool), IsSetterPublic = false)]
+    [ObservableProperty("DatabaseInitState", typeof(bool?))]
     [ObservableProperty("ShowLoginException", typeof(bool))]
+    [ObservableProperty("LoginException", typeof(Exception))]
     public partial class LoginPageVM : ObservableObject
     {
         private readonly IPixivSettingStore _settingStore;
@@ -56,20 +60,6 @@ namespace EHunter.Pixiv.ViewModels
             set => SetProperty(ref _refreshToken, value);
         }
 
-        private bool _isLoggingIn;
-        public bool IsLoggingIn
-        {
-            get => _isLoggingIn;
-            private set => SetProperty(ref _isLoggingIn, value);
-        }
-
-        private bool _isLoggedin;
-        public bool IsLoggedin
-        {
-            get => _isLoggedin;
-            private set => SetProperty(ref _isLoggedin, value);
-        }
-
         private PixivConnectionMode _connectionMode;
         public PixivConnectionMode ConnectionMode
         {
@@ -84,13 +74,6 @@ namespace EHunter.Pixiv.ViewModels
         public void LoginWithWebView(Func<string, Task<Uri>> browserTask) => PerformLogin(_clientService.LoginAsync(browserTask));
 
         public void LoginWithToken() => PerformLogin(_clientService.LoginAsync(RefreshToken));
-
-        private Exception? _loginException;
-        public Exception? LoginException
-        {
-            get => _loginException;
-            set => SetProperty(ref _loginException, value);
-        }
 
         private async void PerformLogin(Task<string> loginTask)
         {
@@ -112,13 +95,6 @@ namespace EHunter.Pixiv.ViewModels
 
             IsLoggingIn = false;
             CheckInitialize();
-        }
-
-        private bool? _databaseInitState;
-        public bool? DatabaseInitState
-        {
-            get => _databaseInitState;
-            private set => SetProperty(ref _databaseInitState, value);
         }
 
         private void CheckInitialize()

@@ -47,6 +47,18 @@ namespace EHunter.SourceGenerator
                     if (attribute.ConstructorArguments[1].Value is not INamedTypeSymbol type)
                         continue;
 
+                    bool isSetterPublic = true;
+
+                    foreach (var namedArgument in attribute.NamedArguments)
+                    {
+                        switch (namedArgument)
+                        {
+                            case { Key: "IsSetterPublic", Value: { Value: bool isSetterPublicValue } }:
+                                isSetterPublic = isSetterPublicValue;
+                                break;
+                        }
+                    }
+
                     var sb = new StringBuilder(propertyName.Length + 1)
                         .Append('_')
                         .Append(propertyName);
@@ -57,25 +69,26 @@ namespace EHunter.SourceGenerator
                         .AddModifiers(Token(SyntaxKind.PrivateKeyword))
                         .AddDeclarationVariables(VariableDeclarator(fieldName));
 
+                    var getter = AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
+                        .WithExpressionBody(ArrowExpressionClause(
+                            IdentifierName(fieldName)
+                            ))
+                        .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
+                    var setter = AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
+                        .WithExpressionBody(ArrowExpressionClause(
+                            InvocationExpression(IdentifierName("SetProperty"))
+                                .AddArgumentListArguments(
+                                    Argument(IdentifierName(fieldName))
+                                        .WithRefKindKeyword(Token(SyntaxKind.RefKeyword)),
+                                    Argument(IdentifierName("value"))
+                                )
+                            ))
+                        .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
+                    if (!isSetterPublic)
+                        setter = setter.AddModifiers(Token(SyntaxKind.PrivateKeyword));
                     var propertyDeclaration = PropertyDeclaration(GetTypeSyntax(type), propertyName)
                         .AddModifiers(Token(SyntaxKind.PublicKeyword))
-                        .AddAccessorListAccessors(
-                            AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
-                                .WithExpressionBody(ArrowExpressionClause(
-                                    IdentifierName(fieldName)
-                                    ))
-                                .WithSemicolonToken(Token(SyntaxKind.SemicolonToken)),
-                            AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
-                                .WithExpressionBody(ArrowExpressionClause(
-                                    InvocationExpression(IdentifierName("SetProperty"))
-                                        .AddArgumentListArguments(
-                                            Argument(IdentifierName(fieldName))
-                                                .WithRefKindKeyword(Token(SyntaxKind.RefKeyword)),
-                                            Argument(IdentifierName("value"))
-                                        )
-                                    ))
-                                .WithSemicolonToken(Token(SyntaxKind.SemicolonToken))
-                        );
+                        .AddAccessorListAccessors(getter, setter);
 
                     members.Add(fieldDeclaration);
                     members.Add(propertyDeclaration);
