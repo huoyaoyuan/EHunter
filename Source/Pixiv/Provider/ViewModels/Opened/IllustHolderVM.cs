@@ -3,7 +3,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace EHunter.Pixiv.ViewModels.Opened
 {
-    public class IllustHolderVM : ObservableObject
+    [ObservableProperty("IllustVM", typeof(IllustVM), IsNullable = true, IsSetterPublic = false)]
+    [ObservableProperty("NotFound", typeof(bool), IsSetterPublic = false)]
+    public partial class IllustHolderVM : ObservableObject
     {
         public IllustHolderVM(int illustId, Task<IllustVM> task)
         {
@@ -30,19 +32,5 @@ namespace EHunter.Pixiv.ViewModels.Opened
         }
 
         public int IllustId { get; }
-
-        private IllustVM? _illustVM;
-        public IllustVM? IllustVM
-        {
-            get => _illustVM;
-            set => SetProperty(ref _illustVM, value);
-        }
-
-        private bool _notFound;
-        public bool NotFound
-        {
-            get => _notFound;
-            set => SetProperty(ref _notFound, value);
-        }
     }
 }

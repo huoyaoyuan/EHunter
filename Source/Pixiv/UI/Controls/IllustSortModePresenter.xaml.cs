@@ -11,7 +11,6 @@ namespace EHunter.Pixiv.Controls
     {
         public IllustSortModePresenter() => InitializeComponent();
 
-        // TODO: https://github.com/microsoft/microsoft-ui-xaml/issues/3339
         private IllustSortMode _sortMode;
         public IllustSortMode SortMode
         {
@@ -21,12 +20,6 @@ namespace EHunter.Pixiv.Controls
                 _sortMode = value;
                 VisualStateManager.GoToState(this, value.ToString(), false);
             }
-        }
-
-        public int IntSortMode
-        {
-            get => (int)SortMode;
-            set => SortMode = (IllustSortMode)value;
         }
     }
 }

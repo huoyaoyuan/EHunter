@@ -164,7 +164,7 @@
                 <ComboBox
                     Grid.Column="3"
                     Margin="4"
-                    SelectedItem="{x:Bind VM.IntSelectedAge, Mode=TwoWay}"
+                    SelectedItem="{x:Bind VM.SelectedAge, Mode=TwoWay}"
                     Style="{StaticResource AgeRestrictionSelectorStyle}" />
             </Grid>
         </controls:IllustCollectionView>

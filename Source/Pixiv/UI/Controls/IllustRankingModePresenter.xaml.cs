@@ -10,7 +10,6 @@ namespace EHunter.Pixiv.Controls
     {
         public IllustRankingModePresenter() => InitializeComponent();
 
-        // TODO: https://github.com/microsoft/microsoft-ui-xaml/issues/3339
         private IllustRankingMode _mode;
         public IllustRankingMode Mode
         {
@@ -20,12 +19,6 @@ namespace EHunter.Pixiv.Controls
                 _mode = value;
                 Bindings.Update();
             }
-        }
-
-        public int IntMode
-        {
-            get => (int)Mode;
-            set => Mode = (IllustRankingMode)value;
         }
     }
 }

@@ -28,7 +28,7 @@
             <ComboBox
                 x:Uid="UseProxy"
                 Style="{StaticResource PixivConnectionModeSelectorStyle}"
-                SelectedItem="{x:Bind _setting.IntConnectionMode}" />
+                SelectedItem="{x:Bind _setting.ConnectionMode}" />
 
             <TextBlock
                 Style="{ThemeResource TitleTextBlockStyle}"
