@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.Controls"
     xmlns:local="using:EHunter.EHentai.Views"
+    xmlns:galleryList="using:EHunter.EHentai.Views.GalleryList"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -13,6 +14,12 @@
         PaneDisplayMode="LeftCompact"
         controls:NavigationHelper.IsAutoNavigationEnabled="True"
         controls:NavigationHelper.SettingsViewType="local:EHentaiSettingsPage">
+        <NavigationView.MenuItems>
+            <NavigationViewItem
+                x:Uid="Navigation_List"
+                Icon="AllApps" IsSelected="True"
+                controls:NavigationHelper.NavigationType="galleryList:GalleryListPage" />
+        </NavigationView.MenuItems>
         <Frame />
     </NavigationView>
 </Page>

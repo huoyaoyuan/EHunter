@@ -138,6 +138,9 @@
   <data name="Logout.Content" xml:space="preserve">
     <value>退出登录</value>
   </data>
+  <data name="Navigation_List.Content" xml:space="preserve">
+    <value>列表</value>
+  </data>
   <data name="Password.Header" xml:space="preserve">
     <value>密码</value>
   </data>
