@@ -10,8 +10,8 @@
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <TabView
-        x:Name="tabView"
         VerticalAlignment="Stretch"
+        CanReorderTabs="True"
         TabItemsSource="{x:Bind _vm.Tabs}"
         TabCloseRequested="TabCloseRequested"
         SelectedIndex="{x:Bind _vm.SelectedIndex, Mode=TwoWay}"
