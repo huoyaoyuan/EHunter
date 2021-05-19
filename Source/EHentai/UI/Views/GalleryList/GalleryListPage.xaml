@@ -5,6 +5,7 @@
     xmlns:local="using:EHunter.EHentai.Views.GalleryList"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:EHunter.EHentai.ViewModels.GalleryList"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -15,5 +16,13 @@
         TabCloseRequested="TabCloseRequested"
         SelectedIndex="{x:Bind _vm.SelectedIndex, Mode=TwoWay}"
         SelectedItem="{x:Bind _vm.SelectedItem, Mode=TwoWay}"
-        AddTabButtonClick="{x:Bind _vm.AddTab}"></TabView>
+        AddTabButtonClick="{x:Bind _vm.AddTab}">
+        <TabView.TabItemTemplate>
+            <DataTemplate x:DataType="vm:GalleryListVM">
+                <TabViewItem Header="Page">
+                    <local:GalleryListTab VM="{x:Bind}" />
+                </TabViewItem>
+            </DataTemplate>
+        </TabView.TabItemTemplate>
+    </TabView>
 </Page>
