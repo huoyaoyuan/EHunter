@@ -64,13 +64,34 @@ namespace EHunter.EHentai.Api
                 }!)
             };
 
-            await _httpClient.SendAsync(request).ConfigureAwait(false);
+            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
 
             var cookies = _cookies.GetCookies(new Uri("https://e-hentai.org"));
-            var result = (cookies[MemberIdCookie]?.Value ?? throw new InvalidOperationException("No login cookies"),
-                cookies[PassHashCookie]?.Value ?? throw new InvalidOperationException("No login cookies"));
+            string? memberId = cookies[MemberIdCookie]?.Value, passHash = cookies[PassHashCookie]?.Value;
+
+            if (memberId is null || passHash is null)
+            {
+                // try to identify the failure reason
+                var config = Configuration.Default;
+                var context = BrowsingContext.New(config);
+                var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                var document = await context
+                    .OpenAsync(req => req.Content(responseStream))
+                    .ConfigureAwait(false);
+                var title = document.QuerySelectorAll<IHtmlDivElement>("div.formsubtitle")
+                    .FirstOrDefault(x => x.Text() == "The following errors were found:");
+                if (title != null)
+                {
+                    var span = title.ParentElement.QuerySelector("span.postcolor");
+                    if (span != null)
+                        throw new InvalidOperationException(span.Text());
+                }
+
+                throw new InvalidOperationException("Unknown error happed while login.");
+            }
+
             IsLogin = true;
-            return result;
+            return (memberId, passHash);
         }
 
         private const string MemberIdCookie = "ipb_member_id";
