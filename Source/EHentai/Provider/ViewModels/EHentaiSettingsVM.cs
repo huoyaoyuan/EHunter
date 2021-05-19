@@ -1,4 +1,5 @@
-﻿using System.Composition;
+﻿using System;
+using System.Composition;
 using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.EHentai.Api;
@@ -11,6 +12,8 @@ namespace EHunter.EHentai.ViewModels
     [ObservableProperty("IsLoggingIn", typeof(bool), IsSetterPublic = false)]
     [ObservableProperty("Username", typeof(string), Initializer = "string.Empty")]
     [ObservableProperty("Password", typeof(string), Initializer = "string.Empty")]
+    [ObservableProperty("ShowLoginException", typeof(bool))]
+    [ObservableProperty("LoginException", typeof(Exception), IsNullable = true, IsSetterPublic = false)]
     public partial class EHentaiSettingsVM : ObservableObject
     {
         private readonly EHentaiSetting _settings;
@@ -55,6 +58,8 @@ namespace EHunter.EHentai.ViewModels
         {
             try
             {
+                ShowLoginException = false;
+                LoginException = null;
                 IsLoggingIn = true;
                 var client = _clientResolver.Resolve();
                 var (memberId, passHash) = await client.LoginAsync(Username, Password).ConfigureAwait(true);
@@ -62,9 +67,10 @@ namespace EHunter.EHentai.ViewModels
                 _settingStore.PassHash = passHash;
                 IsLogin = client.IsLogin;
             }
-            catch
+            catch (Exception ex)
             {
-
+                LoginException = ex;
+                ShowLoginException = true;
             }
             finally
             {

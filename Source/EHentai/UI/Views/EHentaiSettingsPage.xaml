@@ -26,6 +26,7 @@
                         <Setter Target="username.IsEnabled" Value="False" />
                         <Setter Target="password.IsEnabled" Value="False" />
                         <Setter Target="loginButton.IsEnabled" Value="False" />
+                        <Setter Target="loginProgress.IsActive" Value="True" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="AlreadyLogin">
@@ -58,15 +59,26 @@
                 x:Name="password"
                 x:Uid="Password"
                 Password="{x:Bind _vm.Password}" />
-            <Button
-                x:Name="loginButton"
-                x:Uid="Login"
-                Click="{x:Bind _vm.Login}" />
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="4">
+                <Button
+                    x:Name="loginButton"
+                    x:Uid="Login"
+                    Click="{x:Bind _vm.Login}" />
+                <ProgressRing
+                    x:Name="loginProgress"
+                    IsActive="False" />
+            </StackPanel>
             <Button
                 x:Name="logoutButton"
                 x:Uid="Logout"
                 Visibility="Collapsed"
                 Click="{x:Bind _vm.Logout}" />
+            <InfoBar
+                Severity="Error"
+                IsOpen="{x:Bind _vm.ShowLoginException}"
+                Message="{x:Bind _vm.LoginException.Message, Mode=OneWay}" />
             
             <TextBlock
                 x:Uid="SettingSection_Connection"
