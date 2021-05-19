@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.ViewModels.User;
@@ -17,10 +16,9 @@ namespace EHunter.Pixiv.Views.User
     public sealed partial class UsersPage : Page
     {
         private readonly UserVMFactory _factory = Ioc.Default.GetRequiredService<UserVMFactory>();
+        private readonly JumpToUserManager _vm = Ioc.Default.GetRequiredService<JumpToUserManager>();
 
         public UsersPage() => InitializeComponent();
-
-        private readonly ObservableCollection<JumpToUserVM> _vms = new();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -30,10 +28,10 @@ namespace EHunter.Pixiv.Views.User
                     Parameter: NavigateToUserMessage m
                 })
             {
-                var vm = _vms.FirstOrDefault(x => x.UserInfo?.Id == m.User.Id);
+                var vm = _vm.Tabs.FirstOrDefault(x => x.UserInfo?.Id == m.User.Id);
                 if (vm is null)
                 {
-                    _vms.Add(vm = _factory.Create(m.User));
+                    _vm.Tabs.Add(vm = _factory.Create(m.User));
                 }
 
                 tabView.SelectedItem = vm;
@@ -41,14 +39,6 @@ namespace EHunter.Pixiv.Views.User
         }
 
         private void TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
-            => _vms.Remove((JumpToUserVM)args.Item);
-
-        private void AddTab()
-        {
-            // TODO: SelectedItem doesn't work properly here
-
-            _vms.Add(_factory.Create());
-            tabView.SelectedIndex = _vms.Count - 1;
-        }
+            => _vm.CloseTab(args.Item);
     }
 }

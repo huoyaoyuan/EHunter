@@ -19,7 +19,7 @@ namespace EHunter.Pixiv.Views.Search
         public IllustSearchPage() => InitializeComponent();
 
         private void TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
-            => _vm.CloseTab((IllustSearchVM)args.Item);
+            => _vm.CloseTab(args.Item);
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
