@@ -1,6 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.Composition;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Composition;
+using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
@@ -8,8 +7,7 @@ using Meowtrix.PixivApi.Models;
 namespace EHunter.Pixiv.ViewModels.Search
 {
     [Export, Shared]
-    [ObservableProperty("SelectedIndex", typeof(int))]
-    public partial class IllustSearchManager : ObservableObject
+    public partial class IllustSearchManager : TabsViewModel<IllustSearchVM>
     {
         internal readonly ICustomResolver<PixivClient> ClientResolver;
         internal readonly IllustVMFactory IllustVMFactory;
@@ -22,13 +20,7 @@ namespace EHunter.Pixiv.ViewModels.Search
             IllustVMFactory = illustVMFactory;
         }
 
-        public ObservableCollection<IllustSearchVM> Tabs { get; } = new();
-
-        public void AddTab()
-        {
-            Tabs.Add(new(this));
-            SelectedIndex = Tabs.Count - 1;
-        }
+        protected override IllustSearchVM CreateNewTab() => new(this);
 
         public void GoToTag(Tag tag)
         {
@@ -44,7 +36,5 @@ namespace EHunter.Pixiv.ViewModels.Search
             Tabs.Add(new(this, tag));
             SelectedIndex = Tabs.Count - 1;
         }
-
-        public void CloseTab(IllustSearchVM tab) => Tabs.Remove(tab);
     }
 }
