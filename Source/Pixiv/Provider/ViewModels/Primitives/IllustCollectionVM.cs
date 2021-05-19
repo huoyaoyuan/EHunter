@@ -5,18 +5,14 @@ using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Primitives
 {
-    public abstract class IllustCollectionVM : ObservableObject
+    [ObservableProperty("Illusts", typeof(IBindableCollection<IllustVM>), IsNullable = true, IsSetterPublic = false)]
+    // TODO: initializer qualification
+    [ObservableProperty("SelectedAge", typeof(AgeRestriction), Initializer = "Meowtrix.PixivApi.Models.AgeRestriction.All", ChangedAction = "Refresh();")]
+    public abstract partial class IllustCollectionVM : ObservableObject
     {
         private readonly IllustVMFactory _illustVMFactory;
 
         protected IllustCollectionVM(IllustVMFactory illustVMFactory) => _illustVMFactory = illustVMFactory;
-
-        private IBindableCollection<IllustVM>? _illusts;
-        public IBindableCollection<IllustVM>? Illusts
-        {
-            get => _illusts;
-            private set => SetProperty(ref _illusts, value);
-        }
 
         protected abstract IAsyncEnumerable<Illust>? LoadIllusts();
 
@@ -28,19 +24,6 @@ namespace EHunter.Pixiv.ViewModels.Primitives
             // TODO: Consider AdvancedCollectionView.Filter
             // Currently doesn't work with mignon/IsR18=true
             // 8.0.0-preview2
-        }
-
-        // TODO: https://github.com/microsoft/microsoft-ui-xaml/issues/3339
-
-        private AgeRestriction _selectedAge = AgeRestriction.All;
-        public AgeRestriction SelectedAge
-        {
-            get => _selectedAge;
-            set
-            {
-                if (SetProperty(ref _selectedAge, value))
-                    Refresh();
-            }
         }
     }
 }

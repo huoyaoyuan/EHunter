@@ -9,8 +9,10 @@ using static EHunter.Pixiv.ViewModels.Download.IllustDownloadState;
 
 namespace EHunter.Pixiv.ViewModels.Download
 {
+    [ObservableProperty("Exception", typeof(Exception), IsNullable = true, IsSetterPublic = false)]
+    [ObservableProperty("Progress", typeof(double), IsSetterPublic = false)]
 #pragma warning disable CA1001
-    public class IllustDownloadVM : ObservableObject
+    public partial class IllustDownloadVM : ObservableObject
 #pragma warning restore CA1001
     {
         private readonly DownloadManager _downloadManager;
@@ -160,20 +162,6 @@ namespace EHunter.Pixiv.ViewModels.Download
                     _cancelCommand.SetCanExecute(value is Waiting or Active);
                 }
             }
-        }
-
-        private Exception? _exception;
-        public Exception? Exception
-        {
-            get => _exception;
-            private set => SetProperty(ref _exception, value);
-        }
-
-        private double _progress;
-        public double Progress
-        {
-            get => _progress;
-            private set => SetProperty(ref _progress, value);
         }
 
         public ImageInfo IllustPreviewPage => Illust.Pages[0].Medium;

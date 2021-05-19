@@ -9,7 +9,8 @@ using Meowtrix.PixivApi.Models;
 namespace EHunter.Pixiv.ViewModels.Bookmark
 {
     [Export]
-    public class MyFollowingVM : ObservableObject
+    [ObservableProperty("Users", typeof(IBindableCollection<UserInfoWithPreview>), IsNullable = true, IsSetterPublic = false)]
+    public partial class MyFollowingVM : ObservableObject
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly IViewModelService _viewModelService;
@@ -28,13 +29,6 @@ namespace EHunter.Pixiv.ViewModels.Bookmark
         {
             var client = _clientResolver.Resolve();
             Users = _viewModelService.CreateAsyncCollection(client.GetMyFollowingUsersAsync());
-        }
-
-        private IBindableCollection<UserInfoWithPreview>? _users;
-        public IBindableCollection<UserInfoWithPreview>? Users
-        {
-            get => _users;
-            private set => SetProperty(ref _users, value);
         }
     }
 }

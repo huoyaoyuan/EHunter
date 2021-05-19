@@ -14,7 +14,9 @@ using Meowtrix.PixivApi.Models;
 namespace EHunter.Pixiv.ViewModels.Download
 {
     [Export, Shared]
-    public sealed class DownloadManager : ObservableObject, IDisposable
+    [ObservableProperty("PendingDownloads", typeof(int), IsSetterPublic = false)]
+    [ObservableProperty("ActiveDownloads", typeof(int), IsSetterPublic = false)]
+    public sealed partial class DownloadManager : ObservableObject, IDisposable
     {
         private readonly PixivSetting _setting;
         internal readonly DownloaderService Downloader;
@@ -87,20 +89,6 @@ namespace EHunter.Pixiv.ViewModels.Download
                 _wrById.Add(illust.Id, new(vm));
                 return vm;
             }
-        }
-
-        private int _pendingDownloads;
-        public int PendingDownloads
-        {
-            get => _pendingDownloads;
-            private set => SetProperty(ref _pendingDownloads, value);
-        }
-
-        private int _activeDownloads;
-        public int ActiveDownloads
-        {
-            get => _activeDownloads;
-            private set => SetProperty(ref _activeDownloads, value);
         }
 
         internal void QueueOne(IllustDownloadVM vm)

@@ -9,7 +9,10 @@ using Meowtrix.PixivApi.Models;
 namespace EHunter.Pixiv.ViewModels.Ranking
 {
     [Export]
-    public class RankingVM : IllustCollectionVM
+    [ObservableProperty("SelectedRankingMode", typeof(IllustRankingMode), ChangedAction = "Refresh();")]
+    // TODO: qualification
+    [ObservableProperty("Date", typeof(DateTimeOffset), Initializer = "System.DateTimeOffset.UtcNow.Date.AddDays(-1)", ChangedAction = "Refresh();")]
+    public partial class RankingVM : IllustCollectionVM
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
 
@@ -24,28 +27,6 @@ namespace EHunter.Pixiv.ViewModels.Ranking
 
         protected override IAsyncEnumerable<Illust>? LoadIllusts()
             => _clientResolver.Resolve().GetIllustRankingAsync(SelectedRankingMode, Date.Date);
-
-        private IllustRankingMode _selectedRaningMode;
-        public IllustRankingMode SelectedRankingMode
-        {
-            get => _selectedRaningMode;
-            set
-            {
-                if (SetProperty(ref _selectedRaningMode, value))
-                    Refresh();
-            }
-        }
-
-        private DateTimeOffset _date = DateTimeOffset.UtcNow.Date.AddDays(-1);
-        public DateTimeOffset Date
-        {
-            get => _date;
-            set
-            {
-                if (SetProperty(ref _date, value))
-                    Refresh();
-            }
-        }
 
         public void PrevDay() => Date -= TimeSpan.FromDays(1);
 

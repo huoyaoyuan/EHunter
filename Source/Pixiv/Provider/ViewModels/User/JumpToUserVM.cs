@@ -6,15 +6,13 @@ using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.User
 {
-    public class JumpToUserVM : IllustCollectionVM
+    [ObservableProperty("UserId", typeof(int))]
+    [ObservableProperty("IsLoading", typeof(bool))]
+    [ObservableProperty("UserInfo", typeof(UserInfo), IsNullable = true, IsSetterPublic = true)]
+    [ObservableProperty("UserDetail", typeof(UserDetailInfo), IsNullable = true, IsSetterPublic = true)]
+    public partial class JumpToUserVM : IllustCollectionVM
     {
         private readonly PixivClient _client;
-        private int _userId;
-        public int UserId
-        {
-            get => _userId;
-            set => SetProperty(ref _userId, value);
-        }
 
         public async void JumpToUser()
         {
@@ -52,27 +50,6 @@ namespace EHunter.Pixiv.ViewModels.User
                 Refresh();
                 UserDetail = await user.GetDetailAsync().ConfigureAwait(true);
             }
-        }
-
-        private UserInfo? _userInfo;
-        public UserInfo? UserInfo
-        {
-            get => _userInfo;
-            private set => SetProperty(ref _userInfo, value);
-        }
-
-        private UserDetailInfo? _userDetail;
-        public UserDetailInfo? UserDetail
-        {
-            get => _userDetail;
-            private set => SetProperty(ref _userDetail, value);
-        }
-
-        private bool _isLoading;
-        public bool IsLoading
-        {
-            get => _isLoading;
-            private set => SetProperty(ref _isLoading, value);
         }
 
         protected override IAsyncEnumerable<Illust>? LoadIllusts() => UserInfo?.GetIllustsAsync();
