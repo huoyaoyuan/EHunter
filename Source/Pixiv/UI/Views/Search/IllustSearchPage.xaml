@@ -7,14 +7,16 @@
     xmlns:vm="using:EHunter.Pixiv.ViewModels.Search"
     xmlns:local="using:EHunter.Pixiv.Views.Search"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    NavigationCacheMode="Required">
+    NavigationCacheMode="Required"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <TabView
         VerticalAlignment="Stretch"
+        CanReorderTabs="True"
         TabItemsSource="{x:Bind _vm.Tabs}"
+        TabCloseRequested="TabCloseRequested"
         SelectedIndex="{x:Bind _vm.SelectedIndex, Mode=TwoWay}"
-        AddTabButtonClick="{x:Bind _vm.AddTab}"
-        TabCloseRequested="TabCloseRequested">
+        SelectedItem="{x:Bind _vm.SelectedItem, Mode=TwoWay}"
+        AddTabButtonClick="{x:Bind _vm.AddTab}">
         <TabView.TabItemTemplate>
             <DataTemplate x:DataType="vm:IllustSearchVM"
                           x:DefaultBindMode="OneWay">
