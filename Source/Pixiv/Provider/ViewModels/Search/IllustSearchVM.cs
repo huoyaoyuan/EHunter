@@ -6,7 +6,21 @@ using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Search
 {
-    public class IllustSearchVM : IllustCollectionVM
+    [ObservableProperty("Tag", typeof(Tag), IsNullable = true, IsSetterPublic = false)]
+    [ObservableProperty("SearchWord", typeof(string), Initializer = "string.Empty")]
+    [ObservableProperty("EffectiveWord", typeof(string), Initializer = "string.Empty", IsSetterPublic = false)]
+    [ObservableProperty("SearchTarget", typeof(IllustSearchTarget))]
+    [ObservableProperty("SortMode", typeof(IllustSortMode))]
+    [ObservableProperty("MinBookmarkEnabled", typeof(bool))]
+    [ObservableProperty("MaxBookmarkEnabled", typeof(bool))]
+    [ObservableProperty("MinBookmark", typeof(int))]
+    [ObservableProperty("MaxBookmark", typeof(int))]
+    [ObservableProperty("StartDateEnabled", typeof(bool))]
+    [ObservableProperty("EndDateEnabled", typeof(bool))]
+    // TODO: qualification
+    [ObservableProperty("StartDate", typeof(DateTimeOffset), Initializer = "System.DateTimeOffset.UtcNow.Date")]
+    [ObservableProperty("EndDate", typeof(DateTimeOffset), Initializer = "System.DateTimeOffset.UtcNow.Date")]
+    public partial class IllustSearchVM : IllustCollectionVM
     {
         private readonly IllustSearchManager _parent;
 
@@ -20,97 +34,6 @@ namespace EHunter.Pixiv.ViewModels.Search
             EffectiveWord = tag.Name;
             Tag = tag;
             Refresh();
-        }
-
-        private Tag? _tag;
-        public Tag? Tag
-        {
-            get => _tag;
-            private set => SetProperty(ref _tag, value);
-        }
-
-        private string _searchWord = string.Empty;
-        public string SearchWord
-        {
-            get => _searchWord;
-            set => SetProperty(ref _searchWord, value);
-        }
-
-        private string _effectiveWord = string.Empty;
-        public string EffectiveWord
-        {
-            get => _effectiveWord;
-            private set => SetProperty(ref _effectiveWord, value);
-        }
-
-        private IllustSearchTarget _searchTarget;
-        public IllustSearchTarget SearchTarget
-        {
-            get => _searchTarget;
-            set => SetProperty(ref _searchTarget, value);
-        }
-
-        private IllustSortMode _sortMode;
-        public IllustSortMode SortMode
-        {
-            get => _sortMode;
-            set => SetProperty(ref _sortMode, value);
-        }
-
-        private bool _minBookmarkEnabled;
-        public bool MinBookmarkEnabled
-        {
-            get => _minBookmarkEnabled;
-            set => SetProperty(ref _minBookmarkEnabled, value);
-        }
-
-        private bool _maxBookmarkEnabled;
-        public bool MaxBookmarkEnabled
-        {
-            get => _maxBookmarkEnabled;
-            set => SetProperty(ref _maxBookmarkEnabled, value);
-        }
-
-        private int _minBookmark;
-        public int MinBookmark
-        {
-            get => _minBookmark;
-            set => SetProperty(ref _minBookmark, value);
-        }
-
-        private int _maxBookmark;
-        public int MaxBookmark
-        {
-            get => _maxBookmark;
-            set => SetProperty(ref _maxBookmark, value);
-        }
-
-        private bool _startDateEnabled;
-        public bool StartDateEnabled
-        {
-            get => _startDateEnabled;
-            set => SetProperty(ref _startDateEnabled, value);
-        }
-
-        private bool _endDateEnabled;
-        public bool EndDateEnabled
-        {
-            get => _endDateEnabled;
-            set => SetProperty(ref _endDateEnabled, value);
-        }
-
-        private DateTimeOffset _startDate = DateTimeOffset.UtcNow.Date;
-        public DateTimeOffset StartDate
-        {
-            get => _startDate;
-            set => SetProperty(ref _startDate, value);
-        }
-
-        private DateTimeOffset _endDate = DateTimeOffset.UtcNow.Date;
-        public DateTimeOffset EndDate
-        {
-            get => _endDate;
-            set => SetProperty(ref _endDate, value);
         }
 
         protected override IAsyncEnumerable<Illust> LoadIllusts()

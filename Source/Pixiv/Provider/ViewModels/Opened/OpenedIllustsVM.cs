@@ -9,7 +9,11 @@ using Meowtrix.PixivApi.Models;
 namespace EHunter.Pixiv.ViewModels.Opened
 {
     [Export]
-    public class OpenedIllustsVM : ObservableObject
+    [ObservableProperty("SelectedIllust", typeof(IllustHolderVM), IsNullable = true)]
+    [ObservableProperty("SelectedIndex", typeof(int), Initializer = "-1")]
+    [ObservableProperty("IdToOpenText", typeof(string), Initializer = "string.Empty")]
+    [ObservableProperty("CanClose", typeof(bool), IsSetterPublic = false)]
+    public partial class OpenedIllustsVM : ObservableObject
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly IllustVMFactory _illustVMFactory;
@@ -23,27 +27,6 @@ namespace EHunter.Pixiv.ViewModels.Opened
         }
 
         public ObservableCollection<IllustHolderVM> Illusts { get; } = new();
-
-        private IllustHolderVM? _selectedIllust;
-        public IllustHolderVM? SelectedIllust
-        {
-            get => _selectedIllust;
-            set => SetProperty(ref _selectedIllust, value);
-        }
-
-        private int _selectedIndex = -1;
-        public int SelectedIndex
-        {
-            get => _selectedIndex;
-            set => SetProperty(ref _selectedIndex, value);
-        }
-
-        private string _idToOpenText = string.Empty;
-        public string IdToOpenText
-        {
-            get => _idToOpenText;
-            set => SetProperty(ref _idToOpenText, value);
-        }
 
         public void OpenFromId()
         {
@@ -61,13 +44,6 @@ namespace EHunter.Pixiv.ViewModels.Opened
             Illusts.Add(illust);
             SelectedIllust = illust;
             CanClose = true;
-        }
-
-        private bool _canClose;
-        public bool CanClose
-        {
-            get => _canClose;
-            private set => SetProperty(ref _canClose, value);
         }
 
         public void CloseCurrent()

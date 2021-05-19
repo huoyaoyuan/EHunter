@@ -8,7 +8,8 @@ using Meowtrix.PixivApi.Models;
 namespace EHunter.Pixiv.ViewModels.Search
 {
     [Export, Shared]
-    public class IllustSearchManager : ObservableObject
+    [ObservableProperty("SelectedIndex", typeof(int))]
+    public partial class IllustSearchManager : ObservableObject
     {
         internal readonly ICustomResolver<PixivClient> ClientResolver;
         internal readonly IllustVMFactory IllustVMFactory;
@@ -22,13 +23,6 @@ namespace EHunter.Pixiv.ViewModels.Search
         }
 
         public ObservableCollection<IllustSearchVM> Tabs { get; } = new();
-
-        private int _selectedIndex;
-        public int SelectedIndex
-        {
-            get => _selectedIndex;
-            set => SetProperty(ref _selectedIndex, value);
-        }
 
         public void AddTab()
         {
