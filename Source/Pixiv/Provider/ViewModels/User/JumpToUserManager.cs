@@ -1,5 +1,7 @@
 ﻿using System.Composition;
+using System.Linq;
 using EHunter.ComponentModel;
+using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.User
 {
@@ -12,5 +14,16 @@ namespace EHunter.Pixiv.ViewModels.User
         public JumpToUserManager(UserVMFactory factory) => _factory = factory;
 
         protected override JumpToUserVM CreateNewTab() => _factory.Create();
+
+        public void GoToUser(UserInfo user)
+        {
+            var vm = Tabs.FirstOrDefault(x => x.UserInfo?.Id == user.Id);
+            if (vm is null)
+            {
+                Tabs.Add(vm = _factory.Create(user));
+            }
+
+            SelectedItem = vm;
+        }
     }
 }

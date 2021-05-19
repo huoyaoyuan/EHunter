@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.ViewModels.User;
 using Microsoft.UI.Xaml.Controls;
@@ -15,7 +14,6 @@ namespace EHunter.Pixiv.Views.User
     /// </summary>
     public sealed partial class UsersPage : Page
     {
-        private readonly UserVMFactory _factory = Ioc.Default.GetRequiredService<UserVMFactory>();
         private readonly JumpToUserManager _vm = Ioc.Default.GetRequiredService<JumpToUserManager>();
 
         public UsersPage() => InitializeComponent();
@@ -28,13 +26,7 @@ namespace EHunter.Pixiv.Views.User
                     Parameter: NavigateToUserMessage m
                 })
             {
-                var vm = _vm.Tabs.FirstOrDefault(x => x.UserInfo?.Id == m.User.Id);
-                if (vm is null)
-                {
-                    _vm.Tabs.Add(vm = _factory.Create(m.User));
-                }
-
-                tabView.SelectedItem = vm;
+                _vm.GoToUser(m.User);
             }
         }
 

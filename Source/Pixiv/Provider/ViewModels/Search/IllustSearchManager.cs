@@ -1,4 +1,5 @@
 ﻿using System.Composition;
+using System.Linq;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
 using Meowtrix.PixivApi;
@@ -24,17 +25,13 @@ namespace EHunter.Pixiv.ViewModels.Search
 
         public void GoToTag(Tag tag)
         {
-            for (int i = 0; i < Tabs.Count; i++)
+            var vm = Tabs.FirstOrDefault(x => x.Tag?.Name == tag.Name);
+            if (vm is null)
             {
-                if (Tabs[i].Tag?.Name == tag.Name)
-                {
-                    SelectedIndex = i;
-                    return;
-                }
+                Tabs.Add(vm = new(this, tag));
             }
 
-            Tabs.Add(new(this, tag));
-            SelectedIndex = Tabs.Count - 1;
+            SelectedItem = vm;
         }
     }
 }
