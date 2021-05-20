@@ -162,10 +162,18 @@ namespace EHunter.EHentai.Api
                 .ToArray();
 
             int totalCount = 0;
+            int pagesCount = 0;
             if (galleries.Length > 0)
             {
                 string countText = document.QuerySelector("div.ido>div>p.ip").Text(); // Showing xxx results
                 totalCount = int.Parse(countText.AsSpan()[8..^8], NumberStyles.AllowThousands);
+
+                pagesCount = int.Parse(
+                    document
+                        .QuerySelector("table.ptt")
+                        .QuerySelectorAll("td>a")[^2]
+                        .Text(),
+                    null);
             }
 
             var apiRequest = new
@@ -184,7 +192,8 @@ namespace EHunter.EHentai.Api
             if (rsp.Error != null)
                 throw new InvalidOperationException(rsp.Error);
 
-            return new(totalCount, rsp.Galleries.Select(g => new Gallery(this, uri, g)).ToImmutableArray());
+            return new(totalCount, pagesCount,
+                rsp.Galleries.Select(g => new Gallery(this, uri, g)).ToImmutableArray());
         }
     }
 }
