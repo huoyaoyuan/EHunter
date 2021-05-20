@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -140,7 +141,7 @@ namespace EHunter.EHentai.Api
             = new(@"e[x\-]hentai.org/g/(\d+)/([0-9a-f]+)", RegexOptions.Compiled | RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
         private static readonly JsonSerializerOptions s_apiResponseOptions = new(JsonSerializerDefaults.Web);
 
-        public async Task<IReadOnlyList<Gallery>> GetPageAsync(Uri uri)
+        public async Task<GalleryListPage> GetPageAsync(Uri uri)
         {
             using var request = await _httpClient.GetStreamAsync(uri).ConfigureAwait(false);
 
@@ -160,6 +161,13 @@ namespace EHunter.EHentai.Api
                 })
                 .ToArray();
 
+            int totalCount = 0;
+            if (galleries.Length > 0)
+            {
+                string countText = document.QuerySelector("div.ido>div>p.ip").Text(); // Showing xxx results
+                totalCount = int.Parse(countText.AsSpan()[8..^8], NumberStyles.AllowThousands);
+            }
+
             var apiRequest = new
             {
                 method = "gdata",
@@ -176,7 +184,7 @@ namespace EHunter.EHentai.Api
             if (rsp.Error != null)
                 throw new InvalidOperationException(rsp.Error);
 
-            return rsp.Galleries.Select(g => new Gallery(this, uri, g)).ToArray();
+            return new(totalCount, rsp.Galleries.Select(g => new Gallery(this, uri, g)).ToImmutableArray());
         }
     }
 }

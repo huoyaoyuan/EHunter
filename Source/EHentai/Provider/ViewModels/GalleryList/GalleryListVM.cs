@@ -17,7 +17,7 @@ namespace EHunter.EHentai.ViewModels.GalleryList
             async void LoadAsync()
             {
                 var page = await _client.GetPageAsync(new Uri("https://e-hentai.org")).ConfigureAwait(true);
-                foreach (var g in page)
+                foreach (var g in page.Galleries)
                     Galleries.Add(g);
             }
         }
