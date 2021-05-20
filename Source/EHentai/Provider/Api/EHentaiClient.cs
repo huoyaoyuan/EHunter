@@ -147,18 +147,18 @@ namespace EHunter.EHentai.Api
             var config = Configuration.Default;
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(req => req.Content(request)).ConfigureAwait(false);
-            var table = document.QuerySelector<IHtmlTableElement>("table.itg");
 
-            var galleries = table.Rows.Skip(1).Select(r =>
-            {
-                string url = r.QuerySelector("td.glname")
-                    .QuerySelector<IHtmlAnchorElement>("a")
-                    .Href;
-                var match = s_galleryRegex.Match(url);
-                int gid = int.Parse(match.Groups[1].Value, NumberFormatInfo.InvariantInfo);
-                string token = match.Groups[2].Value;
-                return new object[] { gid, token };
-            }).ToArray();
+            var galleries = document
+                .QuerySelector<IHtmlTableElement>("table.itg")
+                .QuerySelectorAll<IHtmlAnchorElement>("td.glname>a")
+                .Select(a =>
+                {
+                    var match = s_galleryRegex.Match(a.Href);
+                    int gid = int.Parse(match.Groups[1].Value, NumberFormatInfo.InvariantInfo);
+                    string token = match.Groups[2].Value;
+                    return new object[] { gid, token };
+                })
+                .ToArray();
 
             var apiRequest = new
             {
