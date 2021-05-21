@@ -195,5 +195,12 @@ namespace EHunter.EHentai.Api
             return new(totalCount, pagesCount,
                 rsp.Galleries.Select(g => new Gallery(this, uri, g)).ToImmutableArray());
         }
+
+        public Task<GalleryListPage> GetPageAsync(ListRequest _, int page = 0)
+        {
+            string host = UseExHentai ? "exhentai.org" : "e-hentai.org";
+            string uri = $"https://{host}/?page={page}";
+            return GetPageAsync(new Uri(uri));
+        }
     }
 }

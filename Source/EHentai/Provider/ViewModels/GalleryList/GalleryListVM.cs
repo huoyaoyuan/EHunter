@@ -1,27 +1,35 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.EHentai.Api;
 using EHunter.EHentai.Api.Models;
 
 namespace EHunter.EHentai.ViewModels.GalleryList
 {
-    public class GalleryListVM
+    [ObservableProperty("CurrentPage", typeof(int), ChangedAction = "UpdatePage();", Initializer = "1")]
+    [ObservableProperty("TotalPages", typeof(int))]
+    [ObservableProperty("Galleries", typeof(IReadOnlyList<Gallery>), IsNullable = true, IsSetterPublic = false)]
+    public partial class GalleryListVM : ObservableObject
     {
         private readonly EHentaiClient _client;
 
         public GalleryListVM(EHentaiClient client)
         {
             _client = client;
-            LoadAsync();
-
-            async void LoadAsync()
-            {
-                var page = await _client.GetPageAsync(new Uri("https://e-hentai.org")).ConfigureAwait(true);
-                foreach (var g in page.Galleries)
-                    Galleries.Add(g);
-            }
+            UpdatePage();
         }
 
-        public ObservableCollection<Gallery> Galleries { get; } = new();
+        public async void UpdatePage()
+        {
+            Galleries = null;
+            try
+            {
+                var page = await _client.GetPageAsync(new ListRequest(), CurrentPage - 1).ConfigureAwait(true);
+                TotalPages = page.PagesCount;
+                Galleries = page.Galleries;
+            }
+            catch
+            {
+            }
+        }
     }
 }

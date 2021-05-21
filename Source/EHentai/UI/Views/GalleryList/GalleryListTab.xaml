@@ -7,10 +7,10 @@
     xmlns:m="using:EHunter.EHentai.Api.Models"
     mc:Ignorable="d">
     <ListView
-        ItemsSource="{x:Bind VM.Galleries}">
+        ItemsSource="{x:Bind VM.Galleries, Mode=OneWay}">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="m:Gallery">
-                <TextBlock Text="{x:Bind TitleJpn.TitleBody}" />
+                <TextBlock Text="{x:Bind Title.Original}" />
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>

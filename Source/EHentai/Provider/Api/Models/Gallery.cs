@@ -35,7 +35,7 @@ namespace EHunter.EHentai.Api.Models
             {
                 var match = s_titleRegex.Match(title);
                 return new ParsedTitle(
-                    Original: match.Groups[0].Value,
+                    Original: title,
                     Market: NullIfEmpty(match.Groups[1].Value),
                     Group: NullIfEmpty(match.Groups[2].Value),
                     Artist: NullIfEmpty(match.Groups[3].Value),
