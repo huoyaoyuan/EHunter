@@ -6,12 +6,46 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:m="using:EHunter.EHentai.Api.Models"
     mc:Ignorable="d">
-    <ListView
-        ItemsSource="{x:Bind VM.Galleries, Mode=OneWay}">
-        <ListView.ItemTemplate>
-            <DataTemplate x:DataType="m:Gallery">
-                <TextBlock Text="{x:Bind Title.Original}" />
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0"
+                    Style="{ThemeResource TextBlockButtonStyle}"
+                    Click="{x:Bind VM.PrevPage}">
+                <SymbolIcon Symbol="Previous" />
+            </Button>
+            <TextBlock Grid.Column="1"
+                       HorizontalTextAlignment="Center"
+                       Style="{StaticResource SubtitleTextBlockStyle}">
+                <Run Text="{x:Bind VM.CurrentPage, Mode=OneWay}" />
+                /
+                <Run Text="{x:Bind VM.TotalPages, Mode=OneWay}" />
+            </TextBlock>
+            <Button Grid.Column="2"
+                    Style="{ThemeResource TextBlockButtonStyle}"
+                    Click="{x:Bind VM.NextPage}">
+                <SymbolIcon Symbol="Next" />
+            </Button>
+        </Grid>
+
+        <ListView
+            Grid.Row="1"
+            ItemsSource="{x:Bind VM.Galleries, Mode=OneWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="m:Gallery">
+                    <TextBlock Text="{x:Bind Title.Original}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </UserControl>

@@ -31,5 +31,23 @@ namespace EHunter.EHentai.ViewModels.GalleryList
             {
             }
         }
+
+        public void PrevPage()
+        {
+            if (CurrentPage > 1)
+            {
+                CurrentPage--;
+                UpdatePage();
+            }
+        }
+
+        public void NextPage()
+        {
+            if (CurrentPage < TotalPages)
+            {
+                CurrentPage++;
+                UpdatePage();
+            }
+        }
     }
 }
