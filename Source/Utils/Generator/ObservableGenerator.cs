@@ -144,14 +144,11 @@ namespace EHunter.SourceGenerator
 
                 if (members.Count > 0)
                 {
-                    var generatedClass = ClassDeclaration(@class.Name)
+                    var generatedClass = ClassDeclaration(@class.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat))
                         .AddModifiers(Token(SyntaxKind.PartialKeyword))
                         .AddMembers(members.ToArray());
                     var generatedNamespace = NamespaceDeclaration(ParseName(
-                        @class.ContainingNamespace.ToDisplayString(
-                            SymbolDisplayFormat.FullyQualifiedFormat
-                                .WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted)
-                            )
+                            @class.ContainingNamespace.ToDisplayString()
                         ))
                         .AddMembers(generatedClass)
                         .WithNamespaceKeyword(
