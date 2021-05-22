@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.EHentai.Api;
 using EHunter.EHentai.Api.Models;
@@ -18,14 +19,22 @@ namespace EHunter.EHentai.ViewModels.GalleryList
             UpdatePage();
         }
 
+        private CancellationTokenSource? _cts;
         public async void UpdatePage()
         {
+            _cts?.Cancel();
             Galleries = null;
             try
             {
-                var page = await _client.GetPageAsync(new ListRequest(), CurrentPage - 1).ConfigureAwait(true);
+                using var cts = _cts = new();
+                var page = await _client.GetPageAsync(new ListRequest(), CurrentPage - 1, cts.Token)
+                    .ConfigureAwait(true);
+                cts.Token.ThrowIfCancellationRequested();
+
                 TotalPages = page.PagesCount;
                 Galleries = page.Galleries;
+                if (_cts == cts)
+                    _cts = null;
             }
             catch
             {
