@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -25,7 +26,7 @@ namespace EHunter.SourceGenerator
 
             static TypeSyntax GetTypeSyntax(ITypeSymbol typeSymbol, bool isNullable)
             {
-                var typeName = ParseTypeName(typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
+                var typeName = ParseTypeName(typeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat));
                 return isNullable ? NullableType(typeName) : typeName;
             }
 
@@ -38,6 +39,26 @@ namespace EHunter.SourceGenerator
                     continue;
 
                 var members = new List<MemberDeclarationSyntax>();
+                var namespaces = new HashSet<string>();
+                var usedTypes = new HashSet<ITypeSymbol>(SymbolEqualityComparer.Default);
+
+                void UseNamespace(ITypeSymbol symbol)
+                {
+                    if (usedTypes.Contains(symbol))
+                        return;
+
+                    usedTypes.Add(symbol);
+
+                    var ns = symbol.ContainingNamespace;
+                    if (!SymbolEqualityComparer.Default.Equals(ns, @class!.ContainingNamespace))
+                        namespaces!.Add(ns.ToDisplayString());
+
+                    if (symbol is INamedTypeSymbol { IsGenericType: true } genericSymbol)
+                    {
+                        foreach (var a in genericSymbol.TypeArguments)
+                            UseNamespace(a);
+                    }
+                }
 
                 foreach (var attribute in @class.GetAttributes())
                 {
@@ -79,6 +100,8 @@ namespace EHunter.SourceGenerator
                         .Append(propertyName);
                     sb[1] = char.ToLowerInvariant(sb[1]);
                     string fieldName = sb.ToString();
+
+                    UseNamespace(type);
 
                     var variableDeclaration = VariableDeclarator(fieldName);
                     if (initializer != null)
@@ -139,6 +162,7 @@ namespace EHunter.SourceGenerator
                         );
                     var compilationUnit = CompilationUnit()
                         .AddMembers(generatedNamespace)
+                        .AddUsings(namespaces.Select(ns => UsingDirective(ParseName(ns))).ToArray())
                         .NormalizeWhitespace();
 
                     string fileName = @class.Name + ".g.cs";
