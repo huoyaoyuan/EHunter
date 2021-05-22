@@ -52,5 +52,12 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+
+        <ProgressRing
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Height="40" Width="40"
+            IsActive="{x:Bind VM.IsLoading, Mode=OneWay}" />
     </Grid>
 </UserControl>

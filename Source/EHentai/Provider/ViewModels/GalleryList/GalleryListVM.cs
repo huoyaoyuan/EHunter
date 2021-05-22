@@ -8,6 +8,7 @@ namespace EHunter.EHentai.ViewModels.GalleryList
 {
     [ObservableProperty("CurrentPage", typeof(int), ChangedAction = "UpdatePage();", Initializer = "1")]
     [ObservableProperty("TotalPages", typeof(int))]
+    [ObservableProperty("IsLoading", typeof(bool), IsSetterPublic = false)]
     [ObservableProperty("Galleries", typeof(IReadOnlyList<Gallery>), IsNullable = true, IsSetterPublic = false)]
     public partial class GalleryListVM : ObservableObject
     {
@@ -24,20 +25,28 @@ namespace EHunter.EHentai.ViewModels.GalleryList
         {
             _cts?.Cancel();
             Galleries = null;
+
+            using var cts = _cts = new();
+            IsLoading = true;
             try
             {
-                using var cts = _cts = new();
                 var page = await _client.GetPageAsync(new ListRequest(), CurrentPage - 1, cts.Token)
                     .ConfigureAwait(true);
                 cts.Token.ThrowIfCancellationRequested();
 
                 TotalPages = page.PagesCount;
                 Galleries = page.Galleries;
-                if (_cts == cts)
-                    _cts = null;
             }
             catch
             {
+            }
+            finally
+            {
+                if (_cts == cts)
+                {
+                    _cts = null;
+                    IsLoading = false;
+                }
             }
         }
 
