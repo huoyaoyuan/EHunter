@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using EHunter.EHentai.Api.Json;
 
 namespace EHunter.EHentai.Api.Models
@@ -66,5 +67,7 @@ namespace EHunter.EHentai.Api.Models
             string? TitleBody,
             string? Parody,
             ImmutableArray<string> Properties);
+
+        public Task<byte[]> GetImageAsync() => _client.HttpClient.GetByteArrayAsync(Thumbnail);
     }
 }

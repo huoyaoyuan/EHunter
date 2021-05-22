@@ -19,16 +19,16 @@ namespace EHunter.EHentai.Api
 {
     public sealed class EHentaiClient : IDisposable
     {
-        private HttpClient _httpClient;
+        internal HttpClient HttpClient;
         private readonly CookieContainer _cookies = new();
 
         public EHentaiClient(IWebProxy? proxy = null)
-            => _httpClient = CreateNewClient(proxy);
+            => HttpClient = CreateNewClient(proxy);
 
         public void SetProxy(IWebProxy? proxy)
         {
-            _httpClient.Dispose();
-            _httpClient = CreateNewClient(proxy);
+            HttpClient.Dispose();
+            HttpClient = CreateNewClient(proxy);
         }
 
         private HttpClient CreateNewClient(IWebProxy? proxy)
@@ -44,7 +44,7 @@ namespace EHunter.EHentai.Api
                 });
         }
 
-        public void Dispose() => _httpClient.Dispose();
+        public void Dispose() => HttpClient.Dispose();
 
         public bool UseExHentai { get; set; }
 
@@ -65,7 +65,7 @@ namespace EHunter.EHentai.Api
                 }!)
             };
 
-            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            var response = await HttpClient.SendAsync(request).ConfigureAwait(false);
 
             var cookies = _cookies.GetCookies(new Uri("https://e-hentai.org"));
             string? memberId = cookies[MemberIdCookie]?.Value, passHash = cookies[PassHashCookie]?.Value;
@@ -143,7 +143,7 @@ namespace EHunter.EHentai.Api
 
         public async Task<GalleryListPage> GetPageAsync(Uri uri)
         {
-            using var request = await _httpClient.GetStreamAsync(uri).ConfigureAwait(false);
+            using var request = await HttpClient.GetStreamAsync(uri).ConfigureAwait(false);
 
             var config = Configuration.Default;
             var context = BrowsingContext.New(config);
@@ -184,7 +184,7 @@ namespace EHunter.EHentai.Api
             };
             var content = JsonContent.Create(apiRequest);
             await content.LoadIntoBufferAsync().ConfigureAwait(false);
-            using var apiResponse = await _httpClient.PostAsync("https://api.e-hentai.org/api.php", content).ConfigureAwait(false);
+            using var apiResponse = await HttpClient.PostAsync("https://api.e-hentai.org/api.php", content).ConfigureAwait(false);
             var rsp = await apiResponse.Content.ReadFromJsonAsync<EHentaiApiResponse>(s_apiResponseOptions).ConfigureAwait(false);
 
             if (rsp is null)
