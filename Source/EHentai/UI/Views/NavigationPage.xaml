@@ -11,8 +11,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <NavigationView
         PaneDisplayMode="LeftCompact"
+        IsBackEnabled="{x:Bind _frame.CanGoBack, Mode=OneWay}"
         controls:NavigationHelper.IsAutoNavigationEnabled="True"
         controls:NavigationHelper.SettingsViewType="local:EHentaiSettingsPage">
-        <Frame />
+        <Frame x:Name="_frame" />
     </NavigationView>
 </Page>
