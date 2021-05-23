@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EHunter.EHentai.Api.Json;
@@ -55,7 +56,7 @@ namespace EHunter.EHentai.Api.Models
         public GalleryCategory Category { get; }
         public Uri Thumbnail { get; }
         public DateTimeOffset Posted { get; }
-        public IReadOnlyList<string> Tags { get; }
+        public IReadOnlyList<Tag> Tags { get; }
         public ParsedTitle Title { get; }
         public ParsedTitle TitleJpn { get; }
 
@@ -70,4 +71,8 @@ namespace EHunter.EHentai.Api.Models
 
         public Task<byte[]> GetImageAsync() => _client.HttpClient.GetByteArrayAsync(Thumbnail);
     }
+
+    // TODO: Use record struct
+    [JsonConverter(typeof(TagConverter))]
+    public record Tag(string? Namespace, string Name);
 }
