@@ -8,8 +8,6 @@ using EHunter.Pixiv.ViewModels.Download;
 using EHunter.Services;
 using Meowtrix.PixivApi.Models;
 
-#nullable enable
-
 namespace EHunter.Pixiv.ViewModels
 {
     public class IllustVM

@@ -3,8 +3,6 @@ using EHunter.UI.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-#nullable enable
-
 namespace EHunter.UI.Views
 {
     internal class NavigationTemplateSelector : DataTemplateSelector

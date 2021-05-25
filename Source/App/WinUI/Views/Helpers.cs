@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Composition;
 
-#nullable enable
-
 namespace EHunter.UI.Views
 {
     internal static class Helpers
