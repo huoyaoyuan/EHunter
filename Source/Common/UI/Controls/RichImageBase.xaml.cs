@@ -12,8 +12,6 @@ using Windows.Storage.Streams;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-#nullable enable
-
 namespace EHunter.Controls
 {
     public abstract partial class RichImageBase : UserControl

@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ProjectReunion" Version="0.5.0" />
-    <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.5.0" />
-    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.5.0" />
-    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Layout" Version="7.0.1" />
-    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.0.1" />
+    <PackageReference Include="Microsoft.ProjectReunion" Version="0.5.7" />
+    <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.5.7" />
+    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.5.7" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Layout" Version="7.0.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.0.2" />
   </ItemGroup>
 
   <ItemGroup>

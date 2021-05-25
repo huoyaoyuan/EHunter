@@ -3,8 +3,6 @@ using System.Composition;
 using EHunter.Pixiv.Views;
 using EHunter.Providers;
 
-#nullable enable
-
 namespace EHunter.Pixiv
 {
     [Export(typeof(IEHunterProvider))]
