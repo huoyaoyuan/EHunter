@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Net.Http;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -69,7 +70,7 @@ namespace EHunter.EHentai.Api.Models
             string? Parody,
             ImmutableArray<string> Properties);
 
-        public Task<byte[]> GetImageAsync() => _client.HttpClient.GetByteArrayAsync(Thumbnail);
+        public Task<HttpResponseMessage> RequestThumbnailAsync() => _client.HttpClient.GetAsync(Thumbnail);
     }
 
     // TODO: Use record struct

@@ -30,8 +30,12 @@ namespace EHunter.EHentai.Controls
 
         public ThumbnailRequest(Gallery gallery) => _gallery = gallery;
 
-        public override object? MemoryCacheKey => null;
+        public override object? MemoryCacheKey => _gallery.Thumbnail;
 
-        public override Task<byte[]> GetImageAsync() => _gallery.GetImageAsync();
+        public override async Task<byte[]> GetImageAsync()
+        {
+            using var response = await _gallery.RequestThumbnailAsync().ConfigureAwait(false);
+            return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+        }
     }
 }
