@@ -4,8 +4,6 @@ using EHunter.Controls;
 using EHunter.Services.ImageCaching;
 using Meowtrix.PixivApi.Models;
 
-#nullable enable
-
 namespace EHunter.Pixiv.Controls
 {
     public class PixivImage : RichImageBase

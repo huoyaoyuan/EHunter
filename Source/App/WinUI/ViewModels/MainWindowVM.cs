@@ -5,8 +5,6 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Providers;
 
-#nullable enable
-
 namespace EHunter.UI.ViewModels
 {
     [Export]

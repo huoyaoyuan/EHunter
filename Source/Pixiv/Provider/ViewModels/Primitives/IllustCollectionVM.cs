@@ -6,8 +6,7 @@ using Meowtrix.PixivApi.Models;
 namespace EHunter.Pixiv.ViewModels.Primitives
 {
     [ObservableProperty("Illusts", typeof(IBindableCollection<IllustVM>), IsNullable = true, IsSetterPublic = false)]
-    // TODO: initializer qualification
-    [ObservableProperty("SelectedAge", typeof(AgeRestriction), Initializer = "Meowtrix.PixivApi.Models.AgeRestriction.All", ChangedAction = "Refresh();")]
+    [ObservableProperty("SelectedAge", typeof(AgeRestriction), Initializer = "AgeRestriction.All", ChangedAction = "Refresh();")]
     public abstract partial class IllustCollectionVM : ObservableObject
     {
         private readonly IllustVMFactory _illustVMFactory;

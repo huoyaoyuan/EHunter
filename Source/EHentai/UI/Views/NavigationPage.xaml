@@ -12,6 +12,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <NavigationView
         PaneDisplayMode="LeftCompact"
+        IsBackEnabled="{x:Bind _frame.CanGoBack, Mode=OneWay}"
         controls:NavigationHelper.IsAutoNavigationEnabled="True"
         controls:NavigationHelper.SettingsViewType="local:EHentaiSettingsPage">
         <NavigationView.MenuItems>
@@ -20,6 +21,6 @@
                 Icon="AllApps" IsSelected="True"
                 controls:NavigationHelper.NavigationType="galleryList:GalleryListPage" />
         </NavigationView.MenuItems>
-        <Frame />
+        <Frame x:Name="_frame" />
     </NavigationView>
 </Page>

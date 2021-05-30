@@ -1,8 +1,6 @@
 ﻿using EHunter.Services;
 using Windows.Storage;
 
-#nullable enable
-
 namespace EHunter.UI.Services
 {
     internal class WinRTSettingsStore : ISettingsStore

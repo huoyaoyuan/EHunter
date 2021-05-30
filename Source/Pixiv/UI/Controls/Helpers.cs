@@ -5,8 +5,6 @@ using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 using Microsoft.ApplicationModel.Resources;
 
-#nullable enable
-
 namespace EHunter.Pixiv.Controls
 {
     internal static class Helpers

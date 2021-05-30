@@ -1,7 +1,5 @@
 ﻿using System;
 
-#nullable enable
-
 namespace EHunter.UI.ViewModels
 {
     public abstract class NavigationEntry
