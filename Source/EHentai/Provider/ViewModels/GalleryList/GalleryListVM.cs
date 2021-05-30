@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.EHentai.Api;
@@ -9,7 +10,7 @@ namespace EHunter.EHentai.ViewModels.GalleryList
     [ObservableProperty("CurrentPage", typeof(int), ChangedAction = "UpdatePage();", Initializer = "1")]
     [ObservableProperty("TotalPages", typeof(int))]
     [ObservableProperty("IsLoading", typeof(bool), IsSetterPublic = false)]
-    [ObservableProperty("Galleries", typeof(IReadOnlyList<Gallery>), IsNullable = true, IsSetterPublic = false)]
+    [ObservableProperty("Galleries", typeof(IReadOnlyList<GalleryVM>), IsNullable = true, IsSetterPublic = false)]
     public partial class GalleryListVM : ObservableObject
     {
         private readonly EHentaiClient _client;
@@ -35,7 +36,7 @@ namespace EHunter.EHentai.ViewModels.GalleryList
                 cts.Token.ThrowIfCancellationRequested();
 
                 TotalPages = page.PagesCount;
-                Galleries = page.Galleries;
+                Galleries = page.Galleries.Select(x => new GalleryVM(x)).ToArray();
             }
             catch
             {

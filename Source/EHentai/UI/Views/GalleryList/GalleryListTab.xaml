@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:m="using:EHunter.EHentai.Api.Models"
+    xmlns:vm="using:EHunter.EHentai.ViewModels"
     xmlns:controls="using:EHunter.EHentai.Controls"
     mc:Ignorable="d">
     <Grid>
@@ -43,11 +43,11 @@
             Grid.Row="1"
             ItemsSource="{x:Bind VM.Galleries, Mode=OneWay}">
             <GridView.ItemTemplate>
-                <DataTemplate x:DataType="m:Gallery">
+                <DataTemplate x:DataType="vm:GalleryVM">
                     <Grid>
                         <controls:Thumbnail
                             Height="200" Width="150"
-                            Gallery="{x:Bind}" />
+                            Gallery="{x:Bind Gallery}" />
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>

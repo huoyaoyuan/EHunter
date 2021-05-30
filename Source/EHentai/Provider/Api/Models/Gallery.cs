@@ -34,8 +34,11 @@ namespace EHunter.EHentai.Api.Models
             static string? NullIfEmpty(string str)
                 => string.IsNullOrEmpty(str) ? null : str;
 
-            static ParsedTitle ParseTitle(string title)
+            static ParsedTitle? ParseTitle(string? title)
             {
+                if (string.IsNullOrEmpty(title))
+                    return null;
+
                 var match = s_titleRegex.Match(title);
                 return new ParsedTitle(
                     Original: title,
@@ -58,20 +61,20 @@ namespace EHunter.EHentai.Api.Models
         public Uri Thumbnail { get; }
         public DateTimeOffset Posted { get; }
         public IReadOnlyList<Tag> Tags { get; }
-        public ParsedTitle Title { get; }
-        public ParsedTitle TitleJpn { get; }
-
-        public record ParsedTitle(
-            string Original,
-            string? Market,
-            string? Group,
-            string? Artist,
-            string? TitleBody,
-            string? Parody,
-            ImmutableArray<string> Properties);
+        public ParsedTitle? Title { get; }
+        public ParsedTitle? TitleJpn { get; }
 
         public Task<HttpResponseMessage> RequestThumbnailAsync() => _client.HttpClient.GetAsync(Thumbnail);
     }
+
+    public record ParsedTitle(
+        string Original,
+        string? Market,
+        string? Group,
+        string? Artist,
+        string? TitleBody,
+        string? Parody,
+        ImmutableArray<string> Properties);
 
     // TODO: Use record struct
     [JsonConverter(typeof(TagConverter))]
