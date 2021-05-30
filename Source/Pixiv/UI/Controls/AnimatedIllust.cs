@@ -6,8 +6,6 @@ using EHunter.Pixiv.Services;
 using EHunter.Services.ImageCaching;
 using Meowtrix.PixivApi.Models;
 
-#nullable enable
-
 namespace EHunter.Pixiv.Controls
 {
     public class AnimatedIllust : RichImageBase

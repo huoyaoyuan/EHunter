@@ -2,8 +2,6 @@
 using System.Windows.Input;
 using Windows.System;
 
-#nullable enable
-
 namespace EHunter.Pixiv.Commands
 {
     public class OpenUrlCommand : ICommand

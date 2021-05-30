@@ -2,8 +2,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-#nullable enable
-
 namespace EHunter.Pixiv.Controls
 {
     public class IllustSummary : Control

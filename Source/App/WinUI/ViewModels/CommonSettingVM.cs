@@ -3,8 +3,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Services;
 using EHunter.Settings;
 
-#nullable enable
-
 namespace EHunter.UI.ViewModels
 {
     [Export]

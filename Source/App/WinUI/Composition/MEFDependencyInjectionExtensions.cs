@@ -1,8 +1,6 @@
 ﻿using System.Composition.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-#nullable enable
-
 namespace EHunter.UI.Composition
 {
     public static class MEFDependencyInjectionExtensions

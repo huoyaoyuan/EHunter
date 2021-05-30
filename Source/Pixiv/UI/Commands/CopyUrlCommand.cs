@@ -2,8 +2,6 @@
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 
-#nullable enable
-
 namespace EHunter.Pixiv.Commands
 {
     public class CopyUrlCommand : ICommand

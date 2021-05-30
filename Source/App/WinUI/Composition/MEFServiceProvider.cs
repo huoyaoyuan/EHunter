@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Composition.Hosting;
 
-#nullable enable
-
 namespace EHunter.UI.Composition
 {
     internal class MEFServiceProvider : IServiceProvider

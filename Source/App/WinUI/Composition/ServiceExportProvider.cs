@@ -4,8 +4,6 @@ using System.Composition.Hosting.Core;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 
-#nullable enable
-
 namespace EHunter.UI.Composition
 {
     internal class ServiceExportProvider : ExportDescriptorProvider
