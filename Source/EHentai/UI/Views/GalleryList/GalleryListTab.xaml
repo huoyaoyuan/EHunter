@@ -49,15 +49,26 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        
+
                         <controls:Thumbnail
                             Gallery="{x:Bind Gallery}" />
 
-                        <TextBlock
-                            Grid.Column="1"
-                            TextWrapping="WrapWholeWords"
-                            ToolTipService.ToolTip="{x:Bind DisplayTitle.Original}"
-                            Text="{x:Bind DisplayTitle.TitleBody, TargetNullValue=''}" />
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                TextWrapping="WrapWholeWords"
+                                ToolTipService.ToolTip="{x:Bind DisplayTitle.Original}"
+                                Text="{x:Bind DisplayTitle.TitleBody, TargetNullValue=''}" />
+
+                            <controls:CategoryPresenter
+                                Grid.Row="1"
+                                VerticalAlignment="Bottom"
+                                Category="{x:Bind Gallery.Category}" />
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
