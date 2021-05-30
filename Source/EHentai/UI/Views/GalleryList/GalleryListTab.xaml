@@ -4,8 +4,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:EHunter.EHentai.ViewModels"
     xmlns:controls="using:EHunter.EHentai.Controls"
+    xmlns:vm="using:EHunter.EHentai.ViewModels"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -44,10 +44,20 @@
             ItemsSource="{x:Bind VM.Galleries, Mode=OneWay}">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:GalleryVM">
-                    <Grid>
+                    <Grid Width="300" Height="200">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
                         <controls:Thumbnail
-                            Height="200" Width="150"
                             Gallery="{x:Bind Gallery}" />
+
+                        <TextBlock
+                            Grid.Column="1"
+                            TextWrapping="WrapWholeWords"
+                            ToolTipService.ToolTip="{x:Bind DisplayTitle.Original}"
+                            Text="{x:Bind DisplayTitle.TitleBody, TargetNullValue=''}" />
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
