@@ -10,8 +10,7 @@ namespace EHunter.Pixiv.ViewModels.Ranking
 {
     [Export]
     [ObservableProperty("SelectedRankingMode", typeof(IllustRankingMode), ChangedAction = "Refresh();")]
-    // TODO: qualification
-    [ObservableProperty("Date", typeof(DateTimeOffset), Initializer = "System.DateTimeOffset.UtcNow.Date.AddDays(-1)", ChangedAction = "Refresh();")]
+    [ObservableProperty("Date", typeof(DateTimeOffset), Initializer = "DateTimeOffset.UtcNow.Date.AddDays(-1)", ChangedAction = "Refresh();")]
     public partial class RankingVM : IllustCollectionVM
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;

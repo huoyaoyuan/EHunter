@@ -17,9 +17,8 @@ namespace EHunter.Pixiv.ViewModels.Search
     [ObservableProperty("MaxBookmark", typeof(int))]
     [ObservableProperty("StartDateEnabled", typeof(bool))]
     [ObservableProperty("EndDateEnabled", typeof(bool))]
-    // TODO: qualification
-    [ObservableProperty("StartDate", typeof(DateTimeOffset), Initializer = "System.DateTimeOffset.UtcNow.Date")]
-    [ObservableProperty("EndDate", typeof(DateTimeOffset), Initializer = "System.DateTimeOffset.UtcNow.Date")]
+    [ObservableProperty("StartDate", typeof(DateTimeOffset), Initializer = "DateTimeOffset.UtcNow.Date")]
+    [ObservableProperty("EndDate", typeof(DateTimeOffset), Initializer = "DateTimeOffset.UtcNow.Date")]
     public partial class IllustSearchVM : IllustCollectionVM
     {
         private readonly IllustSearchManager _parent;
