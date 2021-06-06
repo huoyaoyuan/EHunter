@@ -142,11 +142,11 @@ namespace EHunter.EHentai.Api
 
         public async Task<IReadOnlyList<Gallery>> GetPageAsync(Uri uri)
         {
-            using var request = await _httpClient.GetStreamAsync(uri).ConfigureAwait(false);
+            using var stream = await _httpClient.GetStreamAsync(uri).ConfigureAwait(false);
 
-            var config = Configuration.Default;
-            var context = BrowsingContext.New(config);
-            var document = await context.OpenAsync(req => req.Content(request)).ConfigureAwait(false);
+            using var context = BrowsingContext.New();
+            using var document = await context.OpenAsync(req => req.Content(stream)).ConfigureAwait(false);
+
             var table = document.QuerySelector<IHtmlTableElement>("table.itg");
 
             var galleries = table.Rows.Skip(1).Select(r =>
