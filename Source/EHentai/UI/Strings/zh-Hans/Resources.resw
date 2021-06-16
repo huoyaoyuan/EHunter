@@ -132,11 +132,44 @@
   <data name="EndPoint.Header" xml:space="preserve">
     <value>连接点</value>
   </data>
+  <data name="GalleryCategory_ArtistCG.Value" xml:space="preserve">
+    <value>作家集</value>
+  </data>
+  <data name="GalleryCategory_AsianPorn.Value" xml:space="preserve">
+    <value>亚洲色情</value>
+  </data>
+  <data name="GalleryCategory_Cosplay.Value" xml:space="preserve">
+    <value>Cosplay</value>
+  </data>
+  <data name="GalleryCategory_Doujinshi.Value" xml:space="preserve">
+    <value>同人志</value>
+  </data>
+  <data name="GalleryCategory_GameCG.Value" xml:space="preserve">
+    <value>游戏图集</value>
+  </data>
+  <data name="GalleryCategory_ImageSet.Value" xml:space="preserve">
+    <value>图片集</value>
+  </data>
+  <data name="GalleryCategory_Manga.Value" xml:space="preserve">
+    <value>漫画</value>
+  </data>
+  <data name="GalleryCategory_Misc.Value" xml:space="preserve">
+    <value>其它</value>
+  </data>
+  <data name="GalleryCategory_NonH.Value" xml:space="preserve">
+    <value>Non-H</value>
+  </data>
+  <data name="GalleryCategory_Western.Value" xml:space="preserve">
+    <value>欧美</value>
+  </data>
   <data name="Login.Content" xml:space="preserve">
     <value>登录</value>
   </data>
   <data name="Logout.Content" xml:space="preserve">
     <value>退出登录</value>
+  </data>
+  <data name="Navigation_List.Content" xml:space="preserve">
+    <value>列表</value>
   </data>
   <data name="Password.Header" xml:space="preserve">
     <value>密码</value>

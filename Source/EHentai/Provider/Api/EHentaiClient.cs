@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -7,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using AngleSharp;
 using AngleSharp.Dom;
@@ -18,16 +20,16 @@ namespace EHunter.EHentai.Api
 {
     public sealed class EHentaiClient : IDisposable
     {
-        private HttpClient _httpClient;
+        internal HttpClient HttpClient;
         private readonly CookieContainer _cookies = new();
 
         public EHentaiClient(IWebProxy? proxy = null)
-            => _httpClient = CreateNewClient(proxy);
+            => HttpClient = CreateNewClient(proxy);
 
         public void SetProxy(IWebProxy? proxy)
         {
-            _httpClient.Dispose();
-            _httpClient = CreateNewClient(proxy);
+            HttpClient.Dispose();
+            HttpClient = CreateNewClient(proxy);
         }
 
         private HttpClient CreateNewClient(IWebProxy? proxy)
@@ -43,7 +45,7 @@ namespace EHunter.EHentai.Api
                 });
         }
 
-        public void Dispose() => _httpClient.Dispose();
+        public void Dispose() => HttpClient.Dispose();
 
         public bool UseExHentai { get; set; }
 
@@ -64,7 +66,7 @@ namespace EHunter.EHentai.Api
                 }!)
             };
 
-            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            var response = await HttpClient.SendAsync(request).ConfigureAwait(false);
 
             var cookies = _cookies.GetCookies(new Uri("https://e-hentai.org"));
             string? memberId = cookies[MemberIdCookie]?.Value, passHash = cookies[PassHashCookie]?.Value;
@@ -140,25 +142,41 @@ namespace EHunter.EHentai.Api
             = new(@"e[x\-]hentai.org/g/(\d+)/([0-9a-f]+)", RegexOptions.Compiled | RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
         private static readonly JsonSerializerOptions s_apiResponseOptions = new(JsonSerializerDefaults.Web);
 
-        public async Task<IReadOnlyList<Gallery>> GetPageAsync(Uri uri)
+        public async Task<GalleryListPage> GetPageAsync(Uri uri, CancellationToken cancellationToken = default)
         {
-            using var stream = await _httpClient.GetStreamAsync(uri).ConfigureAwait(false);
+            using var request = await HttpClient.GetStreamAsync(uri, cancellationToken).ConfigureAwait(false);
 
-            using var context = BrowsingContext.New();
-            using var document = await context.OpenAsync(req => req.Content(stream)).ConfigureAwait(false);
-
+            var config = Configuration.Default;
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(req => req.Content(request), cancellationToken).ConfigureAwait(false);
             var table = document.QuerySelector<IHtmlTableElement>("table.itg");
 
-            var galleries = table.Rows.Skip(1).Select(r =>
+            var galleries = document
+                .QuerySelector<IHtmlTableElement>("table.itg")
+                .QuerySelectorAll<IHtmlAnchorElement>("td.glname>a")
+                .Select(a =>
+                {
+                    var match = s_galleryRegex.Match(a.Href);
+                    int gid = int.Parse(match.Groups[1].Value, NumberFormatInfo.InvariantInfo);
+                    string token = match.Groups[2].Value;
+                    return new object[] { gid, token };
+                })
+                .ToArray();
+
+            int totalCount = 0;
+            int pagesCount = 0;
+            if (galleries.Length > 0)
             {
-                string url = r.QuerySelector("td.glname")
-                    .QuerySelector<IHtmlAnchorElement>("a")
-                    .Href;
-                var match = s_galleryRegex.Match(url);
-                int gid = int.Parse(match.Groups[1].Value, NumberFormatInfo.InvariantInfo);
-                string token = match.Groups[2].Value;
-                return new object[] { gid, token };
-            }).ToArray();
+                string countText = document.QuerySelector("div.ido>div>p.ip").Text(); // Showing xxx results
+                totalCount = int.Parse(countText.AsSpan()[8..^8], NumberStyles.AllowThousands);
+
+                pagesCount = int.Parse(
+                    document
+                        .QuerySelector("table.ptt")
+                        .QuerySelectorAll("td>a")[^2]
+                        .Text(),
+                    null);
+            }
 
             var apiRequest = new
             {
@@ -168,15 +186,23 @@ namespace EHunter.EHentai.Api
             };
             var content = JsonContent.Create(apiRequest);
             await content.LoadIntoBufferAsync().ConfigureAwait(false);
-            using var apiResponse = await _httpClient.PostAsync("https://api.e-hentai.org/api.php", content).ConfigureAwait(false);
-            var rsp = await apiResponse.Content.ReadFromJsonAsync<EHentaiApiResponse>(s_apiResponseOptions).ConfigureAwait(false);
+            using var apiResponse = await HttpClient.PostAsync("https://api.e-hentai.org/api.php", content, cancellationToken).ConfigureAwait(false);
+            var rsp = await apiResponse.Content.ReadFromJsonAsync<EHentaiApiResponse>(s_apiResponseOptions, cancellationToken).ConfigureAwait(false);
 
             if (rsp is null)
                 throw new InvalidOperationException("Empty api response.");
             if (rsp.Error != null)
                 throw new InvalidOperationException(rsp.Error);
 
-            return rsp.Galleries.Select(g => new Gallery(this, uri, g)).ToArray();
+            return new(totalCount, pagesCount,
+                rsp.Galleries.Select(g => new Gallery(this, uri, g)).ToImmutableArray());
+        }
+
+        public Task<GalleryListPage> GetPageAsync(ListRequest _, int page = 0, CancellationToken cancellationToken = default)
+        {
+            string host = UseExHentai ? "exhentai.org" : "e-hentai.org";
+            string uri = $"https://{host}/?page={page}";
+            return GetPageAsync(new Uri(uri), cancellationToken);
         }
     }
 }

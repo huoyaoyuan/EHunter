@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using EHunter.EHentai.Api.Models;
 
 namespace EHunter.EHentai.Api.Json
 {
@@ -24,7 +25,7 @@ namespace EHunter.EHentai.Api.Json
         bool Expunged,
         decimal Rating,
         int TorrentCount,
-        ImmutableArray<string> Tags);
+        ImmutableArray<Tag> Tags);
 
     internal sealed class EHentaiTimeStampConverter : JsonConverter<DateTimeOffset>
     {

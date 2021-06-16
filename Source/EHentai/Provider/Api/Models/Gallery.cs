@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Net.Http;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using EHunter.EHentai.Api.Json;
 
 namespace EHunter.EHentai.Api.Models
@@ -31,11 +34,14 @@ namespace EHunter.EHentai.Api.Models
             static string? NullIfEmpty(string str)
                 => string.IsNullOrEmpty(str) ? null : str;
 
-            static ParsedTitle ParseTitle(string title)
+            static ParsedTitle? ParseTitle(string? title)
             {
+                if (string.IsNullOrEmpty(title))
+                    return null;
+
                 var match = s_titleRegex.Match(title);
                 return new ParsedTitle(
-                    Original: match.Groups[0].Value,
+                    Original: title,
                     Market: NullIfEmpty(match.Groups[1].Value),
                     Group: NullIfEmpty(match.Groups[2].Value),
                     Artist: NullIfEmpty(match.Groups[3].Value),
@@ -54,17 +60,23 @@ namespace EHunter.EHentai.Api.Models
         public GalleryCategory Category { get; }
         public Uri Thumbnail { get; }
         public DateTimeOffset Posted { get; }
-        public IReadOnlyList<string> Tags { get; }
-        public ParsedTitle Title { get; }
-        public ParsedTitle TitleJpn { get; }
+        public IReadOnlyList<Tag> Tags { get; }
+        public ParsedTitle? Title { get; }
+        public ParsedTitle? TitleJpn { get; }
 
-        public record ParsedTitle(
-            string Original,
-            string? Market,
-            string? Group,
-            string? Artist,
-            string? TitleBody,
-            string? Parody,
-            ImmutableArray<string> Properties);
+        public Task<HttpResponseMessage> RequestThumbnailAsync() => _client.HttpClient.GetAsync(Thumbnail);
     }
+
+    public record ParsedTitle(
+        string Original,
+        string? Market,
+        string? Group,
+        string? Artist,
+        string? TitleBody,
+        string? Parody,
+        ImmutableArray<string> Properties);
+
+    // TODO: Use record struct
+    [JsonConverter(typeof(TagConverter))]
+    public record Tag(string? Namespace, string Name);
 }

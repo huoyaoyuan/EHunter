@@ -132,11 +132,44 @@
   <data name="EndPoint.Header" xml:space="preserve">
     <value>End Point</value>
   </data>
+  <data name="GalleryCategory_ArtistCG.Value" xml:space="preserve">
+    <value>Artist CG</value>
+  </data>
+  <data name="GalleryCategory_AsianPorn.Value" xml:space="preserve">
+    <value>Asian Porn</value>
+  </data>
+  <data name="GalleryCategory_Cosplay.Value" xml:space="preserve">
+    <value>Cosplay</value>
+  </data>
+  <data name="GalleryCategory_Doujinshi.Value" xml:space="preserve">
+    <value>Doujinshi</value>
+  </data>
+  <data name="GalleryCategory_GameCG.Value" xml:space="preserve">
+    <value>Game CG</value>
+  </data>
+  <data name="GalleryCategory_ImageSet.Value" xml:space="preserve">
+    <value>Image Set</value>
+  </data>
+  <data name="GalleryCategory_Manga.Value" xml:space="preserve">
+    <value>Manga</value>
+  </data>
+  <data name="GalleryCategory_Misc.Value" xml:space="preserve">
+    <value>Misc</value>
+  </data>
+  <data name="GalleryCategory_NonH.Value" xml:space="preserve">
+    <value>Non-H</value>
+  </data>
+  <data name="GalleryCategory_Western.Value" xml:space="preserve">
+    <value>Western</value>
+  </data>
   <data name="Login.Content" xml:space="preserve">
     <value>Login</value>
   </data>
   <data name="Logout.Content" xml:space="preserve">
     <value>Logout</value>
+  </data>
+  <data name="Navigation_List.Content" xml:space="preserve">
+    <value>List</value>
   </data>
   <data name="Password.Header" xml:space="preserve">
     <value>Password</value>
