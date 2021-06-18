@@ -2,6 +2,7 @@
 using System.Composition;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using EHunter.ComponentModel;
 using EHunter.Pixiv.ViewModels.Download;
@@ -17,9 +18,12 @@ namespace EHunter.Pixiv.ViewModels
             Illust = illust;
             Downloadable = downloadable;
             IndexInCollection = indexInCollection;
+            Pages = illust.Pages.Select(x => new IllustPageVM(this, x)).ToArray();
         }
 
         public int? IndexInCollection { get; }
+
+        public IReadOnlyList<IllustPageVM> Pages { get; }
 
         public Illust Illust { get; }
         public IllustDownloadVM Downloadable { get; }
