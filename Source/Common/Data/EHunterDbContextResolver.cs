@@ -1,6 +1,7 @@
 ﻿using System.Composition;
 using EHunter.Settings;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Internal;
 
 #pragma warning disable EF1001
