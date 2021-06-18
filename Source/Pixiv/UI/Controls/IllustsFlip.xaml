@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:commands="using:EHunter.Pixiv.Commands"
     xmlns:local="using:EHunter.Pixiv.Controls"
-    xmlns:vm="using:EHunter.Pixiv.ViewModels"
+    xmlns:vm="using:EHunter.Pixiv.ViewModels.Illusts"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     mc:Ignorable="d">
     <Grid x:Name="grid"

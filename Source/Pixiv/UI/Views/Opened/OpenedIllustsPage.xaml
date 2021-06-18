@@ -8,7 +8,7 @@
     xmlns:commonControls="using:EHunter.Controls"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
-    xmlns:vm="using:EHunter.Pixiv.ViewModels"
+    xmlns:vmi="using:EHunter.Pixiv.ViewModels.Illusts"
     xmlns:vmo="using:EHunter.Pixiv.ViewModels.Opened"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     mc:Ignorable="d"
@@ -96,7 +96,7 @@
                             <ContentControl.ContentTemplateSelector>
                                 <controls:AnimatableIllustTemplateSelector>
                                     <controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
-                                        <DataTemplate x:DataType="vm:IllustVM"
+                                        <DataTemplate x:DataType="vmi:IllustVM"
                                                       x:DefaultBindMode="OneTime">
                                             <FlipView
                                                 Background="Transparent"
@@ -123,7 +123,7 @@
                                         </DataTemplate>
                                     </controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
                                     <controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
-                                        <DataTemplate x:DataType="vm:IllustVM"
+                                        <DataTemplate x:DataType="vmi:IllustVM"
                                                       x:DefaultBindMode="OneTime">
                                             <controls:AnimatedIllust Illust="{x:Bind Illust}" />
                                         </DataTemplate>

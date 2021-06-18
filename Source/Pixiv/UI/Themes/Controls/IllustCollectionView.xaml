@@ -5,7 +5,7 @@
     xmlns:commonControls="using:EHunter.Controls"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
-    xmlns:vm="using:EHunter.Pixiv.ViewModels">
+    xmlns:vm="using:EHunter.Pixiv.ViewModels.Illusts">
     <ResourceDictionary.MergedDictionaries>
         <res:Resources />
     </ResourceDictionary.MergedDictionaries>

@@ -1,5 +1,5 @@
 ﻿using System;
-using EHunter.Pixiv.ViewModels;
+using EHunter.Pixiv.ViewModels.Illusts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 

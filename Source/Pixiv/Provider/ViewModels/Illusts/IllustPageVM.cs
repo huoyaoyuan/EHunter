@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Meowtrix.PixivApi.Models;
 
-namespace EHunter.Pixiv.ViewModels
+namespace EHunter.Pixiv.ViewModels.Illusts
 {
     public class IllustPageVM
     {
