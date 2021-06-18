@@ -93,12 +93,10 @@ namespace EHunter.Data
 
             yield return (tagScopeName, tagName);
 
-#pragma warning disable CA1508 // false positive
             await foreach (var imply in Set<TagImply>()
                 .Where(x => x.TagScopeName == tagScopeName && x.TagName == tagName)
                 .AsAsyncEnumerable()
                 .ConfigureAwait(false))
-#pragma warning restore CA1508 // false positive
                 yield return (imply.TagScopeName, imply.TagName);
         }
     }

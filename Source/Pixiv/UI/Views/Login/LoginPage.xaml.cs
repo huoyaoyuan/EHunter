@@ -13,9 +13,7 @@ namespace EHunter.Pixiv.Views.Login
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-#pragma warning disable CA1708
     public sealed partial class LoginPage : Page
-#pragma warning restore CA1708
     {
         private readonly LoginPageVM _vm = Ioc.Default.GetRequiredService<LoginPageVM>();
 
