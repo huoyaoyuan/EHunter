@@ -1,17 +1,18 @@
-﻿using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using EHunter.Media;
+using EHunter.Pixiv.Services.ImageCaching;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Illusts
 {
     public class IllustPageVM
     {
+        private readonly PixivImageService _imageService;
         private readonly IllustPage _page;
 
-        internal IllustPageVM(IllustVM illust, IllustPage page)
+        internal IllustPageVM(IllustVM illust, PixivImageService imageService, IllustPage page)
         {
             Illust = illust;
+            _imageService = imageService;
             _page = page;
         }
 
@@ -19,7 +20,7 @@ namespace EHunter.Pixiv.ViewModels.Illusts
 
         public IllustVM Illust { get; }
 
-        public Task<Stream> RequestStreamAsync(IllustSize size, CancellationToken cancellation = default)
-            => _page.AtSize(size).RequestStreamAsync(cancellation);
+        public IImageSource GetImage(IllustSize size)
+            => _imageService.GetImage(_page.AtSize(size));
     }
 }

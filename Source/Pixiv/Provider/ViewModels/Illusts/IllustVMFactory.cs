@@ -3,6 +3,7 @@ using System.Composition;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using EHunter.ComponentModel;
+using EHunter.Pixiv.Services.ImageCaching;
 using EHunter.Pixiv.ViewModels.Download;
 using EHunter.Services;
 using Meowtrix.PixivApi.Models;
@@ -14,16 +15,20 @@ namespace EHunter.Pixiv.ViewModels.Illusts
     {
         private readonly DownloadManager _downloadManager;
         private readonly IViewModelService _viewModelService;
+        private readonly PixivImageService _imageService;
 
         [ImportingConstructor]
-        public IllustVMFactory(DownloadManager downloadManager, IViewModelService viewModelService)
+        public IllustVMFactory(DownloadManager downloadManager,
+            IViewModelService viewModelService,
+            PixivImageService imageService)
         {
             _downloadManager = downloadManager;
             _viewModelService = viewModelService;
+            _imageService = imageService;
         }
 
         public IllustVM CreateViewModel(Illust illust, int indexInCollection = -1)
-            => new(illust, _downloadManager.GetOrAddDownloadable(illust), indexInCollection);
+            => new(illust, _downloadManager.GetOrAddDownloadable(illust), _imageService, indexInCollection);
 
         [return: NotNullIfNotNull("source")]
         public IAsyncEnumerable<IllustVM>? CreateViewModels(IAsyncEnumerable<Illust>? source)
