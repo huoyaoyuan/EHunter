@@ -3,7 +3,7 @@ using System.Composition;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using EHunter.ComponentModel;
-using EHunter.Pixiv.Services.ImageCaching;
+using EHunter.Pixiv.Services.Images;
 using EHunter.Pixiv.ViewModels.Download;
 using EHunter.Services;
 using Meowtrix.PixivApi.Models;

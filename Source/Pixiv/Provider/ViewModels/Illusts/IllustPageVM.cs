@@ -1,5 +1,5 @@
 ﻿using EHunter.Media;
-using EHunter.Pixiv.Services.ImageCaching;
+using EHunter.Pixiv.Services.Images;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Illusts

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using EHunter.Pixiv.Services.ImageCaching;
+using EHunter.Pixiv.Services.Images;
 using EHunter.Pixiv.ViewModels.Download;
 using Meowtrix.PixivApi.Models;
 

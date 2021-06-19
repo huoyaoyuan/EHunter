@@ -4,7 +4,7 @@ using EHunter.Media;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace EHunter.Pixiv.Services.ImageCaching
+namespace EHunter.Pixiv.Services.Images
 {
     [Export, Shared]
     public partial class PixivImageService
