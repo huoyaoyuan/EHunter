@@ -1,0 +1,31 @@
+﻿<UserControl
+    x:Class="EHunter.Controls.RichImage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.ContextFlyout>
+        <MenuFlyout>
+            <MenuFlyoutItem>
+                <MenuFlyoutItem.Command>
+                    <StandardUICommand x:Name="copyCommand"
+                                       Kind="Copy"
+                                       CanExecuteRequested="CanCopyRequested"
+                                       ExecuteRequested="{x:Bind _holder.Copy}" />
+                </MenuFlyoutItem.Command>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Refresh" Icon="Refresh" Click="{x:Bind _holder.Refresh}" />
+        </MenuFlyout>
+    </UserControl.ContextFlyout>
+    <Grid Background="Transparent">
+        <Image Source="{x:Bind _holder.Source, FallbackValue={x:Null}}"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch" />
+        <ProgressRing
+            IsActive="{x:Bind _holder.IsLoading, FallbackValue=False}"
+            Width="24" Height="24"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center" />
+    </Grid>
+</UserControl>
