@@ -7,7 +7,7 @@ using Microsoft.Extensions.Caching.Memory;
 namespace EHunter.Services.ImageCaching
 {
     [Export, Shared]
-    public class ImageCacheService : IStorageService<object>
+    public class ImageCacheService : IStorageService<ICachable>
     {
         private readonly IMemoryCache _memoryCache;
 
@@ -31,21 +31,21 @@ namespace EHunter.Services.ImageCaching
             }).ConfigureAwait(false);
         }
 
-        public ValueTask<bool> IsStored(object key) => new(_memoryCache.TryGetValue(key, out _));
+        public ValueTask<bool> IsStored(ICachable key) => new(_memoryCache.TryGetValue(key.GetCacheKey(), out _));
 
-        public ValueTask<Stream?> TryGet(object key)
+        public ValueTask<Stream?> TryGet(ICachable key)
         {
-            if (_memoryCache.TryGetValue(key, out byte[] value))
+            if (_memoryCache.TryGetValue(key.GetCacheKey(), out byte[] value))
                 return new(new MemoryStream(value));
             return default;
         }
 
-        public async ValueTask Store(object key, Stream stream)
+        public async ValueTask Store(ICachable key, Stream stream)
         {
             stream.Seek(0, SeekOrigin.Begin);
             byte[] data = new byte[stream.Length];
             await stream.CopyToAsync(new MemoryStream(data)).ConfigureAwait(false);
-            _memoryCache.Set(key, data);
+            _memoryCache.Set(key.GetCacheKey(), data);
             stream.Seek(0, SeekOrigin.Begin);
         }
     }
