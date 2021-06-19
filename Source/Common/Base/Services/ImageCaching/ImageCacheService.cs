@@ -1,11 +1,13 @@
 ﻿using System.Composition;
+using System.IO;
 using System.Threading.Tasks;
+using EHunter.Media;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace EHunter.Services.ImageCaching
 {
     [Export, Shared]
-    public class ImageCacheService
+    public class ImageCacheService : IStorageService<object>
     {
         private readonly IMemoryCache _memoryCache;
 
@@ -27,6 +29,24 @@ namespace EHunter.Services.ImageCaching
                 entry.SetSize(data.Length);
                 return new ImageEntry(data);
             }).ConfigureAwait(false);
+        }
+
+        public ValueTask<bool> IsStored(object key) => new(_memoryCache.TryGetValue(key, out _));
+
+        public ValueTask<Stream?> TryGet(object key)
+        {
+            if (_memoryCache.TryGetValue(key, out byte[] value))
+                return new(new MemoryStream(value));
+            return default;
+        }
+
+        public async ValueTask Store(object key, Stream stream)
+        {
+            stream.Seek(0, SeekOrigin.Begin);
+            byte[] data = new byte[stream.Length];
+            await stream.CopyToAsync(new MemoryStream(data)).ConfigureAwait(false);
+            _memoryCache.Set(key, data);
+            stream.Seek(0, SeekOrigin.Begin);
         }
     }
 }
