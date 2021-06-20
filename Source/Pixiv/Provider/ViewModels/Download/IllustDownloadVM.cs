@@ -168,8 +168,6 @@ namespace EHunter.Pixiv.ViewModels.Download
                 }
             }
         }
-
-        public ImageInfo IllustPreviewPage => Illust.Pages[0].Medium;
     }
 
     public enum IllustDownloadState

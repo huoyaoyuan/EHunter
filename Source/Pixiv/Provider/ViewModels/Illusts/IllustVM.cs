@@ -28,8 +28,6 @@ namespace EHunter.Pixiv.ViewModels.Illusts
         public Illust Illust { get; }
         public IllustDownloadVM Downloadable { get; }
 
-        public ImageInfo Preview => Illust.Pages[0].Medium;
-
         public IllustPageVM PreviewPage => Pages[0];
 
         public IReadOnlyList<IImageSource> LargePages => Illust.IsAnimated
