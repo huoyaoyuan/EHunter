@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using EHunter.Media;
 using EHunter.Pixiv.Services.Images;
 using EHunter.Pixiv.ViewModels.Download;
 using Meowtrix.PixivApi.Models;
@@ -31,12 +32,12 @@ namespace EHunter.Pixiv.ViewModels.Illusts
 
         public IllustPageVM PreviewPage => Pages[0];
 
-        public IReadOnlyList<ImageVM> LargePages => Illust.IsAnimated
-            ? new[] { new ImageVM(Illust, _imageService) }
+        public IReadOnlyList<IImageSource> LargePages => Illust.IsAnimated
+            ? new[] { _imageService.GetAnimatedImage(Illust) }
             : Pages.Select(x => x.Large).ToArray();
 
-        public IReadOnlyList<ImageVM> OriginalPages => Illust.IsAnimated
-            ? new[] { new ImageVM(Illust, _imageService) }
+        public IReadOnlyList<IImageSource> OriginalPages => Illust.IsAnimated
+            ? new[] { _imageService.GetAnimatedImage(Illust) }
             : Pages.Select(x => x.Original).ToArray();
 
         public string CreationTimeDisplayString => Illust.Created.ToLocalTime().ToString("f", CultureInfo.CurrentCulture);

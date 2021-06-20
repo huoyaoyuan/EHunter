@@ -6,11 +6,11 @@ using Meowtrix.PixivApi.Models;
 namespace EHunter.Pixiv.Services.Images
 {
 
-    public class AnimatedImageSource : ImageSource
+    internal class AnimatedImageSource : ImageSource
     {
         public Illust Illust { get; }
 
-        public AnimatedImageSource(Illust illust, PixivImageService owner)
+        internal AnimatedImageSource(Illust illust, PixivImageService owner)
             : base(owner) => Illust = illust;
 
         private record CacheKey(int Id);

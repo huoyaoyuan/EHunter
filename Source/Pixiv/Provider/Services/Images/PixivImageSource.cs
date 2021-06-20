@@ -6,9 +6,9 @@ using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.Services.Images
 {
-    public class PixivImageSource : ImageSource
+    internal class PixivImageSource : ImageSource
     {
-        public ImageInfo ImageInfo { get; }
+        internal ImageInfo ImageInfo { get; }
 
         public PixivImageSource(ImageInfo imageInfo, PixivImageService owner)
             : base(owner) => ImageInfo = imageInfo;

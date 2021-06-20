@@ -1,4 +1,5 @@
-﻿using EHunter.Pixiv.Services.Images;
+﻿using EHunter.Media;
+using EHunter.Pixiv.Services.Images;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Illusts
@@ -19,13 +20,12 @@ namespace EHunter.Pixiv.ViewModels.Illusts
 
         public IllustVM Illust { get; }
 
-        public ImageVM GetImage(IllustSize size)
-            => new(_page.AtSize(size), _imageService);
+        public IImageSource GetImage(IllustSize size) => _imageService.GetImage(_page.AtSize(size));
 
-        public ImageVM Medium => GetImage(IllustSize.Medium);
+        public IImageSource Medium => GetImage(IllustSize.Medium);
 
-        public ImageVM Large => GetImage(IllustSize.Large);
+        public IImageSource Large => GetImage(IllustSize.Large);
 
-        public ImageVM Original => GetImage(IllustSize.Original);
+        public IImageSource Original => GetImage(IllustSize.Original);
     }
 }
