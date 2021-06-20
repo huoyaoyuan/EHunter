@@ -1,23 +1,21 @@
-﻿using EHunter.Pixiv.Services.Images;
+﻿using EHunter.Media;
+using EHunter.Pixiv.Services.Images;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Illusts
 {
     public class ImageVM
     {
-        private readonly PixivImageService _imageService;
-        private readonly ImageRequest _imageRequest;
+        private readonly IImageSource _imageRequest;
 
         public ImageVM(ImageInfo imageInfo, PixivImageService imageService)
         {
-            _imageService = imageService;
-            _imageRequest = new PixivImageRequest(imageInfo);
+            _imageRequest = new PixivImageSource(imageInfo, imageService);
         }
 
         public ImageVM(Illust animateIllust, PixivImageService imageService)
         {
-            _imageService = imageService;
-            _imageRequest = new AnimatedImageRequest(animateIllust);
+            _imageRequest = new AnimatedImageSource(animateIllust, imageService);
         }
     }
 }
