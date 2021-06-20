@@ -2,25 +2,24 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
-using EHunter.Services;
+using EHunter.Pixiv.ViewModels.User;
 using Meowtrix.PixivApi;
-using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Bookmark
 {
     [Export]
-    [ObservableProperty("Users", typeof(IBindableCollection<UserInfoWithPreview>), IsNullable = true, IsSetterPublic = false)]
+    [ObservableProperty("Users", typeof(IBindableCollection<UserWithPreviewVM>), IsNullable = true, IsSetterPublic = false)]
     public partial class MyFollowingVM : ObservableObject
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
-        private readonly IViewModelService _viewModelService;
+        private readonly UserVMFactory _factory;
 
         [ImportingConstructor]
         public MyFollowingVM(ICustomResolver<PixivClient> clientResolver,
-            IViewModelService viewModelService)
+            UserVMFactory factory)
         {
             _clientResolver = clientResolver;
-            _viewModelService = viewModelService;
+            _factory = factory;
 
             Refresh();
         }
@@ -28,7 +27,7 @@ namespace EHunter.Pixiv.ViewModels.Bookmark
         public void Refresh()
         {
             var client = _clientResolver.Resolve();
-            Users = _viewModelService.CreateAsyncCollection(client.GetMyFollowingUsersAsync());
+            Users = _factory.CreateAsyncCollection(client.GetMyFollowingUsersAsync());
         }
     }
 }

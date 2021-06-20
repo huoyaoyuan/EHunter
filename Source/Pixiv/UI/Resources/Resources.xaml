@@ -6,6 +6,7 @@
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:local="using:EHunter.Pixiv.Resources"
     xmlns:settings="using:EHunter.Pixiv.Settings"
+    xmlns:vmu="using:EHunter.Pixiv.ViewModels.User"
     xmlns:api="using:Meowtrix.PixivApi"
     xmlns:m="using:Meowtrix.PixivApi.Models">
     <commands:NavigateToUserCommand x:Key="NavigateToUserCommand" />
@@ -92,7 +93,7 @@
     </Style>
 
     <DataTemplate x:Key="UserWithPreviewTemplate"
-                  x:DataType="m:UserInfoWithPreview"
+                  x:DataType="vmu:UserWithPreviewVM"
                   x:DefaultBindMode="OneTime">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -103,19 +104,19 @@
             <controls:PixivImage
                 Width="100"
                 Height="100"
-                ImageInfo="{x:Bind Avatar}" />
+                ImageInfo="{x:Bind UserInfo.Avatar}" />
             <HyperlinkButton
                 Grid.Column="1"
                 MinWidth="300"
-                Content="{x:Bind Name}"
+                Content="{x:Bind UserInfo.Name}"
                 Command="{StaticResource NavigateToUserCommand}"
-                CommandParameter="{x:Bind}" />
+                CommandParameter="{x:Bind UserInfo}" />
             <ScrollViewer
                 Grid.Column="2"
                 HorizontalScrollMode="Auto"
                 VerticalScrollMode="Disabled">
                 <ItemsRepeater
-                    ItemsSource="{x:Bind PreviewIllusts}">
+                    ItemsSource="{x:Bind UserInfo.PreviewIllusts}">
                     <ItemsRepeater.Layout>
                         <StackLayout Spacing="4" Orientation="Horizontal" />
                     </ItemsRepeater.Layout>
