@@ -33,10 +33,10 @@ namespace EHunter.Services.ImageCaching
             _data = await _memoryCache.GetOrCreateAsync(cacheKey, async entry =>
             {
                 var stream = await RequestAsync(cancellationToken).ConfigureAwait(false);
-                entry.SetSize(stream.Length);
-                byte[] data = new byte[stream.Length];
-                await stream.CopyToAsync(new MemoryStream(data)).ConfigureAwait(false);
-                return data;
+                using var mms = new MemoryStream();
+                await stream.CopyToAsync(mms).ConfigureAwait(false);
+                entry.SetSize(mms.Length);
+                return mms.ToArray();
             }).ConfigureAwait(false);
 
             return new MemoryStream(_data);

@@ -32,8 +32,8 @@ namespace EHunter.Pixiv.ViewModels.User
             _imageService = imageService;
         }
 
-        public JumpToUserVM Create() => new(_clientResolver.Resolve(), _illustVMFactory);
-        public JumpToUserVM Create(UserInfo userInfo) => new(_clientResolver.Resolve(), _illustVMFactory, userInfo);
+        public JumpToUserVM Create() => new(_clientResolver.Resolve(), _imageService, _illustVMFactory);
+        public JumpToUserVM Create(UserInfo userInfo) => new(_clientResolver.Resolve(), _imageService, _illustVMFactory, userInfo);
 
         public UserWithPreviewVM CreateViewModel(UserInfoWithPreview userInfo) => new(userInfo, _imageService, _illustVMFactory);
 

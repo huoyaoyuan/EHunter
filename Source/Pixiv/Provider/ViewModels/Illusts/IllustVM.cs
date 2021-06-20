@@ -40,6 +40,8 @@ namespace EHunter.Pixiv.ViewModels.Illusts
             ? new[] { _imageService.GetAnimatedImage(Illust) }
             : Pages.Select(x => x.Original).ToArray();
 
+        public IImageSource UserAvatar => _imageService.GetImage(Illust.User.Avatar);
+
         public string CreationTimeDisplayString => Illust.Created.ToLocalTime().ToString("f", CultureInfo.CurrentCulture);
     }
 }
