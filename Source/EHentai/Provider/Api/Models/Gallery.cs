@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -64,7 +64,7 @@ namespace EHunter.EHentai.Api.Models
         public ParsedTitle? Title { get; }
         public ParsedTitle? TitleJpn { get; }
 
-        public Task<HttpResponseMessage> RequestThumbnailAsync() => _client.HttpClient.GetAsync(Thumbnail);
+        public Task<Stream> RequestThumbnailAsync() => _client.HttpClient.GetStreamAsync(Thumbnail);
     }
 
     public record ParsedTitle(
