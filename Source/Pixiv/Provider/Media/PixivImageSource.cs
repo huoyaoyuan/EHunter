@@ -2,16 +2,18 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using EHunter.Media;
 using Meowtrix.PixivApi.Models;
+using Microsoft.Extensions.Caching.Memory;
 
-namespace EHunter.Pixiv.Services.Images
+namespace EHunter.Pixiv.Media
 {
-    internal class PixivImageSource : ImageSource
+    internal class PixivImageSource : CachedImageSource
     {
         internal ImageInfo ImageInfo { get; }
 
-        public PixivImageSource(ImageInfo imageInfo, PixivImageService owner)
-            : base(owner) => ImageInfo = imageInfo;
+        public PixivImageSource(ImageInfo imageInfo, IMemoryCache memoryCache)
+            : base(memoryCache) => ImageInfo = imageInfo;
 
         private record CacheKey(Uri Uri);
 

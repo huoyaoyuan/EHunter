@@ -1,17 +1,20 @@
 ﻿using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using EHunter.Media;
+using EHunter.Pixiv.Services;
 using Meowtrix.PixivApi.Models;
+using Microsoft.Extensions.Caching.Memory;
 
-namespace EHunter.Pixiv.Services.Images
+namespace EHunter.Pixiv.Media
 {
 
-    internal class AnimatedImageSource : ImageSource
+    internal class AnimatedImageSource : CachedImageSource
     {
         public Illust Illust { get; }
 
-        internal AnimatedImageSource(Illust illust, PixivImageService owner)
-            : base(owner) => Illust = illust;
+        internal AnimatedImageSource(Illust illust, IMemoryCache memoryCache)
+            : base(memoryCache) => Illust = illust;
 
         private record CacheKey(int Id);
 
