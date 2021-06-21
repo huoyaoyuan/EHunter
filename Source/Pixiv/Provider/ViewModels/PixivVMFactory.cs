@@ -77,7 +77,7 @@ namespace EHunter.Pixiv.ViewModels
         public IBindableCollection<UserWithPreviewVM>? CreateAsyncCollection(IAsyncEnumerable<UserInfoWithPreview>? source)
             => _viewModelService.CreateAsyncCollection(CreateViewModels(source));
 
-        public JumpToUserVM Create() => new(_clientResolver.Resolve(), this);
-        public JumpToUserVM Create(UserInfo userInfo) => new(_clientResolver.Resolve(), this, userInfo);
+        public JumpToUserVM JumpToUser() => new(_clientResolver.Resolve(), this);
+        public JumpToUserVM JumpToUser(UserInfo userInfo) => new(_clientResolver.Resolve(), this, userInfo);
     }
 }
