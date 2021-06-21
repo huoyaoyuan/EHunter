@@ -1,6 +1,6 @@
 ﻿using System.IO;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace EHunter.Services
 {
@@ -9,7 +9,7 @@ namespace EHunter.Services
         private readonly FileInfo _fileInfo;
         private readonly object _writeLock = new();
 
-        private readonly JObject _jObject;
+        private readonly JsonObject _jObject;
         private readonly JsonSettingStore? _rootStore;
 
         public JsonSettingStore(FileInfo fileInfo)
@@ -18,9 +18,8 @@ namespace EHunter.Services
 
             try
             {
-                using (var file = fileInfo.OpenText())
-                using (var jsonReader = new JsonTextReader(file))
-                    _jObject = JObject.Load(jsonReader);
+                using (var file = fileInfo.OpenRead())
+                    _jObject = JsonSerializer.DeserializeAsync<JsonObject>(file).AsTask().Result ?? new();
             }
             catch
             {
@@ -28,7 +27,7 @@ namespace EHunter.Services
             }
         }
 
-        private JsonSettingStore(FileInfo fileInfo, JsonSettingStore rootStore, JObject jObject)
+        private JsonSettingStore(FileInfo fileInfo, JsonSettingStore rootStore, JsonObject jObject)
         {
             _fileInfo = fileInfo;
             _rootStore = rootStore;
@@ -45,9 +44,8 @@ namespace EHunter.Services
 
             try
             {
-                using (var file = _fileInfo.CreateText())
-                using (var jsonWriter = new JsonTextWriter(file))
-                    _jObject.WriteTo(jsonWriter);
+                using (var file = _fileInfo.OpenWrite())
+                    JsonSerializer.SerializeAsync(file, _jObject).Wait();
             }
             catch
             {
@@ -68,7 +66,7 @@ namespace EHunter.Services
         {
             lock (_writeLock)
             {
-                if (_jObject[name] is not JObject @object)
+                if (_jObject[name] is not JsonObject @object)
                 {
                     _jObject[name] = @object = new();
                     Save();
@@ -79,8 +77,8 @@ namespace EHunter.Services
         }
 
         public int? GetIntValue(string name)
-            => _jObject[name] is JValue { Type: JTokenType.Null or JTokenType.Integer or JTokenType.Float } value
-            ? (int?)value : null;
+            => _jObject[name] is JsonValue value && value.TryGetValue(out int v)
+            ? v : null;
         public void SetIntValue(string name, int value)
         {
             lock (_writeLock)
@@ -91,8 +89,8 @@ namespace EHunter.Services
         }
 
         public string? GetStringValue(string name)
-            => _jObject[name] is JValue { Type: JTokenType.Null or JTokenType.String } value
-            ? (string?)value : null;
+            => _jObject[name] is JsonValue value && value.TryGetValue(out string? str)
+            ? str : null;
         public void SetStringValue(string name, string? value)
         {
             lock (_writeLock)
@@ -103,8 +101,8 @@ namespace EHunter.Services
         }
 
         public bool? GetBoolValue(string name)
-            => _jObject[name] is JValue { Type: JTokenType.Null or JTokenType.Boolean } value
-            ? (bool?)value : null;
+            => _jObject[name] is JsonValue value && value.TryGetValue(out bool b)
+            ? b : null;
         public void SetBoolValue(string name, bool value)
         {
             lock (_writeLock)

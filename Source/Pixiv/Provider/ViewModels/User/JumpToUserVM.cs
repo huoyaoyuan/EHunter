@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using EHunter.Media;
+using EHunter.Pixiv.Services.Images;
+using EHunter.Pixiv.ViewModels.Illusts;
 using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
@@ -9,10 +12,12 @@ namespace EHunter.Pixiv.ViewModels.User
     [ObservableProperty("UserId", typeof(int))]
     [ObservableProperty("IsLoading", typeof(bool))]
     [ObservableProperty("UserInfo", typeof(UserInfo), IsNullable = true, IsSetterPublic = true)]
+    [ObservableProperty("UserAvatar", typeof(IImageSource), IsNullable = true)]
     [ObservableProperty("UserDetail", typeof(UserDetailInfo), IsNullable = true, IsSetterPublic = true)]
     public partial class JumpToUserVM : IllustCollectionVM
     {
         private readonly PixivClient _client;
+        private readonly PixivImageService _imageService;
 
         public async void JumpToUser()
         {
@@ -23,6 +28,7 @@ namespace EHunter.Pixiv.ViewModels.User
                 var user = await _client.GetUserDetailAsync(UserId).ConfigureAwait(true);
                 UserInfo = user;
                 UserDetail = user;
+                UserAvatar = _imageService.GetImage(user.Avatar);
                 Refresh();
             }
             catch
@@ -34,11 +40,11 @@ namespace EHunter.Pixiv.ViewModels.User
             }
         }
 
-        public JumpToUserVM(PixivClient client, IllustVMFactory illustVMFactory, UserInfo? userInfo = null)
+        public JumpToUserVM(PixivClient client, PixivImageService imageService, IllustVMFactory illustVMFactory, UserInfo? userInfo = null)
             : base(illustVMFactory)
         {
             _client = client;
-
+            _imageService = imageService;
             if (userInfo != null)
             {
                 UserInfo = userInfo;
@@ -49,6 +55,7 @@ namespace EHunter.Pixiv.ViewModels.User
             {
                 Refresh();
                 UserDetail = await user.GetDetailAsync().ConfigureAwait(true);
+                UserAvatar = _imageService.GetImage(user.Avatar);
             }
         }
 

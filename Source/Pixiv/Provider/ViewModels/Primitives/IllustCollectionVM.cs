@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.ComponentModel;
+using EHunter.Pixiv.ViewModels.Illusts;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Primitives
