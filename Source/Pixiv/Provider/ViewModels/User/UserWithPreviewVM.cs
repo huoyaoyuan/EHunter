@@ -8,10 +8,10 @@ namespace EHunter.Pixiv.ViewModels.User
 {
     public class UserWithPreviewVM
     {
-        public UserWithPreviewVM(UserInfoWithPreview userInfo, PixivVMFactory vmFactory, IllustVMFactory factory)
+        public UserWithPreviewVM(UserInfoWithPreview userInfo, PixivVMFactory factory)
         {
             UserInfo = userInfo;
-            Avatar = vmFactory.GetImage(userInfo.Avatar);
+            Avatar = factory.GetImage(userInfo.Avatar);
             PreviewIllusts = userInfo.PreviewIllusts.Select(x => factory.CreateViewModel(x)).ToArray();
         }
 

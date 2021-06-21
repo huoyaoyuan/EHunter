@@ -2,7 +2,6 @@
 using System.Linq;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
-using EHunter.Pixiv.ViewModels.Illusts;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 
@@ -12,14 +11,14 @@ namespace EHunter.Pixiv.ViewModels.Search
     public partial class IllustSearchManager : TabsViewModel<IllustSearchVM>
     {
         internal readonly ICustomResolver<PixivClient> ClientResolver;
-        internal readonly IllustVMFactory IllustVMFactory;
+        internal readonly PixivVMFactory Factory;
 
         [ImportingConstructor]
         public IllustSearchManager(ICustomResolver<PixivClient> clientResolver,
-            IllustVMFactory illustVMFactory)
+            PixivVMFactory factory)
         {
             ClientResolver = clientResolver;
-            IllustVMFactory = illustVMFactory;
+            Factory = factory;
         }
 
         protected override IllustSearchVM CreateNewTab() => new(this);

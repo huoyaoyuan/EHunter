@@ -17,14 +17,14 @@ namespace EHunter.Pixiv.ViewModels.Opened
     public partial class OpenedIllustsVM : ObservableObject
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
-        private readonly IllustVMFactory _illustVMFactory;
+        private readonly PixivVMFactory _factory;
 
         [ImportingConstructor]
         public OpenedIllustsVM(ICustomResolver<PixivClient> clientResolver,
-            IllustVMFactory illustVMFactory)
+            PixivVMFactory factory)
         {
             _clientResolver = clientResolver;
-            _illustVMFactory = illustVMFactory;
+            _factory = factory;
         }
 
         public ObservableCollection<IllustHolderVM> Illusts { get; } = new();
@@ -37,7 +37,7 @@ namespace EHunter.Pixiv.ViewModels.Opened
             IdToOpenText = string.Empty;
 
             async Task<IllustVM> GetIllustAsync(int id)
-                => _illustVMFactory.CreateViewModel(await _clientResolver.Resolve()
+                => _factory.CreateViewModel(await _clientResolver.Resolve()
                     .GetIllustDetailAsync(id)
                     .ConfigureAwait(true));
 
@@ -80,7 +80,7 @@ namespace EHunter.Pixiv.ViewModels.Opened
                 }
             }
 
-            Illusts.Add(new(_illustVMFactory.CreateViewModel(illust)));
+            Illusts.Add(new(_factory.CreateViewModel(illust)));
             SelectedIndex = Illusts.Count - 1;
             CanClose = true;
         }

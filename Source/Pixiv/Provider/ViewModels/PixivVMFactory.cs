@@ -1,6 +1,13 @@
-﻿using System.Composition;
+﻿using System.Collections.Generic;
+using System.Composition;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
+using EHunter.ComponentModel;
 using EHunter.Media;
 using EHunter.Pixiv.Media;
+using EHunter.Pixiv.ViewModels.Download;
+using EHunter.Pixiv.ViewModels.Illusts;
+using EHunter.Services;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -10,11 +17,40 @@ namespace EHunter.Pixiv.ViewModels
     public class PixivVMFactory
     {
         private readonly IMemoryCache _memoryCache;
+        private readonly DownloadManager _downloadManager;
+        private readonly IViewModelService _viewModelService;
 
         [ImportingConstructor]
-        public PixivVMFactory(IMemoryCache memoryCache) => _memoryCache = memoryCache;
+        public PixivVMFactory(IMemoryCache memoryCache,
+            DownloadManager downloadManager,
+            IViewModelService viewModelService)
+        {
+            _memoryCache = memoryCache;
+            _downloadManager = downloadManager;
+            _viewModelService = viewModelService;
+        }
 
         public IImageSource GetImage(ImageInfo image) => new PixivImageSource(image, _memoryCache);
         public IImageSource GetAnimatedImage(Illust illust) => new AnimatedImageSource(illust, _memoryCache);
+
+        public IllustVM CreateViewModel(Illust illust, int indexInCollection = -1)
+            => new(illust, _downloadManager.GetOrAddDownloadable(illust), this, indexInCollection);
+
+        [return: NotNullIfNotNull("source")]
+        public IAsyncEnumerable<IllustVM>? CreateViewModels(IAsyncEnumerable<Illust>? source)
+        {
+            return source is null ? null : Core(source);
+            // Select does ConfigureAwait(false)
+            async IAsyncEnumerable<IllustVM> Core(IAsyncEnumerable<Illust> source)
+            {
+                int i = 1;
+                await foreach (var illust in source.ConfigureAwait(true))
+                    yield return CreateViewModel(illust, i++);
+            }
+        }
+
+        [return: NotNullIfNotNull("source")]
+        public IBindableCollection<IllustVM>? CreateAsyncCollection(IAsyncEnumerable<Illust>? source)
+            => _viewModelService.CreateAsyncCollection(CreateViewModels(source));
     }
 }

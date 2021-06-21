@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using EHunter.Media;
-using EHunter.Pixiv.ViewModels.Illusts;
 using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
@@ -39,8 +38,8 @@ namespace EHunter.Pixiv.ViewModels.User
             }
         }
 
-        public JumpToUserVM(PixivClient client, PixivVMFactory factory, IllustVMFactory illustVMFactory, UserInfo? userInfo = null)
-            : base(illustVMFactory)
+        public JumpToUserVM(PixivClient client, PixivVMFactory factory, UserInfo? userInfo = null)
+            : base(factory)
         {
             _client = client;
             _factory = factory;
