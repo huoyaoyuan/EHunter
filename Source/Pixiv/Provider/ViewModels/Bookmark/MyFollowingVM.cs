@@ -12,11 +12,11 @@ namespace EHunter.Pixiv.ViewModels.Bookmark
     public partial class MyFollowingVM : ObservableObject
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
-        private readonly UserVMFactory _factory;
+        private readonly PixivVMFactory _factory;
 
         [ImportingConstructor]
         public MyFollowingVM(ICustomResolver<PixivClient> clientResolver,
-            UserVMFactory factory)
+            PixivVMFactory factory)
         {
             _clientResolver = clientResolver;
             _factory = factory;
