@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.EHentai.Controls"
+    xmlns:commonControls="using:EHunter.Controls"
     xmlns:vm="using:EHunter.EHentai.ViewModels"
     mc:Ignorable="d">
     <Grid>
@@ -50,8 +51,8 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <controls:Thumbnail
-                            Gallery="{x:Bind Gallery}" />
+                        <commonControls:RichImage
+                            Source="{x:Bind Thumbnail}" />
 
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>

@@ -16,10 +16,10 @@ namespace EHunter.EHentai.ViewModels
         public GalleryVM(Gallery gallery, IMemoryCache memoryCache)
         {
             Gallery = gallery;
-            ThumbnailSource = new ThumbnailSource(gallery, memoryCache);
+            Thumbnail = new ThumbnailSource(gallery, memoryCache);
         }
 
-        public IImageSource ThumbnailSource { get; }
+        public IImageSource Thumbnail { get; }
 
         private static readonly ParsedTitle s_noTitle
             = new(string.Empty, null, null, null, null, null, ImmutableArray<string>.Empty);
