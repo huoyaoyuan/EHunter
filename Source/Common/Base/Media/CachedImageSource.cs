@@ -1,10 +1,9 @@
 ﻿using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using EHunter.Media;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace EHunter.Services.ImageCaching
+namespace EHunter.Media
 {
     public abstract class CachedImageSource : IImageSource
     {

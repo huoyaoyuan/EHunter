@@ -1,4 +1,4 @@
-﻿using EHunter.Services.ImageCaching;
+﻿using EHunter.Media;
 
 namespace EHunter.Pixiv.Services.Images
 {
