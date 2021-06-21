@@ -3,6 +3,7 @@ using System.Composition;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.DependencyInjection;
+using EHunter.Pixiv.ViewModels.Illusts;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 

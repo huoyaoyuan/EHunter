@@ -1,49 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Composition;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Threading.Tasks;
 using EHunter.ComponentModel;
+using EHunter.Pixiv.Services.Images;
 using EHunter.Pixiv.ViewModels.Download;
 using EHunter.Services;
 using Meowtrix.PixivApi.Models;
 
-namespace EHunter.Pixiv.ViewModels
+namespace EHunter.Pixiv.ViewModels.Illusts
 {
-    public class IllustVM
-    {
-        internal IllustVM(Illust illust, IllustDownloadVM downloadable, int indexInCollection = -1)
-        {
-            Illust = illust;
-            Downloadable = downloadable;
-            IndexInCollection = indexInCollection;
-        }
-
-        public int? IndexInCollection { get; }
-
-        public Illust Illust { get; }
-        public IllustDownloadVM Downloadable { get; }
-
-        public ImageInfo Preview => Illust.Pages[0].Medium;
-
-        public string CreationTimeDisplayString => Illust.Created.ToLocalTime().ToString("f", CultureInfo.CurrentCulture);
-    }
-
     [Export, Shared]
     public class IllustVMFactory
     {
         private readonly DownloadManager _downloadManager;
         private readonly IViewModelService _viewModelService;
+        private readonly PixivImageService _imageService;
 
         [ImportingConstructor]
-        public IllustVMFactory(DownloadManager downloadManager, IViewModelService viewModelService)
+        public IllustVMFactory(DownloadManager downloadManager,
+            IViewModelService viewModelService,
+            PixivImageService imageService)
         {
             _downloadManager = downloadManager;
             _viewModelService = viewModelService;
+            _imageService = imageService;
         }
 
         public IllustVM CreateViewModel(Illust illust, int indexInCollection = -1)
-            => new(illust, _downloadManager.GetOrAddDownloadable(illust), indexInCollection);
+            => new(illust, _downloadManager.GetOrAddDownloadable(illust), _imageService, indexInCollection);
 
         [return: NotNullIfNotNull("source")]
         public IAsyncEnumerable<IllustVM>? CreateViewModels(IAsyncEnumerable<Illust>? source)

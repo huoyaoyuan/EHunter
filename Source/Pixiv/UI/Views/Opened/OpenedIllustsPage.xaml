@@ -6,9 +6,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tk="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:commonControls="using:EHunter.Controls"
+    xmlns:media="using:EHunter.Media"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
-    xmlns:vm="using:EHunter.Pixiv.ViewModels"
     xmlns:vmo="using:EHunter.Pixiv.ViewModels.Opened"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     mc:Ignorable="d"
@@ -75,10 +75,10 @@
             ListPaneWidth="120">
             <tk:ListDetailsView.ItemTemplate>
                 <DataTemplate x:DataType="vmo:IllustHolderVM">
-                    <controls:PixivImage
+                    <commonControls:RichImage
                         Height="100"
                         Width="100"
-                        ImageInfo="{x:Bind IllustVM.Preview, FallbackValue={x:Null}, Mode=OneWay}" />
+                        Source="{x:Bind IllustVM.PreviewPage.Medium, FallbackValue={x:Null}, Mode=OneWay}" />
                 </DataTemplate>
             </tk:ListDetailsView.ItemTemplate>
             <tk:ListDetailsView.DetailsTemplate>
@@ -89,48 +89,28 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="200" />
                         </Grid.ColumnDefinitions>
-                        <ContentControl
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            Content="{x:Bind IllustVM, FallbackValue={x:Null}}">
-                            <ContentControl.ContentTemplateSelector>
-                                <controls:AnimatableIllustTemplateSelector>
-                                    <controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
-                                        <DataTemplate x:DataType="vm:IllustVM"
-                                                      x:DefaultBindMode="OneTime">
-                                            <FlipView
-                                                Background="Transparent"
-                                                ItemsSource="{x:Bind Illust.Pages}">
-                                                <FlipView.ItemTemplate>
-                                                    <DataTemplate x:DataType="m:IllustPage">
-                                                        <ScrollViewer
-                                                            x:Name="scrollViewer"
-                                                            ZoomMode="Enabled"
-                                                            MaxZoomFactor="100"
-                                                            MinZoomFactor="1"
-                                                            HorizontalScrollBarVisibility="Auto"
-                                                            VerticalScrollBarVisibility="Auto">
-                                                            <commonControls:SizeTracker
-                                                                HorizontalContentAlignment="Center"
-                                                                VerticalContentAlignment="Center"
-                                                                TrackedElement="{Binding ElementName=scrollViewer}">
-                                                                <controls:PixivImage ImageInfo="{x:Bind Original}" />
-                                                            </commonControls:SizeTracker>
-                                                        </ScrollViewer>
-                                                    </DataTemplate>
-                                                </FlipView.ItemTemplate>
-                                            </FlipView>
-                                        </DataTemplate>
-                                    </controls:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
-                                    <controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
-                                        <DataTemplate x:DataType="vm:IllustVM"
-                                                      x:DefaultBindMode="OneTime">
-                                            <controls:AnimatedIllust Illust="{x:Bind Illust}" />
-                                        </DataTemplate>
-                                    </controls:AnimatableIllustTemplateSelector.AnimatedTemplate>
-                                </controls:AnimatableIllustTemplateSelector>
-                            </ContentControl.ContentTemplateSelector>
-                        </ContentControl>
+                        <FlipView
+                            Background="Transparent"
+                            ItemsSource="{x:Bind IllustVM.OriginalPages}">
+                            <FlipView.ItemTemplate>
+                                <DataTemplate x:DataType="media:IImageSource">
+                                    <ScrollViewer
+                                        x:Name="scrollViewer"
+                                        ZoomMode="Enabled"
+                                        MaxZoomFactor="100"
+                                        MinZoomFactor="1"
+                                        HorizontalScrollBarVisibility="Auto"
+                                        VerticalScrollBarVisibility="Auto">
+                                        <commonControls:SizeTracker
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            TrackedElement="{Binding ElementName=scrollViewer}">
+                                            <commonControls:RichImage Source="{x:Bind Mode=OneTime}" />
+                                        </commonControls:SizeTracker>
+                                    </ScrollViewer>
+                                </DataTemplate>
+                            </FlipView.ItemTemplate>
+                        </FlipView>
                         <ScrollViewer
                             Grid.Column="1"
                             VerticalScrollMode="Enabled"
@@ -169,11 +149,11 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                                 <StackPanel Orientation="Horizontal" Spacing="4">
-                                    <controls:PixivImage
+                                    <commonControls:RichImage
                                         x:Name="userAvatar"
                                         Height="50"
                                         Width="50"
-                                        ImageInfo="{x:Bind IllustVM.Illust.User.Avatar, FallbackValue={x:Null}}" />
+                                        Source="{x:Bind IllustVM.UserAvatar, FallbackValue={x:Null}}" />
                                     <HyperlinkButton
                                         Grid.Row="2"
                                         FontSize="16"

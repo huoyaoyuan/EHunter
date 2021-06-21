@@ -4,7 +4,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -40,7 +39,8 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <controls:PixivImage ImageInfo="{x:Bind _setting.Client.CurrentUser.Avatar}" />
+                <!--<controls:PixivImage ImageInfo="{x:Bind _setting.Client.CurrentUser.Avatar}" />-->
+                <!-- TODO: user avatar -->
                 <TextBlock Grid.Column="1"  Text="{x:Bind _setting.Client.CurrentUser.Name}" />
             </Grid>
 

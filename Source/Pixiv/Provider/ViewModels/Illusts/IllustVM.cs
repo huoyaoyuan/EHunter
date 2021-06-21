@@ -1,0 +1,45 @@
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using EHunter.Media;
+using EHunter.Pixiv.Services.Images;
+using EHunter.Pixiv.ViewModels.Download;
+using Meowtrix.PixivApi.Models;
+
+namespace EHunter.Pixiv.ViewModels.Illusts
+{
+    public class IllustVM
+    {
+        private readonly PixivImageService _imageService;
+
+        internal IllustVM(Illust illust, IllustDownloadVM downloadable, PixivImageService imageService, int indexInCollection = -1)
+        {
+            Illust = illust;
+            Downloadable = downloadable;
+            _imageService = imageService;
+            IndexInCollection = indexInCollection;
+            Pages = illust.Pages.Select(x => new IllustPageVM(this, imageService, x)).ToArray();
+        }
+
+        public int? IndexInCollection { get; }
+
+        public IReadOnlyList<IllustPageVM> Pages { get; }
+
+        public Illust Illust { get; }
+        public IllustDownloadVM Downloadable { get; }
+
+        public IllustPageVM PreviewPage => Pages[0];
+
+        public IReadOnlyList<IImageSource> LargePages => Illust.IsAnimated
+            ? new[] { _imageService.GetAnimatedImage(Illust) }
+            : Pages.Select(x => x.Large).ToArray();
+
+        public IReadOnlyList<IImageSource> OriginalPages => Illust.IsAnimated
+            ? new[] { _imageService.GetAnimatedImage(Illust) }
+            : Pages.Select(x => x.Original).ToArray();
+
+        public IImageSource UserAvatar => _imageService.GetImage(Illust.User.Avatar);
+
+        public string CreationTimeDisplayString => Illust.Created.ToLocalTime().ToString("f", CultureInfo.CurrentCulture);
+    }
+}

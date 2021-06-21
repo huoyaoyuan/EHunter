@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using EHunter.Pixiv.ViewModels.Illusts;
 
 namespace EHunter.Pixiv.ViewModels.Opened
 {

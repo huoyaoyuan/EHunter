@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tktr="using:CommunityToolkit.WinUI.UI.Triggers"
+    xmlns:commonControls="using:EHunter.Controls"
     xmlns:commands="using:EHunter.Pixiv.Commands"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
@@ -107,12 +108,12 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <controls:PixivImage
+                <commonControls:RichImage
                     x:Name="userAvatar"
                     Height="100"
                     Width="100"
                     Margin="2"
-                    ImageInfo="{x:Bind VM.UserInfo.Avatar, FallbackValue={x:Null}}" />
+                    Source="{x:Bind VM.UserAvatar, FallbackValue={x:Null}}" />
                 <StackPanel
                     Grid.Column="1"
                     Margin="2"

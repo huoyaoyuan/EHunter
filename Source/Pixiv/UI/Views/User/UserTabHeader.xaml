@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tktr="using:CommunityToolkit.WinUI.UI.Triggers"
-    xmlns:controls="using:EHunter.Pixiv.Controls"
+    xmlns:controls="using:EHunter.Controls"
     x:DefaultBindMode="OneWay"
     mc:Ignorable="d">
     <Grid Height="24">
@@ -36,11 +36,11 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <controls:PixivImage
+        <controls:RichImage
             x:Name="avatar"
             Grid.Column="0"
             Width="24" Height="24"
-            ImageInfo="{x:Bind VM.UserInfo.Avatar, FallbackValue={x:Null}}" />
+            Source="{x:Bind VM.UserAvatar, FallbackValue={x:Null}}" />
         <FontIcon
             x:Name="gotoUserIcon"
             Grid.Column="0"

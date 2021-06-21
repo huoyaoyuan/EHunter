@@ -4,10 +4,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:EHunter.Controls"
+    xmlns:media="using:EHunter.Media"
     xmlns:commands="using:EHunter.Pixiv.Commands"
     xmlns:local="using:EHunter.Pixiv.Controls"
-    xmlns:vm="using:EHunter.Pixiv.ViewModels"
-    xmlns:m="using:Meowtrix.PixivApi.Models"
+    xmlns:vm="using:EHunter.Pixiv.ViewModels.Illusts"
     mc:Ignorable="d">
     <Grid x:Name="grid"
           Visibility="Collapsed">
@@ -22,36 +23,25 @@
                     BackgroundSource="Backdrop"
                     FallbackColor="{ThemeResource SystemBaseMediumColor}" />
             </FlipView.Background>
-            <FlipView.ItemTemplateSelector>
-                <local:AnimatableIllustTemplateSelector>
-                    <local:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
-                        <DataTemplate x:DataType="vm:IllustVM"
+            <FlipView.ItemTemplate>
+                <DataTemplate x:DataType="vm:IllustVM"
                                       x:DefaultBindMode="OneTime">
-                            <FlipView
-                                Background="Transparent"
-                                ItemsSource="{x:Bind Illust.Pages}">
-                                <FlipView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <VirtualizingStackPanel Orientation="Vertical"/>
-                                    </ItemsPanelTemplate>
-                                </FlipView.ItemsPanel>
-                                <FlipView.ItemTemplate>
-                                    <DataTemplate x:DataType="m:IllustPage">
-                                        <local:PixivImage
-                                            ImageInfo="{x:Bind Large}" />
-                                    </DataTemplate>
-                                </FlipView.ItemTemplate>
-                            </FlipView>
-                        </DataTemplate>
-                    </local:AnimatableIllustTemplateSelector.NonAnimatedTemplate>
-                    <local:AnimatableIllustTemplateSelector.AnimatedTemplate>
-                        <DataTemplate x:DataType="vm:IllustVM"
-                                      x:DefaultBindMode="OneTime">
-                            <local:AnimatedIllust Illust="{x:Bind Illust}" />
-                        </DataTemplate>
-                    </local:AnimatableIllustTemplateSelector.AnimatedTemplate>
-                </local:AnimatableIllustTemplateSelector>
-            </FlipView.ItemTemplateSelector>
+                    <FlipView
+                        Background="Transparent"
+                        ItemsSource="{x:Bind LargePages}">
+                        <FlipView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </FlipView.ItemsPanel>
+                        <FlipView.ItemTemplate>
+                            <DataTemplate x:DataType="media:IImageSource">
+                                <controls:RichImage Source="{x:Bind}" />
+                            </DataTemplate>
+                        </FlipView.ItemTemplate>
+                    </FlipView>
+                </DataTemplate>
+            </FlipView.ItemTemplate>
         </FlipView>
         <CommandBar
             DefaultLabelPosition="Right"
