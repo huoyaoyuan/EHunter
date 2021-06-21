@@ -5,7 +5,6 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Media;
 using EHunter.Pixiv.Services.Download;
-using EHunter.Pixiv.Services.Images;
 using Meowtrix.PixivApi.Models;
 using static EHunter.Pixiv.ViewModels.Download.IllustDownloadState;
 
@@ -21,10 +20,10 @@ namespace EHunter.Pixiv.ViewModels.Download
         private readonly SynchronizationContext? _synchronizationContext = SynchronizationContext.Current;
         private CancellationTokenSource? _cts;
 
-        public IllustDownloadVM(Illust illust, DownloadManager downloadManager, PixivImageService imageService)
+        public IllustDownloadVM(Illust illust, DownloadManager downloadManager, PixivVMFactory factory)
         {
             Illust = illust;
-            IllustPreview = imageService.GetImage(illust.Pages[0].Medium);
+            IllustPreview = factory.GetImage(illust.Pages[0].Medium);
             _downloadManager = downloadManager;
             _downloadCommand = new(Download);
             _cancelCommand = new(Cancel);

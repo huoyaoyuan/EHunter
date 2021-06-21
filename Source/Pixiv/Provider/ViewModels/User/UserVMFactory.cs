@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
-using EHunter.Pixiv.Services.Images;
 using EHunter.Pixiv.ViewModels.Illusts;
 using EHunter.Services;
 using Meowtrix.PixivApi;
@@ -18,24 +17,24 @@ namespace EHunter.Pixiv.ViewModels.User
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly IViewModelService _viewModelService;
         private readonly IllustVMFactory _illustVMFactory;
-        private readonly PixivImageService _imageService;
+        private readonly PixivVMFactory _factory;
 
         [ImportingConstructor]
         public UserVMFactory(ICustomResolver<PixivClient> clientResolver,
             IViewModelService viewModelService,
             IllustVMFactory illustVMFactory,
-            PixivImageService imageService)
+            PixivVMFactory factory)
         {
             _clientResolver = clientResolver;
             _viewModelService = viewModelService;
             _illustVMFactory = illustVMFactory;
-            _imageService = imageService;
+            _factory = factory;
         }
 
-        public JumpToUserVM Create() => new(_clientResolver.Resolve(), _imageService, _illustVMFactory);
-        public JumpToUserVM Create(UserInfo userInfo) => new(_clientResolver.Resolve(), _imageService, _illustVMFactory, userInfo);
+        public JumpToUserVM Create() => new(_clientResolver.Resolve(), _factory, _illustVMFactory);
+        public JumpToUserVM Create(UserInfo userInfo) => new(_clientResolver.Resolve(), _factory, _illustVMFactory, userInfo);
 
-        public UserWithPreviewVM CreateViewModel(UserInfoWithPreview userInfo) => new(userInfo, _imageService, _illustVMFactory);
+        public UserWithPreviewVM CreateViewModel(UserInfoWithPreview userInfo) => new(userInfo, _factory, _illustVMFactory);
 
         [return: NotNullIfNotNull("source")]
         public IAsyncEnumerable<UserWithPreviewVM>? CreateViewModels(IAsyncEnumerable<UserInfoWithPreview>? source)

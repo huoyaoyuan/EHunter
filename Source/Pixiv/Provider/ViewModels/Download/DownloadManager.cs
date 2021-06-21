@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Services.Download;
-using EHunter.Pixiv.Services.Images;
 using EHunter.Pixiv.Settings;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
@@ -21,15 +20,15 @@ namespace EHunter.Pixiv.ViewModels.Download
     {
         private readonly PixivSetting _setting;
         internal readonly DownloaderService Downloader;
-        private readonly PixivImageService _imageService;
+        private readonly PixivVMFactory _factory;
         private readonly IDisposable _settingSubscriber;
 
         [ImportingConstructor]
-        public DownloadManager(PixivSetting setting, DownloaderService downloader, PixivImageService imageService, ICustomResolver<PixivClient> clientResolver)
+        public DownloadManager(PixivSetting setting, DownloaderService downloader, PixivVMFactory factory, ICustomResolver<PixivClient> clientResolver)
         {
             _setting = setting;
             Downloader = downloader;
-            _imageService = imageService;
+            _factory = factory;
             _settingSubscriber = _setting.MaxDownloadsInParallel.Subscribe(
                 _ => CheckStartNew());
             ResumeDownloads();
@@ -74,7 +73,7 @@ namespace EHunter.Pixiv.ViewModels.Download
                 }
                 else
                 {
-                    vm = new IllustDownloadVM(illust, this, _imageService);
+                    vm = new IllustDownloadVM(illust, this, _factory);
                     wr.SetTarget(vm);
                     return vm;
                 }
@@ -87,7 +86,7 @@ namespace EHunter.Pixiv.ViewModels.Download
                     PruneDictionary();
                 }
 
-                var vm = new IllustDownloadVM(illust, this, _imageService);
+                var vm = new IllustDownloadVM(illust, this, _factory);
                 _wrById.Add(illust.Id, new(vm));
                 return vm;
             }
