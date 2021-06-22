@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using EHunter.Media;
-using EHunter.Pixiv.ViewModels.Download;
+using EHunter.Pixiv.Services.Download;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Illusts
@@ -11,7 +11,7 @@ namespace EHunter.Pixiv.ViewModels.Illusts
     {
         private readonly PixivVMFactory _factory;
 
-        internal IllustVM(Illust illust, IllustDownloadVM downloadable, PixivVMFactory factory, int indexInCollection = -1)
+        internal IllustVM(Illust illust, DownloadTask downloadable, PixivVMFactory factory, int indexInCollection = -1)
         {
             Illust = illust;
             Downloadable = downloadable;
@@ -25,7 +25,7 @@ namespace EHunter.Pixiv.ViewModels.Illusts
         public IReadOnlyList<IllustPageVM> Pages { get; }
 
         public Illust Illust { get; }
-        public IllustDownloadVM Downloadable { get; }
+        public DownloadTask Downloadable { get; }
 
         public IllustPageVM PreviewPage => Pages[0];
 

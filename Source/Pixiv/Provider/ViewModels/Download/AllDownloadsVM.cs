@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Composition;
 using DynamicData;
+using EHunter.Pixiv.Services.Download;
 
 namespace EHunter.Pixiv.ViewModels.Download
 {

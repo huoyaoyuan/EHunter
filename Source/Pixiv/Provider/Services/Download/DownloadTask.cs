@@ -3,23 +3,22 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
-using EHunter.Pixiv.Services.Download;
 using Meowtrix.PixivApi.Models;
-using static EHunter.Pixiv.ViewModels.Download.IllustDownloadState;
+using static EHunter.Pixiv.Services.Download.IllustDownloadState;
 
-namespace EHunter.Pixiv.ViewModels.Download
+namespace EHunter.Pixiv.Services.Download
 {
     [ObservableProperty("Exception", typeof(Exception), IsNullable = true, IsSetterPublic = false)]
     [ObservableProperty("Progress", typeof(double), IsSetterPublic = false)]
 #pragma warning disable CA1001
-    public partial class IllustDownloadVM : ObservableObject
+    public partial class DownloadTask : ObservableObject
 #pragma warning restore CA1001
     {
         private readonly DownloadManager _downloadManager;
         private readonly SynchronizationContext? _synchronizationContext = SynchronizationContext.Current;
         private CancellationTokenSource? _cts;
 
-        public IllustDownloadVM(Illust illust, DownloadManager downloadManager)
+        public DownloadTask(Illust illust, DownloadManager downloadManager)
         {
             Illust = illust;
             _downloadManager = downloadManager;

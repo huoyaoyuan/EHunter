@@ -6,7 +6,7 @@ using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.Media;
 using EHunter.Pixiv.Media;
-using EHunter.Pixiv.ViewModels.Download;
+using EHunter.Pixiv.Services.Download;
 using EHunter.Pixiv.ViewModels.Illusts;
 using EHunter.Pixiv.ViewModels.User;
 using EHunter.Services;
