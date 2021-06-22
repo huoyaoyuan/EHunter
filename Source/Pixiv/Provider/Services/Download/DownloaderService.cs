@@ -134,25 +134,6 @@ namespace EHunter.Pixiv.Services.Download
             }));
         }
 
-        public async Task<DownloadTask> CreateDownloadTaskByIdAsync(int artworkId)
-            => CreateDownloadTask(
-                await _client.GetIllustDetailAsync(artworkId)
-                .ConfigureAwait(false));
-
-        public DownloadTask CreateDownloadTask(Illust illust)
-        {
-            var pFactory = _pixivDbContextResolver.Resolve()
-                ?? throw new InvalidOperationException("No database connetion");
-            var eFactory = _eHunterContextResolver.Resolve()
-                ?? throw new InvalidOperationException("No database connetion");
-            var storageRoot = _storageSetting.StorageRoot.Value
-                ?? throw new InvalidOperationException("No storage");
-
-            return illust.IsAnimated
-                ? new AnimatedDownloadTask(illust, storageRoot, eFactory, pFactory)
-                : new NonAnimatedDownloadTask(illust, storageRoot, eFactory, pFactory);
-        }
-
         public async Task AddToPendingAsync(int illustId)
         {
             var pFactory = _pixivDbContextResolver.Resolve()
