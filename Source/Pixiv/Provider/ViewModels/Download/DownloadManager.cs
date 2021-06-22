@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using DynamicData;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Services.Download;
 using EHunter.Pixiv.Settings;
@@ -94,8 +94,8 @@ namespace EHunter.Pixiv.ViewModels.Download
 
         internal void QueueOne(IllustDownloadVM vm)
         {
-            if (!QueuedTasks.Contains(vm))
-                QueuedTasks.Add(vm);
+            if (!_queuedTasks.Items.Contains(vm))
+                _queuedTasks.Add(vm);
             CheckStartNew();
         }
 
@@ -106,13 +106,14 @@ namespace EHunter.Pixiv.ViewModels.Download
             CheckStartNew();
         }
 
-        public ObservableCollection<IllustDownloadVM> QueuedTasks { get; } = new();
+        private readonly SourceList<IllustDownloadVM> _queuedTasks = new();
+        public IObservableList<IllustDownloadVM> QueuedTasks => _queuedTasks;
 
         private void CheckStartNew()
         {
             while (ActiveDownloads < _setting.MaxDownloadsInParallel.Value)
             {
-                var task = QueuedTasks.FirstOrDefault(x => x.State == IllustDownloadState.Waiting);
+                var task = _queuedTasks.Items.FirstOrDefault(x => x.State == IllustDownloadState.Waiting);
                 if (task is null)
                     return;
 
@@ -123,11 +124,14 @@ namespace EHunter.Pixiv.ViewModels.Download
 
         public void Prune()
         {
-            for (int i = 0; i < QueuedTasks.Count; i++)
-                if (QueuedTasks[i].State is not (IllustDownloadState.Waiting or IllustDownloadState.Active))
-                    QueuedTasks.RemoveAt(i--);
+            _queuedTasks.RemoveMany(_queuedTasks.Items
+                .Where(x => x.State is not (IllustDownloadState.Waiting or IllustDownloadState.Active)));
         }
 
-        public void Dispose() => _settingSubscriber.Dispose();
+        public void Dispose()
+        {
+            _settingSubscriber.Dispose();
+            _queuedTasks.Dispose();
+        }
     }
 }
