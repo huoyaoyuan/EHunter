@@ -24,10 +24,10 @@ namespace EHunter.Pixiv.ViewModels.Search
         private readonly IllustSearchManager _parent;
 
         internal IllustSearchVM(IllustSearchManager parent)
-            : base(parent.IllustVMFactory) => _parent = parent;
+            : base(parent.Factory) => _parent = parent;
 
         internal IllustSearchVM(IllustSearchManager parent, Tag tag)
-            : base(parent.IllustVMFactory)
+            : base(parent.Factory)
         {
             _parent = parent;
             EffectiveWord = tag.Name;

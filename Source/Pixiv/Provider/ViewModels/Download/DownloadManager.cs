@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using DynamicData;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Services.Download;
-using EHunter.Pixiv.Services.Images;
 using EHunter.Pixiv.Settings;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
@@ -21,15 +20,13 @@ namespace EHunter.Pixiv.ViewModels.Download
     {
         private readonly PixivSetting _setting;
         internal readonly DownloaderService Downloader;
-        private readonly PixivImageService _imageService;
         private readonly IDisposable _settingSubscriber;
 
         [ImportingConstructor]
-        public DownloadManager(PixivSetting setting, DownloaderService downloader, PixivImageService imageService, ICustomResolver<PixivClient> clientResolver)
+        public DownloadManager(PixivSetting setting, DownloaderService downloader, ICustomResolver<PixivClient> clientResolver)
         {
             _setting = setting;
             Downloader = downloader;
-            _imageService = imageService;
             _settingSubscriber = _setting.MaxDownloadsInParallel.Subscribe(
                 _ => CheckStartNew());
             ResumeDownloads();
@@ -74,7 +71,7 @@ namespace EHunter.Pixiv.ViewModels.Download
                 }
                 else
                 {
-                    vm = new IllustDownloadVM(illust, this, _imageService);
+                    vm = new IllustDownloadVM(illust, this);
                     wr.SetTarget(vm);
                     return vm;
                 }
@@ -87,7 +84,7 @@ namespace EHunter.Pixiv.ViewModels.Download
                     PruneDictionary();
                 }
 
-                var vm = new IllustDownloadVM(illust, this, _imageService);
+                var vm = new IllustDownloadVM(illust, this);
                 _wrById.Add(illust.Id, new(vm));
                 return vm;
             }
@@ -95,8 +92,8 @@ namespace EHunter.Pixiv.ViewModels.Download
 
         internal void QueueOne(IllustDownloadVM vm)
         {
-            if (!QueuedTasks.Contains(vm))
-                QueuedTasks.Add(vm);
+            if (!_queuedTasks.Items.Contains(vm))
+                _queuedTasks.Add(vm);
             CheckStartNew();
         }
 
@@ -107,13 +104,14 @@ namespace EHunter.Pixiv.ViewModels.Download
             CheckStartNew();
         }
 
-        public ObservableCollection<IllustDownloadVM> QueuedTasks { get; } = new();
+        private readonly SourceList<IllustDownloadVM> _queuedTasks = new();
+        public IObservableList<IllustDownloadVM> QueuedTasks => _queuedTasks;
 
         private void CheckStartNew()
         {
             while (ActiveDownloads < _setting.MaxDownloadsInParallel.Value)
             {
-                var task = QueuedTasks.FirstOrDefault(x => x.State == IllustDownloadState.Waiting);
+                var task = _queuedTasks.Items.FirstOrDefault(x => x.State == IllustDownloadState.Waiting);
                 if (task is null)
                     return;
 
@@ -124,11 +122,14 @@ namespace EHunter.Pixiv.ViewModels.Download
 
         public void Prune()
         {
-            for (int i = 0; i < QueuedTasks.Count; i++)
-                if (QueuedTasks[i].State is not (IllustDownloadState.Waiting or IllustDownloadState.Active))
-                    QueuedTasks.RemoveAt(i--);
+            _queuedTasks.RemoveMany(_queuedTasks.Items
+                .Where(x => x.State is not (IllustDownloadState.Waiting or IllustDownloadState.Active)));
         }
 
-        public void Dispose() => _settingSubscriber.Dispose();
+        public void Dispose()
+        {
+            _settingSubscriber.Dispose();
+            _queuedTasks.Dispose();
+        }
     }
 }

@@ -1,18 +1,17 @@
 ﻿using EHunter.Media;
-using EHunter.Pixiv.Services.Images;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Illusts
 {
     public class IllustPageVM
     {
-        private readonly PixivImageService _imageService;
+        private readonly PixivVMFactory _factory;
         private readonly IllustPage _page;
 
-        internal IllustPageVM(IllustVM illust, PixivImageService imageService, IllustPage page)
+        internal IllustPageVM(IllustVM illust, PixivVMFactory factory, IllustPage page)
         {
             Illust = illust;
-            _imageService = imageService;
+            _factory = factory;
             _page = page;
         }
 
@@ -20,7 +19,7 @@ namespace EHunter.Pixiv.ViewModels.Illusts
 
         public IllustVM Illust { get; }
 
-        public IImageSource GetImage(IllustSize size) => _imageService.GetImage(_page.AtSize(size));
+        public IImageSource GetImage(IllustSize size) => _factory.GetImage(_page.AtSize(size));
 
         public IImageSource Medium => GetImage(IllustSize.Medium);
 

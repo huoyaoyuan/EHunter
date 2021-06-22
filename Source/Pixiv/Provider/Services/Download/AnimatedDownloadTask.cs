@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using EHunter.Data;
 using EHunter.Pixiv.Data;
+using EHunter.Pixiv.Media;
 using Meowtrix.PixivApi.Models;
 using Microsoft.EntityFrameworkCore;
 

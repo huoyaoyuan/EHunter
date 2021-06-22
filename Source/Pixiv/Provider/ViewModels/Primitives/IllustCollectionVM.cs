@@ -10,15 +10,15 @@ namespace EHunter.Pixiv.ViewModels.Primitives
     [ObservableProperty("SelectedAge", typeof(AgeRestriction), Initializer = "AgeRestriction.All", ChangedAction = "Refresh();")]
     public abstract partial class IllustCollectionVM : ObservableObject
     {
-        private readonly IllustVMFactory _illustVMFactory;
+        private readonly PixivVMFactory _factory;
 
-        protected IllustCollectionVM(IllustVMFactory illustVMFactory) => _illustVMFactory = illustVMFactory;
+        protected IllustCollectionVM(PixivVMFactory factory) => _factory = factory;
 
         protected abstract IAsyncEnumerable<Illust>? LoadIllusts();
 
         public void Refresh()
         {
-            Illusts = _illustVMFactory.CreateAsyncCollection(
+            Illusts = _factory.CreateAsyncCollection(
                 LoadIllusts()?.Age(SelectedAge));
 
             // TODO: Consider AdvancedCollectionView.Filter

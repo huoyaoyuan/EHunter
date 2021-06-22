@@ -13,11 +13,11 @@ namespace EHunter.Pixiv.ViewModels.Search
     public partial class UserSearchVM : ObservableObject
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
-        private readonly UserVMFactory _factory;
+        private readonly PixivVMFactory _factory;
 
         [ImportingConstructor]
         public UserSearchVM(ICustomResolver<PixivClient> clientResolver,
-            UserVMFactory factory)
+            PixivVMFactory factory)
         {
             _clientResolver = clientResolver;
             _factory = factory;

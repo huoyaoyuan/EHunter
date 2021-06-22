@@ -9,7 +9,7 @@ using Meowtrix.PixivApi.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace EHunter.Pixiv.Services
+namespace EHunter.Pixiv.Media
 {
     public static class GifHelper
     {
