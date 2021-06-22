@@ -57,9 +57,8 @@ namespace EHunter.Pixiv.ViewModels.Download
 
                 try
                 {
-                    var task = _downloadManager.Downloader.CreateDownloadTask(Illust);
-
-                    await task.RunAsync(cancellationToken: _cts.Token,
+                    await _downloadManager.Downloader.DownloadAsync(
+                        Illust,
                         onProgress: p =>
                         {
                             if (_synchronizationContext is null)
@@ -68,7 +67,9 @@ namespace EHunter.Pixiv.ViewModels.Download
                                 _synchronizationContext.Post(
                                     o => Progress = (double)o!,
                                     p);
-                        }).ConfigureAwait(true);
+                        },
+                        cancellationToken: _cts.Token)
+                        .ConfigureAwait(true);
 
                     State = Completed;
                 }
