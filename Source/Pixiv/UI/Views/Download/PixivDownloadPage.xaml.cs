@@ -12,7 +12,7 @@ namespace EHunter.Pixiv.Views.Download
     /// </summary>
     public sealed partial class PixivDownloadPage : Page
     {
-        private readonly DownloadManager _vm = Ioc.Default.GetRequiredService<DownloadManager>();
+        private readonly AllDownloadsVM _vm = Ioc.Default.GetRequiredService<AllDownloadsVM>();
 
         public PixivDownloadPage() => InitializeComponent();
     }

@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
-using EHunter.Media;
 using EHunter.Pixiv.Services.Download;
 using Meowtrix.PixivApi.Models;
 using static EHunter.Pixiv.ViewModels.Download.IllustDownloadState;
@@ -20,10 +19,9 @@ namespace EHunter.Pixiv.ViewModels.Download
         private readonly SynchronizationContext? _synchronizationContext = SynchronizationContext.Current;
         private CancellationTokenSource? _cts;
 
-        public IllustDownloadVM(Illust illust, DownloadManager downloadManager, PixivVMFactory factory)
+        public IllustDownloadVM(Illust illust, DownloadManager downloadManager)
         {
             Illust = illust;
-            IllustPreview = factory.GetImage(illust.Pages[0].Medium);
             _downloadManager = downloadManager;
             _downloadCommand = new(Download);
             _cancelCommand = new(Cancel);
@@ -95,8 +93,6 @@ namespace EHunter.Pixiv.ViewModels.Download
         }
 
         public Illust Illust { get; }
-
-        public IImageSource IllustPreview { get; }
 
         private readonly ActionCommand _downloadCommand;
         public ICommand DownloadCommand => _downloadCommand;
