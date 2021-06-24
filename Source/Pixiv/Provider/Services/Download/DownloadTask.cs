@@ -1,133 +1,199 @@
 ﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using EHunter.Data;
-using EHunter.Pixiv.Data;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Meowtrix.PixivApi.Models;
-using Microsoft.EntityFrameworkCore;
+using static EHunter.Pixiv.Services.Download.IllustDownloadState;
 
 namespace EHunter.Pixiv.Services.Download
 {
-    public abstract class DownloadTask
+    [ObservableProperty("Exception", typeof(Exception), IsNullable = true, IsSetterPublic = false)]
+    [ObservableProperty("Progress", typeof(double), IsSetterPublic = false)]
+#pragma warning disable CA1001
+    public partial class DownloadTask : ObservableObject
+#pragma warning restore CA1001
     {
-        public Illust Illust { get; }
+        private readonly DownloadManager _downloadManager;
+        private readonly SynchronizationContext? _synchronizationContext = SynchronizationContext.Current;
+        private CancellationTokenSource? _cts;
 
-        private protected readonly DirectoryInfo StorageRoot;
-        private readonly IDbContextFactory<EHunterDbContext> _eFactory;
-        private readonly IDbContextFactory<PixivDbContext> _pFactory;
-
-        private protected DownloadTask(Illust illust,
-            DirectoryInfo storageRoot,
-            IDbContextFactory<EHunterDbContext> eFactory,
-            IDbContextFactory<PixivDbContext> pFactory)
+        public DownloadTask(Illust illust, DownloadManager downloadManager)
         {
             Illust = illust;
-            StorageRoot = storageRoot;
-            _eFactory = eFactory;
-            _pFactory = pFactory;
+            _downloadManager = downloadManager;
+            _downloadCommand = new(Download);
+            _cancelCommand = new(Cancel);
+
+            CheckDownloadable();
+
+            async void CheckDownloadable()
+            {
+                var downloadable = await _downloadManager.Downloader.CanDownloadAsync(Illust.Id)
+                    .ConfigureAwait(true);
+
+                if (State == NotLoaded)
+                {
+                    State = (downloadable switch
+                    {
+                        DownloadableState.AlreadyDownloaded => Completed,
+                        _ => Idle
+                    });
+                }
+            }
         }
 
-        public async Task RunAsync(DateTimeOffset? favoratedTime = null,
-            Action<double>? onProgress = null,
-            CancellationToken cancellationToken = default)
+        internal async void Start()
         {
-            IEnumerable<(string tagScopeName, string tagName)> tagsInfo =
-                Illust.Tags.Select(x => ("Pixiv:Tag", x.Name))
-                .Append(("Pixiv:ArtistId", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo)));
+            State = Active;
 
-            var post = new Post
+            _cts = new CancellationTokenSource();
+#pragma warning disable CA1508 // false positive
+            using (_cts)
+#pragma warning restore CA1508
             {
-                PublishedTime = Illust.Created,
-                FavoritedTime = favoratedTime ?? DateTimeOffset.Now,
-                Title = Illust.Title,
-                DetailText = Illust.Description,
-                Url = new Uri($"https://www.pixiv.net/artworks/{Illust.Id}"),
-                Provider = "Pixiv:Illust",
-                Identifier = Illust.Id
-            };
+                bool shouldRemovePending = true;
 
-            await DownloadAsync(post.Images, onProgress, cancellationToken).ConfigureAwait(false);
+                try
+                {
+                    await _downloadManager.Downloader.DownloadAsync(
+                        Illust,
+                        onProgress: p =>
+                        {
+                            if (_synchronizationContext is null)
+                                Progress = p;
+                            else
+                                _synchronizationContext.Post(
+                                    o => Progress = (double)o!,
+                                    p);
+                        },
+                        cancellationToken: _cts.Token)
+                        .ConfigureAwait(true);
 
-            using var eContext = _eFactory.CreateDbContext();
-
-            var tags = await tagsInfo
-                .ToAsyncEnumerable()
-                .SelectMany(x => eContext.MapTag(x.tagScopeName, x.tagName))
-                .Distinct()
-                .ToArrayAsync(cancellationToken)
-                .ConfigureAwait(false);
-
-            eContext.Posts.Add(post);
-            if (Illust.Pages.Count == 1)
-            {
-                post.Images[0].Tags.AddRange(tags.Select(x => new ImageTag(x.tagScopeName, x.tagName)));
+                    State = Completed;
+                }
+                catch (TaskCanceledException tce) when (tce.InnerException is not TimeoutException)
+                {
+                    State = Canceled;
+                }
+                catch (Exception ex)
+                {
+                    shouldRemovePending = false;
+                    Exception = ex;
+                    State = Faulted;
+                }
+                finally
+                {
+                    if (shouldRemovePending)
+                        await _downloadManager.Downloader.RemoveFromPendingAsync(Illust.Id).ConfigureAwait(true);
+                    _downloadManager.CompleteOne(this);
+                }
             }
+            _cts = null;
+        }
+
+        public Illust Illust { get; }
+
+        private readonly ActionCommand _downloadCommand;
+        public ICommand DownloadCommand => _downloadCommand;
+        private async void Download()
+        {
+            bool shoudAddPending = State switch
+            {
+                Idle => true,
+                Canceled => true,
+                Faulted => false,
+                _ => throw new InvalidOperationException($"{nameof(Download)} shouldn't be called at state {State}.")
+            };
+            switch (await _downloadManager.Downloader.CanDownloadAsync(Illust.Id).ConfigureAwait(true))
+            {
+                case DownloadableState.CanDownload:
+                    break;
+
+                case DownloadableState.AlreadyDownloaded:
+                    State = Completed;
+                    return;
+
+                case DownloadableState.AlreadyPending:
+                    if (shoudAddPending)
+                        return;
+                    break;
+
+                case DownloadableState.ServiceUnavailable:
+                    return;
+
+                default:
+                    throw new InvalidOperationException("New state should be handled here.");
+            }
+
+            if (shoudAddPending)
+                await _downloadManager.Downloader.AddToPendingAsync(Illust.Id).ConfigureAwait(true);
+
+            Progress = 0;
+            SetWaiting();
+
+            _downloadManager.QueueOne(this);
+        }
+
+        internal void SetWaiting() => State = Waiting;
+
+        private readonly ActionCommand _cancelCommand;
+        public ICommand CancelCommand => _cancelCommand;
+        private void Cancel()
+        {
+            if (_cts is null)
+                State = Canceled;
             else
             {
-                var gallery = new PostGallery { Name = Illust.Title, Post = post };
-                gallery.Tags.AddRange(tags.Select(x => new GalleryTag(x.tagScopeName, x.tagName)));
-                eContext.Add(gallery);
+                State = CancelRequested;
+                _cts.Cancel();
             }
-
-            await eContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        protected abstract Task DownloadAsync(
-            IList<ImageEntry> entries,
-            Action<double>? onProgress = null,
-            CancellationToken cancellationToken = default);
-
-        protected static async Task ReadAsync(
-            HttpResponseMessage response,
-            Stream destination,
-            Action<double>? onProgress = null,
-            CancellationToken cancellationToken = default)
+        private IllustDownloadState _state;
+        public IllustDownloadState State
         {
-            using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-            long? length = response.Content.Headers.ContentLength;
-
-            using var memoryOwner = MemoryPool<byte>.Shared.Rent(8192);
-            var buffer = memoryOwner.Memory;
-            int bytesRead;
-            long totalBytesRead = 0;
-
-            while ((bytesRead = await responseStream.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) > 0)
+            get => _state;
+            private set
             {
-                await destination.WriteAsync(buffer[..bytesRead], cancellationToken).ConfigureAwait(false);
-                totalBytesRead += bytesRead;
-
-                onProgress?.Invoke((double)totalBytesRead / length ?? 0);
+                if (SetProperty(ref _state, value))
+                {
+                    _downloadCommand.SetCanExecute(value is Idle or Faulted or Canceled);
+                    _cancelCommand.SetCanExecute(value is Waiting or Active);
+                }
             }
-        }
-
-        protected (string Relative, string Absolute) WithDirectory(string filename)
-        {
-            string relative = Path.Combine("Pixiv", Illust.User.Id.ToString(NumberFormatInfo.InvariantInfo), filename);
-            string absolute = Path.Combine(StorageRoot.FullName, relative);
-            Directory.CreateDirectory(Path.GetDirectoryName(absolute)!);
-            return (relative, absolute);
         }
     }
 
-    internal static class EnumerableExtensions
+    public enum IllustDownloadState
     {
-        public static void AddRange<T>(this IList<T> list, IEnumerable<T> value)
+        NotLoaded,
+        Idle,
+        Waiting,
+        Active,
+        Completed,
+        CancelRequested,
+        Canceled,
+        Faulted,
+    }
+
+    internal class ActionCommand : ICommand
+    {
+        private readonly Action _action;
+        private bool _canExecute;
+
+        public ActionCommand(Action action) => _action = action;
+
+        public bool CanExecute(object? parameter) => _canExecute;
+        public void Execute(object? parameter) => _action();
+
+        private static readonly EventArgs s_eventArgs = new();
+        public event EventHandler? CanExecuteChanged;
+
+        public void SetCanExecute(bool canExecute)
         {
-            if (list is List<T> l)
-            {
-                l.AddRange(value);
-            }
-            else
-            {
-                foreach (var v in value)
-                    list.Add(v);
-            }
+            _canExecute = canExecute;
+            CanExecuteChanged?.Invoke(this, s_eventArgs);
         }
     }
 }

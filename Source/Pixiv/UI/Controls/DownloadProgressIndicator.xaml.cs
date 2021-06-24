@@ -1,4 +1,4 @@
-﻿using EHunter.Pixiv.ViewModels.Download;
+﻿using EHunter.Pixiv.Services.Download;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -10,8 +10,8 @@ namespace EHunter.Pixiv.Controls
     {
         public DownloadProgressIndicator() => InitializeComponent();
 
-        private IllustDownloadVM? _vm;
-        public IllustDownloadVM? VM
+        private DownloadTask? _vm;
+        public DownloadTask? VM
         {
             get => _vm;
             set

@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using DynamicData;
 using EHunter.DependencyInjection;
-using EHunter.Pixiv.Services.Download;
 using EHunter.Pixiv.Settings;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 
-namespace EHunter.Pixiv.ViewModels.Download
+namespace EHunter.Pixiv.Services.Download
 {
     [Export, Shared]
     [ObservableProperty("PendingDownloads", typeof(int), IsSetterPublic = false)]
@@ -51,7 +50,7 @@ namespace EHunter.Pixiv.ViewModels.Download
             }
         }
 
-        private readonly Dictionary<int, WeakReference<IllustDownloadVM>> _wrById = new();
+        private readonly Dictionary<int, WeakReference<DownloadTask>> _wrById = new();
         private void PruneDictionary()
         {
             foreach (int id in _wrById.Keys.ToArray())
@@ -61,7 +60,7 @@ namespace EHunter.Pixiv.ViewModels.Download
             }
         }
         private int _pruneCounter;
-        public IllustDownloadVM GetOrAddDownloadable(Illust illust)
+        public DownloadTask GetOrAddDownloadable(Illust illust)
         {
             if (_wrById.TryGetValue(illust.Id, out var wr))
             {
@@ -71,7 +70,7 @@ namespace EHunter.Pixiv.ViewModels.Download
                 }
                 else
                 {
-                    vm = new IllustDownloadVM(illust, this);
+                    vm = new DownloadTask(illust, this);
                     wr.SetTarget(vm);
                     return vm;
                 }
@@ -84,28 +83,28 @@ namespace EHunter.Pixiv.ViewModels.Download
                     PruneDictionary();
                 }
 
-                var vm = new IllustDownloadVM(illust, this);
+                var vm = new DownloadTask(illust, this);
                 _wrById.Add(illust.Id, new(vm));
                 return vm;
             }
         }
 
-        internal void QueueOne(IllustDownloadVM vm)
+        internal void QueueOne(DownloadTask vm)
         {
             if (!_queuedTasks.Items.Contains(vm))
                 _queuedTasks.Add(vm);
             CheckStartNew();
         }
 
-        internal void CompleteOne(IllustDownloadVM _)
+        internal void CompleteOne(DownloadTask _)
         {
             PendingDownloads--;
             ActiveDownloads--;
             CheckStartNew();
         }
 
-        private readonly SourceList<IllustDownloadVM> _queuedTasks = new();
-        public IObservableList<IllustDownloadVM> QueuedTasks => _queuedTasks;
+        private readonly SourceList<DownloadTask> _queuedTasks = new();
+        public IObservableList<DownloadTask> QueuedTasks => _queuedTasks;
 
         private void CheckStartNew()
         {
