@@ -24,7 +24,7 @@
                 <VisualState x:Name="Waiting">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.State}"
+                            Value="{x:Bind _vm.Task.State}"
                             To="Waiting" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
@@ -35,7 +35,7 @@
                 <VisualState x:Name="Active">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.State}"
+                            Value="{x:Bind _vm.Task.State}"
                             To="Active" />
                     </VisualState.StateTriggers>
                 </VisualState>
@@ -43,7 +43,7 @@
                 <VisualState x:Name="CancelRequested">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.State}"
+                            Value="{x:Bind _vm.Task.State}"
                             To="CancelRequested" />
                     </VisualState.StateTriggers>
                 </VisualState>
@@ -51,7 +51,7 @@
                 <VisualState x:Name="Canceled">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.State}"
+                            Value="{x:Bind _vm.Task.State}"
                             To="Canceled" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
@@ -67,7 +67,7 @@
                 <VisualState x:Name="Faulted">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.State}"
+                            Value="{x:Bind _vm.Task.State}"
                             To="Faulted" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
@@ -83,7 +83,7 @@
                 <VisualState x:Name="Completed">
                     <VisualState.StateTriggers>
                         <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.State}"
+                            Value="{x:Bind _vm.Task.State}"
                             To="Completed" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
@@ -101,12 +101,12 @@
             Grid.RowSpan="2"
             Width="50"
             Height="50"
-            Source="{x:Bind _vm.IllustPreview}"/>
+            Source="{x:Bind _vm.Preview, Mode=OneTime}"/>
 
         <TextBlock
             Grid.Column="1"
             Margin="4"
-            Text="{x:Bind _vm.Illust.Id}" />
+            Text="{x:Bind _vm.Task.Illust.Id}" />
 
         <ProgressBar
             x:Name="progress"
@@ -114,7 +114,7 @@
             Grid.Row="1"
             Margin="2"
             Minimum="0" Maximum="1"
-            Value="{x:Bind _vm.Progress}" />
+            Value="{x:Bind _vm.Task.Progress}" />
 
         <!-- TODO: use resources from InfoBar when available -->
         <FontIcon
@@ -131,7 +131,7 @@
             Grid.RowSpan="2"
             VerticalAlignment="Center"
             Style="{ThemeResource TextBlockButtonStyle}"
-            Command="{x:Bind _vm.CancelCommand}">
+            Command="{x:Bind _vm.Task.CancelCommand}">
             <SymbolIcon Symbol="Cancel" />
         </Button>
 
@@ -142,7 +142,7 @@
             VerticalAlignment="Center"
             Visibility="Collapsed"
             Style="{ThemeResource TextBlockButtonStyle}"
-            Command="{x:Bind _vm.DownloadCommand}">
+            Command="{x:Bind _vm.Task.DownloadCommand}">
             <SymbolIcon Symbol="Refresh" />
         </Button>
     </Grid>

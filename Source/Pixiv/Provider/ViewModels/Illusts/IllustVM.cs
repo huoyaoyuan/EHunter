@@ -2,23 +2,22 @@
 using System.Globalization;
 using System.Linq;
 using EHunter.Media;
-using EHunter.Pixiv.Services.Images;
-using EHunter.Pixiv.ViewModels.Download;
+using EHunter.Pixiv.Services.Download;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Illusts
 {
     public class IllustVM
     {
-        private readonly PixivImageService _imageService;
+        private readonly PixivVMFactory _factory;
 
-        internal IllustVM(Illust illust, IllustDownloadVM downloadable, PixivImageService imageService, int indexInCollection = -1)
+        internal IllustVM(Illust illust, DownloadTask downloadable, PixivVMFactory factory, int indexInCollection = -1)
         {
             Illust = illust;
             Downloadable = downloadable;
-            _imageService = imageService;
+            _factory = factory;
             IndexInCollection = indexInCollection;
-            Pages = illust.Pages.Select(x => new IllustPageVM(this, imageService, x)).ToArray();
+            Pages = illust.Pages.Select(x => new IllustPageVM(this, factory, x)).ToArray();
         }
 
         public int? IndexInCollection { get; }
@@ -26,19 +25,19 @@ namespace EHunter.Pixiv.ViewModels.Illusts
         public IReadOnlyList<IllustPageVM> Pages { get; }
 
         public Illust Illust { get; }
-        public IllustDownloadVM Downloadable { get; }
+        public DownloadTask Downloadable { get; }
 
         public IllustPageVM PreviewPage => Pages[0];
 
         public IReadOnlyList<IImageSource> LargePages => Illust.IsAnimated
-            ? new[] { _imageService.GetAnimatedImage(Illust) }
+            ? new[] { _factory.GetAnimatedImage(Illust) }
             : Pages.Select(x => x.Large).ToArray();
 
         public IReadOnlyList<IImageSource> OriginalPages => Illust.IsAnimated
-            ? new[] { _imageService.GetAnimatedImage(Illust) }
+            ? new[] { _factory.GetAnimatedImage(Illust) }
             : Pages.Select(x => x.Original).ToArray();
 
-        public IImageSource UserAvatar => _imageService.GetImage(Illust.User.Avatar);
+        public IImageSource UserAvatar => _factory.GetImage(Illust.User.Avatar);
 
         public string CreationTimeDisplayString => Illust.Created.ToLocalTime().ToString("f", CultureInfo.CurrentCulture);
     }

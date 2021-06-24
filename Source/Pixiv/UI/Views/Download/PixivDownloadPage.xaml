@@ -11,10 +11,9 @@
     <ListView
         IsItemClickEnabled="False"
         SelectionMode="None"
-        ItemsSource="{x:Bind _vm.QueuedTasks}">
+        ItemsSource="{x:Bind _vm.Tasks}">
         <ListView.ItemTemplate>
-            <DataTemplate x:DataType="vmd:IllustDownloadVM"
-                          x:DefaultBindMode="OneWay">
+            <DataTemplate x:DataType="vmd:ActiveDownloadVM">
                 <local:DownloadTaskView
                     VM="{x:Bind}" />
             </DataTemplate>

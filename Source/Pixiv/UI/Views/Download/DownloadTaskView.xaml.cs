@@ -10,8 +10,8 @@ namespace EHunter.Pixiv.Views.Download
     {
         public DownloadTaskView() => InitializeComponent();
 
-        private IllustDownloadVM? _vm;
-        public IllustDownloadVM? VM
+        private ActiveDownloadVM? _vm;
+        public ActiveDownloadVM? VM
         {
             get => _vm;
             set
