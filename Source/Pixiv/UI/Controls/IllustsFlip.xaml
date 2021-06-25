@@ -20,7 +20,6 @@
                 <AcrylicBrush
                     TintColor="{ThemeResource SystemBaseMediumColor}"
                     TintOpacity="0.15"
-                    BackgroundSource="Backdrop"
                     FallbackColor="{ThemeResource SystemBaseMediumColor}" />
             </FlipView.Background>
             <FlipView.ItemTemplate>
