@@ -6,14 +6,15 @@
     <RootNamespace>EHunter.Pixiv</RootNamespace>
     <Platforms>x86;x64;arm64</Platforms>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <UseWinUI>true</UseWinUI>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Layout" Version="7.0.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.0.2" />
-    <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.0-preview" />
-    <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.8.0-preview" />
-    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.8.0-preview" />
+    <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.0" />
+    <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.8.0" />
+    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.8.0" />
   </ItemGroup>
 
   <ItemGroup>
