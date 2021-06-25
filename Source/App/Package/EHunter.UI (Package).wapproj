@@ -32,13 +32,14 @@
   <PropertyGroup>
     <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
     <PathToXAMLWinRTImplementations>EHunter.UI\</PathToXAMLWinRTImplementations>
-    <AssetTargetFallback>net5.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
   </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
     <ProjectGuid>0536649c-b5dd-482b-b620-2c1b03fcfab8</ProjectGuid>
     <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <AssetTargetFallback>net5.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
+    <NoWarn>NU1701;$(NoWarn)</NoWarn>
     <DefaultLanguage>zh-Hans</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\WinUI\EHunter.UI.csproj</EntryPointProjectUniqueName>
@@ -71,10 +72,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.ProjectReunion" Version="0.5.7">
+    <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.0">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.5.7">
+    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.8.0">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
   </ItemGroup>
