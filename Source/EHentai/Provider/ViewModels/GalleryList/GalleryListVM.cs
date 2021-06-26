@@ -4,7 +4,6 @@ using System.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.EHentai.Api;
 using EHunter.EHentai.Api.Models;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace EHunter.EHentai.ViewModels.GalleryList
 {
@@ -15,12 +14,12 @@ namespace EHunter.EHentai.ViewModels.GalleryList
     public partial class GalleryListVM : ObservableObject
     {
         private readonly EHentaiClient _client;
-        private readonly IMemoryCache _memoryCache;
+        private readonly EHentaiVMFactory _factory;
 
-        public GalleryListVM(EHentaiClient client, IMemoryCache memoryCache)
+        public GalleryListVM(EHentaiClient client, EHentaiVMFactory factory)
         {
             _client = client;
-            _memoryCache = memoryCache;
+            _factory = factory;
             UpdatePage();
         }
 
@@ -39,7 +38,7 @@ namespace EHunter.EHentai.ViewModels.GalleryList
                 cts.Token.ThrowIfCancellationRequested();
 
                 TotalPages = page.PagesCount;
-                Galleries = page.Galleries.Select(x => new GalleryVM(x, _memoryCache)).ToArray();
+                Galleries = page.Galleries.Select(x => new GalleryVM(x, _factory)).ToArray();
             }
             catch
             {

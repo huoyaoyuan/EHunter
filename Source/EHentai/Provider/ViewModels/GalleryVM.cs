@@ -1,11 +1,7 @@
 ﻿using System.Collections.Immutable;
-using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using EHunter.EHentai.Api.Models;
 using EHunter.Media;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace EHunter.EHentai.ViewModels
 {
@@ -13,10 +9,10 @@ namespace EHunter.EHentai.ViewModels
     {
         public Gallery Gallery { get; }
 
-        public GalleryVM(Gallery gallery, IMemoryCache memoryCache)
+        public GalleryVM(Gallery gallery, EHentaiVMFactory factory)
         {
             Gallery = gallery;
-            Thumbnail = new ThumbnailSource(gallery, memoryCache);
+            Thumbnail = factory.GetThumbnail(gallery);
         }
 
         public IImageSource Thumbnail { get; }
@@ -30,18 +26,5 @@ namespace EHunter.EHentai.ViewModels
         public string Language => Gallery.Tags.Where(x => x is ("language", not "translated"))
             .Select(x => x.Name)
             .FirstOrDefault() ?? "unknown";
-    }
-
-    internal class ThumbnailSource : CachedImageSource
-    {
-        private readonly Gallery _gallery;
-
-        public ThumbnailSource(Gallery gallery, IMemoryCache memoryCache)
-            : base(memoryCache) => _gallery = gallery;
-
-        protected override object CreateCacheKey() => _gallery.Thumbnail;
-
-        protected override Task<Stream> RequestAsync(CancellationToken cancellationToken = default)
-            => _gallery.RequestThumbnailAsync();
     }
 }

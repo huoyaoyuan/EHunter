@@ -2,7 +2,6 @@
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.EHentai.Api;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace EHunter.EHentai.ViewModels.GalleryList
 {
@@ -10,15 +9,15 @@ namespace EHunter.EHentai.ViewModels.GalleryList
     public class GalleryListManager : TabsViewModel<GalleryListVM>
     {
         private readonly ICustomResolver<EHentaiClient> _clientResolver;
-        private readonly IMemoryCache _memoryCache;
+        private readonly EHentaiVMFactory _factory;
 
         [ImportingConstructor]
-        public GalleryListManager(ICustomResolver<EHentaiClient> clientResolver, IMemoryCache memoryCache)
+        public GalleryListManager(ICustomResolver<EHentaiClient> clientResolver, EHentaiVMFactory factory)
         {
             _clientResolver = clientResolver;
-            _memoryCache = memoryCache;
+            _factory = factory;
         }
 
-        protected override GalleryListVM CreateNewTab() => new(_clientResolver.Resolve(), _memoryCache);
+        protected override GalleryListVM CreateNewTab() => new(_clientResolver.Resolve(), _factory);
     }
 }
