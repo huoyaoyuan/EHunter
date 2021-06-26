@@ -13,10 +13,4 @@
     <NoWarn>$(NoWarn);CA1416</NoWarn>
   </PropertyGroup>
 
-  <ItemGroup>
-    <!-- https://github.com/microsoft/microsoft-ui-xaml/issues/3648 -->
-    <None Remove="**\*.resw" />
-    <PRIResource Include="**\*.resw" />
-  </ItemGroup>
-
 </Project>
