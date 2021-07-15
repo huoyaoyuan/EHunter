@@ -84,7 +84,7 @@ namespace EHunter.EHentai.Api
                     .FirstOrDefault(x => x.Text() == "The following errors were found:");
                 if (title != null)
                 {
-                    var span = title.ParentElement.QuerySelector("span.postcolor");
+                    var span = title.ParentElement?.QuerySelector("span.postcolor");
                     if (span != null)
                         throw new InvalidOperationException(span.Text());
                 }
@@ -152,7 +152,7 @@ namespace EHunter.EHentai.Api
             var table = document.QuerySelector<IHtmlTableElement>("table.itg");
 
             var galleries = document
-                .QuerySelector<IHtmlTableElement>("table.itg")
+                .QuerySelector<IHtmlTableElement>("table.itg")!
                 .QuerySelectorAll<IHtmlAnchorElement>("td.glname>a")
                 .Select(a =>
                 {
@@ -167,12 +167,12 @@ namespace EHunter.EHentai.Api
             int pagesCount = 0;
             if (galleries.Length > 0)
             {
-                string countText = document.QuerySelector("div.ido>div>p.ip").Text(); // Showing xxx results
+                string countText = document.QuerySelector("div.ido>div>p.ip")!.Text(); // Showing xxx results
                 totalCount = int.Parse(countText.AsSpan()[8..^8], NumberStyles.AllowThousands);
 
                 pagesCount = int.Parse(
                     document
-                        .QuerySelector("table.ptt")
+                        .QuerySelector("table.ptt")!
                         .QuerySelectorAll("td>a")[^2]
                         .Text(),
                     null);
