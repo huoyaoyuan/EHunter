@@ -9,7 +9,7 @@ namespace EHunter.Pixiv.ViewModels.User
 {
     [ObservableProperty("UserId", typeof(int))]
     [ObservableProperty("IsLoading", typeof(bool))]
-    [ObservableProperty("UserInfo", typeof(UserInfo), IsNullable = true, IsSetterPublic = true)]
+    [ObservableProperty("UserInfo", typeof(UserInfo), IsNullable = true, IsSetterPublic = true, ChangedAction = "OnPropertyChanged(nameof(Url));")]
     [ObservableProperty("UserAvatar", typeof(IImageSource), IsNullable = true)]
     [ObservableProperty("UserDetail", typeof(UserDetailInfo), IsNullable = true, IsSetterPublic = true)]
     public partial class JumpToUserVM : IllustCollectionVM

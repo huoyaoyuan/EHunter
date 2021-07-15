@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DynamicData" Version="7.1.17" />
+    <PackageReference Include="DynamicData" Version="7.2.1" />
     <PackageReference Include="Meowtrix.PixivApi" Version="0.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8" PrivateAssets="All" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
     <PackageReference Include="System.Linq.Async" Version="5.0.0" />
   </ItemGroup>
