@@ -31,6 +31,14 @@ namespace EHunter.EHentai.ViewModels
 
         private static readonly Dictionary<string, CultureInfo> s_languageTable
             = CultureInfo.GetCultures(CultureTypes.NeutralCultures)
+            .Distinct(new EnglishNameComparer())
             .ToDictionary(x => x.EnglishName, StringComparer.OrdinalIgnoreCase);
+
+        // TODO: use DistinctBy
+        private sealed class EnglishNameComparer : IEqualityComparer<CultureInfo>
+        {
+            public bool Equals(CultureInfo? x, CultureInfo? y) => string.Equals(x?.EnglishName, y?.EnglishName, StringComparison.OrdinalIgnoreCase);
+            public int GetHashCode(CultureInfo obj) => StringComparer.OrdinalIgnoreCase.GetHashCode(obj.EnglishName);
+        }
     }
 }
