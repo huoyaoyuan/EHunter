@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using EHunter.ComponentModel;
 using Microsoft.UI.Xaml;
 using Windows.Storage.Pickers;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 using WinRT;
 
 namespace EHunter.Services
@@ -31,7 +33,7 @@ namespace EHunter.Services
             if (Window.Current == null)
             {
                 IInitializeWithWindow initializeWithWindowWrapper = picker.As<IInitializeWithWindow>();
-                IntPtr hwnd = GetActiveWindow();
+                HWND hwnd = PInvoke.GetActiveWindow();
                 initializeWithWindowWrapper.Initialize(hwnd);
             }
 
@@ -44,9 +46,5 @@ namespace EHunter.Services
         {
             void Initialize([In] IntPtr hwnd);
         }
-
-        [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto, PreserveSig = true, SetLastError = false)]
-        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        private static extern IntPtr GetActiveWindow();
     }
 }
