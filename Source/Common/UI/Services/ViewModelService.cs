@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using EHunter.ComponentModel;
 using Microsoft.UI.Xaml;
 using Windows.Storage.Pickers;
 using Windows.Win32;
-using Windows.Win32.Foundation;
-using WinRT;
+using WinRT.Interop;
 
 namespace EHunter.Services
 {
@@ -32,19 +30,12 @@ namespace EHunter.Services
             // TODO: workaround from https://github.com/microsoft/microsoft-ui-xaml/issues/2716#issuecomment-727043010
             if (Window.Current == null)
             {
-                IInitializeWithWindow initializeWithWindowWrapper = picker.As<IInitializeWithWindow>();
-                HWND hwnd = PInvoke.GetActiveWindow();
-                initializeWithWindowWrapper.Initialize(hwnd);
+                IntPtr hwnd = PInvoke.GetActiveWindow();
+                InitializeWithWindow.Initialize(picker, hwnd);
             }
 
             var folder = await picker.PickSingleFolderAsync();
             return folder?.Path;
-        }
-
-        [ComImport, Guid("3E68D4BD-7135-4D10-8018-9FB6D9F33FA1"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        public interface IInitializeWithWindow
-        {
-            void Initialize([In] IntPtr hwnd);
         }
     }
 }
