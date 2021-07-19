@@ -21,10 +21,6 @@ namespace EHunter.EHentai.ViewModels
             = new(string.Empty, null, null, null, null, null, ImmutableArray<string>.Empty);
         public ParsedTitle DisplayTitle => Gallery.TitleJpn ?? Gallery.Title ?? s_noTitle;
 
-        public bool IsTranslated => Gallery.Tags.Any(x => x is ("language", "translated"));
-
-        public string Language => Gallery.Tags.Where(x => x is ("language", not "translated"))
-            .Select(x => x.Name)
-            .FirstOrDefault() ?? "unknown";
+        public GalleryLanguage Language => new(Gallery.Tags.Where(x => x is ("language", _)));
     }
 }
