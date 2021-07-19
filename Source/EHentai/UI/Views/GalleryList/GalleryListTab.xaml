@@ -58,6 +58,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
                             <TextBlock
@@ -65,8 +66,23 @@
                                 ToolTipService.ToolTip="{x:Bind DisplayTitle.Original}"
                                 Text="{x:Bind DisplayTitle.TitleBody, TargetNullValue=''}" />
 
-                            <controls:CategoryPresenter
+                            <ItemsRepeater
                                 Grid.Row="1"
+                                ItemsSource="{x:Bind Language.Languages}"
+                                Margin="2"
+                                HorizontalAlignment="Center">
+                                <ItemsRepeater.Layout>
+                                    <StackLayout Orientation="Horizontal" Spacing="2" />
+                                </ItemsRepeater.Layout>
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate x:DataType="x:String">
+                                        <TextBlock Text="{x:Bind}" />
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+
+                            <controls:CategoryPresenter
+                                Grid.Row="2"
                                 VerticalAlignment="Bottom"
                                 Category="{x:Bind Gallery.Category}" />
                         </Grid>
