@@ -79,12 +79,23 @@ namespace EHunter.SourceGenerator
 
                     namespaces.UseNamespace(usedTypes, @class, type);
 
+                    var defaultValueExpression
+                        = defaultValue is null
+                        ? LiteralExpression(SyntaxKind.NullLiteralExpression)
+                        : ParseExpression(defaultValue);
+
                     var metadataCreation = ObjectCreationExpression(
                             IdentifierName("PropertyMetadata")
                         )
                         .AddArgumentListArguments(
-                            Argument(LiteralExpression(SyntaxKind.NullLiteralExpression))
+                            Argument(defaultValueExpression)
                         );
+
+                    if (changedMethod is not null)
+                        metadataCreation = metadataCreation
+                            .AddArgumentListArguments(
+                                Argument(IdentifierName(changedMethod))
+                            );
 
                     var registration = InvocationExpression(
                         MemberAccessExpression(
