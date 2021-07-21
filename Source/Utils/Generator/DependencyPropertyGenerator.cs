@@ -141,7 +141,7 @@ namespace EHunter.SourceGenerator
                             ))
                         .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
 
-                    ExpressionSyntax setProperty = InvocationExpression(IdentifierName("GetValue"))
+                    ExpressionSyntax setProperty = InvocationExpression(IdentifierName("SetValue"))
                         .AddArgumentListArguments(
                             Argument(IdentifierName(fieldName)),
                             Argument(IdentifierName("value"))
