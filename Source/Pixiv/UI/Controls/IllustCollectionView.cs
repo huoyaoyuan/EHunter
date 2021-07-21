@@ -7,44 +7,12 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace EHunter.Pixiv.Controls
 {
-    public sealed class IllustCollectionView : ContentControl
+    [DependencyProperty("ViewModel", typeof(IllustCollectionVM), IsNullable = true)]
+    [DependencyProperty("IllustItemTemplate", typeof(DataTemplate), IsNullable = true)]
+    [DependencyProperty("RefreshButtonVisibility", typeof(Visibility), DefaultValue = "Visibility.Visible")]
+    [DependencyProperty("AgeSelectorVisibility", typeof(Visibility), DefaultValue = "Visibility.Visible")]
+    public sealed partial class IllustCollectionView : ContentControl
     {
         public IllustCollectionView() => DefaultStyleKey = typeof(IllustCollectionView);
-
-        public static readonly DependencyProperty ViewModelProperty
-            = DependencyProperty.Register(nameof(ViewModel), typeof(IllustCollectionVM), typeof(IllustCollectionView),
-                new PropertyMetadata(null));
-        public IllustCollectionVM? ViewModel
-        {
-            get => (IllustCollectionVM?)GetValue(ViewModelProperty);
-            set => SetValue(ViewModelProperty, value);
-        }
-
-        public static readonly DependencyProperty IllustItemTemplateProperty
-            = DependencyProperty.Register(nameof(IllustItemTemplate), typeof(DataTemplate), typeof(IllustCollectionView),
-                new PropertyMetadata(null));
-        public DataTemplate IllustItemTemplate
-        {
-            get => (DataTemplate)GetValue(IllustItemTemplateProperty);
-            set => SetValue(IllustItemTemplateProperty, value);
-        }
-
-        public static readonly DependencyProperty RefreshButtonVisibilityProperty
-            = DependencyProperty.Register(nameof(RefreshButtonVisibility), typeof(Visibility), typeof(IllustCollectionView),
-                new PropertyMetadata(Visibility.Visible));
-        public Visibility RefreshButtonVisibility
-        {
-            get => (Visibility)GetValue(RefreshButtonVisibilityProperty);
-            set => SetValue(RefreshButtonVisibilityProperty, value);
-        }
-
-        public static readonly DependencyProperty AgeSelectorVisibilityProperty
-            = DependencyProperty.Register(nameof(AgeSelectorVisibility), typeof(Visibility), typeof(IllustCollectionView),
-                new PropertyMetadata(Visibility.Visible));
-        public Visibility AgeSelectorVisibility
-        {
-            get => (Visibility)GetValue(AgeSelectorVisibilityProperty);
-            set => SetValue(AgeSelectorVisibilityProperty, value);
-        }
     }
 }
