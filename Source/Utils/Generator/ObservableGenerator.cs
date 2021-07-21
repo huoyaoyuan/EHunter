@@ -12,7 +12,7 @@ namespace EHunter.SourceGenerator
     internal class ObservableGenerator : ISourceGenerator
     {
         public void Initialize(GeneratorInitializationContext context)
-            => context.RegisterForSyntaxNotifications(() => new AttributeReceiver());
+            => context.RegisterForSyntaxNotifications(() => new AttributeReceiver("EHunter.ObservablePropertyAttribute"));
 
         public void Execute(GeneratorExecutionContext context)
         {
