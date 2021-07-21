@@ -8,14 +8,18 @@ namespace EHunter.SourceGenerator
     internal class AttributeReceiver : ISyntaxContextReceiver
     {
         private readonly List<ClassDeclarationSyntax> _candidateClasses = new();
+        private readonly string _attributeName;
+
         public IReadOnlyList<ClassDeclarationSyntax> CandidateClasses => _candidateClasses;
 
         private INamedTypeSymbol? _attributeSymbol;
 
+        public AttributeReceiver(string attributeName) => _attributeName = attributeName;
+
         public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
         {
             _attributeSymbol ??= context.SemanticModel.Compilation
-                .GetTypeByMetadataName("EHunter.ObservablePropertyAttribute");
+                .GetTypeByMetadataName(_attributeName);
 
             if (_attributeSymbol is null)
                 return;

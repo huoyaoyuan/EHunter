@@ -9,16 +9,17 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 namespace EHunter.SourceGenerator
 {
     [Generator]
-    internal class ObservableGenerator : ISourceGenerator
+    internal class DependencyPropertyGenerator : ISourceGenerator
     {
         public void Initialize(GeneratorInitializationContext context)
-            => context.RegisterForSyntaxNotifications(() => new AttributeReceiver("EHunter.ObservablePropertyAttribute"));
+            => context.RegisterForSyntaxNotifications(() => new AttributeReceiver("EHunter.DependencyPropertyAttribute"));
 
         public void Execute(GeneratorExecutionContext context)
         {
             var receiver = (AttributeReceiver)context.SyntaxContextReceiver!;
 
-            var attributeType = context.Compilation.GetTypeByMetadataName("EHunter.ObservablePropertyAttribute");
+            var attributeType = context.Compilation.GetTypeByMetadataName("EHunter.DependencyPropertyAttribute");
+            var @object = context.Compilation.GetSpecialType(SpecialType.System_Object);
             if (attributeType is null)
             {
                 return;
@@ -33,7 +34,10 @@ namespace EHunter.SourceGenerator
                     continue;
 
                 var members = new List<MemberDeclarationSyntax>();
-                var namespaces = new HashSet<string>();
+                var namespaces = new HashSet<string>
+                {
+                    "Microsoft.UI.Xaml"
+                };
                 var usedTypes = new HashSet<ITypeSymbol>(SymbolEqualityComparer.Default);
 
                 foreach (var attribute in @class.GetAttributes())
@@ -48,9 +52,9 @@ namespace EHunter.SourceGenerator
                         continue;
 
                     bool isSetterPublic = true;
-                    string? initializer = null;
+                    string? defaultValue = null;
                     bool isNullable = false;
-                    string? changedAction = null;
+                    string? changedMethod = null;
 
                     foreach (var namedArgument in attribute.NamedArguments)
                     {
@@ -59,62 +63,102 @@ namespace EHunter.SourceGenerator
                             case { Key: "IsSetterPublic", Value: { Value: bool value } }:
                                 isSetterPublic = value;
                                 break;
-                            case { Key: "Initializer", Value: { Value: string value } }:
-                                initializer = value;
+                            case { Key: "DefaultValue", Value: { Value: string value } }:
+                                defaultValue = value;
                                 break;
                             case { Key: "IsNullable", Value: { Value: bool value } }:
                                 isNullable = value;
                                 break;
-                            case { Key: "ChangedAction", Value: { Value: string value } }:
-                                changedAction = value;
+                            case { Key: "ChangedMethod", Value: { Value: string value } }:
+                                changedMethod = value;
                                 break;
                         }
                     }
 
-                    var sb = new StringBuilder(propertyName.Length + 1)
-                        .Append('_')
-                        .Append(propertyName);
-                    sb[1] = char.ToLowerInvariant(sb[1]);
-                    string fieldName = sb.ToString();
+                    string fieldName = propertyName + "Property";
 
                     namespaces.UseNamespace(usedTypes, @class, type);
 
-                    var variableDeclaration = VariableDeclarator(fieldName);
-                    if (initializer != null)
-                        variableDeclaration = variableDeclaration
-                            .WithInitializer(EqualsValueClause(
-                                ParseExpression(initializer)
-                                ));
-                    var fieldDeclaration = FieldDeclaration(VariableDeclaration(type.GetTypeSyntax(isNullable)))
-                        .AddModifiers(Token(SyntaxKind.PrivateKeyword))
-                        .AddDeclarationVariables(variableDeclaration);
+                    var defaultValueExpression
+                        = defaultValue is null
+                        ? LiteralExpression(SyntaxKind.NullLiteralExpression)
+                        : ParseExpression(defaultValue);
 
-                    var getter = AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
-                        .WithExpressionBody(ArrowExpressionClause(
-                            IdentifierName(fieldName)
-                            ))
-                        .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
-                    var setProperty = InvocationExpression(IdentifierName("SetProperty"))
+                    var metadataCreation = ObjectCreationExpression(
+                            IdentifierName("PropertyMetadata")
+                        )
+                        .AddArgumentListArguments(
+                            Argument(defaultValueExpression)
+                        );
+
+                    if (changedMethod is not null)
+                        metadataCreation = metadataCreation
+                            .AddArgumentListArguments(
+                                Argument(IdentifierName(changedMethod))
+                            );
+
+                    var registration = InvocationExpression(
+                        MemberAccessExpression(
+                            SyntaxKind.SimpleMemberAccessExpression,
+                            IdentifierName("DependencyProperty"),
+                            IdentifierName("Register"))
+                        )
+                        .AddArgumentListArguments(
+                            Argument(LiteralExpression(
+                                SyntaxKind.StringLiteralExpression,
+                                Literal(propertyName)
+                                )),
+                            Argument(TypeOfExpression(type.GetTypeSyntax(false))),
+                            Argument(TypeOfExpression(@class.GetTypeSyntax(false))),
+                            Argument(metadataCreation)
+                        );
+
+                    var staticFieldDeclarator = VariableDeclarator(fieldName)
+                        .WithInitializer(EqualsValueClause(
+                            registration
+                            ));
+
+                    var staticFieldDeclaration = FieldDeclaration(VariableDeclaration(IdentifierName("DependencyProperty")))
+                        .AddModifiers(
+                            Token(SyntaxKind.PublicKeyword),
+                            Token(SyntaxKind.StaticKeyword),
+                            Token(SyntaxKind.ReadOnlyKeyword)
+                        )
+                        .AddDeclarationVariables(staticFieldDeclarator);
+
+                    ExpressionSyntax getProperty = InvocationExpression(IdentifierName("GetValue"))
                         .AddArgumentListArguments(
                             Argument(IdentifierName(fieldName))
-                                .WithRefKindKeyword(Token(SyntaxKind.RefKeyword)),
+                        );
+                    if (!SymbolEqualityComparer.Default.Equals(type, @object))
+                        getProperty = CastExpression(
+                            type.GetTypeSyntax(isNullable),
+                            getProperty
+                            );
+                    var getter = AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
+                        .WithExpressionBody(ArrowExpressionClause(
+                            getProperty
+                            ))
+                        .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
+
+                    ExpressionSyntax setProperty = InvocationExpression(IdentifierName("SetValue"))
+                        .AddArgumentListArguments(
+                            Argument(IdentifierName(fieldName)),
                             Argument(IdentifierName("value"))
                         );
-                    var setter = changedAction is null
-                        ? AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
-                            .WithExpressionBody(ArrowExpressionClause(setProperty))
-                            .WithSemicolonToken(Token(SyntaxKind.SemicolonToken))
-                        : AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
-                            .WithBody(Block(
-                                IfStatement(setProperty, ParseStatement(changedAction))
-                            ));
+                    var setter = AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
+                        .WithExpressionBody(ArrowExpressionClause(
+                            setProperty
+                            ))
+                        .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
                     if (!isSetterPublic)
                         setter = setter.AddModifiers(Token(SyntaxKind.PrivateKeyword));
+
                     var propertyDeclaration = PropertyDeclaration(type.GetTypeSyntax(isNullable), propertyName)
                         .AddModifiers(Token(SyntaxKind.PublicKeyword))
                         .AddAccessorListAccessors(getter, setter);
 
-                    members.Add(fieldDeclaration);
+                    members.Add(staticFieldDeclaration);
                     members.Add(propertyDeclaration);
                 }
 
