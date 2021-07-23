@@ -184,6 +184,16 @@ namespace EHunter.Pixiv.Services.Download
             string? storageRoot = _storageSetting.StorageRoot.Value
                 ?? throw new InvalidOperationException("No storage");
 
+            using var eContext = eFactory.CreateDbContext();
+
+            if (await eContext.Posts.AsQueryable()
+                .AnyAsync(x => x.Provider == "Pixiv:Illust" && x.Identifier == illust.Id, cancellationToken)
+                .ConfigureAwait(false))
+            {
+                // already downloaded
+                return;
+            }
+
             var post = new Post
             {
                 PublishedTime = illust.Created,
@@ -257,8 +267,6 @@ namespace EHunter.Pixiv.Services.Download
                     onProgress?.Invoke((p + 1) / (double)illust.Pages.Count);
                 }
             }
-
-            using var eContext = eFactory.CreateDbContext();
 
             var tags = await illust.Tags.Select(x => (tagScopeName: "Pixiv:Tag", tagName: x.Name))
                 .Append((tagScopeName: "Pixiv:ArtistId", tagName: illust.User.Id.ToString(NumberFormatInfo.InvariantInfo))).ToAsyncEnumerable()
