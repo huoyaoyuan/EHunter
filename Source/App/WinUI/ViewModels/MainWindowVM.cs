@@ -15,7 +15,7 @@ namespace EHunter.UI.ViewModels
             TopNavigationEntries = Providers.Select(x => new IconNavigationEntry
             {
                 Title = x.Title,
-                ViewType = x.UIRootType,
+                UIRoot = x.CreateUIRoot(),
                 IconUri = x.IconUri
             }).ToArray();
         }

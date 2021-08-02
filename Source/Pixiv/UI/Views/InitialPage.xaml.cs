@@ -1,6 +1,7 @@
 ﻿using System.Composition;
 using CommunityToolkit.Mvvm.Messaging;
 using EHunter.Pixiv.Messages;
+using EHunter.Pixiv.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -12,6 +13,7 @@ namespace EHunter.Pixiv.Views
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     [Export, Shared]
+    [DependencyProperty("ViewModel", typeof(PixivRootVM))]
     public sealed partial class InitialPage : Page, IRecipient<InitializationCompleteMessage>
     {
         public InitialPage()
