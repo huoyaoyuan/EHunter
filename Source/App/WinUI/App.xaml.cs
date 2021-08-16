@@ -1,4 +1,5 @@
-﻿using System.Composition.Convention;
+﻿using System;
+using System.Composition.Convention;
 using System.Composition.Hosting;
 using System.Reflection;
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -41,6 +42,10 @@ namespace EHunter.UI
                 .ForType<WinRTSettingsStore>()
                 .Export<ISettingsStore>()
                 .Shared();
+            convensionBuilder
+                .ForType<MEFServiceProvider>()
+                .Export<IServiceProvider>()
+                .Shared();
 
             _host = new ContainerConfiguration()
                 .WithAssemblies(new[]
@@ -57,7 +62,7 @@ namespace EHunter.UI
                 .WithServiceCollection(services)
                 .CreateContainer();
 
-            Ioc.Default.ConfigureServices(new MEFServiceProvider(_host));
+            Ioc.Default.ConfigureServices(_host.GetExport<IServiceProvider>());
 
             InitializeComponent();
         }
