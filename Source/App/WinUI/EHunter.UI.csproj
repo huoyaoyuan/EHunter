@@ -15,11 +15,11 @@
   <ItemGroup>
     <!-- SqlClient 2.1.0 is required for Desktop Bridge compatibility -->
     <PackageReference Include="Microsoft.Data.SqlClient" Version="3.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
-    <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.1" />
-    <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.8.1" />
-    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.8.1" />
+    <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.2" />
+    <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.8.2" />
+    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.8.2" />
     <PackageReference Include="System.Composition" Version="5.0.1" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
