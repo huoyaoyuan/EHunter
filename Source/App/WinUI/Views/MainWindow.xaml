@@ -16,7 +16,7 @@
         <NavigationView.FooterMenuItems>
             <vm:GlyphNavigationEntry x:Uid="SettingsNavigationEntry" Glyph="&#xE713;">
                 <vm:GlyphNavigationEntry.UIRoot>
-                    <local:SettingsPage />
+                    <local:SettingsPage ViewModel="{x:Bind ViewModel.Settings}" />
                 </vm:GlyphNavigationEntry.UIRoot>
             </vm:GlyphNavigationEntry>
         </NavigationView.FooterMenuItems>
