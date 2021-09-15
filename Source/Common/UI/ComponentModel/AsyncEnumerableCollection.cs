@@ -10,12 +10,10 @@ using Windows.Foundation;
 
 namespace EHunter.ComponentModel
 {
-#pragma warning disable CA2252 // TODO: https://github.com/dotnet/roslyn-analyzers/issues/5366
     internal class AsyncEnumerableCollection<T> :
         ObservableCollection<T>,
         ISupportIncrementalLoading,
         IBindableCollection<T>
-#pragma warning restore CA2252
     {
         private readonly ConfiguredCancelableAsyncEnumerable<T>.Enumerator _enumerator;
 

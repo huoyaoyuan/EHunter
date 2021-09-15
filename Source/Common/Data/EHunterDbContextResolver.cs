@@ -10,12 +10,10 @@ using Microsoft.EntityFrameworkCore.Internal;
 namespace EHunter.Data
 {
     [Export(typeof(EHunterDbContextResolver<>)), Export(typeof(IDbContextFactoryResolver<>)), Shared]
-#pragma warning disable CA2252 // TODO: https://github.com/dotnet/roslyn-analyzers/issues/5366
     public sealed class EHunterDbContextResolver<TContext> :
         IDbContextFactoryResolver<TContext>,
         IDisposable
         where TContext : DbContext
-#pragma warning restore CA2252
     {
         private DbContextPool<TContext>? _pool;
         private PooledDbContextFactory<TContext>? _factory;
