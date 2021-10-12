@@ -155,7 +155,7 @@ namespace EHunter.Pixiv.Services.Download
                 ?? throw new InvalidOperationException("No database connetion");
 
             using var pContext = pFactory.CreateDbContext();
-            var pending = pContext.PixivPendingDownloads.Find(illustId);
+            var pending = await pContext.PixivPendingDownloads.FindAsync(illustId).ConfigureAwait(false);
             bool removed = pending?.PId == Environment.ProcessId;
 
             if (removed)
