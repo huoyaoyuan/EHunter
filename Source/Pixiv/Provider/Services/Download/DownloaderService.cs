@@ -1,15 +1,8 @@
-﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
+﻿using System.Buffers;
 using System.Composition;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using EHunter.Data;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Data;

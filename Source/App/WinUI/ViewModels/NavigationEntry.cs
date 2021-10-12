@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EHunter.UI.ViewModels
+﻿namespace EHunter.UI.ViewModels
 {
     public abstract class NavigationEntry
     {

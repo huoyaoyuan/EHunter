@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Meowtrix.PixivApi.Models;
 using static EHunter.Pixiv.Services.Download.IllustDownloadState;

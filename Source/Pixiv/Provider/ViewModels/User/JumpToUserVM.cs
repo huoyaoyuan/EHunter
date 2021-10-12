@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using EHunter.Media;
+﻿using EHunter.Media;
 using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;

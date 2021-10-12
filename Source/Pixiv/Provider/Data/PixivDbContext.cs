@@ -1,5 +1,4 @@
-﻿using System;
-using EHunter.Data;
+﻿using EHunter.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 

@@ -3,6 +3,7 @@
   <PropertyGroup Condition="'$(Language)' == 'C#'">
     <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Language)' == 'VB'">

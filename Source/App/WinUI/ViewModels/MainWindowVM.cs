@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Composition;
-using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Providers;
 

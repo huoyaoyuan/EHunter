@@ -1,9 +1,6 @@
-﻿using System;
-using System.Composition;
+﻿using System.Composition;
 using System.Diagnostics;
-using System.Net.Http;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Settings;
 using EHunter.Settings;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Media;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;

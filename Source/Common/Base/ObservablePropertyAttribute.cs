@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EHunter
+﻿namespace EHunter
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public sealed class ObservablePropertyAttribute : Attribute

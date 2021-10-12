@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using EHunter.Media;
 using EHunter.Pixiv.Services.Download;
 using Meowtrix.PixivApi.Models;

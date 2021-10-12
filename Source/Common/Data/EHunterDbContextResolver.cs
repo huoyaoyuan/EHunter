@@ -1,6 +1,4 @@
-﻿using System;
-using System.Composition;
-using System.Threading.Tasks;
+﻿using System.Composition;
 using EHunter.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
