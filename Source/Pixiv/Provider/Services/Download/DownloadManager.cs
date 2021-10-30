@@ -13,13 +13,17 @@ using Meowtrix.PixivApi.Models;
 namespace EHunter.Pixiv.Services.Download
 {
     [Export, Shared]
-    [ObservableProperty("PendingDownloads", typeof(int), IsSetterPublic = false)]
-    [ObservableProperty("ActiveDownloads", typeof(int), IsSetterPublic = false)]
     public sealed partial class DownloadManager : ObservableObject, IDisposable
     {
         private readonly PixivSetting _setting;
         internal readonly DownloaderService Downloader;
         private readonly IDisposable _settingSubscriber;
+
+        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        private int _pendingDownloads;
+
+        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        private int _activeDownloads;
 
         [ImportingConstructor]
         public DownloadManager(PixivSetting setting, DownloaderService downloader, ICustomResolver<PixivClient> clientResolver)

@@ -8,11 +8,13 @@ using Meowtrix.PixivApi;
 namespace EHunter.Pixiv.ViewModels.Bookmark
 {
     [Export]
-    [ObservableProperty("Users", typeof(IBindableCollection<UserWithPreviewVM>), IsNullable = true, IsSetterPublic = false)]
     public partial class MyFollowingVM : ObservableObject
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly PixivVMFactory _factory;
+
+        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        private IBindableCollection<UserWithPreviewVM>? _users;
 
         [ImportingConstructor]
         public MyFollowingVM(ICustomResolver<PixivClient> clientResolver,

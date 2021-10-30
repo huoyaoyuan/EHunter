@@ -6,11 +6,13 @@ using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Primitives
 {
-    [ObservableProperty("Illusts", typeof(IBindableCollection<IllustVM>), IsNullable = true, IsSetterPublic = false)]
     [ObservableProperty("SelectedAge", typeof(AgeRestriction), Initializer = "AgeRestriction.All", ChangedAction = "Refresh();")]
     public abstract partial class IllustCollectionVM : ObservableObject
     {
         private readonly PixivVMFactory _factory;
+
+        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        private IBindableCollection<IllustVM>? _illusts;
 
         protected IllustCollectionVM(PixivVMFactory factory) => _factory = factory;
 

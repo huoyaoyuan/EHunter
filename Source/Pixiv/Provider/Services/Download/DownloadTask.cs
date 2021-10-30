@@ -8,8 +8,6 @@ using static EHunter.Pixiv.Services.Download.IllustDownloadState;
 
 namespace EHunter.Pixiv.Services.Download
 {
-    [ObservableProperty("Exception", typeof(Exception), IsNullable = true, IsSetterPublic = false)]
-    [ObservableProperty("Progress", typeof(double), IsSetterPublic = false)]
 #pragma warning disable CA1001
     public partial class DownloadTask : ObservableObject
 #pragma warning restore CA1001
@@ -17,6 +15,12 @@ namespace EHunter.Pixiv.Services.Download
         private readonly DownloadManager _downloadManager;
         private readonly SynchronizationContext? _synchronizationContext = SynchronizationContext.Current;
         private CancellationTokenSource? _cts;
+
+        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        private Exception? _exception;
+
+        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        private double _progress;
 
         public DownloadTask(Illust illust, DownloadManager downloadManager)
         {

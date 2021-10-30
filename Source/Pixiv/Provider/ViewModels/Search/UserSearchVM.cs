@@ -8,12 +8,16 @@ using Meowtrix.PixivApi;
 namespace EHunter.Pixiv.ViewModels.Search
 {
     [Export]
-    [ObservableProperty("SearchWord", typeof(string), Initializer = "string.Empty")]
-    [ObservableProperty("Users", typeof(IBindableCollection<UserWithPreviewVM>), IsNullable = true, IsSetterPublic = false)]
     public partial class UserSearchVM : ObservableObject
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly PixivVMFactory _factory;
+
+        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        private string _searchWord = string.Empty;
+
+        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        private IBindableCollection<UserWithPreviewVM>? _users;
 
         [ImportingConstructor]
         public UserSearchVM(ICustomResolver<PixivClient> clientResolver,

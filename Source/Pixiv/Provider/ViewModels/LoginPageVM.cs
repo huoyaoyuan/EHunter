@@ -12,18 +12,30 @@ using EHunter.Pixiv.Settings;
 namespace EHunter.Pixiv.ViewModels
 {
     [Export]
-    [ObservableProperty("RefreshToken", typeof(string), Initializer = "string.Empty")]
     [ObservableProperty("ConnectionMode", typeof(PixivConnectionMode), ChangedAction = "_setting.SetConnectionOption(value);")]
-    [ObservableProperty("IsLoggingIn", typeof(bool), IsSetterPublic = false)]
-    [ObservableProperty("IsLoggedin", typeof(bool), IsSetterPublic = false)]
-    [ObservableProperty("DatabaseInitState", typeof(bool?))]
-    [ObservableProperty("ShowLoginException", typeof(bool))]
-    [ObservableProperty("LoginException", typeof(Exception), IsNullable = true)]
     public partial class LoginPageVM : ObservableObject
     {
         private readonly IPixivSettingStore _settingStore;
         private readonly PixivSetting _setting;
         private readonly PixivClientService _clientService;
+
+        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        private string _refreshToken = string.Empty;
+
+        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        private bool _isLoggingIn;
+
+        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        private bool _isLoggedin;
+
+        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        private bool? _databaseInitState;
+
+        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        private bool _showLoginException;
+
+        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        private Exception? _loginException;
 
         [ImportingConstructor]
         public LoginPageVM(
