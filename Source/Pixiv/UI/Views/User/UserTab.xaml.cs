@@ -8,18 +8,10 @@ using Microsoft.UI.Xaml.Media.Animation;
 
 namespace EHunter.Pixiv.Views.User
 {
+    [DependencyProperty("VM", typeof(JumpToUserVM), IsNullable = true, ChangedMethod = "VMChanged")]
     public sealed partial class UserTab : UserControl
     {
         public UserTab() => InitializeComponent();
-
-        public static readonly DependencyProperty VMProperty
-            = DependencyProperty.Register(nameof(VM), typeof(JumpToUserVM), typeof(UserTab),
-                new PropertyMetadata(null, VMChanged));
-        public JumpToUserVM VM
-        {
-            get => (JumpToUserVM)GetValue(VMProperty);
-            set => SetValue(VMProperty, value);
-        }
 
         private static void VMChanged(object sender, DependencyPropertyChangedEventArgs args)
         {

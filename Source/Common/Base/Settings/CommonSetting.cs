@@ -1,5 +1,4 @@
 ﻿using System.Composition;
-using System.IO;
 using System.Net;
 using EHunter.ComponentModel;
 
@@ -20,20 +19,12 @@ namespace EHunter.Settings
             SetConnectionString(settingStore.DbConnectionString);
         }
 
-        public ObservableProperty<DirectoryInfo?> StorageRoot { get; } = new(null);
+        public ObservableProperty<string?> StorageRoot { get; } = new(null);
         public bool TrySetStorageRoot(string storageRoot)
         {
-            DirectoryInfo? newValue;
-            try
-            {
-                newValue = string.IsNullOrEmpty(storageRoot)
-                    ? null
-                    : new DirectoryInfo(storageRoot);
-            }
-            catch
-            {
-                return false;
-            }
+            string? newValue = string.IsNullOrEmpty(storageRoot)
+                ? null
+                : storageRoot;
 
             _settingStore.StorageRoot = storageRoot;
             StorageRoot.Value = newValue;

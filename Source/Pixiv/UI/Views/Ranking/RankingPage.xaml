@@ -56,7 +56,7 @@
                 Margin="4"
                 HorizontalAlignment="Left"
                 Style="{StaticResource IllustRankingModeSelectorStyle}"
-                SelectedValue="{x:Bind _vm.SelectedRankingMode, Mode=TwoWay}" />
+                SelectedItem="{x:Bind _vm.SelectedRankingMode, Mode=TwoWay}" />
 
             <Button
                 x:Uid="PreviousDay"

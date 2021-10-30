@@ -3,9 +3,9 @@
 namespace EHunter
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
-    public sealed class ObservablePropertyAttribute : Attribute
+    public sealed class DependencyPropertyAttribute : Attribute
     {
-        public ObservablePropertyAttribute(string name, Type type)
+        public DependencyPropertyAttribute(string name, Type type)
         {
             Name = name;
             Type = type;
@@ -15,7 +15,7 @@ namespace EHunter
         public Type Type { get; }
         public bool IsSetterPublic { get; set; } = true;
         public bool IsNullable { get; set; } = true;
-        public string? Initializer { get; set; }
-        public string? ChangedAction { get; set; }
+        public string DefaultValue { get; set; } = "null";
+        public string? ChangedMethod { get; set; }
     }
 }

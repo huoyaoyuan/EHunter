@@ -9,13 +9,33 @@ using Meowtrix.PixivApi.Models;
 namespace EHunter.Pixiv.ViewModels.Ranking
 {
     [Export]
-    [ObservableProperty("SelectedRankingMode", typeof(IllustRankingMode), ChangedAction = "Refresh();")]
-    [ObservableProperty("Date", typeof(DateTimeOffset), Initializer = "DateTimeOffset.UtcNow.Date.AddDays(-1)", ChangedAction = "Refresh();")]
     public partial class RankingVM : IllustCollectionVM
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
 
-        [ImportingConstructor]
+        // TODO: Custom source generation
+        private IllustRankingMode _selectedRankingMode;
+        public IllustRankingMode SelectedRankingMode
+        {
+            get => _selectedRankingMode;
+            set
+            {
+                if (SetProperty(ref _selectedRankingMode, value))
+                    Refresh();
+            }
+        }
+
+        private DateTimeOffset _date = DateTimeOffset.UtcNow.Date.AddDays(-1);
+        public DateTimeOffset Date
+        {
+            get => _date;
+            set
+            {
+                if (SetProperty(ref _date, value))
+                    Refresh();
+            }
+        }
+
         public RankingVM(ICustomResolver<PixivClient> clientResolver,
             PixivVMFactory factory)
             : base(factory)

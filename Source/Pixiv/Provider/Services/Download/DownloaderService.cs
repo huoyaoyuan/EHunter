@@ -93,14 +93,14 @@ namespace EHunter.Pixiv.Services.Download
             if (pFactory is null || eFactory is null)
                 return new(DownloadableState.ServiceUnavailable);
 
-            var storageRoot = _storageSetting.StorageRoot.Value;
+            string? storageRoot = _storageSetting.StorageRoot.Value;
 
             if (storageRoot is null)
                 return new(DownloadableState.ServiceUnavailable);
 
             return new(Task.Run(async () =>
             {
-                if (!storageRoot.Exists)
+                if (!Directory.Exists(storageRoot))
                     return DownloadableState.ServiceUnavailable;
                 try
                 {
@@ -181,8 +181,18 @@ namespace EHunter.Pixiv.Services.Download
         {
             var eFactory = _eHunterContextResolver.Resolve()
                 ?? throw new InvalidOperationException("No database connetion");
-            var storageRoot = _storageSetting.StorageRoot.Value
+            string? storageRoot = _storageSetting.StorageRoot.Value
                 ?? throw new InvalidOperationException("No storage");
+
+            using var eContext = eFactory.CreateDbContext();
+
+            if (await eContext.Posts.AsQueryable()
+                .AnyAsync(x => x.Provider == "Pixiv:Illust" && x.Identifier == illust.Id, cancellationToken)
+                .ConfigureAwait(false))
+            {
+                // already downloaded
+                return;
+            }
 
             var post = new Post
             {
@@ -198,7 +208,7 @@ namespace EHunter.Pixiv.Services.Download
             (string Relative, string Absolute) WithDirectory(string filename)
             {
                 string relative = Path.Combine("Pixiv", illust.User.Id.ToString(NumberFormatInfo.InvariantInfo), filename);
-                string absolute = Path.Combine(storageRoot.FullName, relative);
+                string absolute = Path.Combine(storageRoot, relative);
                 Directory.CreateDirectory(Path.GetDirectoryName(absolute)!);
                 return (relative, absolute);
             }
@@ -257,8 +267,6 @@ namespace EHunter.Pixiv.Services.Download
                     onProgress?.Invoke((p + 1) / (double)illust.Pages.Count);
                 }
             }
-
-            using var eContext = eFactory.CreateDbContext();
 
             var tags = await illust.Tags.Select(x => (tagScopeName: "Pixiv:Tag", tagName: x.Name))
                 .Append((tagScopeName: "Pixiv:ArtistId", tagName: illust.User.Id.ToString(NumberFormatInfo.InvariantInfo))).ToAsyncEnumerable()

@@ -3,16 +3,11 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace EHunter.Controls
 {
-    public class SizeTracker : ContentControl
+    [DependencyProperty("TrackedElement", typeof(FrameworkElement), IsNullable = true, ChangedMethod = "OnTrackedElementChanged")]
+    public partial class SizeTracker : ContentControl
     {
-        public static readonly DependencyProperty TrackedElementProperty
-            = DependencyProperty.Register(nameof(TrackedElement), typeof(FrameworkElement), typeof(SizeTracker),
-                new PropertyMetadata(null, (d, e) => ((SizeTracker)d).TrackResize((FrameworkElement?)e.OldValue, (FrameworkElement?)e.NewValue)));
-        public FrameworkElement? TrackedElement
-        {
-            get => (FrameworkElement?)GetValue(TrackedElementProperty);
-            set => SetValue(TrackedElementProperty, value);
-        }
+        private static void OnTrackedElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+            => ((SizeTracker)d).TrackResize((FrameworkElement?)e.OldValue, (FrameworkElement?)e.NewValue);
 
         private void TrackResize(FrameworkElement? oldValue, FrameworkElement? newValue)
         {

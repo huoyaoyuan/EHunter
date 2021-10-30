@@ -6,24 +6,18 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace EHunter.Pixiv.Controls
 {
+    [DependencyProperty("SourceList", typeof(ListViewBase), IsNullable = true, ChangedMethod = nameof(OnSourceListChanged))]
     public sealed partial class IllustsFlip : UserControl
     {
         public IllustsFlip() => InitializeComponent();
 
-        public static readonly DependencyProperty SourceListProperty
-            = DependencyProperty.Register(nameof(SourceList), typeof(ListViewBase), typeof(IllustsFlip),
-                new PropertyMetadata(null, (d, e) =>
-                {
-                    var c = (IllustsFlip)d;
-                    if (e.OldValue is ListViewBase old)
-                        old.ItemClick -= c.SourceList_ItemClick;
-                    if (e.NewValue is ListViewBase @new)
-                        @new.ItemClick += c.SourceList_ItemClick;
-                }));
-        public ListViewBase? SourceList
+        private static void OnSourceListChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            get => (ListViewBase?)GetValue(SourceListProperty);
-            set => SetValue(SourceListProperty, value);
+            var c = (IllustsFlip)d;
+            if (e.OldValue is ListViewBase old)
+                old.ItemClick -= c.SourceList_ItemClick;
+            if (e.NewValue is ListViewBase @new)
+                @new.ItemClick += c.SourceList_ItemClick;
         }
 
         // Toggling self visibility will cause issue about initial selection.

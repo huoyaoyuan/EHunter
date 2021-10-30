@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Media;
 using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;
@@ -7,15 +8,26 @@ using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.User
 {
-    [ObservableProperty("UserId", typeof(int))]
-    [ObservableProperty("IsLoading", typeof(bool))]
-    [ObservableProperty("UserInfo", typeof(UserInfo), IsNullable = true, IsSetterPublic = true, ChangedAction = "OnPropertyChanged(nameof(Url));")]
-    [ObservableProperty("UserAvatar", typeof(IImageSource), IsNullable = true)]
-    [ObservableProperty("UserDetail", typeof(UserDetailInfo), IsNullable = true, IsSetterPublic = true)]
     public partial class JumpToUserVM : IllustCollectionVM
     {
         private readonly PixivClient _client;
         private readonly PixivVMFactory _factory;
+
+        [ObservableProperty]
+        private int _userId;
+
+        [ObservableProperty]
+        private bool _isLoading;
+
+        [ObservableProperty]
+        [AlsoNotifyChangeFor(nameof(Url))]
+        private UserInfo? _userInfo;
+
+        [ObservableProperty]
+        private IImageSource? _userAvatar;
+
+        [ObservableProperty]
+        private UserDetailInfo? _userDetail;
 
         public async void JumpToUser()
         {

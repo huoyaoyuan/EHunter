@@ -7,17 +7,9 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace EHunter.Pixiv.Views.Search
 {
+    [DependencyProperty("VM", typeof(IllustSearchVM), IsNullable = true)]
     public sealed partial class IllustSearchTabHeader : UserControl
     {
         public IllustSearchTabHeader() => InitializeComponent();
-
-        public static readonly DependencyProperty VMProperty
-            = DependencyProperty.Register(nameof(VM), typeof(IllustSearchVM), typeof(IllustSearchTabHeader),
-                new PropertyMetadata(null));
-        public IllustSearchVM VM
-        {
-            get => (IllustSearchVM)GetValue(VMProperty);
-            set => SetValue(VMProperty, value);
-        }
     }
 }
