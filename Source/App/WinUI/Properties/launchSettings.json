@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "EHunter (MSIX)": {
+      "commandName": "MsixPackage"
+    }
+  }
+}

@@ -10,7 +10,16 @@
     <Platforms>x86;x64;arm64</Platforms>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
+    <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
+    <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <Content Include="Images\*" />
+  </ItemGroup>
 
   <ItemGroup>
     <!-- SqlClient 2.1.0 is required for Desktop Bridge compatibility -->
@@ -18,6 +27,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-preview3" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.20348.19" />
     <PackageReference Include="System.Composition" Version="5.0.1" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
