@@ -8,12 +8,6 @@ using EHunter.EHentai.Settings;
 namespace EHunter.EHentai.ViewModels
 {
     [Export, Shared]
-    [ObservableProperty("IsLogin", typeof(bool), IsSetterPublic = false)]
-    [ObservableProperty("IsLoggingIn", typeof(bool), IsSetterPublic = false)]
-    [ObservableProperty("Username", typeof(string), Initializer = "string.Empty")]
-    [ObservableProperty("Password", typeof(string), Initializer = "string.Empty")]
-    [ObservableProperty("ShowLoginException", typeof(bool))]
-    [ObservableProperty("LoginException", typeof(Exception), IsNullable = true, IsSetterPublic = false)]
     public partial class EHentaiSettingsVM : ObservableObject
     {
         private readonly EHentaiSetting _settings;
@@ -31,6 +25,24 @@ namespace EHunter.EHentai.ViewModels
             _useExHentai = settingStore.UseExHentai;
             IsLogin = clientResolver.Resolve().IsLogin;
         }
+
+        [ObservableProperty]
+        private bool _isLogin;
+
+        [ObservableProperty]
+        private bool _isLoggingIn;
+
+        [ObservableProperty]
+        private string _username = string.Empty;
+
+        [ObservableProperty]
+        private string _password = string.Empty;
+
+        [ObservableProperty]
+        private bool _showLoginException;
+
+        [ObservableProperty]
+        private Exception? _loginException;
 
         private EHentaiConnectionMode _connectionMode;
         public EHentaiConnectionMode ConnectionMode

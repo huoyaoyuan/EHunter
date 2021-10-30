@@ -7,14 +7,31 @@ using EHunter.EHentai.Api.Models;
 
 namespace EHunter.EHentai.ViewModels.GalleryList
 {
-    [ObservableProperty("CurrentPage", typeof(int), ChangedAction = "UpdatePage();", Initializer = "1")]
-    [ObservableProperty("TotalPages", typeof(int))]
-    [ObservableProperty("IsLoading", typeof(bool), IsSetterPublic = false)]
-    [ObservableProperty("Galleries", typeof(IReadOnlyList<GalleryVM>), IsNullable = true, IsSetterPublic = false)]
     public partial class GalleryListVM : ObservableObject
     {
         private readonly EHentaiClient _client;
         private readonly EHentaiVMFactory _factory;
+
+        // TODO: Custom source generation
+        private int _currentPage = 1;
+        public int CurrentPage
+        {
+            get => _currentPage;
+            set
+            {
+                if (SetProperty(ref _currentPage, value))
+                    UpdatePage();
+            }
+        }
+
+        [ObservableProperty]
+        private int _totalPages;
+
+        [ObservableProperty]
+        private bool _isLoading;
+
+        [ObservableProperty]
+        private IReadOnlyList<GalleryVM>? _galleries;
 
         public GalleryListVM(EHentaiClient client, EHentaiVMFactory factory)
         {
