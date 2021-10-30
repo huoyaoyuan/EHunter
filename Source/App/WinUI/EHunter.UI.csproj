@@ -18,7 +18,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="Images\*" />
+    <Content Include="Assets\*" />
   </ItemGroup>
 
   <ItemGroup>
