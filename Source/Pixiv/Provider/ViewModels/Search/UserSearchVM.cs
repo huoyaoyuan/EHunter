@@ -13,10 +13,10 @@ namespace EHunter.Pixiv.ViewModels.Search
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly PixivVMFactory _factory;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private string _searchWord = string.Empty;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private IBindableCollection<UserWithPreviewVM>? _users;
 
         [ImportingConstructor]

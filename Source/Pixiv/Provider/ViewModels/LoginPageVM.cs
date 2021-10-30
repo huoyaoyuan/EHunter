@@ -18,7 +18,7 @@ namespace EHunter.Pixiv.ViewModels
         private readonly PixivSetting _setting;
         private readonly PixivClientService _clientService;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private string _refreshToken = string.Empty;
 
         // TODO: Custom source generation
@@ -33,19 +33,19 @@ namespace EHunter.Pixiv.ViewModels
             }
         }
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private bool _isLoggingIn;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private bool _isLoggedin;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private bool? _databaseInitState;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private bool _showLoginException;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private Exception? _loginException;
 
         [ImportingConstructor]

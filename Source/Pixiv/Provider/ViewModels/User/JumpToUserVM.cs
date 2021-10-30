@@ -13,20 +13,20 @@ namespace EHunter.Pixiv.ViewModels.User
         private readonly PixivClient _client;
         private readonly PixivVMFactory _factory;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private int _userId;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private bool _isLoading;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         [AlsoNotifyChangeFor(nameof(Url))]
         private UserInfo? _userInfo;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private IImageSource? _userAvatar;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private UserDetailInfo? _userDetail;
 
         public async void JumpToUser()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
@@ -10,43 +11,43 @@ namespace EHunter.Pixiv.ViewModels.Search
     {
         private readonly IllustSearchManager _parent;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private Tag? _tag;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private string _searchWord = string.Empty;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private string _effectiveWord = string.Empty;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private IllustSearchTarget _searchTarget;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private IllustSortMode _sortMode;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private bool _minBookmarkEnabled;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private bool _maxBookmarkEnabled;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private int _minBookmark;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private int _maxBookmark;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private bool _startDateEnabled;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private bool _endDateEnabled;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private DateTimeOffset _startDate = DateTimeOffset.UtcNow.Date;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private DateTimeOffset _endDate = DateTimeOffset.UtcNow.Date;
 
         internal IllustSearchVM(IllustSearchManager parent)

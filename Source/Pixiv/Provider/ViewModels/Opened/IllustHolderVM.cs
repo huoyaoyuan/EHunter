@@ -6,10 +6,10 @@ namespace EHunter.Pixiv.ViewModels.Opened
 {
     public partial class IllustHolderVM : ObservableObject
     {
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private IllustVM? _illustVM;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private bool _notFound;
 
         public IllustHolderVM(int illustId, Task<IllustVM> task)

@@ -15,16 +15,16 @@ namespace EHunter.Pixiv.ViewModels.Opened
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly PixivVMFactory _factory;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private IllustHolderVM? _selectedIllust;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private int _selectedIndex = -1;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private string _idToOpenText = string.Empty;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private bool _canClose;
 
         [ImportingConstructor]

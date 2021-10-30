@@ -19,10 +19,10 @@ namespace EHunter.Pixiv.Services.Download
         internal readonly DownloaderService Downloader;
         private readonly IDisposable _settingSubscriber;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private int _pendingDownloads;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private int _activeDownloads;
 
         [ImportingConstructor]

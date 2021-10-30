@@ -13,7 +13,7 @@ namespace EHunter.Pixiv.ViewModels.Bookmark
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly PixivVMFactory _factory;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private IBindableCollection<UserWithPreviewVM>? _users;
 
         [ImportingConstructor]

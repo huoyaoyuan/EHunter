@@ -22,7 +22,7 @@ namespace EHunter.Pixiv.ViewModels.Primitives
             }
         }
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private IBindableCollection<IllustVM>? _illusts;
 
         protected IllustCollectionVM(PixivVMFactory factory) => _factory = factory;

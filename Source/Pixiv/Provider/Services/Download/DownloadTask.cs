@@ -16,10 +16,10 @@ namespace EHunter.Pixiv.Services.Download
         private readonly SynchronizationContext? _synchronizationContext = SynchronizationContext.Current;
         private CancellationTokenSource? _cts;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private Exception? _exception;
 
-        [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+        [ObservableProperty]
         private double _progress;
 
         public DownloadTask(Illust illust, DownloadManager downloadManager)
