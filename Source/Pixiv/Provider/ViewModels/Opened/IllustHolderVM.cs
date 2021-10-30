@@ -4,10 +4,14 @@ using EHunter.Pixiv.ViewModels.Illusts;
 
 namespace EHunter.Pixiv.ViewModels.Opened
 {
-    [ObservableProperty("IllustVM", typeof(IllustVM), IsNullable = true, IsSetterPublic = false)]
-    [ObservableProperty("NotFound", typeof(bool), IsSetterPublic = false)]
     public partial class IllustHolderVM : ObservableObject
     {
+        [ObservableProperty]
+        private IllustVM? _illustVM;
+
+        [ObservableProperty]
+        private bool _notFound;
+
         public IllustHolderVM(int illustId, Task<IllustVM> task)
         {
             IllustId = illustId;

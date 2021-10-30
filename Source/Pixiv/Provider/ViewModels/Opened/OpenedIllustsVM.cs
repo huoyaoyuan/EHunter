@@ -10,14 +10,22 @@ using Meowtrix.PixivApi.Models;
 namespace EHunter.Pixiv.ViewModels.Opened
 {
     [Export]
-    [ObservableProperty("SelectedIllust", typeof(IllustHolderVM), IsNullable = true)]
-    [ObservableProperty("SelectedIndex", typeof(int), Initializer = "-1")]
-    [ObservableProperty("IdToOpenText", typeof(string), Initializer = "string.Empty")]
-    [ObservableProperty("CanClose", typeof(bool), IsSetterPublic = false)]
     public partial class OpenedIllustsVM : ObservableObject
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly PixivVMFactory _factory;
+
+        [ObservableProperty]
+        private IllustHolderVM? _selectedIllust;
+
+        [ObservableProperty]
+        private int _selectedIndex = -1;
+
+        [ObservableProperty]
+        private string _idToOpenText = string.Empty;
+
+        [ObservableProperty]
+        private bool _canClose;
 
         [ImportingConstructor]
         public OpenedIllustsVM(ICustomResolver<PixivClient> clientResolver,

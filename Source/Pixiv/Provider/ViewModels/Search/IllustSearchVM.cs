@@ -1,27 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Search
 {
-    [ObservableProperty("Tag", typeof(Tag), IsNullable = true, IsSetterPublic = false)]
-    [ObservableProperty("SearchWord", typeof(string), Initializer = "string.Empty")]
-    [ObservableProperty("EffectiveWord", typeof(string), Initializer = "string.Empty", IsSetterPublic = false)]
-    [ObservableProperty("SearchTarget", typeof(IllustSearchTarget))]
-    [ObservableProperty("SortMode", typeof(IllustSortMode))]
-    [ObservableProperty("MinBookmarkEnabled", typeof(bool))]
-    [ObservableProperty("MaxBookmarkEnabled", typeof(bool))]
-    [ObservableProperty("MinBookmark", typeof(int))]
-    [ObservableProperty("MaxBookmark", typeof(int))]
-    [ObservableProperty("StartDateEnabled", typeof(bool))]
-    [ObservableProperty("EndDateEnabled", typeof(bool))]
-    [ObservableProperty("StartDate", typeof(DateTimeOffset), Initializer = "DateTimeOffset.UtcNow.Date")]
-    [ObservableProperty("EndDate", typeof(DateTimeOffset), Initializer = "DateTimeOffset.UtcNow.Date")]
     public partial class IllustSearchVM : IllustCollectionVM
     {
         private readonly IllustSearchManager _parent;
+
+        [ObservableProperty]
+        private Tag? _tag;
+
+        [ObservableProperty]
+        private string _searchWord = string.Empty;
+
+        [ObservableProperty]
+        private string _effectiveWord = string.Empty;
+
+        [ObservableProperty]
+        private IllustSearchTarget _searchTarget;
+
+        [ObservableProperty]
+        private IllustSortMode _sortMode;
+
+        [ObservableProperty]
+        private bool _minBookmarkEnabled;
+
+        [ObservableProperty]
+        private bool _maxBookmarkEnabled;
+
+        [ObservableProperty]
+        private int _minBookmark;
+
+        [ObservableProperty]
+        private int _maxBookmark;
+
+        [ObservableProperty]
+        private bool _startDateEnabled;
+
+        [ObservableProperty]
+        private bool _endDateEnabled;
+
+        [ObservableProperty]
+        private DateTimeOffset _startDate = DateTimeOffset.UtcNow.Date;
+
+        [ObservableProperty]
+        private DateTimeOffset _endDate = DateTimeOffset.UtcNow.Date;
 
         internal IllustSearchVM(IllustSearchManager parent)
             : base(parent.Factory) => _parent = parent;
