@@ -3,8 +3,6 @@ using System.Composition;
 using EHunter.EHentai.Views;
 using EHunter.Providers;
 
-#nullable enable
-
 namespace EHunter.EHentai
 {
     [Export(typeof(IEHunterProvider))]
