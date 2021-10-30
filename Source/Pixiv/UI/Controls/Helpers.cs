@@ -1,7 +1,7 @@
 ﻿using System;
 using EHunter.Pixiv.Settings;
 using Meowtrix.PixivApi;
-using Microsoft.ApplicationModel.Resources;
+using Microsoft.Windows.ApplicationModel.Resources;
 
 namespace EHunter.Pixiv.Controls
 {
