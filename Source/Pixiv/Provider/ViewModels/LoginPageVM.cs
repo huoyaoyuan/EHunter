@@ -12,7 +12,6 @@ using EHunter.Pixiv.Settings;
 namespace EHunter.Pixiv.ViewModels
 {
     [Export]
-    [ObservableProperty("ConnectionMode", typeof(PixivConnectionMode), ChangedAction = "_setting.SetConnectionOption(value);")]
     public partial class LoginPageVM : ObservableObject
     {
         private readonly IPixivSettingStore _settingStore;
@@ -21,6 +20,18 @@ namespace EHunter.Pixiv.ViewModels
 
         [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
         private string _refreshToken = string.Empty;
+
+        // TODO: Custom source generation
+        private PixivConnectionMode _connectionMode;
+        public PixivConnectionMode ConnectionMode
+        {
+            get => _connectionMode;
+            set
+            {
+                if (SetProperty(ref _connectionMode, value))
+                    _setting.SetConnectionOption(value);
+            }
+        }
 
         [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
         private bool _isLoggingIn;
