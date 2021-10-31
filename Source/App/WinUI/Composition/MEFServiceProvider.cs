@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Composition.Hosting;
+﻿using System.Composition.Hosting;
 
 namespace EHunter.UI.Composition
 {

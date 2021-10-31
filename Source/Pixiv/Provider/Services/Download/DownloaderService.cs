@@ -1,15 +1,8 @@
-﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
+﻿using System.Buffers;
 using System.Composition;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using EHunter.Data;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Data;
@@ -155,7 +148,7 @@ namespace EHunter.Pixiv.Services.Download
                 ?? throw new InvalidOperationException("No database connetion");
 
             using var pContext = pFactory.CreateDbContext();
-            var pending = pContext.PixivPendingDownloads.Find(illustId);
+            var pending = await pContext.PixivPendingDownloads.FindAsync(illustId).ConfigureAwait(false);
             bool removed = pending?.PId == Environment.ProcessId;
 
             if (removed)

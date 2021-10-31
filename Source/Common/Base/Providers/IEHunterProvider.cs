@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EHunter.Providers
+﻿namespace EHunter.Providers
 {
     public interface IEHunterProvider
     {

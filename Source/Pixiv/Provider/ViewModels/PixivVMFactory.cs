@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Composition;
+﻿using System.Composition;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.Media;

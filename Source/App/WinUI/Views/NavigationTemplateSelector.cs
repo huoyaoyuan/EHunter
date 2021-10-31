@@ -1,5 +1,4 @@
-﻿using System;
-using EHunter.UI.ViewModels;
+﻿using EHunter.UI.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 

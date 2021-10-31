@@ -1,5 +1,4 @@
-﻿using System;
-using EHunter.Pixiv.Settings;
+﻿using EHunter.Pixiv.Settings;
 using Meowtrix.PixivApi;
 using Microsoft.Windows.ApplicationModel.Resources;
 

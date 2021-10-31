@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using EHunter.Media;
+﻿using EHunter.Media;
 using Meowtrix.PixivApi.Models;
 using Microsoft.Extensions.Caching.Memory;
 
