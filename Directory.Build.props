@@ -5,7 +5,7 @@
     <BaseOutputPath>$(MSBuildThisFileDirectory)Artifact\bin\$(MSBuildProjectName)\</BaseOutputPath>
     <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)Artifact\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
 
-    <AnalysisLevel>6</AnalysisLevel>
+    <AnalysisLevel>6.0</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
