@@ -34,6 +34,7 @@ namespace EHunter.Pixiv.ViewModels.Ranking
             }
         }
 
+        [ImportingConstructor]
         public RankingVM(ICustomResolver<PixivClient> clientResolver,
             PixivVMFactory factory)
             : base(factory)

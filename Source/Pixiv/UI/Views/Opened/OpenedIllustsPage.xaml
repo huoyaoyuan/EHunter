@@ -66,6 +66,9 @@
                 QueryIcon="Forward"
                 QuerySubmitted="{x:Bind _vm.OpenFromId}" />
         </Grid>
+
+        <!-- TODO: ListPaneWidth is not working. WCTK 7.1.1-preview3 -->
+        <!--
         <tk:ListDetailsView
             Grid.Row="1"
             ItemsSource="{x:Bind _vm.Illusts}"
@@ -181,5 +184,11 @@
                 </DataTemplate>
             </tk:ListDetailsView.DetailsTemplate>
         </tk:ListDetailsView>
+        -->
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Style="{ThemeResource TitleTextBlockStyle}">
+            ListDetailsView is not working in WCTK 7.1.1-preview3
+        </TextBlock>
     </Grid>
 </Page>
