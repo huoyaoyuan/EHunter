@@ -6,7 +6,7 @@ using EHunter.Providers;
 namespace EHunter.UI.ViewModels
 {
     [Export]
-    public class MainWindowVM : ObservableObject
+    public partial class MainWindowVM : ObservableObject
     {
         [ImportingConstructor]
         public MainWindowVM([ImportMany] IEnumerable<IEHunterProvider> providers)
@@ -24,11 +24,7 @@ namespace EHunter.UI.ViewModels
 
         public IReadOnlyList<NavigationEntry> TopNavigationEntries { get; }
 
+        [ObservableProperty]
         private NavigationEntry? _selectedEntry;
-        public NavigationEntry? SelectedEntry
-        {
-            get => _selectedEntry;
-            set => SetProperty(ref _selectedEntry, value);
-        }
     }
 }
