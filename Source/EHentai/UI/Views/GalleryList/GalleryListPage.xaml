@@ -14,7 +14,6 @@
         CanReorderTabs="True"
         TabItemsSource="{x:Bind _vm.Tabs}"
         TabCloseRequested="TabCloseRequested"
-        SelectedIndex="{x:Bind _vm.SelectedIndex, Mode=TwoWay}"
         SelectedItem="{x:Bind _vm.SelectedItem, Mode=TwoWay}"
         AddTabButtonClick="{x:Bind _vm.AddTab}">
         <TabView.TabItemTemplate>
