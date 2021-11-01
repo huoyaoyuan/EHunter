@@ -1,8 +1,4 @@
-﻿using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace EHunter.Media
+﻿namespace EHunter.Media
 {
     public interface IImageSource
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using EHunter.Providers;
+﻿using EHunter.Providers;
 
 namespace EHunter.Pixiv
 {

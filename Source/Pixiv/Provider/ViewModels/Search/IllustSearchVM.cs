@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;

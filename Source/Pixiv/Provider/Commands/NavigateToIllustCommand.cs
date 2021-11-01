@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using EHunter.Pixiv.Messages;
 using Meowtrix.PixivApi.Models;

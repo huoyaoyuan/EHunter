@@ -1,5 +1,4 @@
 ﻿using System.Composition;
-using System.Linq;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
 using Meowtrix.PixivApi;

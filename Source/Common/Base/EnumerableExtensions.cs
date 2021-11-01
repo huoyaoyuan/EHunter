@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace EHunter
+﻿namespace EHunter
 {
     public static class EnumerableExtensions
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 
 // To learn more about WinUI, the WinUI project structure,

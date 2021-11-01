@@ -1,6 +1,5 @@
 ﻿using System.Composition.Convention;
 using System.Composition.Hosting;
-using System.Linq;
 using System.Reflection;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using EHunter.Services;

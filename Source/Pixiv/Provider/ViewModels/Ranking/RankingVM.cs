@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Composition;
+﻿using System.Composition;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;
@@ -36,6 +34,7 @@ namespace EHunter.Pixiv.ViewModels.Ranking
             }
         }
 
+        [ImportingConstructor]
         public RankingVM(ICustomResolver<PixivClient> clientResolver,
             PixivVMFactory factory)
             : base(factory)

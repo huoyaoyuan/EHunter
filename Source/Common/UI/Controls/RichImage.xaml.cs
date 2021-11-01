@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Media;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -36,7 +34,7 @@ namespace EHunter.Controls
 
         private ImageResultHolder? _holder;
 
-        private class ImageResultHolder : ObservableObject
+        private partial class ImageResultHolder : ObservableObject
         {
             private readonly IImageSource _imageSource;
             private readonly XamlUICommand _copyCommand;
@@ -80,26 +78,14 @@ namespace EHunter.Controls
 
             public void Refresh() => LoadAsync(true);
 
+            [ObservableProperty]
             private BitmapImage? _source;
-            public BitmapImage? Source
-            {
-                get => _source;
-                private set => SetProperty(ref _source, value);
-            }
 
+            [ObservableProperty]
             private bool _loadFailed;
-            public bool LoadFailed
-            {
-                get => _loadFailed;
-                private set => SetProperty(ref _loadFailed, value);
-            }
 
+            [ObservableProperty]
             private bool _isLoading;
-            public bool IsLoading
-            {
-                get => _isLoading;
-                private set => SetProperty(ref _isLoading, value);
-            }
 
             public bool CanCopy => !IsLoading && !LoadFailed;
 
