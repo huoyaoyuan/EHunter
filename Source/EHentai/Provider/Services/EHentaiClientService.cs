@@ -1,6 +1,4 @@
-﻿using System;
-using System.Composition;
-using System.Net.Http;
+﻿using System.Composition;
 using System.Reactive.Linq;
 using EHunter.DependencyInjection;
 using EHunter.EHentai.Api;

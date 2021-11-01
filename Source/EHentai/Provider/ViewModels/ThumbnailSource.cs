@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using EHunter.EHentai.Api.Models;
+﻿using EHunter.EHentai.Api.Models;
 using EHunter.Media;
 using Microsoft.Extensions.Caching.Memory;
 

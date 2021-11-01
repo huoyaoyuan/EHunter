@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.IO;
-using System.Linq;
+﻿using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using EHunter.EHentai.Api.Json;
 
 namespace EHunter.EHentai.Api.Models
@@ -76,7 +71,6 @@ namespace EHunter.EHentai.Api.Models
         string? Parody,
         ImmutableArray<string> Properties);
 
-    // TODO: Use record struct
     [JsonConverter(typeof(TagConverter))]
-    public record Tag(string? Namespace, string Name);
+    public record struct Tag(string? Namespace, string Name);
 }

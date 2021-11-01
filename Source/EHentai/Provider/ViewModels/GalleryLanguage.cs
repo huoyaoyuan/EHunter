@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using EHunter.EHentai.Api.Models;
 
 namespace EHunter.EHentai.ViewModels

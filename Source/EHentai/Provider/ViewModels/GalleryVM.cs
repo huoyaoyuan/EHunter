@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using System.Linq;
 using EHunter.EHentai.Api.Models;
 using EHunter.Media;
 

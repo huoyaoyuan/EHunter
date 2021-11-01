@@ -1,5 +1,4 @@
-﻿using System;
-using System.Composition;
+﻿using System.Composition;
 using EHunter.EHentai.Views;
 using EHunter.Providers;
 
