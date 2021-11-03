@@ -60,7 +60,7 @@
             <AppBarButton x:Uid="OpenAppBarButton"
                           CommandParameter="{x:Bind flipView.SelectedItem.(vm:IllustVM.Illust), Mode=OneWay}">
                 <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C5;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7C5;" />
                 </AppBarButton.Icon>
                 <AppBarButton.Command>
                     <commands:NavigateToIllustCommand />

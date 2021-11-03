@@ -34,7 +34,7 @@
                 x:Name="opened" x:Uid="Navigation_Opened"
                 controls:NavigationHelper.NavigationType="opened:OpenedIllustsPage">
                 <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE736;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE736;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
 
@@ -43,14 +43,14 @@
                 x:Name="bookmark" x:Uid="Navigation_Bookmark"
                 controls:NavigationHelper.NavigationType="bookmark:MyBookmarkPage">
                 <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE734;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE734;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
             <NavigationViewItem
                 x:Name="following" x:Uid="Navigation_FollowingUser"
                 controls:NavigationHelper.NavigationType="bookmark:MyFollowingUsersPage">
                 <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE902;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE902;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
 
@@ -58,20 +58,20 @@
                 x:Name="ranking" x:Uid="Navigation_Ranking"
                 controls:NavigationHelper.NavigationType="ranking:RankingPage">
                 <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7BC;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7BC;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
             <!--<NavigationViewItem
                 x:Uid="Navigation_Search">
                 <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE721;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE721;" />
                 </NavigationViewItem.Icon>
                 <NavigationViewItem.MenuItems>-->
             <NavigationViewItem
                 x:Name="searchIllust" x:Uid="Navigation_Search_Illust"
                 controls:NavigationHelper.NavigationType="search:IllustSearchPage">
                 <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C5;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7C5;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
                 <!--</NavigationViewItem.MenuItems>
@@ -80,14 +80,14 @@
                 x:Name="searchUser" x:Uid="Navigation_Search_User"
                 controls:NavigationHelper.NavigationType="search:UserSearchPage">
                 <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8B8;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8B8;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
             <NavigationViewItem
                 x:Name="downloads" x:Uid="Navigation_Downloads"
                 controls:NavigationHelper.NavigationType="download:PixivDownloadPage">
                 <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE896;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE896;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
             <!--<NavigationViewItem Icon="Pin" Content="Pinned Pictures" />-->

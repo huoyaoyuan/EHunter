@@ -173,8 +173,8 @@
                                     Foreground="Gray"
                                     TextWrapping="WrapWholeWords"
                                     IsColorFontEnabled="True">
-                                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xEB51;" /><Run Text="{x:Bind IllustVM.Illust.TotalBookmarks, FallbackValue=''}" />
-                                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE7B3;" /><Run Text="{x:Bind IllustVM.Illust.TotalView, FallbackValue=''}" />
+                                    <Run FontFamily="{ThemeResource SymbolThemeFontFamily}" Text="&#xEB51;" /><Run Text="{x:Bind IllustVM.Illust.TotalBookmarks, FallbackValue=''}" />
+                                    <Run FontFamily="{ThemeResource SymbolThemeFontFamily}" Text="&#xE7B3;" /><Run Text="{x:Bind IllustVM.Illust.TotalView, FallbackValue=''}" />
                                     <LineBreak />
                                     <Run Text="{x:Bind IllustVM.CreationTimeDisplayString, FallbackValue=''}" />
                                 </TextBlock>
