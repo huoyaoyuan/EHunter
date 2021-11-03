@@ -57,8 +57,8 @@
                     <VisualState.Setters>
                         <Setter Target="progress.Visibility" Value="Collapsed" />
                         <Setter Target="statusIcon.Visibility" Value="Visible" />
-                        <Setter Target="statusIcon.Glyph" Value="&#xEA39;" />
-                        <Setter Target="statusIcon.Foreground" Value="Red" />
+                        <Setter Target="statusIcon.Glyph" Value="{StaticResource InfoBarErrorIconGlyph}" />
+                        <Setter Target="statusIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}" />
                         <Setter Target="cancelButton.Visibility" Value="Collapsed" />
                         <Setter Target="resumeButton.Visibility" Value="Visible" />
                     </VisualState.Setters>
@@ -73,8 +73,8 @@
                     <VisualState.Setters>
                         <Setter Target="progress.Visibility" Value="Collapsed" />
                         <Setter Target="statusIcon.Visibility" Value="Visible" />
-                        <Setter Target="statusIcon.Glyph" Value="&#xEA39;" />
-                        <Setter Target="statusIcon.Foreground" Value="Red" />
+                        <Setter Target="statusIcon.Glyph" Value="{StaticResource InfoBarErrorIconGlyph}" />
+                        <Setter Target="statusIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}" />
                         <Setter Target="cancelButton.Visibility" Value="Collapsed" />
                         <Setter Target="resumeButton.Visibility" Value="Visible" />
                     </VisualState.Setters>
@@ -89,8 +89,8 @@
                     <VisualState.Setters>
                         <Setter Target="progress.Visibility" Value="Collapsed" />
                         <Setter Target="statusIcon.Visibility" Value="Visible" />
-                        <Setter Target="statusIcon.Glyph" Value="&#xE930;" />
-                        <Setter Target="statusIcon.Foreground" Value="Green" />
+                        <Setter Target="statusIcon.Glyph" Value="{StaticResource InfoBarSuccessIconGlyph}" />
+                        <Setter Target="statusIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -116,7 +116,6 @@
             Minimum="0" Maximum="1"
             Value="{x:Bind _vm.Task.Progress}" />
 
-        <!-- TODO: use resources from InfoBar when available -->
         <FontIcon
             x:Name="statusIcon"
             Grid.Row="1"
