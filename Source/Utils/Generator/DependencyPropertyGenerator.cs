@@ -180,7 +180,8 @@ namespace EHunter.SourceGenerator
                         .AddUsings(namespaces.Select(ns => UsingDirective(ParseName(ns))).ToArray())
                         .NormalizeWhitespace();
 
-                    string fileName = @class.Name + ".g.cs";
+                    string fileName = @class.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat
+                        .WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted)) + ".g.cs";
                     context.AddSource(fileName, SyntaxTree(compilationUnit, encoding: Encoding.UTF8).GetText());
                 }
             }
