@@ -138,7 +138,8 @@
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="Selected" />
-                                <VisualState x:Name="PointerOver">
+                                <!-- Reveal removed in WinUI/WAS 1.0.0-preview3 -->
+                                <!--<VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
                                         <Setter Target="Root.(RevealBrush.State)" Value="PointerOver" />
                                     </VisualState.Setters>
@@ -162,7 +163,7 @@
                                     <VisualState.Setters>
                                         <Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
                                     </VisualState.Setters>
-                                </VisualState>
+                                </VisualState>-->
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="DisabledStates">
                                 <VisualState x:Name="Enabled" />
