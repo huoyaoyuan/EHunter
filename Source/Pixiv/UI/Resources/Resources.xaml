@@ -2,10 +2,10 @@
     x:Class="EHunter.Pixiv.Resources.Resources"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:tkUI="using:CommunityToolkit.WinUI.UI"
     xmlns:commonControls="using:EHunter.Controls"
     xmlns:commands="using:EHunter.Pixiv.Commands"
     xmlns:controls="using:EHunter.Pixiv.Controls"
-    xmlns:local="using:EHunter.Pixiv.Resources"
     xmlns:settings="using:EHunter.Pixiv.Settings"
     xmlns:vmi="using:EHunter.Pixiv.ViewModels.Illusts"
     xmlns:vmu="using:EHunter.Pixiv.ViewModels.User"
@@ -23,11 +23,7 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="ItemsSource">
-            <Setter.Value>
-                <local:AgeRestrictionValues />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=m:AgeRestriction}" />
     </Style>
 
     <Style TargetType="Selector"
@@ -39,11 +35,7 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="ItemsSource">
-            <Setter.Value>
-                <local:IllustSearchTargetValues />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=api:IllustSearchTarget}" />
     </Style>
 
     <Style TargetType="Selector"
@@ -55,11 +47,7 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="ItemsSource">
-            <Setter.Value>
-                <local:IllustSortModeValues />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=api:IllustSortMode}" />
     </Style>
 
     <Style TargetType="Selector"
@@ -71,11 +59,7 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="ItemsSource">
-            <Setter.Value>
-                <local:IllustRankingModeCollection />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=api:IllustRankingMode}" />
     </Style>
 
     <Style TargetType="Selector"
@@ -87,11 +71,7 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="ItemsSource">
-            <Setter.Value>
-                <local:PixivConnectionModeCollection />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=settings:PixivConnectionMode}" />
     </Style>
 
     <DataTemplate x:Key="UserWithPreviewTemplate"
