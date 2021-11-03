@@ -29,8 +29,12 @@
                         <PipsPager
                             Orientation="Vertical"
                             VerticalAlignment="Center"
+                            Margin="20,0,0,0"
                             NumberOfPages="{x:Bind LargePages.Count}"
-                            SelectedPageIndex="{x:Bind innerFlip.SelectedIndex, Mode=TwoWay}"/>
+                            SelectedPageIndex="{x:Bind innerFlip.SelectedIndex, Mode=TwoWay}"
+                            MaxVisiblePips="20"
+                            PreviousButtonVisibility="VisibleOnPointerOver"
+                            NextButtonVisibility="VisibleOnPointerOver" />
                         <FlipView
                             x:Name="innerFlip"
                             Background="Transparent"
