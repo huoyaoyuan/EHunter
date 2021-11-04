@@ -15,6 +15,13 @@
     <commands:NavigateToTagCommand x:Key="NavigateToTagCommand" />
     <converters:EnumLocalizeConverter x:Key="EnumLocalizeConverter" />
 
+    <!-- TODO: workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/6232 -->
+    <m:AgeRestriction x:Key="__Dummy_AgeRestriction">0</m:AgeRestriction>
+    <api:IllustSearchTarget x:Key="__Dummy_IllustSearchTarget">0</api:IllustSearchTarget>
+    <api:IllustSortMode x:Key="__Dummy_IllustSortMode">0</api:IllustSortMode>
+    <api:IllustRankingMode x:Key="__Dummy_IllustRankingMode">0</api:IllustRankingMode>
+    <settings:PixivConnectionMode x:Key="__Dummy_PixivConnectionMode">0</settings:PixivConnectionMode>
+
     <Style TargetType="Selector"
            x:Key="AgeRestrictionSelectorStyle">
         <Setter Property="ItemTemplate">
