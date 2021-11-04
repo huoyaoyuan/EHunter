@@ -22,63 +22,37 @@
     <api:IllustRankingMode x:Key="__Dummy_IllustRankingMode">0</api:IllustRankingMode>
     <settings:PixivConnectionMode x:Key="__Dummy_PixivConnectionMode">0</settings:PixivConnectionMode>
 
+    <DataTemplate x:Key="EnumLocalizeTemplate">
+        <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}, ConverterParameter=EHunter.Pixiv.UI/Resources}" />
+    </DataTemplate>
+
     <Style TargetType="Selector"
            x:Key="AgeRestrictionSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="m:AgeRestriction">
-                    <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}, ConverterParameter=EHunter.Pixiv.UI/Resources}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
         <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=m:AgeRestriction}" />
     </Style>
 
     <Style TargetType="Selector"
            x:Key="IllustSearchTargetSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="api:IllustSearchTarget">
-                    <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}, ConverterParameter=EHunter.Pixiv.UI/Resources}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
         <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=api:IllustSearchTarget}" />
     </Style>
 
     <Style TargetType="Selector"
            x:Key="IllustSortModeSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="api:IllustSortMode">
-                    <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}, ConverterParameter=EHunter.Pixiv.UI/Resources}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
         <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=api:IllustSortMode}" />
     </Style>
 
     <Style TargetType="Selector"
            x:Key="IllustRankingModeSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="api:IllustRankingMode">
-                    <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}, ConverterParameter=EHunter.Pixiv.UI/Resources}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
         <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=api:IllustRankingMode}" />
     </Style>
 
     <Style TargetType="Selector"
            x:Key="PixivConnectionModeSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="settings:PixivConnectionMode">
-                    <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}, ConverterParameter=EHunter.Pixiv.UI/Resources}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
         <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=settings:PixivConnectionMode}" />
     </Style>
 
