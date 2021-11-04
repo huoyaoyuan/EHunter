@@ -8,9 +8,6 @@
     <AnalysisLevel>6.0</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-
-    <!-- https://github.com/dotnet/msbuild/issues/6483 -->
-    <NoWarn>$(NoWarn);CA1416</NoWarn>
   </PropertyGroup>
 
 </Project>
