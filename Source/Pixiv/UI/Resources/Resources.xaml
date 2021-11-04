@@ -5,72 +5,54 @@
     xmlns:tkUI="using:CommunityToolkit.WinUI.UI"
     xmlns:commonControls="using:EHunter.Controls"
     xmlns:commands="using:EHunter.Pixiv.Commands"
-    xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:settings="using:EHunter.Pixiv.Settings"
     xmlns:vmi="using:EHunter.Pixiv.ViewModels.Illusts"
     xmlns:vmu="using:EHunter.Pixiv.ViewModels.User"
     xmlns:api="using:Meowtrix.PixivApi"
-    xmlns:m="using:Meowtrix.PixivApi.Models">
+    xmlns:m="using:Meowtrix.PixivApi.Models"
+    xmlns:converters="using:EHunter.Converters">
     <commands:NavigateToUserCommand x:Key="NavigateToUserCommand" />
     <commands:NavigateToTagCommand x:Key="NavigateToTagCommand" />
+    <converters:EnumLocalizeConverter x:Key="EnumLocalizeConverter" />
+
+    <!-- TODO: workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/6232 -->
+    <m:AgeRestriction x:Key="__Dummy_AgeRestriction">0</m:AgeRestriction>
+    <api:IllustSearchTarget x:Key="__Dummy_IllustSearchTarget">0</api:IllustSearchTarget>
+    <api:IllustSortMode x:Key="__Dummy_IllustSortMode">0</api:IllustSortMode>
+    <api:IllustRankingMode x:Key="__Dummy_IllustRankingMode">0</api:IllustRankingMode>
+    <settings:PixivConnectionMode x:Key="__Dummy_PixivConnectionMode">0</settings:PixivConnectionMode>
+
+    <DataTemplate x:Key="EnumLocalizeTemplate">
+        <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}, ConverterParameter=EHunter.Pixiv.UI/Resources}" />
+    </DataTemplate>
 
     <Style TargetType="Selector"
            x:Key="AgeRestrictionSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="m:AgeRestriction">
-                    <controls:AgeRestrictionPresenter Age="{x:Bind}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
         <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=m:AgeRestriction}" />
     </Style>
 
     <Style TargetType="Selector"
            x:Key="IllustSearchTargetSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="api:IllustSearchTarget">
-                    <controls:IllustSearchTargetPresenter SearchTarget="{x:Bind}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
         <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=api:IllustSearchTarget}" />
     </Style>
 
     <Style TargetType="Selector"
            x:Key="IllustSortModeSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="api:IllustSortMode">
-                    <controls:IllustSortModePresenter SortMode="{x:Bind}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
         <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=api:IllustSortMode}" />
     </Style>
 
     <Style TargetType="Selector"
            x:Key="IllustRankingModeSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="api:IllustRankingMode">
-                    <controls:IllustRankingModePresenter Mode="{x:Bind}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
         <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=api:IllustRankingMode}" />
     </Style>
 
     <Style TargetType="Selector"
            x:Key="PixivConnectionModeSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="settings:PixivConnectionMode">
-                    <controls:PixivConnectionModePresenter ConnectionMode="{x:Bind}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
         <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=settings:PixivConnectionMode}" />
     </Style>
 
