@@ -5,21 +5,22 @@
     xmlns:tkUI="using:CommunityToolkit.WinUI.UI"
     xmlns:commonControls="using:EHunter.Controls"
     xmlns:commands="using:EHunter.Pixiv.Commands"
-    xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:settings="using:EHunter.Pixiv.Settings"
     xmlns:vmi="using:EHunter.Pixiv.ViewModels.Illusts"
     xmlns:vmu="using:EHunter.Pixiv.ViewModels.User"
     xmlns:api="using:Meowtrix.PixivApi"
-    xmlns:m="using:Meowtrix.PixivApi.Models">
+    xmlns:m="using:Meowtrix.PixivApi.Models"
+    xmlns:converters="using:EHunter.Converters">
     <commands:NavigateToUserCommand x:Key="NavigateToUserCommand" />
     <commands:NavigateToTagCommand x:Key="NavigateToTagCommand" />
+    <converters:EnumLocalizeConverter x:Key="EnumLocalizeConverter" />
 
     <Style TargetType="Selector"
            x:Key="AgeRestrictionSelectorStyle">
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate x:DataType="m:AgeRestriction">
-                    <controls:AgeRestrictionPresenter Age="{x:Bind}" />
+                    <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}, ConverterParameter=EHunter.Pixiv.UI/Resources}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -31,7 +32,7 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate x:DataType="api:IllustSearchTarget">
-                    <controls:IllustSearchTargetPresenter SearchTarget="{x:Bind}" />
+                    <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}, ConverterParameter=EHunter.Pixiv.UI/Resources}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -43,7 +44,7 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate x:DataType="api:IllustSortMode">
-                    <controls:IllustSortModePresenter SortMode="{x:Bind}" />
+                    <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}, ConverterParameter=EHunter.Pixiv.UI/Resources}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -55,7 +56,7 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate x:DataType="api:IllustRankingMode">
-                    <controls:IllustRankingModePresenter Mode="{x:Bind}" />
+                    <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}, ConverterParameter=EHunter.Pixiv.UI/Resources}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -67,7 +68,7 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate x:DataType="settings:PixivConnectionMode">
-                    <controls:PixivConnectionModePresenter ConnectionMode="{x:Bind}" />
+                    <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}, ConverterParameter=EHunter.Pixiv.UI/Resources}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
