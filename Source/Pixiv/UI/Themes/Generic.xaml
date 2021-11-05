@@ -4,5 +4,6 @@
     <ResourceDictionary.MergedDictionaries>
         <local:IllustSummaryTheme />
         <local:IllustCollectionViewTheme />
+        <ResourceDictionary Source="ms-appx:///EHunter.Pixiv.UI/Themes/Controls/DownloadStateIcon.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
