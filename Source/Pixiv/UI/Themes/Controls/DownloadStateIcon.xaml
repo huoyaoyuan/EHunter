@@ -13,10 +13,10 @@
                             <VisualStateGroup>
                                 <VisualState x:Name="NotLoaded">
                                 </VisualState>
-                                
+
                                 <VisualState x:Name="Idle">
                                 </VisualState>
-                                
+
                                 <VisualState x:Name="Waiting">
                                 </VisualState>
 
@@ -58,11 +58,13 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
+                        <!-- TODO: consider to use InfoBadge -->
+
                         <Grid>
                             <FontIcon
                                 x:Name="IconBackground"
                                 FontFamily="{ThemeResource SymbolThemeFontFamily}" />
-                            
+
                             <FontIcon
                                 x:Name="IconForeground"
                                 FontFamily="{ThemeResource SymbolThemeFontFamily}" />
