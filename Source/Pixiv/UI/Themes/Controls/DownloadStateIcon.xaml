@@ -28,32 +28,45 @@
 
                                 <VisualState x:Name="Canceled">
                                     <VisualState.Setters>
-                                        <Setter Target="statusIcon.Visibility" Value="Visible" />
-                                        <Setter Target="statusIcon.Glyph" Value="{StaticResource InfoBarErrorIconGlyph}" />
-                                        <Setter Target="statusIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}" />
+                                        <Setter Target="IconForeground.Visibility" Value="Visible" />
+                                        <Setter Target="IconForeground.Glyph" Value="{StaticResource InfoBarErrorIconGlyph}" />
+                                        <Setter Target="IconForeground.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconForeground}" />
+                                        <Setter Target="IconBackground.Glyph" Value="{StaticResource InfoBarIconBackgroundGlyph}" />
+                                        <Setter Target="IconBackground.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconBackground}" />
                                     </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualState x:Name="Faulted">
                                     <VisualState.Setters>
-                                        <Setter Target="statusIcon.Visibility" Value="Visible" />
-                                        <Setter Target="statusIcon.Glyph" Value="{StaticResource InfoBarErrorIconGlyph}" />
-                                        <Setter Target="statusIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}" />
+                                        <Setter Target="IconForeground.Visibility" Value="Visible" />
+                                        <Setter Target="IconForeground.Glyph" Value="{StaticResource InfoBarErrorIconGlyph}" />
+                                        <Setter Target="IconForeground.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconForeground}" />
+                                        <Setter Target="IconBackground.Glyph" Value="{StaticResource InfoBarIconBackgroundGlyph}" />
+                                        <Setter Target="IconBackground.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconBackground}" />
                                     </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualState x:Name="Completed">
                                     <VisualState.Setters>
-                                        <Setter Target="statusIcon.Visibility" Value="Visible" />
-                                        <Setter Target="statusIcon.Glyph" Value="{StaticResource InfoBarSuccessIconGlyph}" />
-                                        <Setter Target="statusIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                        <Setter Target="IconForeground.Visibility" Value="Visible" />
+                                        <Setter Target="IconForeground.Glyph" Value="{StaticResource InfoBarSuccessIconGlyph}" />
+                                        <Setter Target="IconForeground.Foreground" Value="{ThemeResource InfoBarSuccessSeverityIconForeground}" />
+                                        <Setter Target="IconBackground.Glyph" Value="{StaticResource InfoBarIconBackgroundGlyph}" />
+                                        <Setter Target="IconBackground.Foreground" Value="{ThemeResource InfoBarSuccessSeverityIconBackground}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <FontIcon
-                            x:Name="statusIcon"
-                            FontFamily="{ThemeResource SymbolThemeFontFamily}" />
+
+                        <Grid>
+                            <FontIcon
+                                x:Name="IconBackground"
+                                FontFamily="{ThemeResource SymbolThemeFontFamily}" />
+                            
+                            <FontIcon
+                                x:Name="IconForeground"
+                                FontFamily="{ThemeResource SymbolThemeFontFamily}" />
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
