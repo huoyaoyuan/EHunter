@@ -7,10 +7,16 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace EHunter.Pixiv.Controls
 {
-    [DependencyProperty("State", typeof(IllustDownloadState), ChangedMethod = "OnStateChanged")]
+    [DependencyProperty("State", typeof(IllustDownloadState), DefaultValue = "IllustDownloadState.NotLoaded", ChangedMethod = "OnStateChanged")]
     public sealed partial class DownloadStateIcon : Control
     {
         public DownloadStateIcon() => DefaultStyleKey = typeof(DownloadStateIcon);
+
+        protected override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            VisualStateManager.GoToState(this, State.ToString(), true);
+        }
 
         private static void OnStateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
