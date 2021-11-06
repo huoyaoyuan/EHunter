@@ -4,6 +4,6 @@
     {
         string Title { get; }
         Uri IconUri { get; }
-        Type UIRootType { get; }
+        object CreateUIRoot();
     }
 }

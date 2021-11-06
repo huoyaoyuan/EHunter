@@ -12,6 +12,6 @@
         <ContentPresenter.ContentTransitions>
             <EntranceThemeTransition />
         </ContentPresenter.ContentTransitions>
-        <login:LoginPage />
+        <login:LoginPage _vm="{x:Bind ViewModel.Login}" />
     </ContentPresenter>
 </Page>

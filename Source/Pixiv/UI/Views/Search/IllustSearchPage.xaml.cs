@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using EHunter.Controls;
 using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.ViewModels.Search;
 using Microsoft.UI.Xaml.Controls;
@@ -9,28 +10,18 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace EHunter.Pixiv.Views.Search
 {
+    public abstract class IllustSearchPageBase : PageFor<IllustSearchManager>
+    {
+    }
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class IllustSearchPage : Page
+    public sealed partial class IllustSearchPage : IllustSearchPageBase
     {
-        private readonly IllustSearchManager _vm = Ioc.Default.GetRequiredService<IllustSearchManager>();
-
         public IllustSearchPage() => InitializeComponent();
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            if (e is
-                {
-                    NavigationMode: NavigationMode.New or NavigationMode.Forward,
-                    Parameter: NavigateToTagMessage m
-                })
-            {
-                _vm.GoToTag(m.Tag);
-            }
-        }
-
         private void TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
-            => _vm.CloseTab(args.Item);
+            => ViewModel?.CloseTab(args.Item);
     }
 }
