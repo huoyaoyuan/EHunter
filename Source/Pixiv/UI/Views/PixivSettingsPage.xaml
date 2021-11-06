@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:EHunter.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
     xmlns:local="using:EHunter.Pixiv.Views"
     mc:Ignorable="d"
@@ -40,8 +41,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <!--<controls:PixivImage ImageInfo="{x:Bind ViewModel.Client.CurrentUser.Avatar}" />-->
-                <!-- TODO: user avatar -->
+                <controls:RichImage Source="{x:Bind ViewModel.MyAvatar}" />
                 <TextBlock Grid.Column="1"  Text="{x:Bind ViewModel.Client.CurrentUser.Name}" />
             </Grid>
 
