@@ -62,8 +62,6 @@ namespace EHunter.UI
                 .WithServiceCollection(services)
                 .CreateContainer();
 
-            Ioc.Default.ConfigureServices(_host.GetExport<IServiceProvider>());
-
             InitializeComponent();
         }
 
