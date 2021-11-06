@@ -1,8 +1,6 @@
-﻿using System;
-using System.Composition.Convention;
+﻿using System.Composition.Convention;
 using System.Composition.Hosting;
 using System.Reflection;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using EHunter.Services;
 using EHunter.UI.Composition;
 using EHunter.UI.Services;
@@ -31,17 +29,11 @@ namespace EHunter.UI
                 {
                     o.SizeLimit = 2 * (1L << 30);
                     o.CompactionPercentage = 0.9;
-                });
+                })
+                .AddSingleton<IViewModelService, ViewModelService>()
+                .AddSingleton<ISettingsStore, WinRTSettingsStore>();
 
             var convensionBuilder = new ConventionBuilder();
-            convensionBuilder
-                .ForType<ViewModelService>()
-                .Export<IViewModelService>()
-                .Shared();
-            convensionBuilder
-                .ForType<WinRTSettingsStore>()
-                .Export<ISettingsStore>()
-                .Shared();
             convensionBuilder
                 .ForType<MEFServiceProvider>()
                 .Export<IServiceProvider>()
