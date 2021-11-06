@@ -23,6 +23,9 @@ namespace EHunter.Pixiv.ViewModels
             IllustSearch = serviceProvider.GetRequiredService<IllustSearchManager>();
             UserSearch = serviceProvider.GetRequiredService<UserSearchVM>();
             Downloads = serviceProvider.GetRequiredService<AllDownloadsVM>();
+            Settings = serviceProvider.GetRequiredService<PixivSettingsVM>();
+
+            SelectedPage = Recent;
         }
 
         public RecentWatchedVM Recent { get; }
@@ -34,6 +37,8 @@ namespace EHunter.Pixiv.ViewModels
         public IllustSearchManager IllustSearch { get; }
         public UserSearchVM UserSearch { get; }
         public AllDownloadsVM Downloads { get; }
+
+        public PixivSettingsVM Settings { get; }
 
         [ObservableProperty]
         private object? _selectedPage;
