@@ -1,13 +1,15 @@
 ﻿using System.Composition;
+using CommunityToolkit.Mvvm.Messaging;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
+using EHunter.Pixiv.Messages;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Search
 {
     [Export, Shared]
-    public partial class IllustSearchManager : TabsViewModel<IllustSearchVM>
+    public sealed partial class IllustSearchManager : TabsViewModel<IllustSearchVM>, IRecipient<NavigateToTagMessage>
     {
         internal readonly ICustomResolver<PixivClient> ClientResolver;
         internal readonly PixivVMFactory Factory;
@@ -32,5 +34,7 @@ namespace EHunter.Pixiv.ViewModels.Search
 
             SelectedItem = vm;
         }
+
+        void IRecipient<NavigateToTagMessage>.Receive(NavigateToTagMessage message) => GoToTag(message.Tag);
     }
 }

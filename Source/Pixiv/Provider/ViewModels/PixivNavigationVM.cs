@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.ViewModels.Bookmark;
 using EHunter.Pixiv.ViewModels.Download;
 using EHunter.Pixiv.ViewModels.Opened;
@@ -10,7 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EHunter.Pixiv.ViewModels
 {
-    public partial class PixivNavigationVM : ObservableObject
+    public sealed partial class PixivNavigationVM : ObservableObject,
+        IRecipient<NavigateToUserMessage>,
+        IRecipient<NavigateToIllustMessage>,
+        IRecipient<NavigateToTagMessage>
     {
         public PixivNavigationVM(IServiceProvider serviceProvider)
         {
@@ -26,6 +31,10 @@ namespace EHunter.Pixiv.ViewModels
             Settings = serviceProvider.GetRequiredService<PixivSettingsVM>();
 
             SelectedPage = Recent;
+            WeakReferenceMessenger.Default.RegisterAll(this);
+            WeakReferenceMessenger.Default.Register(Users);
+            WeakReferenceMessenger.Default.Register(Opened);
+            WeakReferenceMessenger.Default.Register(IllustSearch);
         }
 
         public RecentWatchedVM Recent { get; }
@@ -42,5 +51,9 @@ namespace EHunter.Pixiv.ViewModels
 
         [ObservableProperty]
         private object? _selectedPage;
+
+        void IRecipient<NavigateToUserMessage>.Receive(NavigateToUserMessage message) => SelectedPage = Users;
+        void IRecipient<NavigateToIllustMessage>.Receive(NavigateToIllustMessage message) => SelectedPage = Opened;
+        void IRecipient<NavigateToTagMessage>.Receive(NavigateToTagMessage message) => SelectedPage = IllustSearch;
     }
 }
