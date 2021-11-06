@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using EHunter.Pixiv.Messages;
+using EHunter.Pixiv.ViewModels;
 using EHunter.Pixiv.Views.Opened;
 using EHunter.Pixiv.Views.Search;
 using EHunter.Pixiv.Views.User;
@@ -13,6 +14,7 @@ namespace EHunter.Pixiv.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+    [DependencyProperty("ViewModel", typeof(PixivRootVM))]
     public sealed partial class NavigationPage : Page,
         IRecipient<NavigateToUserMessage>,
         IRecipient<NavigateToIllustMessage>,

@@ -24,6 +24,6 @@ namespace EHunter.Pixiv.Views
         }
 
         void IRecipient<InitializationCompleteMessage>.Receive(InitializationCompleteMessage message)
-            => presenter.Content = new NavigationPage();
+            => presenter.Content = new NavigationPage { ViewModel = ViewModel };
     }
 }
