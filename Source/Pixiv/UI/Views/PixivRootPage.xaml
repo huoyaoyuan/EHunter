@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="EHunter.Pixiv.Views.InitialPage"
+    x:Class="EHunter.Pixiv.Views.PixivRootPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:login="using:EHunter.Pixiv.Views.Login"

@@ -14,9 +14,9 @@ namespace EHunter.Pixiv.Views
     /// </summary>
     [Export, Shared]
     [DependencyProperty("ViewModel", typeof(PixivRootVM))]
-    public sealed partial class InitialPage : Page, IRecipient<InitializationCompleteMessage>
+    public sealed partial class PixivRootPage : Page, IRecipient<InitializationCompleteMessage>
     {
-        public InitialPage()
+        public PixivRootPage()
         {
             InitializeComponent();
 
