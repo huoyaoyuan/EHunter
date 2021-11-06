@@ -1,12 +1,5 @@
 ﻿using System.Composition;
 using CommunityToolkit.Mvvm.ComponentModel;
-using EHunter.Pixiv.ViewModels.Bookmark;
-using EHunter.Pixiv.ViewModels.Download;
-using EHunter.Pixiv.ViewModels.Opened;
-using EHunter.Pixiv.ViewModels.Ranking;
-using EHunter.Pixiv.ViewModels.Recent;
-using EHunter.Pixiv.ViewModels.Search;
-using EHunter.Pixiv.ViewModels.User;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EHunter.Pixiv.ViewModels
@@ -17,17 +10,13 @@ namespace EHunter.Pixiv.ViewModels
         private readonly IServiceProvider _serviceProvider;
 
         [ImportingConstructor]
-        public PixivRootVM(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
+        public PixivRootVM(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+            Login = _serviceProvider.GetRequiredService<LoginPageVM>();
+        }
 
-        public LoginPageVM Login => _serviceProvider.GetRequiredService<LoginPageVM>();
-        public RecentWatchedVM Recent => _serviceProvider.GetRequiredService<RecentWatchedVM>();
-        public JumpToUserManager Users => _serviceProvider.GetRequiredService<JumpToUserManager>();
-        public OpenedIllustsVM Opened => _serviceProvider.GetRequiredService<OpenedIllustsVM>();
-        public MyBookmarkVM Bookmark => _serviceProvider.GetRequiredService<MyBookmarkVM>();
-        public MyFollowingVM Following => _serviceProvider.GetRequiredService<MyFollowingVM>();
-        public RankingVM Ranking => _serviceProvider.GetRequiredService<RankingVM>();
-        public IllustSearchManager IllustSearch => _serviceProvider.GetRequiredService<IllustSearchManager>();
-        public UserSearchVM UserSearch => _serviceProvider.GetRequiredService<UserSearchVM>();
-        public AllDownloadsVM Downloads => _serviceProvider.GetRequiredService<AllDownloadsVM>();
+        public LoginPageVM Login { get; }
+        public PixivNavigationVM Navigation => new(_serviceProvider);
     }
 }

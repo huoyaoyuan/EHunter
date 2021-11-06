@@ -14,7 +14,7 @@ namespace EHunter.Pixiv.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    [DependencyProperty("ViewModel", typeof(PixivRootVM))]
+    [DependencyProperty("ViewModel", typeof(PixivNavigationVM))]
     public sealed partial class NavigationPage : Page,
         IRecipient<NavigateToUserMessage>,
         IRecipient<NavigateToIllustMessage>,
