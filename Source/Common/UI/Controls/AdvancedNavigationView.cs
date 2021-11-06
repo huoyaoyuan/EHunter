@@ -62,8 +62,8 @@ namespace EHunter.Controls
                 return;
 
             var viewType = PageLocator?.MapPageType(viewModel);
-            if (_frame.CurrentSourcePageType != viewType)
-                _frame.Navigate(viewType);
+            if (viewType != null && _frame.CurrentSourcePageType != viewType)
+                _frame.Navigate(viewType, viewModel);
 
             SelectedViewModel = viewModel;
         }
