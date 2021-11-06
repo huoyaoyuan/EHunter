@@ -1,6 +1,4 @@
 ﻿using System.Composition;
-using CommunityToolkit.Mvvm.Messaging;
-using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 
@@ -14,16 +12,8 @@ namespace EHunter.Pixiv.Views
     /// </summary>
     [Export, Shared]
     [DependencyProperty("ViewModel", typeof(PixivRootVM))]
-    public sealed partial class PixivRootPage : Page, IRecipient<InitializationCompleteMessage>
+    public sealed partial class PixivRootPage : Page
     {
-        public PixivRootPage()
-        {
-            InitializeComponent();
-
-            WeakReferenceMessenger.Default.Register(this);
-        }
-
-        void IRecipient<InitializationCompleteMessage>.Receive(InitializationCompleteMessage message)
-            => presenter.Content = new NavigationPage { ViewModel = ViewModel.Navigation };
+        public PixivRootPage() => InitializeComponent();
     }
 }
