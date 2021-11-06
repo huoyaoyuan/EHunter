@@ -17,7 +17,7 @@ namespace EHunter.Pixiv
 
         public override Uri IconUri => new("ms-appx:///EHunter.Pixiv.UI/Assets/pixiv.png");
 
-        public override object CreateUIRoot() => new InitialPage
+        public override object CreateUIRoot() => new PixivRootPage
         {
             ViewModel = _serviceProvider.GetRequiredService<PixivRootVM>()
         };
