@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using EHunter.Controls;
 using EHunter.EHentai.ViewModels.GalleryList;
 using Microsoft.UI.Xaml.Controls;
 
@@ -7,16 +7,18 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace EHunter.EHentai.Views.GalleryList
 {
+    public abstract class GalleryListPageBase : PageFor<GalleryListManager>
+    {
+    }
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class GalleryListPage : Page
+    public sealed partial class GalleryListPage : GalleryListPageBase
     {
-        private readonly GalleryListManager _vm = Ioc.Default.GetRequiredService<GalleryListManager>();
-
         public GalleryListPage() => InitializeComponent();
 
         private void TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
-            => _vm.CloseTab(args.Item);
+            => ViewModel?.CloseTab(args.Item);
     }
 }

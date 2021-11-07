@@ -1,6 +1,8 @@
 ﻿using System.Composition;
+using EHunter.EHentai.ViewModels;
 using EHunter.EHentai.Views;
 using EHunter.Providers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EHunter.EHentai
 {
@@ -17,6 +19,7 @@ namespace EHunter.EHentai
 
         public override object CreateUIRoot() => new NavigationPage
         {
+            ViewModel = _serviceProvider.GetRequiredService<EHentaiNavigationVM>()
         };
     }
 }

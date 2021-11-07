@@ -5,17 +5,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.Controls"
+    xmlns:local="using:EHunter.EHentai.Views"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    x:DefaultBindMode="OneWay">
     <controls:AdvancedNavigationView
         PaneDisplayMode="LeftCompact"
-        IsBackEnabled="{x:Bind _frame.CanGoBack, Mode=OneWay}">
+        SelectedViewModel="{x:Bind ViewModel.SelectedPage, Mode=TwoWay}"
+        SettingsViewModel="{x:Bind ViewModel.Settings}">
+        <controls:AdvancedNavigationView.PageLocator>
+            <local:EHentaiPageLocator />
+        </controls:AdvancedNavigationView.PageLocator>
         <NavigationView.MenuItems>
             <NavigationViewItem
                 x:Uid="Navigation_List"
-                Icon="AllApps" IsSelected="True" />
+                Icon="AllApps" IsSelected="True"
+                controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.GalleryList}" />
         </NavigationView.MenuItems>
-        <Frame x:Name="_frame" />
     </controls:AdvancedNavigationView>
 </Page>

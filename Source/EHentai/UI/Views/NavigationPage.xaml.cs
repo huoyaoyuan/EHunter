@@ -1,4 +1,5 @@
 ﻿using System.Composition;
+using EHunter.EHentai.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -10,6 +11,7 @@ namespace EHunter.EHentai.Views
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     [Export]
+    [DependencyProperty("ViewModel", typeof(EHentaiNavigationVM), IsNullable = true)]
     public sealed partial class NavigationPage : Page
     {
         public NavigationPage() => InitializeComponent();
