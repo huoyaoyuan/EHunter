@@ -22,10 +22,12 @@
                 x:Uid="Navigation_Recent"
                 Icon="AllApps" IsSelected="True"
                 controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.Recent}" />
+
             <NavigationViewItem
                 x:Uid="Navigation_Users"
                 Icon="People"
                 controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.Users}" />
+
             <NavigationViewItem
                 x:Uid="Navigation_Opened"
                 controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.Opened}">
@@ -34,7 +36,6 @@
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
 
-            <!-- TODO: nest -->
             <NavigationViewItem
                 x:Uid="Navigation_Bookmark"
                 controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.Bookmark}">
@@ -42,6 +43,7 @@
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE734;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
+
             <NavigationViewItem
                 x:Uid="Navigation_FollowingUser"
                 controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.Following}">
@@ -57,28 +59,31 @@
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7BC;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <!--<NavigationViewItem
+
+            <NavigationViewItem
                 x:Uid="Navigation_Search">
                 <NavigationViewItem.Icon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE721;" />
                 </NavigationViewItem.Icon>
-                <NavigationViewItem.MenuItems>-->
-            <NavigationViewItem
-                x:Uid="Navigation_Search_Illust"
-                controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.IllustSearch}">
-                <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7C5;" />
-                </NavigationViewItem.Icon>
+                <NavigationViewItem.MenuItems>
+                    <NavigationViewItem
+                        x:Uid="Navigation_Search_Illust"
+                        controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.IllustSearch}">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7C5;" />
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem
+                        x:Uid="Navigation_Search_User"
+                        controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.UserSearch}">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8B8;" />
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                </NavigationViewItem.MenuItems>
             </NavigationViewItem>
-                <!--</NavigationViewItem.MenuItems>
-            </NavigationViewItem>-->
-            <NavigationViewItem
-                x:Uid="Navigation_Search_User"
-                controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.UserSearch}">
-                <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8B8;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
+
             <NavigationViewItem
                 x:Uid="Navigation_Downloads"
                 controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.Downloads}">
