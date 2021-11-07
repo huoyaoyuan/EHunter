@@ -6,6 +6,6 @@ namespace EHunter.EHentai
     {
         public string Title => "EHentai";
         public abstract Uri IconUri { get; }
-        public abstract Type UIRootType { get; }
+        public abstract object CreateUIRoot();
     }
 }

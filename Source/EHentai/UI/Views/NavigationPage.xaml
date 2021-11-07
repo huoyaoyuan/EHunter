@@ -5,22 +5,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.Controls"
-    xmlns:local="using:EHunter.EHentai.Views"
-    xmlns:galleryList="using:EHunter.EHentai.Views.GalleryList"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <NavigationView
+    <controls:AdvancedNavigationView
         PaneDisplayMode="LeftCompact"
-        IsBackEnabled="{x:Bind _frame.CanGoBack, Mode=OneWay}"
-        controls:NavigationHelper.IsAutoNavigationEnabled="True"
-        controls:NavigationHelper.SettingsViewType="local:EHentaiSettingsPage">
+        IsBackEnabled="{x:Bind _frame.CanGoBack, Mode=OneWay}">
         <NavigationView.MenuItems>
             <NavigationViewItem
                 x:Uid="Navigation_List"
-                Icon="AllApps" IsSelected="True"
-                controls:NavigationHelper.NavigationType="galleryList:GalleryListPage" />
+                Icon="AllApps" IsSelected="True" />
         </NavigationView.MenuItems>
         <Frame x:Name="_frame" />
-    </NavigationView>
+    </controls:AdvancedNavigationView>
 </Page>
