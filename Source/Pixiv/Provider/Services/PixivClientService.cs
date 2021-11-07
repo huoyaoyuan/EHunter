@@ -1,5 +1,4 @@
 ﻿using System.Composition;
-using System.Diagnostics;
 using System.Reactive.Linq;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Settings;
@@ -11,8 +10,7 @@ namespace EHunter.Pixiv.Services
     [Export, Export(typeof(ICustomResolver<PixivClient>)), Shared]
     public sealed class PixivClientService : ICustomResolver<PixivClient>, IDisposable
     {
-        private PixivClient? _client;
-        private HttpMessageHandler _effectivehandler;
+        private readonly PixivClient _client = new();
         private readonly IDisposable _subscribeDisposable;
 
         [ImportingConstructor]
@@ -43,39 +41,15 @@ namespace EHunter.Pixiv.Services
                             => (HttpMessageHandler)new DirectConnectHandler(),
                         _ => throw new InvalidOperationException($"Unknown enum value {mode}.")
                     })
-                .Subscribe(h =>
-                {
-                    _effectivehandler = h;
-                    _client?.SetHandler(h);
-                });
-            Debug.Assert(_effectivehandler != null);
+                .Subscribe(h => _client.SetHandler(h));
         }
 
-        public Task<string> LoginAsync(Func<string, Task<Uri>> browserTask)
-            => LoginAsync(c => c.LoginAsync(browserTask));
-
-        public Task<string> LoginAsync(string refreshToken)
-            => LoginAsync(c => c.LoginAsync(refreshToken));
-
-        private async Task<string> LoginAsync(Func<PixivClient, Task<string>> loginMethod)
-        {
-            var client = new PixivClient(_effectivehandler);
-            string refreshToken = await loginMethod(client).ConfigureAwait(false);
-
-            var oldClient = _client;
-            _client = client;
-            oldClient?.Dispose();
-
-            return refreshToken;
-        }
-
-        public PixivClient Resolve()
-            => _client ?? throw new InvalidOperationException("This service should be called after initialization.");
+        public PixivClient Resolve() => _client;
 
         public void Dispose()
         {
             _subscribeDisposable.Dispose();
-            _client?.Dispose();
+            _client.Dispose();
         }
     }
 }

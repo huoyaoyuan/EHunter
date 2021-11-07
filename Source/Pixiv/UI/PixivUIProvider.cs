@@ -1,14 +1,25 @@
 ﻿using System.Composition;
+using EHunter.Pixiv.ViewModels;
 using EHunter.Pixiv.Views;
 using EHunter.Providers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EHunter.Pixiv
 {
     [Export(typeof(IEHunterProvider))]
     public class PixivUIProvider : PixivProviderBase
     {
+        private readonly IServiceProvider _serviceProvider;
+
+        [ImportingConstructor]
+        public PixivUIProvider(IServiceProvider serviceProvider)
+            => _serviceProvider = serviceProvider;
+
         public override Uri IconUri => new("ms-appx:///EHunter.Pixiv.UI/Assets/pixiv.png");
 
-        public override Type UIRootType => typeof(InitialPage);
+        public override object CreateUIRoot() => new PixivRootPage
+        {
+            ViewModel = _serviceProvider.GetRequiredService<PixivRootVM>()
+        };
     }
 }

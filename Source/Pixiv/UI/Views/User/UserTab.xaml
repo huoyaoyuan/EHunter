@@ -150,7 +150,7 @@
                         <Button.Command>
                             <commands:CopyUrlCommand />
                         </Button.Command>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE71B;" />
+                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE71B;" />
                     </Button>
                     <Button
                         x:Uid="OpenLink"
@@ -159,7 +159,7 @@
                         <Button.Command>
                             <commands:OpenUrlCommand />
                         </Button.Command>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A7;" />
+                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8A7;" />
                     </Button>
                 </StackPanel>
                 <ComboBox

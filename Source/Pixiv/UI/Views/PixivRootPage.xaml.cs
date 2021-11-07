@@ -1,20 +1,19 @@
-﻿using EHunter.Controls;
+﻿using System.Composition;
 using EHunter.Pixiv.ViewModels;
+using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace EHunter.Pixiv.Views
 {
-    public abstract partial class PixivSettingsPageBase : PageFor<PixivSettingsVM>
-    {
-    }
-
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class PixivSettingsPage : PixivSettingsPageBase
+    [Export, Shared]
+    [DependencyProperty("ViewModel", typeof(PixivRootVM))]
+    public sealed partial class PixivRootPage : Page
     {
-        public PixivSettingsPage() => InitializeComponent();
+        public PixivRootPage() => InitializeComponent();
     }
 }

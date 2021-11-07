@@ -6,6 +6,7 @@ using EHunter.Pixiv.Data;
 using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.Services;
 using EHunter.Pixiv.Settings;
+using Meowtrix.PixivApi;
 
 namespace EHunter.Pixiv.ViewModels
 {
@@ -14,7 +15,7 @@ namespace EHunter.Pixiv.ViewModels
     {
         private readonly IPixivSettingStore _settingStore;
         private readonly PixivSetting _setting;
-        private readonly PixivClientService _clientService;
+        private readonly PixivClient _client;
 
         [ObservableProperty]
         private string _refreshToken = string.Empty;
@@ -56,7 +57,7 @@ namespace EHunter.Pixiv.ViewModels
         {
             _settingStore = settingStore;
             _setting = setting;
-            _clientService = clientService;
+            _client = clientService.Resolve();
 
             _connectionMode = _setting.ConnectionMode.Value;
 
@@ -76,9 +77,9 @@ namespace EHunter.Pixiv.ViewModels
             }
         }
 
-        public void LoginWithWebView(Func<string, Task<Uri>> browserTask) => PerformLogin(_clientService.LoginAsync(browserTask));
+        public void LoginWithWebView(Func<string, Task<Uri>> browserTask) => PerformLogin(_client.LoginAsync(browserTask));
 
-        public void LoginWithToken() => PerformLogin(_clientService.LoginAsync(RefreshToken));
+        public void LoginWithToken() => PerformLogin(_client.LoginAsync(RefreshToken));
 
         private async void PerformLogin(Task<string> loginTask)
         {

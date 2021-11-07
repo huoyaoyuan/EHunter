@@ -87,7 +87,7 @@
                             Background="{ThemeResource IllustSummarySetTagBackground}">
                             <StackPanel Orientation="Horizontal"
                                         Spacing="2">
-                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF5ED;"
+                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF5ED;"
                                           Foreground="{ThemeResource SystemAltHighColor}" />
                                 <TextBlock Foreground="{ThemeResource SystemAltHighColor}" Text="{x:Bind ViewModel.Illust.Pages.Count}" />
                             </StackPanel>
@@ -99,7 +99,7 @@
                             <Ellipse Width="40"
                                      Height="40"
                                      Fill="#C0808080" />
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE768;"
+                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE768;"
                                       Foreground="{ThemeResource SystemAltHighColor}"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center" />

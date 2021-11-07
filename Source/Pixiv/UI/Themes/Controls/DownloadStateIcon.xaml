@@ -1,0 +1,77 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:EHunter.Pixiv.Controls">
+    <Style TargetType="controls:DownloadStateIcon">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:DownloadStateIcon">
+                    <Border Margin="{TemplateBinding Margin}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup>
+                                <VisualState x:Name="NotLoaded">
+                                </VisualState>
+
+                                <VisualState x:Name="Idle">
+                                </VisualState>
+
+                                <VisualState x:Name="Waiting">
+                                </VisualState>
+
+                                <VisualState x:Name="Active">
+                                </VisualState>
+
+                                <VisualState x:Name="CancelRequested">
+                                </VisualState>
+
+                                <VisualState x:Name="Canceled">
+                                    <VisualState.Setters>
+                                        <Setter Target="IconForeground.Visibility" Value="Visible" />
+                                        <Setter Target="IconForeground.Glyph" Value="{StaticResource InfoBarErrorIconGlyph}" />
+                                        <Setter Target="IconForeground.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconForeground}" />
+                                        <Setter Target="IconBackground.Glyph" Value="{StaticResource InfoBarIconBackgroundGlyph}" />
+                                        <Setter Target="IconBackground.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconBackground}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="Faulted">
+                                    <VisualState.Setters>
+                                        <Setter Target="IconForeground.Visibility" Value="Visible" />
+                                        <Setter Target="IconForeground.Glyph" Value="{StaticResource InfoBarErrorIconGlyph}" />
+                                        <Setter Target="IconForeground.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconForeground}" />
+                                        <Setter Target="IconBackground.Glyph" Value="{StaticResource InfoBarIconBackgroundGlyph}" />
+                                        <Setter Target="IconBackground.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconBackground}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="Completed">
+                                    <VisualState.Setters>
+                                        <Setter Target="IconForeground.Visibility" Value="Visible" />
+                                        <Setter Target="IconForeground.Glyph" Value="{StaticResource InfoBarSuccessIconGlyph}" />
+                                        <Setter Target="IconForeground.Foreground" Value="{ThemeResource InfoBarSuccessSeverityIconForeground}" />
+                                        <Setter Target="IconBackground.Glyph" Value="{StaticResource InfoBarIconBackgroundGlyph}" />
+                                        <Setter Target="IconBackground.Foreground" Value="{ThemeResource InfoBarSuccessSeverityIconBackground}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <!-- TODO: consider to use InfoBadge -->
+
+                        <Grid>
+                            <FontIcon
+                                x:Name="IconBackground"
+                                FontFamily="{ThemeResource SymbolThemeFontFamily}" />
+
+                            <FontIcon
+                                x:Name="IconForeground"
+                                FontFamily="{ThemeResource SymbolThemeFontFamily}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

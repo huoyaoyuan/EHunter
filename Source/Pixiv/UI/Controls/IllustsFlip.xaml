@@ -16,11 +16,10 @@
             x:Name="flipView"
             ItemsSource="{x:Bind SourceList.ItemsSource, Mode=OneWay}">
             <FlipView.Background>
-                <!-- TODO: Use AcrylicInAppFillColorDefaultInverseBrush when available -->
                 <AcrylicBrush
-                    TintColor="{ThemeResource SystemBaseMediumColor}"
+                    TintColor="{ThemeResource SystemAltMediumColor}"
                     TintOpacity="0.15"
-                    FallbackColor="{ThemeResource SystemBaseMediumColor}" />
+                    FallbackColor="{ThemeResource SystemAltMediumColor}" />
             </FlipView.Background>
             <FlipView.ItemTemplate>
                 <DataTemplate x:DataType="vm:IllustVM"
@@ -61,7 +60,7 @@
             <AppBarButton x:Uid="OpenAppBarButton"
                           CommandParameter="{x:Bind flipView.SelectedItem.(vm:IllustVM.Illust), Mode=OneWay}">
                 <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C5;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7C5;" />
                 </AppBarButton.Icon>
                 <AppBarButton.Command>
                     <commands:NavigateToIllustCommand />

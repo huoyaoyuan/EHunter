@@ -4,7 +4,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:tk="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:tktr="using:CommunityToolkit.WinUI.UI.Triggers"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
@@ -74,10 +73,13 @@
                     Click="{x:Bind VM.Refresh}" />
             </Grid>
 
-            <tk:Expander
+            <Expander
                 x:Uid="SearchOptions"
-                Grid.Row="1">
-                <Grid Grid.Row="1">
+                Grid.Row="1"
+                Width="500"
+                HorizontalAlignment="Right"
+                x:DefaultBindMode="TwoWay">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -88,17 +90,17 @@
                         Grid.Column="0"
                         Margin="2"
                         Style="{StaticResource IllustSearchTargetSelectorStyle}"
-                        SelectedItem="{x:Bind VM.SearchTarget, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind VM.SearchTarget}" />
                     <ComboBox
                         Grid.Column="1"
                         Margin="2"
                         Style="{StaticResource IllustSortModeSelectorStyle}"
-                        SelectedItem="{x:Bind VM.SortMode, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind VM.SortMode}" />
                     <ComboBox
                         Grid.Column="2"
                         Margin="2"
                         Style="{StaticResource AgeRestrictionSelectorStyle}"
-                        SelectedItem="{x:Bind VM.SelectedAge, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind VM.SelectedAge}" />
                     <DropDownButton
                         x:Uid="SearchRange"
                         Grid.Column="3"
@@ -120,7 +122,7 @@
                                     <CheckBox
                                         x:Uid="IllustFilter_MinBookmark"
                                         Grid.Row="0"
-                                        IsChecked="{x:Bind VM.MinBookmarkEnabled, Mode=TwoWay}" />
+                                        IsChecked="{x:Bind VM.MinBookmarkEnabled}" />
                                     <NumberBox
                                         Grid.Row="0"
                                         Grid.Column="1"
@@ -129,7 +131,7 @@
                                     <CheckBox
                                         x:Uid="IllustFilter_MaxBookmark"
                                         Grid.Row="1"
-                                        IsChecked="{x:Bind VM.MaxBookmarkEnabled, Mode=TwoWay}" />
+                                        IsChecked="{x:Bind VM.MaxBookmarkEnabled}" />
                                     <NumberBox
                                         Grid.Row="1"
                                         Grid.Column="1"
@@ -138,7 +140,7 @@
                                     <CheckBox
                                         x:Uid="IllustFilter_StartDate"
                                         Grid.Row="2"
-                                        IsChecked="{x:Bind VM.StartDateEnabled, Mode=TwoWay}" />
+                                        IsChecked="{x:Bind VM.StartDateEnabled}" />
                                     <CalendarDatePicker
                                         Grid.Row="2"
                                         Grid.Column="1"
@@ -148,7 +150,7 @@
                                     <CheckBox
                                         x:Uid="IllustFilter_EndDate"
                                         Grid.Row="3"
-                                        IsChecked="{x:Bind VM.EndDateEnabled, Mode=TwoWay}" />
+                                        IsChecked="{x:Bind VM.EndDateEnabled}" />
                                     <CalendarDatePicker
                                         Grid.Row="3"
                                         Grid.Column="1"
@@ -161,8 +163,7 @@
                         </DropDownButton.Flyout>
                     </DropDownButton>
                 </Grid>
-            </tk:Expander>
-
+            </Expander>
         </Grid>
     </controls:IllustCollectionView>
 </UserControl>

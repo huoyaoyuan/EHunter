@@ -6,92 +6,92 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.Controls"
     xmlns:local="using:EHunter.Pixiv.Views"
-    xmlns:bookmark="using:EHunter.Pixiv.Views.Bookmark"
-    xmlns:download="using:EHunter.Pixiv.Views.Download"
-    xmlns:opened="using:EHunter.Pixiv.Views.Opened"
-    xmlns:ranking="using:EHunter.Pixiv.Views.Ranking"
-    xmlns:recent="using:EHunter.Pixiv.Views.Recent"
-    xmlns:search="using:EHunter.Pixiv.Views.Search"
-    xmlns:user="using:EHunter.Pixiv.Views.User"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <NavigationView
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    x:DefaultBindMode="OneWay">
+    <controls:AdvancedNavigationView
         PaneDisplayMode="LeftCompact"
-        IsBackEnabled="{x:Bind _frame.CanGoBack, Mode=OneWay}"
-        controls:NavigationHelper.IsAutoNavigationEnabled="True"
-        controls:NavigationHelper.SettingsViewType="local:PixivSettingsPage">
+        SettingsViewModel="{x:Bind ViewModel.Settings}"
+        SelectedViewModel="{x:Bind ViewModel.SelectedPage, Mode=TwoWay}">
+        <controls:AdvancedNavigationView.PageLocator>
+            <local:PixivPageLocator />
+        </controls:AdvancedNavigationView.PageLocator>
         <NavigationView.MenuItems>
             <NavigationViewItem
-                x:Name="recent" x:Uid="Navigation_Recent"
+                x:Uid="Navigation_Recent"
                 Icon="AllApps" IsSelected="True"
-                controls:NavigationHelper.NavigationType="recent:RecentWatchedPage" />
+                controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.Recent}" />
+
             <NavigationViewItem
-                x:Name="users" x:Uid="Navigation_Users"
+                x:Uid="Navigation_Users"
                 Icon="People"
-                controls:NavigationHelper.NavigationType="user:UsersPage" />
-            <NavigationViewItem
-                x:Name="opened" x:Uid="Navigation_Opened"
-                controls:NavigationHelper.NavigationType="opened:OpenedIllustsPage">
-                <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE736;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
+                controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.Users}" />
 
-            <!-- TODO: nest -->
             <NavigationViewItem
-                x:Name="bookmark" x:Uid="Navigation_Bookmark"
-                controls:NavigationHelper.NavigationType="bookmark:MyBookmarkPage">
+                x:Uid="Navigation_Opened"
+                controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.Opened}">
                 <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE734;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-            <NavigationViewItem
-                x:Name="following" x:Uid="Navigation_FollowingUser"
-                controls:NavigationHelper.NavigationType="bookmark:MyFollowingUsersPage">
-                <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE902;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE736;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
 
             <NavigationViewItem
-                x:Name="ranking" x:Uid="Navigation_Ranking"
-                controls:NavigationHelper.NavigationType="ranking:RankingPage">
+                x:Uid="Navigation_Bookmark"
+                controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.Bookmark}">
                 <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7BC;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE734;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <!--<NavigationViewItem
+
+            <NavigationViewItem
+                x:Uid="Navigation_FollowingUser"
+                controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.Following}">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE902;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+
+            <NavigationViewItem
+                x:Uid="Navigation_Ranking"
+                controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.Ranking}">
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7BC;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+
+            <NavigationViewItem
                 x:Uid="Navigation_Search">
                 <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE721;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE721;" />
                 </NavigationViewItem.Icon>
-                <NavigationViewItem.MenuItems>-->
-            <NavigationViewItem
-                x:Name="searchIllust" x:Uid="Navigation_Search_Illust"
-                controls:NavigationHelper.NavigationType="search:IllustSearchPage">
-                <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C5;" />
-                </NavigationViewItem.Icon>
+                <NavigationViewItem.MenuItems>
+                    <NavigationViewItem
+                        x:Uid="Navigation_Search_Illust"
+                        controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.IllustSearch}">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7C5;" />
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem
+                        x:Uid="Navigation_Search_User"
+                        controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.UserSearch}">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8B8;" />
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                </NavigationViewItem.MenuItems>
             </NavigationViewItem>
-                <!--</NavigationViewItem.MenuItems>
-            </NavigationViewItem>-->
+
             <NavigationViewItem
-                x:Name="searchUser" x:Uid="Navigation_Search_User"
-                controls:NavigationHelper.NavigationType="search:UserSearchPage">
+                x:Uid="Navigation_Downloads"
+                controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.Downloads}">
                 <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8B8;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-            <NavigationViewItem
-                x:Name="downloads" x:Uid="Navigation_Downloads"
-                controls:NavigationHelper.NavigationType="download:PixivDownloadPage">
-                <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE896;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE896;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
             <!--<NavigationViewItem Icon="Pin" Content="Pinned Pictures" />-->
         </NavigationView.MenuItems>
-        <Frame x:Name="_frame" />
-    </NavigationView>
+    </controls:AdvancedNavigationView>
 </Page>

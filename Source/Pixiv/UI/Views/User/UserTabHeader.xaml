@@ -46,7 +46,7 @@
             Grid.Column="0"
             Visibility="Collapsed"
             Width="24" Height="24"
-            FontFamily="Segoe MDL2 Assets" Glyph="&#xE748;" />
+            FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE748;" />
         <TextBlock
             x:Name="username"
             Grid.Column="1"
