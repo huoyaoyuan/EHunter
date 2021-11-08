@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Windows.Input;
 using EHunter.Media;
 using EHunter.Pixiv.Services.Download;
 using Meowtrix.PixivApi.Models;
@@ -36,6 +37,9 @@ namespace EHunter.Pixiv.ViewModels.Illusts
             : Pages.Select(x => x.Original).ToArray();
 
         public IImageSource UserAvatar => _factory.GetImage(Illust.User.Avatar);
+
+        public ICommand NavigateToIllust => _factory.NavigateToIllustCommand;
+        public ICommand NavigateToUser => _factory.NavigateToUserCommand;
 
         public string CreationTimeDisplayString => Illust.Created.ToLocalTime().ToString("f", CultureInfo.CurrentCulture);
     }

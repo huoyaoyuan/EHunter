@@ -162,7 +162,7 @@
                                     <HyperlinkButton
                                         Grid.Row="2"
                                         FontSize="16"
-                                        Command="{StaticResource NavigateToUserCommand}"
+                                        Command="{x:Bind IllustVM.NavigateToUser, FallbackValue={x:Null}}"
                                         CommandParameter="{x:Bind IllustVM.Illust.User, FallbackValue={x:Null}}"
                                         Click="JumpToUser_Clicked">
                                         <TextBlock
