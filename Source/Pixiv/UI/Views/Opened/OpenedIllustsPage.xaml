@@ -10,6 +10,7 @@
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
     xmlns:local="using:EHunter.Pixiv.Views.Opened"
+    xmlns:vmi="using:EHunter.Pixiv.ViewModels.Illusts"
     xmlns:vmo="using:EHunter.Pixiv.ViewModels.Opened"
     xmlns:m="using:Meowtrix.PixivApi.Models"
     mc:Ignorable="d"
@@ -131,15 +132,15 @@
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{x:Bind IllustVM.Illust.Description, FallbackValue=''}"
                                     TextWrapping="Wrap" />
-                                <ItemsControl ItemsSource="{x:Bind IllustVM.Illust.Tags, FallbackValue={x:Null}}">
+                                <ItemsControl ItemsSource="{x:Bind IllustVM.Tags, FallbackValue={x:Null}}">
                                     <ItemsControl.ItemTemplate>
-                                        <DataTemplate x:DataType="m:Tag"
+                                        <DataTemplate x:DataType="vmi:IllustTagVM"
                                                       x:DefaultBindMode="OneTime">
                                             <HyperlinkButton
-                                                Command="{StaticResource NavigateToTagCommand}"
-                                                CommandParameter="{x:Bind}">
+                                                Command="{x:Bind NavigateToTag}"
+                                                CommandParameter="{x:Bind Tag}">
                                                 <TextBlock>
-                                                    <Run Text="#" /><Run Text="{x:Bind Name}" />
+                                                    <Run Text="#" /><Run Text="{x:Bind Tag.Name}" />
                                                 </TextBlock>
                                             </HyperlinkButton>
                                         </DataTemplate>

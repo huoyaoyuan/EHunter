@@ -17,11 +17,13 @@ namespace EHunter.Pixiv.ViewModels.Illusts
             _factory = factory;
             IndexInCollection = indexInCollection;
             Pages = illust.Pages.Select(x => new IllustPageVM(this, factory, x)).ToArray();
+            Tags = illust.Tags.Select(x => new IllustTagVM(factory, x)).ToArray();
         }
 
         public int? IndexInCollection { get; }
 
         public IReadOnlyList<IllustPageVM> Pages { get; }
+        public IReadOnlyList<IllustTagVM> Tags { get; }
 
         public Illust Illust { get; }
         public DownloadTask Downloadable { get; }
