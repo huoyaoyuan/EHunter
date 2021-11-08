@@ -58,16 +58,16 @@ namespace EHunter.SourceGenerator
                     {
                         switch (namedArgument)
                         {
-                            case { Key: "IsSetterPublic", Value: { Value: bool value } }:
+                            case { Key: "IsSetterPublic", Value.Value: bool value }:
                                 isSetterPublic = value;
                                 break;
-                            case { Key: "DefaultValue", Value: { Value: string value } }:
+                            case { Key: "DefaultValue", Value.Value: string value }:
                                 defaultValue = value;
                                 break;
-                            case { Key: "IsNullable", Value: { Value: bool value } }:
+                            case { Key: "IsNullable", Value.Value: bool value }:
                                 isNullable = value;
                                 break;
-                            case { Key: "InstanceChangedCallback", Value: { Value: bool value } }:
+                            case { Key: "InstanceChangedCallback", Value.Value: bool value }:
                                 instanceChangedCallback = value;
                                 break;
                         }
