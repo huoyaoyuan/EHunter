@@ -4,15 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:tkUI="using:CommunityToolkit.WinUI.UI"
     xmlns:commonControls="using:EHunter.Controls"
-    xmlns:commands="using:EHunter.Pixiv.Commands"
+    xmlns:converters="using:EHunter.Converters"
     xmlns:settings="using:EHunter.Pixiv.Settings"
     xmlns:vmi="using:EHunter.Pixiv.ViewModels.Illusts"
     xmlns:vmu="using:EHunter.Pixiv.ViewModels.User"
     xmlns:api="using:Meowtrix.PixivApi"
-    xmlns:m="using:Meowtrix.PixivApi.Models"
-    xmlns:converters="using:EHunter.Converters">
-    <commands:NavigateToUserCommand x:Key="NavigateToUserCommand" />
-    <commands:NavigateToTagCommand x:Key="NavigateToTagCommand" />
+    xmlns:m="using:Meowtrix.PixivApi.Models">
     <converters:EnumLocalizeConverter x:Key="EnumLocalizeConverter" />
 
     <!-- TODO: workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/6232 -->

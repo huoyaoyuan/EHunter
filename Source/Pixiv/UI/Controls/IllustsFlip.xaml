@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.Controls"
     xmlns:media="using:EHunter.Media"
-    xmlns:commands="using:EHunter.Pixiv.Commands"
     xmlns:local="using:EHunter.Pixiv.Controls"
     xmlns:vm="using:EHunter.Pixiv.ViewModels.Illusts"
     mc:Ignorable="d">
@@ -58,13 +57,11 @@
                           Icon="Download"
                           Command="{x:Bind flipView.SelectedItem.(vm:IllustVM.Downloadable).DownloadCommand}" />
             <AppBarButton x:Uid="OpenAppBarButton"
+                          Command="{x:Bind flipView.SelectedItem.(vm:IllustVM.NavigateToIllustCommand)}"
                           CommandParameter="{x:Bind flipView.SelectedItem.(vm:IllustVM.Illust), Mode=OneWay}">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7C5;" />
                 </AppBarButton.Icon>
-                <AppBarButton.Command>
-                    <commands:NavigateToIllustCommand />
-                </AppBarButton.Command>
             </AppBarButton>
             <AppBarButton Icon="Cancel" x:Uid="CloseAppBarButton" Click="{x:Bind CloseDetail}">
                 <AppBarButton.KeyboardAccelerators>
