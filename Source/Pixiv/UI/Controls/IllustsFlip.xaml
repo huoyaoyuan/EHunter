@@ -57,7 +57,7 @@
                           Icon="Download"
                           Command="{x:Bind flipView.SelectedItem.(vm:IllustVM.Downloadable).DownloadCommand}" />
             <AppBarButton x:Uid="OpenAppBarButton"
-                          Command="{x:Bind flipView.SelectedItem.(vm:IllustVM.NavigateToIllust)}"
+                          Command="{x:Bind flipView.SelectedItem.(vm:IllustVM.NavigateToIllustCommand)}"
                           CommandParameter="{x:Bind flipView.SelectedItem.(vm:IllustVM.Illust), Mode=OneWay}">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7C5;" />

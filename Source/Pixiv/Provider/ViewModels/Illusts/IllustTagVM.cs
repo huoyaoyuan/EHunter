@@ -15,6 +15,6 @@ namespace EHunter.Pixiv.ViewModels.Illusts
 
         public Tag Tag { get; }
 
-        public ICommand NavigateToTag => _vmFactory.NavigateToTagCommand;
+        public ICommand NavigateToTagCommand => _vmFactory.NavigateToTagCommand;
     }
 }

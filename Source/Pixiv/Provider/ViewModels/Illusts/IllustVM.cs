@@ -40,8 +40,8 @@ namespace EHunter.Pixiv.ViewModels.Illusts
 
         public IImageSource UserAvatar => _factory.GetImage(Illust.User.Avatar);
 
-        public ICommand NavigateToIllust => _factory.NavigateToIllustCommand;
-        public ICommand NavigateToUser => _factory.NavigateToUserCommand;
+        public ICommand NavigateToIllustCommand => _factory.NavigateToIllustCommand;
+        public ICommand NavigateToUserCommand => _factory.NavigateToUserCommand;
 
         public string CreationTimeDisplayString => Illust.Created.ToLocalTime().ToString("f", CultureInfo.CurrentCulture);
     }

@@ -137,7 +137,7 @@
                                         <DataTemplate x:DataType="vmi:IllustTagVM"
                                                       x:DefaultBindMode="OneTime">
                                             <HyperlinkButton
-                                                Command="{x:Bind NavigateToTag}"
+                                                Command="{x:Bind NavigateToTagCommand}"
                                                 CommandParameter="{x:Bind Tag}">
                                                 <TextBlock>
                                                     <Run Text="#" /><Run Text="{x:Bind Tag.Name}" />
@@ -163,7 +163,7 @@
                                     <HyperlinkButton
                                         Grid.Row="2"
                                         FontSize="16"
-                                        Command="{x:Bind IllustVM.NavigateToUser, FallbackValue={x:Null}}"
+                                        Command="{x:Bind IllustVM.NavigateToUserCommand, FallbackValue={x:Null}}"
                                         CommandParameter="{x:Bind IllustVM.Illust.User, FallbackValue={x:Null}}"
                                         Click="JumpToUser_Clicked">
                                         <TextBlock
