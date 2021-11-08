@@ -8,26 +8,24 @@ using Microsoft.UI.Xaml.Media.Animation;
 
 namespace EHunter.Pixiv.Views.User
 {
-    [DependencyProperty("VM", typeof(JumpToUserVM), IsNullable = true, ChangedMethod = "VMChanged")]
+    [DependencyProperty("VM", typeof(JumpToUserVM), IsNullable = true, InstanceChangedCallback = true)]
     public sealed partial class UserTab : UserControl
     {
         public UserTab() => InitializeComponent();
 
-        private static void VMChanged(object sender, DependencyPropertyChangedEventArgs args)
+        partial void OnVMChanged(JumpToUserVM? oldValue, JumpToUserVM? newValue)
         {
-            var userTab = (UserTab)sender;
-
             var connectedAnimationService = ConnectedAnimationService.GetForCurrentView();
             if (connectedAnimationService
                 .GetAnimation("Username") is { } userNameAnimation)
             {
-                userNameAnimation.TryStart(userTab.usernameText);
+                userNameAnimation.TryStart(usernameText);
             }
 
             if (connectedAnimationService
                 .GetAnimation("UserAvatar") is { } avatarAnimation)
             {
-                avatarAnimation.TryStart(userTab.userAvatar);
+                avatarAnimation.TryStart(userAvatar);
             }
         }
     }

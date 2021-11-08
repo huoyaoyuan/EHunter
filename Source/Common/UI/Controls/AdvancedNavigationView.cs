@@ -3,8 +3,8 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace EHunter.Controls
 {
-    [DependencyProperty("SelectedViewModel", typeof(object), IsNullable = true, ChangedMethod = "SelectedVMChanged")]
-    [DependencyProperty("SettingsViewModel", typeof(object), IsNullable = true, ChangedMethod = "SettingsVMChanged")]
+    [DependencyProperty("SelectedViewModel", typeof(object), IsNullable = true, InstanceChangedCallback = true)]
+    [DependencyProperty("SettingsViewModel", typeof(object), IsNullable = true, InstanceChangedCallback = true)]
     [DependencyProperty("PageLocator", typeof(IPageLocator), IsNullable = true)]
     public partial class AdvancedNavigationView : NavigationView
     {
@@ -27,22 +27,18 @@ namespace EHunter.Controls
             });
         }
 
-        private static void SettingsVMChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        partial void OnSettingsViewModelChanged(object? oldValue, object? newValue)
         {
-            var anv = (AdvancedNavigationView)d;
-            if (anv.SettingsItem != null)
-                SetViewModel((NavigationViewItemBase)anv.SettingsItem, anv.SettingsViewModel);
+            if (SettingsItem != null)
+                SetViewModel((NavigationViewItemBase)SettingsItem, SettingsViewModel);
         }
 
-        private static void SelectedVMChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        partial void OnSelectedViewModelChanged(object? oldValue, object? newValue)
         {
-            var anv = (AdvancedNavigationView)d;
-            object? newValue = e.NewValue;
-
             if (newValue is null)
                 return;
 
-            foreach (var item in RecurseAllItems(anv))
+            foreach (var item in RecurseAllItems(this))
             {
                 if (GetViewModel(item) == newValue)
                 {
