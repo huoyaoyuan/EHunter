@@ -52,7 +52,6 @@ namespace EHunter.SourceGenerator
                     bool isSetterPublic = true;
                     string? defaultValue = null;
                     bool isNullable = false;
-                    string? changedMethod = null;
                     bool instanceChangedCallback = false;
 
                     foreach (var namedArgument in attribute.NamedArguments)
@@ -67,9 +66,6 @@ namespace EHunter.SourceGenerator
                                 break;
                             case { Key: "IsNullable", Value: { Value: bool value } }:
                                 isNullable = value;
-                                break;
-                            case { Key: "ChangedMethod", Value: { Value: string value } }:
-                                changedMethod = value;
                                 break;
                             case { Key: "InstanceChangedCallback", Value: { Value: bool value } }:
                                 instanceChangedCallback = value;
@@ -93,11 +89,67 @@ namespace EHunter.SourceGenerator
                             Argument(defaultValueExpression)
                         );
 
-                    if (changedMethod is not null)
+                    if (instanceChangedCallback)
+                    {
+                        string partialMethodName = $"On{propertyName}Changed";
+
+                        var oldValueExpression = CastExpression(
+                            type.GetTypeSyntax(isNullable),
+                            MemberAccessExpression(
+                                SyntaxKind.SimpleMemberAccessExpression,
+                                IdentifierName("e"),
+                                IdentifierName("OldValue")
+                                )
+                            );
+                        var newValueExpression = CastExpression(
+                            type.GetTypeSyntax(isNullable),
+                            MemberAccessExpression(
+                                SyntaxKind.SimpleMemberAccessExpression,
+                                IdentifierName("e"),
+                                IdentifierName("NewValue")
+                                )
+                            );
+                        var lambdaBody = InvocationExpression(
+                            MemberAccessExpression(
+                                SyntaxKind.SimpleMemberAccessExpression,
+                                ParenthesizedExpression(CastExpression(
+                                    @class.GetTypeSyntax(false),
+                                    IdentifierName("d")
+                                    )),
+                                IdentifierName(partialMethodName)
+                                )
+                            )
+                            .AddArgumentListArguments(
+                                Argument(oldValueExpression),
+                                Argument(newValueExpression)
+                            );
                         metadataCreation = metadataCreation
                             .AddArgumentListArguments(
-                                Argument(IdentifierName(changedMethod))
+                                Argument(ParenthesizedLambdaExpression()
+                                    .AddParameterListParameters(
+                                        Parameter(Identifier("d")),
+                                        Parameter(Identifier("e"))
+                                    )
+                                    .WithExpressionBody(lambdaBody)
+                                    )
                             );
+
+                        var partialMethod = MethodDeclaration(
+                            PredefinedType(Token(SyntaxKind.VoidKeyword)),
+                            partialMethodName
+                            )
+                            .AddParameterListParameters(
+                                Parameter(Identifier("oldValue"))
+                                    .WithType(type.GetTypeSyntax(isNullable)),
+                                Parameter(Identifier("newValue"))
+                                    .WithType(type.GetTypeSyntax(isNullable))
+                            )
+                            .AddModifiers(
+                                Token(SyntaxKind.PartialKeyword)
+                            )
+                            .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
+                        members.Add(partialMethod);
+                    }
 
                     var registration = InvocationExpression(
                         MemberAccessExpression(
