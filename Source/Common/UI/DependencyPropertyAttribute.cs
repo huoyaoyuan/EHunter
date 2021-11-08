@@ -15,5 +15,6 @@
         public bool IsNullable { get; set; } = true;
         public string DefaultValue { get; set; } = "null";
         public string? ChangedMethod { get; set; }
+        public bool InstanceChangedCallback { get; set; }
     }
 }

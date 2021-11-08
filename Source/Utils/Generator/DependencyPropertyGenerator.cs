@@ -53,6 +53,7 @@ namespace EHunter.SourceGenerator
                     string? defaultValue = null;
                     bool isNullable = false;
                     string? changedMethod = null;
+                    bool instanceChangedCallback = false;
 
                     foreach (var namedArgument in attribute.NamedArguments)
                     {
@@ -69,6 +70,9 @@ namespace EHunter.SourceGenerator
                                 break;
                             case { Key: "ChangedMethod", Value: { Value: string value } }:
                                 changedMethod = value;
+                                break;
+                            case { Key: "InstanceChangedCallback", Value: { Value: bool value } }:
+                                instanceChangedCallback = value;
                                 break;
                         }
                     }
