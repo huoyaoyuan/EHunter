@@ -70,7 +70,7 @@
                 Grid.Column="1"
                 MinWidth="300"
                 Content="{x:Bind UserInfo.Name}"
-                Command="{StaticResource NavigateToUserCommand}"
+                Command="{x:Bind NavigateToUserCommand}"
                 CommandParameter="{x:Bind UserInfo}" />
             <ScrollViewer
                 Grid.Column="2"
