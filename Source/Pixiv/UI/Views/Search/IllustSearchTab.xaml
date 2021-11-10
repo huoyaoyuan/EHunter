@@ -107,7 +107,7 @@
                         Margin="2"
                         HorizontalAlignment="Stretch">
                         <DropDownButton.Flyout>
-                            <Flyout>
+                            <Flyout Placement="Bottom">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
@@ -122,38 +122,46 @@
                                     <CheckBox
                                         x:Uid="IllustFilter_MinBookmark"
                                         Grid.Row="0"
+                                        Margin="2"
                                         IsChecked="{x:Bind ViewModel.MinBookmarkEnabled}" />
                                     <NumberBox
                                         Grid.Row="0"
                                         Grid.Column="1"
+                                        Margin="2"
                                         IsEnabled="{x:Bind ViewModel.MinBookmarkEnabled, Mode=OneWay}"
                                         Value="{x:Bind ViewModel.MinBookmark, Mode=TwoWay}" />
                                     <CheckBox
                                         x:Uid="IllustFilter_MaxBookmark"
                                         Grid.Row="1"
+                                        Margin="2"
                                         IsChecked="{x:Bind ViewModel.MaxBookmarkEnabled}" />
                                     <NumberBox
                                         Grid.Row="1"
                                         Grid.Column="1"
+                                        Margin="2"
                                         IsEnabled="{x:Bind ViewModel.MaxBookmarkEnabled, Mode=OneWay}"
                                         Value="{x:Bind ViewModel.MaxBookmark, Mode=TwoWay}" />
                                     <CheckBox
                                         x:Uid="IllustFilter_StartDate"
                                         Grid.Row="2"
+                                        Margin="2"
                                         IsChecked="{x:Bind ViewModel.StartDateEnabled}" />
                                     <CalendarDatePicker
                                         Grid.Row="2"
                                         Grid.Column="1"
+                                        Margin="2"
                                         IsEnabled="{x:Bind ViewModel.StartDateEnabled, Mode=OneWay}"
                                         Date="{x:Bind ViewModel.StartDate, Mode=TwoWay}"
                                         MaxDate="{x:Bind ViewModel.EndDate, Mode=OneWay}" />
                                     <CheckBox
                                         x:Uid="IllustFilter_EndDate"
                                         Grid.Row="3"
+                                        Margin="2"
                                         IsChecked="{x:Bind ViewModel.EndDateEnabled}" />
                                     <CalendarDatePicker
                                         Grid.Row="3"
                                         Grid.Column="1"
+                                        Margin="2"
                                         IsEnabled="{x:Bind ViewModel.EndDateEnabled, Mode=OneWay}"
                                         Date="{x:Bind ViewModel.EndDate, Mode=TwoWay}"
                                         MinDate="{x:Bind ViewModel.StartDate, Mode=OneWay}" />
