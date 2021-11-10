@@ -6,12 +6,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tkex="using:CommunityToolkit.WinUI.UI"
     xmlns:controls="using:EHunter.Controls"
+    xmlns:converters="using:EHunter.Converters"
     xmlns:vm="using:EHunter.Pixiv.ViewModels.Search"
     xmlns:local="using:EHunter.Pixiv.Views.Search"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     x:DefaultBindMode="OneWay">
+    <Page.Resources>
+        <converters:NullOrEmptyFallbackConverter
+            x:Uid="SearchHeaderConverter"
+            x:Key="SearchHeaderConverter" />
+    </Page.Resources>
     <TabView
         VerticalAlignment="Stretch"
         CanReorderTabs="True"
@@ -25,14 +31,10 @@
                 <controls:SelectorCase Value="{tkex:NullableBool Value=False}">
                     <DataTemplate x:DataType="vm:IllustSearchVM"
                                   x:DefaultBindMode="OneWay">
-                        <TabViewItem>
+                        <TabViewItem Header="{x:Bind EffectiveWord, Converter={StaticResource SearchHeaderConverter}}">
                             <TabViewItem.IconSource>
                                 <SymbolIconSource Symbol="Find" />
                             </TabViewItem.IconSource>
-                            <TabViewItem.Header>
-                                <local:IllustSearchTabHeader
-                                    VM="{x:Bind}" />
-                            </TabViewItem.Header>
                             <local:IllustSearchTab
                                 VM="{x:Bind}" />
                         </TabViewItem>
@@ -42,14 +44,10 @@
                 <controls:SelectorCase Value="{tkex:NullableBool Value=True}">
                     <DataTemplate x:DataType="vm:IllustSearchVM"
                                   x:DefaultBindMode="OneWay">
-                        <TabViewItem>
+                        <TabViewItem Header="{x:Bind Tag.Name}">
                             <TabViewItem.IconSource>
                                 <FontIconSource FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8EC;" />
                             </TabViewItem.IconSource>
-                            <TabViewItem.Header>
-                                <local:IllustSearchTabHeader
-                                    VM="{x:Bind}" />
-                            </TabViewItem.Header>
                             <local:IllustSearchTab
                                 VM="{x:Bind}" />
                         </TabViewItem>
