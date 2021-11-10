@@ -36,7 +36,7 @@
                                 <SymbolIconSource Symbol="Find" />
                             </TabViewItem.IconSource>
                             <local:IllustSearchTab
-                                VM="{x:Bind}" />
+                                ViewModel="{x:Bind}" />
                         </TabViewItem>
                     </DataTemplate>
                 </controls:SelectorCase>
@@ -49,7 +49,7 @@
                                 <FontIconSource FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8EC;" />
                             </TabViewItem.IconSource>
                             <local:IllustSearchTab
-                                VM="{x:Bind}" />
+                                ViewModel="{x:Bind}" />
                         </TabViewItem>
                     </DataTemplate>
                 </controls:SelectorCase>
