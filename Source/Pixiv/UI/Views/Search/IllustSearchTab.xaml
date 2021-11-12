@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tktr="using:CommunityToolkit.WinUI.UI.Triggers"
+    xmlns:commonControls="using:EHunter.Controls"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
     mc:Ignorable="d"
@@ -146,25 +147,23 @@
                                         Grid.Row="2"
                                         Margin="2"
                                         IsChecked="{x:Bind ViewModel.StartDateEnabled}" />
-                                    <CalendarDatePicker
+                                    <commonControls:SafeCalendarDatePicker
                                         Grid.Row="2"
                                         Grid.Column="1"
                                         Margin="2"
                                         IsEnabled="{x:Bind ViewModel.StartDateEnabled, Mode=OneWay}"
-                                        Date="{x:Bind ViewModel.StartDate, Mode=TwoWay}"
-                                        MaxDate="{x:Bind ViewModel.EndDate, Mode=OneWay}" />
+                                        SafeDate="{x:Bind ViewModel.StartDate, Mode=TwoWay}" />
                                     <CheckBox
                                         x:Uid="IllustFilter_EndDate"
                                         Grid.Row="3"
                                         Margin="2"
                                         IsChecked="{x:Bind ViewModel.EndDateEnabled}" />
-                                    <CalendarDatePicker
+                                    <commonControls:SafeCalendarDatePicker
                                         Grid.Row="3"
                                         Grid.Column="1"
                                         Margin="2"
                                         IsEnabled="{x:Bind ViewModel.EndDateEnabled, Mode=OneWay}"
-                                        Date="{x:Bind ViewModel.EndDate, Mode=TwoWay}"
-                                        MinDate="{x:Bind ViewModel.StartDate, Mode=OneWay}" />
+                                        SafeDate="{x:Bind ViewModel.EndDate, Mode=TwoWay}" />
                                 </Grid>
                             </Flyout>
                         </DropDownButton.Flyout>
