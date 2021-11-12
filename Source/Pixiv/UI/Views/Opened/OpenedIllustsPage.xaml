@@ -93,7 +93,13 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="200" />
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
                         <FlipView
+                            x:Name="innerFlip"
                             Background="Transparent"
                             ItemsSource="{x:Bind IllustVM.OriginalPages}">
                             <FlipView.ItemTemplate>
@@ -114,8 +120,20 @@
                                 </DataTemplate>
                             </FlipView.ItemTemplate>
                         </FlipView>
+
+                        <PipsPager
+                            Grid.Row="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            NumberOfPages="{x:Bind IllustVM.OriginalPages.Count}"
+                            SelectedPageIndex="{Binding ElementName=innerFlip, Path=SelectedIndex, Mode=TwoWay}"
+                            MaxVisiblePips="20"
+                            PreviousButtonVisibility="VisibleOnPointerOver"
+                            NextButtonVisibility="VisibleOnPointerOver" />
+
                         <ScrollViewer
                             Grid.Column="1"
+                            Grid.RowSpan="2"
                             VerticalScrollMode="Enabled"
                             HorizontalScrollMode="Disabled">
                             <StackPanel

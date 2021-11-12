@@ -22,21 +22,33 @@
             </FlipView.Background>
             <FlipView.ItemTemplate>
                 <DataTemplate x:DataType="vm:IllustVM"
-                                      x:DefaultBindMode="OneTime">
-                    <FlipView
-                        Background="Transparent"
-                        ItemsSource="{x:Bind LargePages}">
-                        <FlipView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </FlipView.ItemsPanel>
-                        <FlipView.ItemTemplate>
-                            <DataTemplate x:DataType="media:IImageSource">
-                                <controls:RichImage Source="{x:Bind}" />
-                            </DataTemplate>
-                        </FlipView.ItemTemplate>
-                    </FlipView>
+                              x:DefaultBindMode="OneTime">
+                    <StackPanel Orientation="Horizontal">
+                        <PipsPager
+                            Orientation="Vertical"
+                            VerticalAlignment="Center"
+                            Margin="20,0,0,0"
+                            NumberOfPages="{x:Bind LargePages.Count}"
+                            SelectedPageIndex="{Binding ElementName=innerFlip, Path=SelectedIndex, Mode=TwoWay}"
+                            MaxVisiblePips="20"
+                            PreviousButtonVisibility="VisibleOnPointerOver"
+                            NextButtonVisibility="VisibleOnPointerOver" />
+                        <FlipView
+                            x:Name="innerFlip"
+                            Background="Transparent"
+                            ItemsSource="{x:Bind LargePages}">
+                            <FlipView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </FlipView.ItemsPanel>
+                            <FlipView.ItemTemplate>
+                                <DataTemplate x:DataType="media:IImageSource">
+                                    <controls:RichImage Source="{x:Bind}" />
+                                </DataTemplate>
+                            </FlipView.ItemTemplate>
+                        </FlipView>
+                    </StackPanel>
                 </DataTemplate>
             </FlipView.ItemTemplate>
         </FlipView>
