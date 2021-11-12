@@ -9,6 +9,7 @@
     xmlns:commands="using:EHunter.Pixiv.Commands"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
+    xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
     mc:Ignorable="d"
     x:DefaultBindMode="OneWay">
     <UserControl.Resources>
@@ -109,6 +110,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <commonControls:RichImage
+                    animations:Connected.Key="UserAvatar"
                     Height="100"
                     Width="100"
                     Margin="2"
@@ -119,6 +121,7 @@
                     Spacing="2"
                     Orientation="Vertical">
                     <TextBlock
+                        animations:Connected.Key="UserName"
                         Style="{StaticResource TitleTextBlockStyle}"
                         Text="{x:Bind VM.UserInfo.Name, FallbackValue=''}" />
                     <!-- TODO: use total illusts + comics -->
