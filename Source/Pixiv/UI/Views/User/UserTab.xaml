@@ -109,7 +109,6 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <commonControls:RichImage
-                    x:Name="userAvatar"
                     Height="100"
                     Width="100"
                     Margin="2"
@@ -120,7 +119,6 @@
                     Spacing="2"
                     Orientation="Vertical">
                     <TextBlock
-                        x:Name="usernameText"
                         Style="{StaticResource TitleTextBlockStyle}"
                         Text="{x:Bind VM.UserInfo.Name, FallbackValue=''}" />
                     <!-- TODO: use total illusts + comics -->
