@@ -4,7 +4,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
     xmlns:tk="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:commonControls="using:EHunter.Controls"
     xmlns:media="using:EHunter.Media"
@@ -154,12 +153,10 @@
                                 </ItemsControl>
                                 <StackPanel Orientation="Horizontal" Spacing="4">
                                     <commonControls:RichImage
-                                        animations:Connected.Key="UserAvatar"
                                         Height="50"
                                         Width="50"
                                         Source="{x:Bind IllustVM.UserAvatar, FallbackValue={x:Null}}" />
                                     <HyperlinkButton
-                                        animations:Connected.Key="UserName"
                                         Grid.Row="2"
                                         FontSize="16"
                                         Command="{x:Bind IllustVM.NavigateToUserCommand, FallbackValue={x:Null}}"
