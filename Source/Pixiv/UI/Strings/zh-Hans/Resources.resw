@@ -321,14 +321,14 @@
   <data name="SearchButton.Content" xml:space="preserve">
     <value>搜索</value>
   </data>
+  <data name="SearchHeaderConverter.FallbackValue" xml:space="preserve">
+    <value>搜索</value>
+  </data>
   <data name="SearchOptions.Header" xml:space="preserve">
     <value>搜索选项</value>
   </data>
   <data name="SearchRange.Content" xml:space="preserve">
     <value>搜索范围</value>
-  </data>
-  <data name="SearchSetter.Value" xml:space="preserve">
-    <value>搜索</value>
   </data>
   <data name="UseProxy.Header" xml:space="preserve">
     <value>使用代理</value>

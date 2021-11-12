@@ -1,9 +1,6 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using EHunter.Controls;
-using EHunter.Pixiv.Messages;
+﻿using EHunter.Controls;
 using EHunter.Pixiv.ViewModels.Search;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.

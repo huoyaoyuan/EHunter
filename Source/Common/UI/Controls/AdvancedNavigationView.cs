@@ -42,7 +42,7 @@ namespace EHunter.Controls
             {
                 if (GetViewModel(item) == newValue)
                 {
-                    item.IsSelected = true;
+                    SelectedItem = item;
                     return;
                 }
             }

@@ -4,15 +4,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
     xmlns:tk="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:commonControls="using:EHunter.Controls"
     xmlns:media="using:EHunter.Media"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
-    xmlns:local="using:EHunter.Pixiv.Views.Opened"
     xmlns:vmi="using:EHunter.Pixiv.ViewModels.Illusts"
     xmlns:vmo="using:EHunter.Pixiv.ViewModels.Opened"
-    xmlns:m="using:Meowtrix.PixivApi.Models"
+    xmlns:local="using:EHunter.Pixiv.Views.Opened"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -70,15 +70,13 @@
                 QuerySubmitted="{x:Bind ViewModel.OpenFromId}" />
         </Grid>
 
-        <!-- TODO: ListPaneWidth is not working. WCTK 7.1.1-preview3 -->
-        <!--
+        <!-- TODO: ListPaneWidth is not working. WCTK 7.1.1-preview3.1 -->
         <tk:ListDetailsView
             Grid.Row="1"
             ItemsSource="{x:Bind ViewModel.Illusts}"
             SelectedItem="{x:Bind ViewModel.SelectedIllust, Mode=TwoWay}"
             SelectedIndex="{x:Bind ViewModel.SelectedIndex, Mode=TwoWay}"
-            ItemContainerStyle="{StaticResource ListViewItemGridStyle}"
-            ListPaneWidth="120">
+            ItemContainerStyle="{StaticResource ListViewItemGridStyle}">
             <tk:ListDetailsView.ItemTemplate>
                 <DataTemplate x:DataType="vmo:IllustHolderVM">
                     <commonControls:RichImage
@@ -156,16 +154,16 @@
                                 </ItemsControl>
                                 <StackPanel Orientation="Horizontal" Spacing="4">
                                     <commonControls:RichImage
-                                        x:Name="userAvatar"
+                                        animations:Connected.Key="UserAvatar"
                                         Height="50"
                                         Width="50"
                                         Source="{x:Bind IllustVM.UserAvatar, FallbackValue={x:Null}}" />
                                     <HyperlinkButton
+                                        animations:Connected.Key="UserName"
                                         Grid.Row="2"
                                         FontSize="16"
                                         Command="{x:Bind IllustVM.NavigateToUserCommand, FallbackValue={x:Null}}"
-                                        CommandParameter="{x:Bind IllustVM.Illust.User, FallbackValue={x:Null}}"
-                                        Click="JumpToUser_Clicked">
+                                        CommandParameter="{x:Bind IllustVM.Illust.User, FallbackValue={x:Null}}">
                                         <TextBlock
                                             FontSize="16"
                                             Text="{x:Bind IllustVM.Illust.User.Name, FallbackValue={x:Null}}"
@@ -187,11 +185,5 @@
                 </DataTemplate>
             </tk:ListDetailsView.DetailsTemplate>
         </tk:ListDetailsView>
-        -->
-        <TextBlock HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Style="{ThemeResource TitleTextBlockStyle}">
-            ListDetailsView is not working in WCTK 7.1.1-preview3
-        </TextBlock>
     </Grid>
 </local:OpenedIllustsPageBase>

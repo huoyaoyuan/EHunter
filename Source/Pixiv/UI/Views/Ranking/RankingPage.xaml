@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:commonControls="using:EHunter.Controls"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
     xmlns:vm="using:EHunter.Pixiv.ViewModels.Illusts"
@@ -40,7 +41,7 @@
                         Grid.Row="2"
                         HorizontalAlignment="Center"
                         Content="{x:Bind Illust.User.Name}"
-                        Command="{StaticResource NavigateToUserCommand}"
+                        Command="{x:Bind NavigateToUserCommand}"
                         CommandParameter="{x:Bind Illust.User}" />
                 </Grid>
             </DataTemplate>
@@ -67,11 +68,11 @@
                 HorizontalAlignment="Right"
                 Click="{x:Bind ViewModel.PrevDay}"/>
             
-            <CalendarDatePicker
+            <commonControls:SafeCalendarDatePicker
                 Grid.Column="2"
                 Margin="4"
                 HorizontalAlignment="Right"
-                Date="{x:Bind ViewModel.Date, Mode=TwoWay}" />
+                SafeDate="{x:Bind ViewModel.Date, Mode=TwoWay}" />
             
             <Button
                 x:Uid="NextDay"
