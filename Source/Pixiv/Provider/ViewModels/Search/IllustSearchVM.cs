@@ -1,5 +1,4 @@
-﻿
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
@@ -72,7 +71,7 @@ namespace EHunter.Pixiv.ViewModels.Search
                 EndDate = EndDateEnabled ? EndDate.DateTime : null
             };
 
-            if (Tag != null)
+            if (Tag == null)
                 EffectiveWord = SearchWord;
 
             return Tag != null

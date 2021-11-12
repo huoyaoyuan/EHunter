@@ -112,21 +112,21 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountGroup.Text" xml:space="preserve">
     <value>Account</value>
   </data>
-  <data name="Ages_All.Value" xml:space="preserve">
+  <data name="AgeRestriction_All" xml:space="preserve">
     <value>All</value>
   </data>
-  <data name="Ages_AllAge.Value" xml:space="preserve">
+  <data name="AgeRestriction_AllAge" xml:space="preserve">
     <value>All Age</value>
   </data>
-  <data name="Ages_R18.Value" xml:space="preserve">
+  <data name="AgeRestriction_R18" xml:space="preserve">
     <value>R18</value>
   </data>
   <data name="CloseAppBarButton.Label" xml:space="preserve">
@@ -210,28 +210,28 @@
   <data name="Illustrations.Text" xml:space="preserve">
     <value>Illustrations</value>
   </data>
-  <data name="IllustSearchTarget_ExactTag.Value" xml:space="preserve">
+  <data name="IllustSearchTarget_ExactTag" xml:space="preserve">
     <value>Tag (Exact)</value>
   </data>
-  <data name="IllustSearchTarget_PartialTag.Value" xml:space="preserve">
+  <data name="IllustSearchTarget_PartialTag" xml:space="preserve">
     <value>Tag (Partial)</value>
   </data>
-  <data name="IllustSearchTarget_TitleCaption.Value" xml:space="preserve">
+  <data name="IllustSearchTarget_TitleCaption" xml:space="preserve">
     <value>Title and Caption</value>
   </data>
-  <data name="IllustSortMode_Latest.Value" xml:space="preserve">
+  <data name="IllustSortMode_Latest" xml:space="preserve">
     <value>Latest</value>
   </data>
-  <data name="IllustSortMode_Oldest.Value" xml:space="preserve">
+  <data name="IllustSortMode_Oldest" xml:space="preserve">
     <value>Oldest</value>
   </data>
-  <data name="IllustSortMode_Popular.Value" xml:space="preserve">
+  <data name="IllustSortMode_Popular" xml:space="preserve">
     <value>Popular</value>
   </data>
-  <data name="IllustSortMode_PopularWithFemale.Value" xml:space="preserve">
+  <data name="IllustSortMode_PopularWithFemale" xml:space="preserve">
     <value>Popular with Female</value>
   </data>
-  <data name="IllustSortMode_PopularWithMale.Value" xml:space="preserve">
+  <data name="IllustSortMode_PopularWithMale" xml:space="preserve">
     <value>Popular with Male</value>
   </data>
   <data name="LoadingSetter.Value" xml:space="preserve">
@@ -321,14 +321,14 @@
   <data name="SearchButton.Content" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="SearchHeaderConverter.FallbackValue" xml:space="preserve">
+    <value>Search</value>
+  </data>
   <data name="SearchOptions.Header" xml:space="preserve">
     <value>Search Options</value>
   </data>
   <data name="SearchRange.Content" xml:space="preserve">
     <value>Search Range</value>
-  </data>
-  <data name="SearchSetter.Value" xml:space="preserve">
-    <value>Search</value>
   </data>
   <data name="UseProxy.Header" xml:space="preserve">
     <value>Use Proxy</value>

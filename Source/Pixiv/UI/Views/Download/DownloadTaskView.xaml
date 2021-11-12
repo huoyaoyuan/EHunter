@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tktr="using:CommunityToolkit.WinUI.UI.Triggers"
-    xmlns:controls="using:EHunter.Controls"
+    xmlns:commonControls="using:EHunter.Controls"
+    xmlns:controls="using:EHunter.Pixiv.Controls"
     mc:Ignorable="d"
     x:DefaultBindMode="OneWay">
     <Grid>
@@ -56,9 +57,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="progress.Visibility" Value="Collapsed" />
-                        <Setter Target="statusIcon.Visibility" Value="Visible" />
-                        <Setter Target="statusIcon.Glyph" Value="&#xEA39;" />
-                        <Setter Target="statusIcon.Foreground" Value="Red" />
                         <Setter Target="cancelButton.Visibility" Value="Collapsed" />
                         <Setter Target="resumeButton.Visibility" Value="Visible" />
                     </VisualState.Setters>
@@ -72,9 +70,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="progress.Visibility" Value="Collapsed" />
-                        <Setter Target="statusIcon.Visibility" Value="Visible" />
-                        <Setter Target="statusIcon.Glyph" Value="&#xEA39;" />
-                        <Setter Target="statusIcon.Foreground" Value="Red" />
                         <Setter Target="cancelButton.Visibility" Value="Collapsed" />
                         <Setter Target="resumeButton.Visibility" Value="Visible" />
                     </VisualState.Setters>
@@ -88,15 +83,12 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="progress.Visibility" Value="Collapsed" />
-                        <Setter Target="statusIcon.Visibility" Value="Visible" />
-                        <Setter Target="statusIcon.Glyph" Value="&#xE930;" />
-                        <Setter Target="statusIcon.Foreground" Value="Green" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <controls:RichImage
+        <commonControls:RichImage
             Grid.Column="0"
             Grid.RowSpan="2"
             Width="50"
@@ -116,14 +108,12 @@
             Minimum="0" Maximum="1"
             Value="{x:Bind _vm.Task.Progress}" />
 
-        <!-- TODO: use resources from InfoBar when available -->
-        <FontIcon
-            x:Name="statusIcon"
+        <controls:DownloadStateIcon
             Grid.Row="1"
             Grid.Column="1"
             HorizontalAlignment="Left"
             Margin="2"
-            FontFamily="{ThemeResource SymbolThemeFontFamily}" />
+            State="{x:Bind _vm.Task.State}" />
 
         <Button
             x:Name="cancelButton"

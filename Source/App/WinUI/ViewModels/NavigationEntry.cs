@@ -3,7 +3,7 @@
     public abstract class NavigationEntry
     {
         public string? Title { get; set; }
-        public Type? ViewType { get; set; }
+        public object? UIRoot { get; set; }
     }
 
     public class IconNavigationEntry : NavigationEntry

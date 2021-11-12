@@ -14,7 +14,11 @@
         PaneDisplayMode="Top"
         SelectedItem="{x:Bind ViewModel.SelectedEntry, Mode=TwoWay}">
         <NavigationView.FooterMenuItems>
-            <vm:GlyphNavigationEntry x:Uid="SettingsNavigationEntry" ViewType="local:SettingsPage" Glyph="&#xE713;" />
+            <vm:GlyphNavigationEntry x:Uid="SettingsNavigationEntry" Glyph="&#xE713;">
+                <vm:GlyphNavigationEntry.UIRoot>
+                    <local:SettingsPage ViewModel="{x:Bind ViewModel.Settings}" />
+                </vm:GlyphNavigationEntry.UIRoot>
+            </vm:GlyphNavigationEntry>
         </NavigationView.FooterMenuItems>
         <NavigationView.MenuItemTemplateSelector>
             <local:NavigationTemplateSelector>
@@ -41,7 +45,7 @@
         <ContentControl
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
-            Content="{x:Bind local:Helpers.GetExport(CompositionContext, ViewModel.SelectedEntry.ViewType), Mode=OneWay, FallbackValue={x:Null}}">
+            Content="{x:Bind ViewModel.SelectedEntry.UIRoot, Mode=OneWay, FallbackValue={x:Null}}">
             <ContentControl.ContentTransitions>
                 <ContentThemeTransition />
             </ContentControl.ContentTransitions>

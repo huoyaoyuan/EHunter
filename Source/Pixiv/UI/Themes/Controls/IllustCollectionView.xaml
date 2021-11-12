@@ -26,7 +26,7 @@
                             Grid.Row="1"
                             HorizontalAlignment="Center"
                             Content="{x:Bind Illust.User.Name}"
-                            Command="{StaticResource NavigateToUserCommand}"
+                            Command="{x:Bind NavigateToUserCommand}"
                             CommandParameter="{x:Bind Illust.User}" />
                     </Grid>
                 </DataTemplate>

@@ -84,9 +84,7 @@ namespace EHunter.Data
 
         public async IAsyncEnumerable<(string? tagScopeName, string tagName)> MapTag(string? tagScopeName, string tagName)
         {
-#pragma warning disable CS8604 // https://github.com/dotnet/efcore/issues/25122
             var convert = await Set<TagConvert>().FindAsync(tagScopeName, tagName).ConfigureAwait(false);
-#pragma warning restore CS8604
             if (convert != null)
                 (tagScopeName, tagName) = (convert.ConvertedTagScopeName, convert.ConvertedTagName);
 

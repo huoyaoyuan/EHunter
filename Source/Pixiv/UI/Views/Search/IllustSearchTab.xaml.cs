@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace EHunter.Pixiv.Views.Search
 {
-    [DependencyProperty("VM", typeof(IllustSearchVM), IsNullable = true)]
+    [DependencyProperty("ViewModel", typeof(IllustSearchVM), IsNullable = true)]
     public sealed partial class IllustSearchTab : UserControl
     {
         public IllustSearchTab() => InitializeComponent();

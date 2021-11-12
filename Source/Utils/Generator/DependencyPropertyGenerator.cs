@@ -52,23 +52,23 @@ namespace EHunter.SourceGenerator
                     bool isSetterPublic = true;
                     string? defaultValue = null;
                     bool isNullable = false;
-                    string? changedMethod = null;
+                    bool instanceChangedCallback = false;
 
                     foreach (var namedArgument in attribute.NamedArguments)
                     {
                         switch (namedArgument)
                         {
-                            case { Key: "IsSetterPublic", Value: { Value: bool value } }:
+                            case { Key: "IsSetterPublic", Value.Value: bool value }:
                                 isSetterPublic = value;
                                 break;
-                            case { Key: "DefaultValue", Value: { Value: string value } }:
+                            case { Key: "DefaultValue", Value.Value: string value }:
                                 defaultValue = value;
                                 break;
-                            case { Key: "IsNullable", Value: { Value: bool value } }:
+                            case { Key: "IsNullable", Value.Value: bool value }:
                                 isNullable = value;
                                 break;
-                            case { Key: "ChangedMethod", Value: { Value: string value } }:
-                                changedMethod = value;
+                            case { Key: "InstanceChangedCallback", Value.Value: bool value }:
+                                instanceChangedCallback = value;
                                 break;
                         }
                     }
@@ -89,11 +89,67 @@ namespace EHunter.SourceGenerator
                             Argument(defaultValueExpression)
                         );
 
-                    if (changedMethod is not null)
+                    if (instanceChangedCallback)
+                    {
+                        string partialMethodName = $"On{propertyName}Changed";
+
+                        var oldValueExpression = CastExpression(
+                            type.GetTypeSyntax(isNullable),
+                            MemberAccessExpression(
+                                SyntaxKind.SimpleMemberAccessExpression,
+                                IdentifierName("e"),
+                                IdentifierName("OldValue")
+                                )
+                            );
+                        var newValueExpression = CastExpression(
+                            type.GetTypeSyntax(isNullable),
+                            MemberAccessExpression(
+                                SyntaxKind.SimpleMemberAccessExpression,
+                                IdentifierName("e"),
+                                IdentifierName("NewValue")
+                                )
+                            );
+                        var lambdaBody = InvocationExpression(
+                            MemberAccessExpression(
+                                SyntaxKind.SimpleMemberAccessExpression,
+                                ParenthesizedExpression(CastExpression(
+                                    @class.GetTypeSyntax(false),
+                                    IdentifierName("d")
+                                    )),
+                                IdentifierName(partialMethodName)
+                                )
+                            )
+                            .AddArgumentListArguments(
+                                Argument(oldValueExpression),
+                                Argument(newValueExpression)
+                            );
                         metadataCreation = metadataCreation
                             .AddArgumentListArguments(
-                                Argument(IdentifierName(changedMethod))
+                                Argument(ParenthesizedLambdaExpression()
+                                    .AddParameterListParameters(
+                                        Parameter(Identifier("d")),
+                                        Parameter(Identifier("e"))
+                                    )
+                                    .WithExpressionBody(lambdaBody)
+                                    )
                             );
+
+                        var partialMethod = MethodDeclaration(
+                            PredefinedType(Token(SyntaxKind.VoidKeyword)),
+                            partialMethodName
+                            )
+                            .AddParameterListParameters(
+                                Parameter(Identifier("oldValue"))
+                                    .WithType(type.GetTypeSyntax(isNullable)),
+                                Parameter(Identifier("newValue"))
+                                    .WithType(type.GetTypeSyntax(isNullable))
+                            )
+                            .AddModifiers(
+                                Token(SyntaxKind.PartialKeyword)
+                            )
+                            .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
+                        members.Add(partialMethod);
+                    }
 
                     var registration = InvocationExpression(
                         MemberAccessExpression(
@@ -180,7 +236,8 @@ namespace EHunter.SourceGenerator
                         .AddUsings(namespaces.Select(ns => UsingDirective(ParseName(ns))).ToArray())
                         .NormalizeWhitespace();
 
-                    string fileName = @class.Name + ".g.cs";
+                    string fileName = @class.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat
+                        .WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted)) + ".g.cs";
                     context.AddSource(fileName, SyntaxTree(compilationUnit, encoding: Encoding.UTF8).GetText());
                 }
             }
