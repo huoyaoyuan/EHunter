@@ -32,35 +32,36 @@
         </VisualStateManager.VisualStateGroups>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="24" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <controls:RichImage
             x:Name="avatar"
             Grid.Column="0"
-            Width="24" Height="24"
+            Width="20" Height="20"
+            Margin="0,0,10,0"
             Source="{x:Bind VM.UserAvatar, FallbackValue={x:Null}}" />
         <FontIcon
             x:Name="gotoUserIcon"
             Grid.Column="0"
             Visibility="Collapsed"
-            Width="24" Height="24"
+            FontSize="18"
+            Margin="0,0,10,0"
+            VerticalAlignment="Center"
             FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE748;" />
         <TextBlock
             x:Name="username"
             Grid.Column="1"
             Text="{x:Bind VM.UserInfo.Name, FallbackValue=''}"
-            Margin="2"
-            FontSize="{ThemeResource TabViewItemHeaderFontSize}"
-            Foreground="{ThemeResource TabViewItemHeaderForeground}" />
+            VerticalAlignment="Center"
+            FontSize="{ThemeResource TabViewItemHeaderFontSize}" />
         <TextBlock
             x:Name="gotoUser"
             x:Uid="GoToUser"
             Grid.Column="1"
             Visibility="Collapsed"
-            Margin="2"
-            FontSize="{ThemeResource TabViewItemHeaderFontSize}"
-            Foreground="{ThemeResource TabViewItemHeaderForeground}" />
+            VerticalAlignment="Center"
+            FontSize="{ThemeResource TabViewItemHeaderFontSize}" />
     </Grid>
 </UserControl>
