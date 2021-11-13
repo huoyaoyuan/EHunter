@@ -13,7 +13,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="NoUserLoaded">
                     <VisualState.StateTriggers>
-                        <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind VM.UserInfo}" />
+                        <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind ViewModel.UserInfo}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="avatar.Visibility" Value="Collapsed" />
@@ -24,7 +24,7 @@
                 </VisualState>
                 <VisualState x:Name="UserSummaryLoaded">
                     <VisualState.StateTriggers>
-                        <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind VM.UserDetail}" />
+                        <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind ViewModel.UserDetail}" />
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState x:Name="UserDetailLoaded"></VisualState>
@@ -41,7 +41,7 @@
             Grid.Column="0"
             Width="20" Height="20"
             Margin="0,0,10,0"
-            Source="{x:Bind VM.UserAvatar, FallbackValue={x:Null}}" />
+            Source="{x:Bind ViewModel.UserAvatar, FallbackValue={x:Null}}" />
         <FontIcon
             x:Name="gotoUserIcon"
             Grid.Column="0"
@@ -53,7 +53,7 @@
         <TextBlock
             x:Name="username"
             Grid.Column="1"
-            Text="{x:Bind VM.UserInfo.Name, FallbackValue=''}"
+            Text="{x:Bind ViewModel.UserInfo.Name, FallbackValue=''}"
             VerticalAlignment="Center"
             FontSize="{ThemeResource TabViewItemHeaderFontSize}" />
         <TextBlock
