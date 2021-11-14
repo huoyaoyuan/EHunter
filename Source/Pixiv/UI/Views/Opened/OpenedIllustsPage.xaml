@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
     xmlns:tk="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:commonControls="using:EHunter.Controls"
     xmlns:media="using:EHunter.Media"
@@ -93,30 +93,47 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="200" />
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
                         <FlipView
+                            x:Name="innerFlip"
                             Background="Transparent"
                             ItemsSource="{x:Bind IllustVM.OriginalPages}">
                             <FlipView.ItemTemplate>
                                 <DataTemplate x:DataType="media:IImageSource">
                                     <ScrollViewer
                                         x:Name="scrollViewer"
+                                        ui:FrameworkElementExtensions.EnableActualSizeBinding="True"
                                         ZoomMode="Enabled"
                                         MaxZoomFactor="100"
                                         MinZoomFactor="1"
                                         HorizontalScrollBarVisibility="Auto"
                                         VerticalScrollBarVisibility="Auto">
-                                        <commonControls:SizeTracker
-                                            HorizontalContentAlignment="Center"
-                                            VerticalContentAlignment="Center"
-                                            TrackedElement="{Binding ElementName=scrollViewer}">
-                                            <commonControls:RichImage Source="{x:Bind Mode=OneTime}" />
-                                        </commonControls:SizeTracker>
+                                        <commonControls:RichImage
+                                            Height="{Binding ElementName=scrollViewer, Path=(ui:FrameworkElementExtensions.ActualHeight)}"
+                                            Width="{Binding ElementName=scrollViewer, Path=(ui:FrameworkElementExtensions.ActualWidth)}"
+                                            Source="{x:Bind Mode=OneTime}" />
                                     </ScrollViewer>
                                 </DataTemplate>
                             </FlipView.ItemTemplate>
                         </FlipView>
+
+                        <PipsPager
+                            Grid.Row="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            NumberOfPages="{x:Bind IllustVM.OriginalPages.Count}"
+                            SelectedPageIndex="{Binding ElementName=innerFlip, Path=SelectedIndex, Mode=TwoWay}"
+                            MaxVisiblePips="20"
+                            PreviousButtonVisibility="VisibleOnPointerOver"
+                            NextButtonVisibility="VisibleOnPointerOver" />
+
                         <ScrollViewer
                             Grid.Column="1"
+                            Grid.RowSpan="2"
                             VerticalScrollMode="Enabled"
                             HorizontalScrollMode="Disabled">
                             <StackPanel
@@ -154,12 +171,10 @@
                                 </ItemsControl>
                                 <StackPanel Orientation="Horizontal" Spacing="4">
                                     <commonControls:RichImage
-                                        animations:Connected.Key="UserAvatar"
                                         Height="50"
                                         Width="50"
                                         Source="{x:Bind IllustVM.UserAvatar, FallbackValue={x:Null}}" />
                                     <HyperlinkButton
-                                        animations:Connected.Key="UserName"
                                         Grid.Row="2"
                                         FontSize="16"
                                         Command="{x:Bind IllustVM.NavigateToUserCommand, FallbackValue={x:Null}}"
