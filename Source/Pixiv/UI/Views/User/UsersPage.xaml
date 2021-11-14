@@ -20,12 +20,12 @@
         <TabView.TabItemTemplate>
             <DataTemplate x:DataType="vm:JumpToUserVM"
                           x:DefaultBindMode="OneWay">
-                <TabViewItem>
+                <TabViewItem ToolTipService.ToolTip="{x:Bind UserInfo.Name, FallbackValue=''}">
                     <TabViewItem.Header>
-                        <local:UserTabHeader VM="{x:Bind}" />
+                        <local:UserTabHeader ViewModel="{x:Bind}" />
                     </TabViewItem.Header>
 
-                    <local:UserTab VM="{x:Bind}" />
+                    <local:UserTab ViewModel="{x:Bind}" />
                 </TabViewItem>
             </DataTemplate>
         </TabView.TabItemTemplate>

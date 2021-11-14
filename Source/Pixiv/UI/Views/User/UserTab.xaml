@@ -19,7 +19,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="NoUserLoaded">
                     <VisualState.StateTriggers>
-                        <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind VM.UserInfo}" />
+                        <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind ViewModel.UserInfo}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="gotoGrid.Visibility" Value="Visible" />
@@ -28,7 +28,7 @@
                 </VisualState>
                 <VisualState x:Name="UserSummaryLoaded">
                     <VisualState.StateTriggers>
-                        <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind VM.UserDetail}" />
+                        <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind ViewModel.UserDetail}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="illustsCount.Visibility" Value="Collapsed" />
@@ -38,7 +38,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="IsLoadingUser">
                     <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{x:Bind VM.IsLoading}" />
+                        <StateTrigger IsActive="{x:Bind ViewModel.IsLoading}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="gotoButton.IsEnabled" Value="False" />
@@ -69,14 +69,14 @@
                 Style="{StaticResource SubheaderTextBlockStyle}"
                 Margin="4" />
             <NumberBox
-                Value="{x:Bind VM.UserId, Mode=TwoWay}"
+                Value="{x:Bind ViewModel.UserId, Mode=TwoWay}"
                 Grid.Row="1"
                 Margin="4" />
             <Button
                 x:Name="gotoButton"
                 Grid.Row="1" Grid.Column="1"
                 Margin="4"
-                Click="{x:Bind VM.JumpToUser}">
+                Click="{x:Bind ViewModel.JumpToUser}">
                 <SymbolIcon Symbol="Forward" />
             </Button>
             <ProgressRing
@@ -90,7 +90,7 @@
         <controls:IllustCollectionView
             x:Name="userGrid"
             VerticalAlignment="Stretch"
-            ViewModel="{x:Bind VM}"
+            ViewModel="{x:Bind ViewModel}"
             RefreshButtonVisibility="Collapsed"
             AgeSelectorVisibility="Collapsed">
             <controls:IllustCollectionView.IllustItemTemplate>
@@ -112,7 +112,7 @@
                     Height="100"
                     Width="100"
                     Margin="2"
-                    Source="{x:Bind VM.UserAvatar, FallbackValue={x:Null}}" />
+                    Source="{x:Bind ViewModel.UserAvatar, FallbackValue={x:Null}}" />
                 <StackPanel
                     Grid.Column="1"
                     Margin="2"
@@ -120,13 +120,13 @@
                     Orientation="Vertical">
                     <TextBlock
                         Style="{StaticResource TitleTextBlockStyle}"
-                        Text="{x:Bind VM.UserInfo.Name, FallbackValue=''}" />
+                        Text="{x:Bind ViewModel.UserInfo.Name, FallbackValue=''}" />
                     <!-- TODO: use total illusts + comics -->
                     <TextBlock
                         x:Name="illustsCount"
                         VerticalAlignment="Bottom"
                         Style="{StaticResource BodyTextBlockStyle}">
-                        <Run Text="{x:Bind VM.UserDetail.TotalIllusts}" />
+                        <Run Text="{x:Bind ViewModel.UserDetail.TotalIllusts}" />
                         <Run x:Uid="Illustrations" />
                     </TextBlock>
                 </StackPanel>
@@ -137,14 +137,14 @@
                     Orientation="Horizontal"
                     VerticalAlignment="Bottom">
                     <TextBlock
-                        Text="{x:Bind VM.UserInfo.Id}"
+                        Text="{x:Bind ViewModel.UserInfo.Id}"
                         Style="{StaticResource BodyTextBlockStyle}"
                         VerticalAlignment="Center"
                         Foreground="{ThemeResource SystemBaseMediumColor}" />
                     <Button
                         x:Uid="CopyLink"
                         Style="{ThemeResource TextBlockButtonStyle}"
-                        CommandParameter="{x:Bind VM.Url}">
+                        CommandParameter="{x:Bind ViewModel.Url}">
                         <Button.Command>
                             <commands:CopyUrlCommand />
                         </Button.Command>
@@ -153,7 +153,7 @@
                     <Button
                         x:Uid="OpenLink"
                         Style="{ThemeResource TextBlockButtonStyle}"
-                        CommandParameter="{x:Bind VM.Url}">
+                        CommandParameter="{x:Bind ViewModel.Url}">
                         <Button.Command>
                             <commands:OpenUrlCommand />
                         </Button.Command>
@@ -163,7 +163,7 @@
                 <ComboBox
                     Grid.Column="3"
                     Margin="4"
-                    SelectedItem="{x:Bind VM.SelectedAge, Mode=TwoWay}"
+                    SelectedItem="{x:Bind ViewModel.SelectedAge, Mode=TwoWay}"
                     Style="{StaticResource AgeRestrictionSelectorStyle}" />
             </Grid>
         </controls:IllustCollectionView>
