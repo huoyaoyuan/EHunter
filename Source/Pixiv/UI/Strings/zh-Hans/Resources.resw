@@ -315,6 +315,9 @@
   <data name="PreviousDay.Content" xml:space="preserve">
     <value>前一天</value>
   </data>
+  <data name="ProxyConnectionMode.Header" xml:space="preserve">
+    <value>连接方式</value>
+  </data>
   <data name="RefreshButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>刷新</value>
   </data>
@@ -329,9 +332,6 @@
   </data>
   <data name="SearchRange.Content" xml:space="preserve">
     <value>搜索范围</value>
-  </data>
-  <data name="UseProxy.Header" xml:space="preserve">
-    <value>使用代理</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
     <value>用户名</value>

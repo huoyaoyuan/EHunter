@@ -315,6 +315,9 @@
   <data name="PreviousDay.Content" xml:space="preserve">
     <value>Previous</value>
   </data>
+  <data name="ProxyConnectionMode.Header" xml:space="preserve">
+    <value>Connection Mode</value>
+  </data>
   <data name="RefreshButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Refresh</value>
   </data>
@@ -329,9 +332,6 @@
   </data>
   <data name="SearchRange.Content" xml:space="preserve">
     <value>Search Range</value>
-  </data>
-  <data name="UseProxy.Header" xml:space="preserve">
-    <value>Use Proxy</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
     <value>Username</value>
