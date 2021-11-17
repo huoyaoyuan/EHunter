@@ -15,9 +15,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </AppxManifest>
     <Content Include="Assets\*" />
   </ItemGroup>
 
