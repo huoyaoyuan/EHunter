@@ -27,7 +27,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-preview3" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.20348.19" />
     <PackageReference Include="System.Composition" Version="5.0.1" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
