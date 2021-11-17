@@ -1,5 +1,4 @@
-﻿using System;
-using EHunter.Providers;
+﻿using EHunter.Providers;
 
 namespace EHunter.Pixiv
 {
@@ -7,6 +6,6 @@ namespace EHunter.Pixiv
     {
         public string Title => "Pixiv";
         public abstract Uri IconUri { get; }
-        public abstract Type UIRootType { get; }
+        public abstract object CreateUIRoot();
     }
 }

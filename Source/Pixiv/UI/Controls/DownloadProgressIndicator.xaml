@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tktr="using:CommunityToolkit.WinUI.UI.Triggers"
+    xmlns:local="using:EHunter.Pixiv.Controls"
     x:DefaultBindMode="OneWay"
     mc:Ignorable="d"
     Height="24"
@@ -51,9 +52,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="progress.Visibility" Value="Collapsed" />
-                        <Setter Target="statusIcon.Visibility" Value="Visible" />
-                        <Setter Target="statusIcon.Glyph" Value="&#xEA39;" />
-                        <Setter Target="statusIcon.Foreground" Value="Red" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -65,9 +63,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="progress.Visibility" Value="Collapsed" />
-                        <Setter Target="statusIcon.Visibility" Value="Visible" />
-                        <Setter Target="statusIcon.Glyph" Value="&#xEA39;" />
-                        <Setter Target="statusIcon.Foreground" Value="Red" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -76,15 +71,9 @@
                         <tktr:IsEqualStateTrigger
                             Value="{x:Bind _vm.State, FallbackValue={x:Null}}"
                             To="Completed" />
-                        <tktr:IsEqualStateTrigger
-                            Value="{x:Bind _vm.State, FallbackValue={x:Null}}"
-                            To="AlreadyDownloaded" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="progress.Visibility" Value="Collapsed" />
-                        <Setter Target="statusIcon.Visibility" Value="Visible" />
-                        <Setter Target="statusIcon.Glyph" Value="&#xE930;" />
-                        <Setter Target="statusIcon.Foreground" Value="Green" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -100,8 +89,6 @@
             Visibility="Collapsed"
             Value="{x:Bind _vm.Progress, FallbackValue=0}" />
 
-        <FontIcon
-            x:Name="statusIcon"
-            FontFamily="{ThemeResource SymbolThemeFontFamily}" />
+        <local:DownloadStateIcon State="{x:Bind _vm.State}" />
     </Grid>
 </UserControl>

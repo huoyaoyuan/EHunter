@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace EHunter.Pixiv.Views.User
 {
-    [DependencyProperty("VM", typeof(JumpToUserVM), IsNullable = true)]
+    [DependencyProperty("ViewModel", typeof(JumpToUserVM), IsNullable = true)]
     public sealed partial class UserTabHeader : UserControl
     {
         public UserTabHeader() => InitializeComponent();

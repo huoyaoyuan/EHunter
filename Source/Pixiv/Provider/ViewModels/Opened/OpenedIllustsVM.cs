@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Composition;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using EHunter.DependencyInjection;
+using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.ViewModels.Illusts;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
@@ -10,7 +11,7 @@ using Meowtrix.PixivApi.Models;
 namespace EHunter.Pixiv.ViewModels.Opened
 {
     [Export]
-    public partial class OpenedIllustsVM : ObservableObject
+    public sealed partial class OpenedIllustsVM : ObservableObject, IRecipient<NavigateToIllustMessage>
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly PixivVMFactory _factory;
@@ -92,5 +93,7 @@ namespace EHunter.Pixiv.ViewModels.Opened
             SelectedIndex = Illusts.Count - 1;
             CanClose = true;
         }
+
+        void IRecipient<NavigateToIllustMessage>.Receive(NavigateToIllustMessage message) => GoToIllust(message.Illust);
     }
 }

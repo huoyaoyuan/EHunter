@@ -1,13 +1,15 @@
-﻿<Page
+﻿<local:RecentWatchedPageBase
     x:Class="EHunter.Pixiv.Views.Recent.RecentWatchedPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.Pixiv.Controls"
+    xmlns:local="using:EHunter.Pixiv.Views.Recent"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    x:DefaultBindMode="OneWay">
     <controls:IllustCollectionView
-        ViewModel="{x:Bind _vm}" />
-</Page>
+        ViewModel="{x:Bind ViewModel}" />
+</local:RecentWatchedPageBase>

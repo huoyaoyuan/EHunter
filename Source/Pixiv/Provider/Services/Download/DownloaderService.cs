@@ -1,15 +1,8 @@
-﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
+﻿using System.Buffers;
 using System.Composition;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using EHunter.Data;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Data;
@@ -50,7 +43,7 @@ namespace EHunter.Pixiv.Services.Download
 
             using var pContext = pFactory.CreateDbContext();
 
-            var groups = (await pContext.PixivPendingDownloads.AsQueryable()
+            var groups = (await pContext.PixivPendingDownloads
                 .OrderBy(x => x.Time)
                 .ToArrayAsync()
                 .ConfigureAwait(false))
@@ -106,7 +99,6 @@ namespace EHunter.Pixiv.Services.Download
                 {
                     using var pContext = pFactory.CreateDbContext();
                     if (await pContext.PixivPendingDownloads
-                        .AsQueryable()
                         .AnyAsync(x => x.ArtworkId == artworkId)
                         .ConfigureAwait(false))
                         return DownloadableState.AlreadyPending;
@@ -120,7 +112,6 @@ namespace EHunter.Pixiv.Services.Download
                 {
                     using var eContext = eFactory.CreateDbContext();
                     if (await eContext.Posts
-                        .AsQueryable()
                         .AnyAsync(x => x.Provider == "Pixiv:Illust" && x.Identifier == artworkId)
                         .ConfigureAwait(false))
                         return DownloadableState.AlreadyDownloaded;
@@ -155,7 +146,7 @@ namespace EHunter.Pixiv.Services.Download
                 ?? throw new InvalidOperationException("No database connetion");
 
             using var pContext = pFactory.CreateDbContext();
-            var pending = pContext.PixivPendingDownloads.Find(illustId);
+            var pending = await pContext.PixivPendingDownloads.FindAsync(illustId).ConfigureAwait(false);
             bool removed = pending?.PId == Environment.ProcessId;
 
             if (removed)
@@ -186,7 +177,7 @@ namespace EHunter.Pixiv.Services.Download
 
             using var eContext = eFactory.CreateDbContext();
 
-            if (await eContext.Posts.AsQueryable()
+            if (await eContext.Posts
                 .AnyAsync(x => x.Provider == "Pixiv:Illust" && x.Identifier == illust.Id, cancellationToken)
                 .ConfigureAwait(false))
             {
@@ -253,7 +244,7 @@ namespace EHunter.Pixiv.Services.Download
                         ?? $"{illust.Id}_p{page.Index}.jpg";
                     var (relative, absolute) = WithDirectory(filename);
 
-                    using var fs = File.Create(absolute, 8192, FileOptions.Asynchronous);
+                    using var fs = File.Create(absolute, 0, FileOptions.Asynchronous);
 
                     await CopyWithProgressAsync(response, fs, pageProgress => onProgress?.Invoke((pageProgress + p) / illust.Pages.Count), cancellationToken)
                         .ConfigureAwait(false);
@@ -299,7 +290,7 @@ namespace EHunter.Pixiv.Services.Download
             using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
             long? length = response.Content.Headers.ContentLength;
 
-            using var memoryOwner = MemoryPool<byte>.Shared.Rent(8192);
+            using var memoryOwner = MemoryPool<byte>.Shared.Rent(4096);
             var buffer = memoryOwner.Memory;
             int bytesRead;
             long totalBytesRead = 0;

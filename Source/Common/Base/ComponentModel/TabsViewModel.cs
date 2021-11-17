@@ -7,6 +7,7 @@ namespace EHunter.ComponentModel
     {
         public ObservableCollection<T> Tabs { get; } = new();
 
+        // TODO: source generation for generic
         private T? _selectedItem;
         public T? SelectedItem
         {
@@ -14,19 +15,11 @@ namespace EHunter.ComponentModel
             set => SetProperty(ref _selectedItem, value);
         }
 
-        private int _selectedIndex;
-        public int SelectedIndex
-        {
-            get => _selectedIndex;
-            set => SetProperty(ref _selectedIndex, value);
-        }
-
         public void AddTab()
         {
-            // TODO: Setting SelectedItem not working. Reunion 0.5.7
-
-            Tabs.Add(CreateNewTab());
-            SelectedIndex = Tabs.Count - 1;
+            var newTab = CreateNewTab();
+            Tabs.Add(newTab);
+            SelectedItem = newTab;
         }
 
         protected abstract T CreateNewTab();

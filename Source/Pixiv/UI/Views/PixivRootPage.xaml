@@ -1,0 +1,28 @@
+﻿<Page
+    x:Class="EHunter.Pixiv.Views.PixivRootPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ex="using:CommunityToolkit.WinUI.UI"
+    xmlns:tk="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:local="using:EHunter.Pixiv.Views"
+    xmlns:login="using:EHunter.Pixiv.Views.Login"
+    mc:Ignorable="d"
+    NavigationCacheMode="Required"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    x:DefaultBindMode="OneWay">
+    <tk:SwitchPresenter
+        Value="{x:Bind ViewModel.IsInitialized}">
+        <ContentPresenter.ContentTransitions>
+            <EntranceThemeTransition />
+        </ContentPresenter.ContentTransitions>
+
+        <tk:Case Value="{ex:NullableBool Value=False}">
+            <login:LoginPage _vm="{x:Bind ViewModel.Login}" />
+        </tk:Case>
+        <tk:Case Value="{ex:NullableBool Value=True}">
+            <local:NavigationPage ViewModel="{x:Bind ViewModel.Navigation}" />
+        </tk:Case>
+    </tk:SwitchPresenter>
+</Page>

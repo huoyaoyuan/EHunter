@@ -2,96 +2,55 @@
     x:Class="EHunter.Pixiv.Resources.Resources"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:tkUI="using:CommunityToolkit.WinUI.UI"
     xmlns:commonControls="using:EHunter.Controls"
-    xmlns:commands="using:EHunter.Pixiv.Commands"
-    xmlns:controls="using:EHunter.Pixiv.Controls"
-    xmlns:local="using:EHunter.Pixiv.Resources"
+    xmlns:converters="using:EHunter.Converters"
     xmlns:settings="using:EHunter.Pixiv.Settings"
     xmlns:vmi="using:EHunter.Pixiv.ViewModels.Illusts"
     xmlns:vmu="using:EHunter.Pixiv.ViewModels.User"
     xmlns:api="using:Meowtrix.PixivApi"
     xmlns:m="using:Meowtrix.PixivApi.Models">
-    <commands:NavigateToUserCommand x:Key="NavigateToUserCommand" />
-    <commands:NavigateToTagCommand x:Key="NavigateToTagCommand" />
+    <converters:EnumLocalizeConverter x:Key="EnumLocalizeConverter" Scope="EHunter.Pixiv.UI/Resources" />
+
+    <!-- TODO: workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/6232 -->
+    <m:AgeRestriction x:Key="__Dummy_AgeRestriction">0</m:AgeRestriction>
+    <api:IllustSearchTarget x:Key="__Dummy_IllustSearchTarget">0</api:IllustSearchTarget>
+    <api:IllustSortMode x:Key="__Dummy_IllustSortMode">0</api:IllustSortMode>
+    <api:IllustRankingMode x:Key="__Dummy_IllustRankingMode">0</api:IllustRankingMode>
+    <settings:PixivConnectionMode x:Key="__Dummy_PixivConnectionMode">0</settings:PixivConnectionMode>
+
+    <DataTemplate x:Key="EnumLocalizeTemplate">
+        <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}}" />
+    </DataTemplate>
 
     <Style TargetType="Selector"
            x:Key="AgeRestrictionSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="m:AgeRestriction">
-                    <controls:AgeRestrictionPresenter Age="{x:Bind}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemsSource">
-            <Setter.Value>
-                <local:AgeRestrictionValues />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
+        <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=m:AgeRestriction}" />
     </Style>
 
     <Style TargetType="Selector"
            x:Key="IllustSearchTargetSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="api:IllustSearchTarget">
-                    <controls:IllustSearchTargetPresenter SearchTarget="{x:Bind}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemsSource">
-            <Setter.Value>
-                <local:IllustSearchTargetValues />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
+        <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=api:IllustSearchTarget}" />
     </Style>
 
     <Style TargetType="Selector"
            x:Key="IllustSortModeSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="api:IllustSortMode">
-                    <controls:IllustSortModePresenter SortMode="{x:Bind}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemsSource">
-            <Setter.Value>
-                <local:IllustSortModeValues />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
+        <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=api:IllustSortMode}" />
     </Style>
 
     <Style TargetType="Selector"
            x:Key="IllustRankingModeSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="api:IllustRankingMode">
-                    <controls:IllustRankingModePresenter Mode="{x:Bind}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemsSource">
-            <Setter.Value>
-                <local:IllustRankingModeCollection />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
+        <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=api:IllustRankingMode}" />
     </Style>
 
     <Style TargetType="Selector"
            x:Key="PixivConnectionModeSelectorStyle">
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate x:DataType="settings:PixivConnectionMode">
-                    <controls:PixivConnectionModePresenter ConnectionMode="{x:Bind}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemsSource">
-            <Setter.Value>
-                <local:PixivConnectionModeCollection />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource EnumLocalizeTemplate}" />
+        <Setter Property="ItemsSource" Value="{tkUI:EnumValues Type=settings:PixivConnectionMode}" />
     </Style>
 
     <DataTemplate x:Key="UserWithPreviewTemplate"
@@ -111,7 +70,7 @@
                 Grid.Column="1"
                 MinWidth="300"
                 Content="{x:Bind UserInfo.Name}"
-                Command="{StaticResource NavigateToUserCommand}"
+                Command="{x:Bind NavigateToUserCommand}"
                 CommandParameter="{x:Bind UserInfo}" />
             <ScrollViewer
                 Grid.Column="2"
@@ -158,7 +117,8 @@
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="Selected" />
-                                <VisualState x:Name="PointerOver">
+                                <!-- Reveal removed in WinUI/WAS 1.0.0-preview3 -->
+                                <!--<VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
                                         <Setter Target="Root.(RevealBrush.State)" Value="PointerOver" />
                                     </VisualState.Setters>
@@ -182,7 +142,7 @@
                                     <VisualState.Setters>
                                         <Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
                                     </VisualState.Setters>
-                                </VisualState>
+                                </VisualState>-->
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="DisabledStates">
                                 <VisualState x:Name="Enabled" />

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Composition.Hosting;
+﻿using System.Composition;
 
 namespace EHunter.UI.Composition
 {
     internal class MEFServiceProvider : IServiceProvider
     {
-        private readonly CompositionHost _host;
+        private readonly CompositionContext _host;
 
-        public MEFServiceProvider(CompositionHost host) => _host = host;
+        public MEFServiceProvider(CompositionContext host) => _host = host;
 
         public object? GetService(Type serviceType)
         {

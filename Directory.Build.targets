@@ -1,8 +1,9 @@
 <Project>
 
   <PropertyGroup Condition="'$(Language)' == 'C#'">
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Language)' == 'VB'">
@@ -16,12 +17,5 @@
   <ItemGroup Condition="'$(Language)' == 'C#'">
     <Compile Include="$(MSBuildThisFileDirectory)Source\CLSCompliant.cs" />
   </ItemGroup>
-
-  <!-- TODO: workaround for https://github.com/microsoft/WindowsAppSDK/issues/1217 -->
-  <Target Name="FixReferenceCopyLocalPaths" BeforeTargets="ResolvePackageAssets">
-    <ItemGroup>
-      <ReferenceCopyLocalPaths Remove="$(PkgMicrosoft_WindowsAppSDK)\build\..\runtimes\lib\native\AnyCPU\Microsoft.WindowsAppRuntime.Bootstrap.dll"/>
-    </ItemGroup>
-  </Target>
 
 </Project>

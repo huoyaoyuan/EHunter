@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Composition;
 using DynamicData;
 using EHunter.Pixiv.Services.Download;

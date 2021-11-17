@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Meowtrix.PixivApi.Models;
 using static EHunter.Pixiv.Services.Download.IllustDownloadState;
@@ -52,9 +49,7 @@ namespace EHunter.Pixiv.Services.Download
             State = Active;
 
             _cts = new CancellationTokenSource();
-#pragma warning disable CA1508 // false positive
             using (_cts)
-#pragma warning restore CA1508
             {
                 bool shouldRemovePending = true;
 

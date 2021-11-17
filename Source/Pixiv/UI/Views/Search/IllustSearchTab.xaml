@@ -4,17 +4,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:tk="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:tktr="using:CommunityToolkit.WinUI.UI.Triggers"
+    xmlns:commonControls="using:EHunter.Controls"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
-    xmlns:sys="using:System"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    x:DefaultBindMode="OneWay">
     <UserControl.Resources>
         <res:Resources />
     </UserControl.Resources>
     <controls:IllustCollectionView
-        ViewModel="{x:Bind VM, Mode=OneWay}"
+        ViewModel="{x:Bind ViewModel}"
         RefreshButtonVisibility="Collapsed"
         AgeSelectorVisibility="Collapsed">
         <VisualStateManager.VisualStateGroups>
@@ -22,7 +22,7 @@
                 <VisualState x:Name="Search">
                     <VisualState.StateTriggers>
                         <tktr:IsNullOrEmptyStateTrigger
-                            Value="{x:Bind VM.Tag}" />
+                            Value="{x:Bind ViewModel.Tag}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="searchBox.Visibility" Value="Visible" />
@@ -39,7 +39,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid x:DefaultBindMode="OneWay">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -50,7 +50,7 @@
                 Visibility="Collapsed"
                 Style="{StaticResource TitleTextBlockStyle}"
                 Margin="4">
-                <Run Text="#" /><Run Text="{x:Bind VM.Tag.Name}" />
+                <Run Text="#" /><Run Text="{x:Bind ViewModel.Tag.Name}" />
             </TextBlock>
             
             <Grid>
@@ -63,21 +63,24 @@
                     Visibility="Collapsed"
                     Margin="4"
                     HorizontalAlignment="Stretch"
-                    Text="{x:Bind VM.SearchWord, Mode=TwoWay}"
-                    QuerySubmitted="{x:Bind VM.Refresh}" />
+                    Text="{x:Bind ViewModel.SearchWord, Mode=TwoWay}"
+                    QuerySubmitted="{x:Bind ViewModel.Refresh}" />
                 <Button
                     x:Uid="SearchButton"
                     Grid.Column="1"
                     Margin="4"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
-                    Click="{x:Bind VM.Refresh}" />
+                    Click="{x:Bind ViewModel.Refresh}" />
             </Grid>
 
-            <tk:Expander
+            <Expander
                 x:Uid="SearchOptions"
-                Grid.Row="1">
-                <Grid Grid.Row="1">
+                Grid.Row="1"
+                Width="500"
+                HorizontalAlignment="Right"
+                x:DefaultBindMode="TwoWay">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -88,24 +91,24 @@
                         Grid.Column="0"
                         Margin="2"
                         Style="{StaticResource IllustSearchTargetSelectorStyle}"
-                        SelectedItem="{x:Bind VM.SearchTarget, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind ViewModel.SearchTarget}" />
                     <ComboBox
                         Grid.Column="1"
                         Margin="2"
                         Style="{StaticResource IllustSortModeSelectorStyle}"
-                        SelectedItem="{x:Bind VM.SortMode, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind ViewModel.SortMode}" />
                     <ComboBox
                         Grid.Column="2"
                         Margin="2"
                         Style="{StaticResource AgeRestrictionSelectorStyle}"
-                        SelectedItem="{x:Bind VM.SelectedAge, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind ViewModel.SelectedAge}" />
                     <DropDownButton
                         x:Uid="SearchRange"
                         Grid.Column="3"
                         Margin="2"
                         HorizontalAlignment="Stretch">
                         <DropDownButton.Flyout>
-                            <Flyout>
+                            <Flyout Placement="Bottom">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
@@ -120,49 +123,53 @@
                                     <CheckBox
                                         x:Uid="IllustFilter_MinBookmark"
                                         Grid.Row="0"
-                                        IsChecked="{x:Bind VM.MinBookmarkEnabled, Mode=TwoWay}" />
+                                        Margin="2"
+                                        IsChecked="{x:Bind ViewModel.MinBookmarkEnabled}" />
                                     <NumberBox
                                         Grid.Row="0"
                                         Grid.Column="1"
-                                        IsEnabled="{x:Bind VM.MinBookmarkEnabled, Mode=OneWay}"
-                                        Value="{x:Bind VM.MinBookmark, Mode=TwoWay}" />
+                                        Margin="2"
+                                        IsEnabled="{x:Bind ViewModel.MinBookmarkEnabled, Mode=OneWay}"
+                                        Value="{x:Bind ViewModel.MinBookmark, Mode=TwoWay}" />
                                     <CheckBox
                                         x:Uid="IllustFilter_MaxBookmark"
                                         Grid.Row="1"
-                                        IsChecked="{x:Bind VM.MaxBookmarkEnabled, Mode=TwoWay}" />
+                                        Margin="2"
+                                        IsChecked="{x:Bind ViewModel.MaxBookmarkEnabled}" />
                                     <NumberBox
                                         Grid.Row="1"
                                         Grid.Column="1"
-                                        IsEnabled="{x:Bind VM.MaxBookmarkEnabled, Mode=OneWay}"
-                                        Value="{x:Bind VM.MaxBookmark, Mode=TwoWay}" />
+                                        Margin="2"
+                                        IsEnabled="{x:Bind ViewModel.MaxBookmarkEnabled, Mode=OneWay}"
+                                        Value="{x:Bind ViewModel.MaxBookmark, Mode=TwoWay}" />
                                     <CheckBox
                                         x:Uid="IllustFilter_StartDate"
                                         Grid.Row="2"
-                                        IsChecked="{x:Bind VM.StartDateEnabled, Mode=TwoWay}" />
-                                    <CalendarDatePicker
+                                        Margin="2"
+                                        IsChecked="{x:Bind ViewModel.StartDateEnabled}" />
+                                    <commonControls:SafeCalendarDatePicker
                                         Grid.Row="2"
                                         Grid.Column="1"
-                                        IsEnabled="{x:Bind VM.StartDateEnabled, Mode=OneWay}"
-                                        Date="{x:Bind VM.StartDate, Mode=TwoWay}"
-                                        MaxDate="{x:Bind VM.EndDate, Mode=OneWay}" />
+                                        Margin="2"
+                                        IsEnabled="{x:Bind ViewModel.StartDateEnabled, Mode=OneWay}"
+                                        SafeDate="{x:Bind ViewModel.StartDate, Mode=TwoWay}" />
                                     <CheckBox
                                         x:Uid="IllustFilter_EndDate"
                                         Grid.Row="3"
-                                        IsChecked="{x:Bind VM.EndDateEnabled, Mode=TwoWay}" />
-                                    <CalendarDatePicker
+                                        Margin="2"
+                                        IsChecked="{x:Bind ViewModel.EndDateEnabled}" />
+                                    <commonControls:SafeCalendarDatePicker
                                         Grid.Row="3"
                                         Grid.Column="1"
-                                        IsEnabled="{x:Bind VM.EndDateEnabled, Mode=OneWay}"
-                                        Date="{x:Bind VM.EndDate, Mode=TwoWay}"
-                                        MinDate="{x:Bind VM.StartDate, Mode=OneWay}"
-                                        MaxDate="{x:Bind sys:DateTimeOffset.UtcNow.Date, Mode=OneTime}"/>
+                                        Margin="2"
+                                        IsEnabled="{x:Bind ViewModel.EndDateEnabled, Mode=OneWay}"
+                                        SafeDate="{x:Bind ViewModel.EndDate, Mode=TwoWay}" />
                                 </Grid>
                             </Flyout>
                         </DropDownButton.Flyout>
                     </DropDownButton>
                 </Grid>
-            </tk:Expander>
-
+            </Expander>
         </Grid>
     </controls:IllustCollectionView>
 </UserControl>

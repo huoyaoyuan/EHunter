@@ -1,37 +1,60 @@
-﻿<Page
+﻿<local:IllustSearchPageBase
     x:Class="EHunter.Pixiv.Views.Search.IllustSearchPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tkex="using:CommunityToolkit.WinUI.UI"
+    xmlns:controls="using:EHunter.Controls"
+    xmlns:converters="using:EHunter.Converters"
     xmlns:vm="using:EHunter.Pixiv.ViewModels.Search"
     xmlns:local="using:EHunter.Pixiv.Views.Search"
     mc:Ignorable="d"
     NavigationCacheMode="Required"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    x:DefaultBindMode="OneWay">
+    <Page.Resources>
+        <converters:NullOrEmptyFallbackConverter
+            x:Uid="SearchHeaderConverter"
+            x:Key="SearchHeaderConverter" />
+    </Page.Resources>
     <TabView
         VerticalAlignment="Stretch"
         CanReorderTabs="True"
-        TabItemsSource="{x:Bind _vm.Tabs}"
+        TabItemsSource="{x:Bind ViewModel.Tabs}"
         TabCloseRequested="TabCloseRequested"
-        SelectedIndex="{x:Bind _vm.SelectedIndex, Mode=TwoWay}"
-        SelectedItem="{x:Bind _vm.SelectedItem, Mode=TwoWay}"
-        AddTabButtonClick="{x:Bind _vm.AddTab}">
-        <TabView.TabItemTemplate>
-            <DataTemplate x:DataType="vm:IllustSearchVM"
-                          x:DefaultBindMode="OneWay">
-                <TabViewItem>
-                    <TabViewItem.IconSource>
-                        <SymbolIconSource Symbol="Find" />
-                    </TabViewItem.IconSource>
-                    <TabViewItem.Header>
-                        <local:IllustSearchTabHeader
-                            VM="{x:Bind}" />
-                    </TabViewItem.Header>
-                    <local:IllustSearchTab
-                        VM="{x:Bind}" />
-                </TabViewItem>
-            </DataTemplate>
-        </TabView.TabItemTemplate>
+        SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}"
+        AddTabButtonClick="{x:Bind ViewModel.AddTab}">
+        <TabView.TabItemTemplateSelector>
+            <local:IllustSearchTabItemSelector>
+
+                <controls:SelectorCase Value="{tkex:NullableBool Value=False}">
+                    <DataTemplate x:DataType="vm:IllustSearchVM"
+                                  x:DefaultBindMode="OneWay">
+                        <TabViewItem Header="{x:Bind EffectiveWord, Converter={StaticResource SearchHeaderConverter}}">
+                            <TabViewItem.IconSource>
+                                <SymbolIconSource Symbol="Find" />
+                            </TabViewItem.IconSource>
+                            <local:IllustSearchTab
+                                ViewModel="{x:Bind}" />
+                        </TabViewItem>
+                    </DataTemplate>
+                </controls:SelectorCase>
+
+                <controls:SelectorCase Value="{tkex:NullableBool Value=True}">
+                    <DataTemplate x:DataType="vm:IllustSearchVM"
+                                  x:DefaultBindMode="OneWay">
+                        <TabViewItem Header="{x:Bind Tag.Name}">
+                            <TabViewItem.IconSource>
+                                <FontIconSource FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8EC;" />
+                            </TabViewItem.IconSource>
+                            <local:IllustSearchTab
+                                ViewModel="{x:Bind}" />
+                        </TabViewItem>
+                    </DataTemplate>
+                </controls:SelectorCase>
+
+            </local:IllustSearchTabItemSelector>
+        </TabView.TabItemTemplateSelector>
     </TabView>
-</Page>
+</local:IllustSearchPageBase>

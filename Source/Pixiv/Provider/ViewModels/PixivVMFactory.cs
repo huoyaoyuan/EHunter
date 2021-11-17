@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Composition;
+﻿using System.Composition;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.Media;
 using EHunter.Pixiv.Media;
+using EHunter.Pixiv.Messages;
 using EHunter.Pixiv.Services.Download;
 using EHunter.Pixiv.ViewModels.Illusts;
 using EHunter.Pixiv.ViewModels.User;
@@ -17,12 +18,13 @@ using Microsoft.Extensions.Caching.Memory;
 namespace EHunter.Pixiv.ViewModels
 {
     [Export, Shared]
-    public class PixivVMFactory
+    public partial class PixivVMFactory
     {
         private readonly IMemoryCache _memoryCache;
         private readonly DownloadManager _downloadManager;
         private readonly IViewModelService _viewModelService;
         private readonly ICustomResolver<PixivClient> _clientResolver;
+        private readonly IMessenger _messenger;
 
         [ImportingConstructor]
         public PixivVMFactory(IMemoryCache memoryCache,
@@ -34,6 +36,7 @@ namespace EHunter.Pixiv.ViewModels
             _downloadManager = downloadManager;
             _viewModelService = viewModelService;
             _clientResolver = clientResolver;
+            _messenger = WeakReferenceMessenger.Default;
         }
 
         public IImageSource GetImage(ImageInfo image) => new PixivImageSource(image, _memoryCache);
@@ -79,5 +82,14 @@ namespace EHunter.Pixiv.ViewModels
 
         public JumpToUserVM JumpToUser() => new(_clientResolver.Resolve(), this);
         public JumpToUserVM JumpToUser(UserInfo userInfo) => new(_clientResolver.Resolve(), this, userInfo);
+
+        [ICommand]
+        private void NavigateToUser(UserInfo userInfo) => _messenger.Send(new NavigateToUserMessage(userInfo));
+
+        [ICommand]
+        private void NavigateToIllust(Illust illust) => _messenger.Send(new NavigateToIllustMessage(illust));
+
+        [ICommand]
+        private void NavigateToTag(Tag tag) => _messenger.Send(new NavigateToTagMessage(tag));
     }
 }

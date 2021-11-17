@@ -1,12 +1,13 @@
 ﻿using System.Composition;
-using System.Linq;
+using CommunityToolkit.Mvvm.Messaging;
 using EHunter.ComponentModel;
+using EHunter.Pixiv.Messages;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.User
 {
     [Export]
-    public class JumpToUserManager : TabsViewModel<JumpToUserVM>
+    public sealed class JumpToUserManager : TabsViewModel<JumpToUserVM>, IRecipient<NavigateToUserMessage>
     {
         private readonly PixivVMFactory _factory;
 
@@ -25,5 +26,7 @@ namespace EHunter.Pixiv.ViewModels.User
 
             SelectedItem = vm;
         }
+
+        void IRecipient<NavigateToUserMessage>.Receive(NavigateToUserMessage message) => GoToUser(message.User);
     }
 }

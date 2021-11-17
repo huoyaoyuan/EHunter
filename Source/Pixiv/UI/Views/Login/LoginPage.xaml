@@ -110,7 +110,7 @@
                 x:Name="loginPanel"
                 x:DefaultBindMode="TwoWay">
                 <ComboBox
-                    x:Uid="UseProxy"
+                    x:Uid="ProxyConnectionMode"
                     Style="{StaticResource PixivConnectionModeSelectorStyle}"
                     SelectedItem="{x:Bind _vm.ConnectionMode}" />
 

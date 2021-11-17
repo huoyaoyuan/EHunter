@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EHunter.ComponentModel
+﻿namespace EHunter.ComponentModel
 {
     public class ObservableProperty<T> : IObservable<T>
     {

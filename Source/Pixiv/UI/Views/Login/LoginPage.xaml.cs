@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using EHunter.Pixiv.ViewModels;
+﻿using EHunter.Pixiv.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -13,10 +10,9 @@ namespace EHunter.Pixiv.Views.Login
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+    [DependencyProperty("_vm", typeof(LoginPageVM))]
     public sealed partial class LoginPage : Page
     {
-        private readonly LoginPageVM _vm = Ioc.Default.GetRequiredService<LoginPageVM>();
-
         public LoginPage() => InitializeComponent();
 
         private void DoPasswordLogin(object sender, RoutedEventArgs e)

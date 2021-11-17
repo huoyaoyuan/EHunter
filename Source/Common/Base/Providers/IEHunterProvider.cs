@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace EHunter.Providers
+﻿namespace EHunter.Providers
 {
     public interface IEHunterProvider
     {
         string Title { get; }
         Uri IconUri { get; }
-        Type UIRootType { get; }
+        object CreateUIRoot();
     }
 }

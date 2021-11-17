@@ -1,11 +1,10 @@
 ﻿using System.Composition.Convention;
 using System.Composition.Hosting;
-using System.Linq;
 using System.Reflection;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using EHunter.Services;
 using EHunter.UI.Composition;
 using EHunter.UI.Services;
+using EHunter.UI.ViewModels;
 using EHunter.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -31,16 +30,14 @@ namespace EHunter.UI
                 {
                     o.SizeLimit = 2 * (1L << 30);
                     o.CompactionPercentage = 0.9;
-                });
+                })
+                .AddSingleton<IViewModelService, ViewModelService>()
+                .AddSingleton<ISettingsStore, WinRTSettingsStore>();
 
             var convensionBuilder = new ConventionBuilder();
             convensionBuilder
-                .ForType<ViewModelService>()
-                .Export<IViewModelService>()
-                .Shared();
-            convensionBuilder
-                .ForType<WinRTSettingsStore>()
-                .Export<ISettingsStore>()
+                .ForType<MEFServiceProvider>()
+                .Export<IServiceProvider>()
                 .Shared();
 
             _host = new ContainerConfiguration()
@@ -58,8 +55,6 @@ namespace EHunter.UI
                 .WithServiceCollection(services)
                 .CreateContainer();
 
-            Ioc.Default.ConfigureServices(new MEFServiceProvider(_host));
-
             InitializeComponent();
         }
 
@@ -70,7 +65,10 @@ namespace EHunter.UI
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            _window = _host.GetExport<MainWindow>();
+            _window = new MainWindow()
+            {
+                ViewModel = _host.GetExport<MainWindowVM>()
+            };
             _window.Activate();
         }
 

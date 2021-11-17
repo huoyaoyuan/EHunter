@@ -13,7 +13,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="NoUserLoaded">
                     <VisualState.StateTriggers>
-                        <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind VM.UserInfo}" />
+                        <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind ViewModel.UserInfo}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="avatar.Visibility" Value="Collapsed" />
@@ -24,7 +24,7 @@
                 </VisualState>
                 <VisualState x:Name="UserSummaryLoaded">
                     <VisualState.StateTriggers>
-                        <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind VM.UserDetail}" />
+                        <tktr:IsNullOrEmptyStateTrigger Value="{x:Bind ViewModel.UserDetail}" />
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState x:Name="UserDetailLoaded"></VisualState>
@@ -32,35 +32,36 @@
         </VisualStateManager.VisualStateGroups>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="24" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <controls:RichImage
             x:Name="avatar"
             Grid.Column="0"
-            Width="24" Height="24"
-            Source="{x:Bind VM.UserAvatar, FallbackValue={x:Null}}" />
+            Width="20" Height="20"
+            Margin="0,0,10,0"
+            Source="{x:Bind ViewModel.UserAvatar, FallbackValue={x:Null}}" />
         <FontIcon
             x:Name="gotoUserIcon"
             Grid.Column="0"
             Visibility="Collapsed"
-            Width="24" Height="24"
-            FontFamily="Segoe MDL2 Assets" Glyph="&#xE748;" />
+            FontSize="18"
+            Margin="0,0,10,0"
+            VerticalAlignment="Center"
+            FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE748;" />
         <TextBlock
             x:Name="username"
             Grid.Column="1"
-            Text="{x:Bind VM.UserInfo.Name, FallbackValue=''}"
-            Margin="2"
-            FontSize="{ThemeResource TabViewItemHeaderFontSize}"
-            Foreground="{ThemeResource TabViewItemHeaderForeground}" />
+            Text="{x:Bind ViewModel.UserInfo.Name, FallbackValue=''}"
+            VerticalAlignment="Center"
+            FontSize="{ThemeResource TabViewItemHeaderFontSize}" />
         <TextBlock
             x:Name="gotoUser"
             x:Uid="GoToUser"
             Grid.Column="1"
             Visibility="Collapsed"
-            Margin="2"
-            FontSize="{ThemeResource TabViewItemHeaderFontSize}"
-            Foreground="{ThemeResource TabViewItemHeaderForeground}" />
+            VerticalAlignment="Center"
+            FontSize="{ThemeResource TabViewItemHeaderFontSize}" />
     </Grid>
 </UserControl>

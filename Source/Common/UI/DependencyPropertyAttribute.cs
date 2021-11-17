@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EHunter
+﻿namespace EHunter
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public sealed class DependencyPropertyAttribute : Attribute
@@ -16,6 +14,6 @@ namespace EHunter
         public bool IsSetterPublic { get; set; } = true;
         public bool IsNullable { get; set; } = true;
         public string DefaultValue { get; set; } = "null";
-        public string? ChangedMethod { get; set; }
+        public bool InstanceChangedCallback { get; set; }
     }
 }

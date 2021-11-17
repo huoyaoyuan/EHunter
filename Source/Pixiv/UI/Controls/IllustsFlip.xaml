@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:EHunter.Controls"
     xmlns:media="using:EHunter.Media"
-    xmlns:commands="using:EHunter.Pixiv.Commands"
     xmlns:local="using:EHunter.Pixiv.Controls"
     xmlns:vm="using:EHunter.Pixiv.ViewModels.Illusts"
     mc:Ignorable="d">
@@ -16,29 +15,40 @@
             x:Name="flipView"
             ItemsSource="{x:Bind SourceList.ItemsSource, Mode=OneWay}">
             <FlipView.Background>
-                <!-- TODO: Use AcrylicInAppFillColorDefaultInverseBrush when available -->
                 <AcrylicBrush
-                    TintColor="{ThemeResource SystemBaseMediumColor}"
+                    TintColor="{ThemeResource SystemAltMediumColor}"
                     TintOpacity="0.15"
-                    FallbackColor="{ThemeResource SystemBaseMediumColor}" />
+                    FallbackColor="{ThemeResource SystemAltMediumColor}" />
             </FlipView.Background>
             <FlipView.ItemTemplate>
                 <DataTemplate x:DataType="vm:IllustVM"
-                                      x:DefaultBindMode="OneTime">
-                    <FlipView
-                        Background="Transparent"
-                        ItemsSource="{x:Bind LargePages}">
-                        <FlipView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </FlipView.ItemsPanel>
-                        <FlipView.ItemTemplate>
-                            <DataTemplate x:DataType="media:IImageSource">
-                                <controls:RichImage Source="{x:Bind}" />
-                            </DataTemplate>
-                        </FlipView.ItemTemplate>
-                    </FlipView>
+                              x:DefaultBindMode="OneTime">
+                    <StackPanel Orientation="Horizontal">
+                        <PipsPager
+                            Orientation="Vertical"
+                            VerticalAlignment="Center"
+                            Margin="20,0,0,0"
+                            NumberOfPages="{x:Bind LargePages.Count}"
+                            SelectedPageIndex="{Binding ElementName=innerFlip, Path=SelectedIndex, Mode=TwoWay}"
+                            MaxVisiblePips="20"
+                            PreviousButtonVisibility="VisibleOnPointerOver"
+                            NextButtonVisibility="VisibleOnPointerOver" />
+                        <FlipView
+                            x:Name="innerFlip"
+                            Background="Transparent"
+                            ItemsSource="{x:Bind LargePages}">
+                            <FlipView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </FlipView.ItemsPanel>
+                            <FlipView.ItemTemplate>
+                                <DataTemplate x:DataType="media:IImageSource">
+                                    <controls:RichImage Source="{x:Bind}" />
+                                </DataTemplate>
+                            </FlipView.ItemTemplate>
+                        </FlipView>
+                    </StackPanel>
                 </DataTemplate>
             </FlipView.ItemTemplate>
         </FlipView>
@@ -59,13 +69,11 @@
                           Icon="Download"
                           Command="{x:Bind flipView.SelectedItem.(vm:IllustVM.Downloadable).DownloadCommand}" />
             <AppBarButton x:Uid="OpenAppBarButton"
+                          Command="{x:Bind flipView.SelectedItem.(vm:IllustVM.NavigateToIllustCommand)}"
                           CommandParameter="{x:Bind flipView.SelectedItem.(vm:IllustVM.Illust), Mode=OneWay}">
                 <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7C5;" />
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7C5;" />
                 </AppBarButton.Icon>
-                <AppBarButton.Command>
-                    <commands:NavigateToIllustCommand />
-                </AppBarButton.Command>
             </AppBarButton>
             <AppBarButton Icon="Cancel" x:Uid="CloseAppBarButton" Click="{x:Bind CloseDetail}">
                 <AppBarButton.KeyboardAccelerators>

@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using EHunter.Controls;
 using EHunter.Pixiv.ViewModels.Recent;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -9,13 +9,15 @@ using Microsoft.UI.Xaml.Media.Animation;
 
 namespace EHunter.Pixiv.Views.Recent
 {
+    public abstract class RecentWatchedPageBase : PageFor<RecentWatchedVM>
+    {
+    }
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class RecentWatchedPage : Page
+    public sealed partial class RecentWatchedPage : RecentWatchedPageBase
     {
-        private readonly RecentWatchedVM _vm = Ioc.Default.GetRequiredService<RecentWatchedVM>();
-
         public RecentWatchedPage() => InitializeComponent();
 
         private void NavigateToUser_Click(object sender, RoutedEventArgs args)
