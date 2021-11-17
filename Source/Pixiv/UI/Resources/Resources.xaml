@@ -10,7 +10,7 @@
     xmlns:vmu="using:EHunter.Pixiv.ViewModels.User"
     xmlns:api="using:Meowtrix.PixivApi"
     xmlns:m="using:Meowtrix.PixivApi.Models">
-    <converters:EnumLocalizeConverter x:Key="EnumLocalizeConverter" />
+    <converters:EnumLocalizeConverter x:Key="EnumLocalizeConverter" Scope="EHunter.Pixiv.UI/Resources" />
 
     <!-- TODO: workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/6232 -->
     <m:AgeRestriction x:Key="__Dummy_AgeRestriction">0</m:AgeRestriction>
@@ -20,7 +20,7 @@
     <settings:PixivConnectionMode x:Key="__Dummy_PixivConnectionMode">0</settings:PixivConnectionMode>
 
     <DataTemplate x:Key="EnumLocalizeTemplate">
-        <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}, ConverterParameter=EHunter.Pixiv.UI/Resources}" />
+        <TextBlock Text="{Binding Converter={StaticResource EnumLocalizeConverter}}" />
     </DataTemplate>
 
     <Style TargetType="Selector"

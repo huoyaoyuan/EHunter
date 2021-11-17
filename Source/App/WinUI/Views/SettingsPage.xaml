@@ -35,8 +35,8 @@
                 x:Uid="SettingSection_Proxy"
                 Style="{ThemeResource TitleTextBlockStyle}"
                 Margin="0,36,0,6" />
-            <TextBox Header="Address" Text="{x:Bind ViewModel.ProxyAddress}" />
-            <NumberBox Header="Port" Value="{x:Bind ViewModel.ProxyPort}" />
+            <TextBox x:Uid="ProxyAddress" Text="{x:Bind ViewModel.ProxyAddress}" />
+            <NumberBox x:Uid="ProxyPort" Value="{x:Bind ViewModel.ProxyPort}" />
 
             <TextBlock
                 x:Uid="SettingSection_Database"

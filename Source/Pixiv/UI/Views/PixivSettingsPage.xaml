@@ -27,7 +27,7 @@
                 x:Uid="NetworkGroup" />
 
             <ComboBox
-                x:Uid="UseProxy"
+                x:Uid="ProxyConnectionMode"
                 Style="{StaticResource PixivConnectionModeSelectorStyle}"
                 SelectedItem="{x:Bind ViewModel.ConnectionMode}" />
 

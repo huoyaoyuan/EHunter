@@ -43,7 +43,7 @@ namespace EHunter.Pixiv.Services.Download
 
             using var pContext = pFactory.CreateDbContext();
 
-            var groups = (await pContext.PixivPendingDownloads.AsQueryable()
+            var groups = (await pContext.PixivPendingDownloads
                 .OrderBy(x => x.Time)
                 .ToArrayAsync()
                 .ConfigureAwait(false))
@@ -99,7 +99,6 @@ namespace EHunter.Pixiv.Services.Download
                 {
                     using var pContext = pFactory.CreateDbContext();
                     if (await pContext.PixivPendingDownloads
-                        .AsQueryable()
                         .AnyAsync(x => x.ArtworkId == artworkId)
                         .ConfigureAwait(false))
                         return DownloadableState.AlreadyPending;
@@ -113,7 +112,6 @@ namespace EHunter.Pixiv.Services.Download
                 {
                     using var eContext = eFactory.CreateDbContext();
                     if (await eContext.Posts
-                        .AsQueryable()
                         .AnyAsync(x => x.Provider == "Pixiv:Illust" && x.Identifier == artworkId)
                         .ConfigureAwait(false))
                         return DownloadableState.AlreadyDownloaded;
@@ -179,7 +177,7 @@ namespace EHunter.Pixiv.Services.Download
 
             using var eContext = eFactory.CreateDbContext();
 
-            if (await eContext.Posts.AsQueryable()
+            if (await eContext.Posts
                 .AnyAsync(x => x.Provider == "Pixiv:Illust" && x.Identifier == illust.Id, cancellationToken)
                 .ConfigureAwait(false))
             {
