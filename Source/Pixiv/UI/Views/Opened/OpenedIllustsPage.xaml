@@ -75,8 +75,7 @@
             Grid.Row="1"
             ItemsSource="{x:Bind ViewModel.Illusts}"
             SelectedItem="{x:Bind ViewModel.SelectedIllust, Mode=TwoWay}"
-            SelectedIndex="{x:Bind ViewModel.SelectedIndex, Mode=TwoWay}"
-            ItemContainerStyle="{StaticResource ListViewItemGridStyle}">
+            SelectedIndex="{x:Bind ViewModel.SelectedIndex, Mode=TwoWay}">
             <tk:ListDetailsView.ItemTemplate>
                 <DataTemplate x:DataType="vmo:IllustHolderVM">
                     <commonControls:RichImage
