@@ -41,7 +41,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="Wide">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1000" />
+                        <AdaptiveTrigger MinWindowWidth="1100" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="searchGrid.(Grid.ColumnSpan)" Value="1" />
@@ -100,35 +100,27 @@
                 x:Uid="SearchOptions"
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
+                Margin="4"
                 HorizontalAlignment="Stretch"
                 x:DefaultBindMode="TwoWay">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="4">
                     <ComboBox
-                        Grid.Column="0"
-                        Margin="2"
+                        Width="120"
                         Style="{StaticResource IllustSearchTargetSelectorStyle}"
                         SelectedItem="{x:Bind ViewModel.SearchTarget}" />
                     <ComboBox
-                        Grid.Column="1"
-                        Margin="2"
+                        Width="120"
                         Style="{StaticResource IllustSortModeSelectorStyle}"
                         SelectedItem="{x:Bind ViewModel.SortMode}" />
                     <ComboBox
-                        Grid.Column="2"
-                        Margin="2"
+                        Width="120"
                         Style="{StaticResource AgeRestrictionSelectorStyle}"
                         SelectedItem="{x:Bind ViewModel.SelectedAge}" />
                     <DropDownButton
                         x:Uid="SearchRange"
-                        Grid.Column="3"
-                        Margin="2"
-                        HorizontalAlignment="Stretch">
+                        Width="120">
                         <DropDownButton.Flyout>
                             <Flyout Placement="Bottom">
                                 <Grid>
@@ -190,7 +182,7 @@
                             </Flyout>
                         </DropDownButton.Flyout>
                     </DropDownButton>
-                </Grid>
+                </StackPanel>
             </Expander>
         </Grid>
     </controls:IllustCollectionView>
