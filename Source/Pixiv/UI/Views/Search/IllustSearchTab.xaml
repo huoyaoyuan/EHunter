@@ -45,19 +45,25 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <TextBlock
-                x:Name="tagText"
-                Visibility="Collapsed"
-                Style="{StaticResource TitleTextBlockStyle}"
-                Margin="4">
-                <Run Text="#" /><Run Text="{x:Bind ViewModel.Tag.Name}" />
-            </TextBlock>
-            
-            <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="searchGrid"
+                  VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Name="tagText"
+                    Visibility="Collapsed"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Margin="4">
+                    <Run Text="#" /><Run Text="{x:Bind ViewModel.Tag.Name}" />
+                </TextBlock>
                 <AutoSuggestBox
                     x:Name="searchBox"
                     Visibility="Collapsed"
@@ -75,10 +81,10 @@
             </Grid>
 
             <Expander
+                x:Name="searchOptions"
                 x:Uid="SearchOptions"
-                Grid.Row="1"
-                Width="500"
-                HorizontalAlignment="Right"
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
                 x:DefaultBindMode="TwoWay">
                 <Grid>
                     <Grid.ColumnDefinitions>
