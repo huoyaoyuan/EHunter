@@ -38,10 +38,7 @@ namespace EHunter.Pixiv.ViewModels.Ranking
         public RankingVM(ICustomResolver<PixivClient> clientResolver,
             PixivVMFactory factory)
             : base(factory)
-        {
-            _clientResolver = clientResolver;
-            Refresh();
-        }
+            => _clientResolver = clientResolver;
 
         protected override IAsyncEnumerable<Illust>? LoadIllusts()
             => _clientResolver.Resolve().GetIllustRankingAsync(SelectedRankingMode, Date.Date);

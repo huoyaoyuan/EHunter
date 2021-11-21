@@ -31,10 +31,12 @@ namespace EHunter.Pixiv.ViewModels
             Settings = serviceProvider.GetRequiredService<PixivSettingsVM>();
 
             SelectedPage = Recent;
-            WeakReferenceMessenger.Default.RegisterAll(this);
+
             WeakReferenceMessenger.Default.Register(Users);
             WeakReferenceMessenger.Default.Register(Opened);
             WeakReferenceMessenger.Default.Register(IllustSearch);
+
+            WeakReferenceMessenger.Default.RegisterAll(this);
         }
 
         public RecentWatchedVM Recent { get; }
