@@ -30,6 +30,9 @@ namespace EHunter.Pixiv.ViewModels.Search
             if (vm is null)
             {
                 Tabs.Add(vm = new(this, tag));
+
+                // TODO: activate this in view
+                vm.OnActivated();
             }
 
             SelectedItem = vm;
