@@ -3,7 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace EHunter.ComponentModel
 {
-    public abstract partial class TabsViewModel<T> : ObservableObject
+    public abstract partial class TabsViewModel<T> : ObservableObject,
+        IActivatable
     {
         public ObservableCollection<T> Tabs { get; } = new();
 
@@ -26,5 +27,12 @@ namespace EHunter.ComponentModel
 
         public void CloseTab(T item) => Tabs.Remove(item);
         public void CloseTab(object item) => CloseTab((T)item);
+
+        public void OnActivated()
+        {
+            if (Tabs.Count == 0)
+                AddTab();
+        }
+        public void OnDeactivated() { }
     }
 }
