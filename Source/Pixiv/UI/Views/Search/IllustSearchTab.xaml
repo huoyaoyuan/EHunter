@@ -37,6 +37,20 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
+
+            <VisualStateGroup>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1000" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="searchGrid.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="searchOptions.(Grid.Row)" Value="0" />
+                        <Setter Target="searchOptions.(Grid.Column)" Value="1" />
+                        <Setter Target="searchOptions.(Grid.ColumnSpan)" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
         <Grid>
@@ -51,6 +65,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid x:Name="searchGrid"
+                  Grid.ColumnSpan="2"
                   VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -83,7 +98,8 @@
             <Expander
                 x:Name="searchOptions"
                 x:Uid="SearchOptions"
-                Grid.Column="1"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
                 HorizontalAlignment="Stretch"
                 x:DefaultBindMode="TwoWay">
                 <Grid>
