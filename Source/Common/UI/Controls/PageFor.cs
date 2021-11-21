@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using EHunter.ComponentModel;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 
@@ -21,6 +22,17 @@ namespace EHunter.Controls
             base.OnNavigatedTo(e);
             if (e.Parameter is TViewModel viewModel)
                 ViewModel = viewModel;
+
+            if (ViewModel is IActivatable activatable)
+                activatable.OnActivated();
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+
+            if (ViewModel is IActivatable activatable)
+                activatable.OnDeactivated();
         }
     }
 }
