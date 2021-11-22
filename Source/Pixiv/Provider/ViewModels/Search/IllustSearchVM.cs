@@ -48,6 +48,8 @@ namespace EHunter.Pixiv.ViewModels.Search
         [ObservableProperty]
         private DateTimeOffset _endDate = DateTimeOffset.UtcNow.Date;
 
+        protected override bool RefreshOnAgeChanged => false;
+
         internal IllustSearchVM(IllustSearchManager parent)
             : base(parent.Factory) => _parent = parent;
 
@@ -57,7 +59,6 @@ namespace EHunter.Pixiv.ViewModels.Search
             _parent = parent;
             EffectiveWord = tag.Name;
             Tag = tag;
-            Refresh();
         }
 
         protected override IAsyncEnumerable<Illust> LoadIllusts()

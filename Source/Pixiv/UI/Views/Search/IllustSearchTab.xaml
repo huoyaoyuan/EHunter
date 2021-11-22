@@ -37,6 +37,20 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
+
+            <VisualStateGroup>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1100" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="searchGrid.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="searchOptions.(Grid.Row)" Value="0" />
+                        <Setter Target="searchOptions.(Grid.Column)" Value="1" />
+                        <Setter Target="searchOptions.(Grid.ColumnSpan)" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
         <Grid>
@@ -45,19 +59,26 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <TextBlock
-                x:Name="tagText"
-                Visibility="Collapsed"
-                Style="{StaticResource TitleTextBlockStyle}"
-                Margin="4">
-                <Run Text="#" /><Run Text="{x:Bind ViewModel.Tag.Name}" />
-            </TextBlock>
-            
-            <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="searchGrid"
+                  Grid.ColumnSpan="2"
+                  VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Name="tagText"
+                    Visibility="Collapsed"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Margin="4">
+                    <Run Text="#" /><Run Text="{x:Bind ViewModel.Tag.Name}" />
+                </TextBlock>
                 <AutoSuggestBox
                     x:Name="searchBox"
                     Visibility="Collapsed"
@@ -75,38 +96,31 @@
             </Grid>
 
             <Expander
+                x:Name="searchOptions"
                 x:Uid="SearchOptions"
                 Grid.Row="1"
-                Width="500"
-                HorizontalAlignment="Right"
+                Grid.ColumnSpan="2"
+                Margin="4"
+                HorizontalAlignment="Stretch"
                 x:DefaultBindMode="TwoWay">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="4">
                     <ComboBox
-                        Grid.Column="0"
-                        Margin="2"
+                        Width="120"
                         Style="{StaticResource IllustSearchTargetSelectorStyle}"
                         SelectedItem="{x:Bind ViewModel.SearchTarget}" />
                     <ComboBox
-                        Grid.Column="1"
-                        Margin="2"
+                        Width="120"
                         Style="{StaticResource IllustSortModeSelectorStyle}"
                         SelectedItem="{x:Bind ViewModel.SortMode}" />
                     <ComboBox
-                        Grid.Column="2"
-                        Margin="2"
+                        Width="120"
                         Style="{StaticResource AgeRestrictionSelectorStyle}"
                         SelectedItem="{x:Bind ViewModel.SelectedAge}" />
                     <DropDownButton
                         x:Uid="SearchRange"
-                        Grid.Column="3"
-                        Margin="2"
-                        HorizontalAlignment="Stretch">
+                        Width="120">
                         <DropDownButton.Flyout>
                             <Flyout Placement="Bottom">
                                 <Grid>
@@ -168,7 +182,7 @@
                             </Flyout>
                         </DropDownButton.Flyout>
                     </DropDownButton>
-                </Grid>
+                </StackPanel>
             </Expander>
         </Grid>
     </controls:IllustCollectionView>
