@@ -191,7 +191,8 @@ namespace EHunter.EHentai.Api
                 pagesCount = int.Parse(
                     document
                         .QuerySelector("table.ptt")!
-                        .QuerySelectorAll("td>a")[^2]
+                        .QuerySelectorAll("td")[^2]
+                        .QuerySelector("a")!
                         .Text(),
                     null);
             }

@@ -1,6 +1,10 @@
 ﻿using System.Collections.Immutable;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using AngleSharp;
+using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
 using EHunter.EHentai.Api.Json;
 
 namespace EHunter.EHentai.Api.Models
@@ -10,6 +14,11 @@ namespace EHunter.EHentai.Api.Models
         private readonly EHentaiClient _client;
         private static readonly Regex s_titleRegex
             = new(@"^(?:\((.+?)\))?\s*(?:\[(.+?)\s*\((.+?)\)\])?\s*(.+?)\s*(?:\((.+?)\))?(?:\s*[\[【](.+?)[\]】])*$",
+                RegexOptions.Compiled | RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
+
+        // TODO: use css parser when AngleSharp.Css is working
+        private static readonly Regex s_pageThumbnailRegex
+            = new(@"background:transparent url\((.+?)\)",
                 RegexOptions.Compiled | RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
 
         internal Gallery(EHentaiClient client, Uri queryUri, GalleryMetadata metadata)
@@ -60,6 +69,42 @@ namespace EHunter.EHentai.Api.Models
         public ParsedTitle? TitleJpn { get; }
 
         public Task<Stream> RequestThumbnailAsync() => _client.HttpClient.GetStreamAsync(Thumbnail);
+
+        public async IAsyncEnumerable<GalleryPage> GetPagesAsync([EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            int totalWebPages = 0;
+            int p = 0;
+
+            var config = Configuration.Default;
+            var context = BrowsingContext.New(config);
+
+            do
+            {
+                using var request = await _client.HttpClient.GetStreamAsync($"{GalleryUri}?p={p}", cancellationToken).ConfigureAwait(false);
+                var document = await context.OpenAsync(req => req.Content(request), cancellationToken).ConfigureAwait(false);
+
+                totalWebPages = int.Parse(
+                    document
+                        .QuerySelector("table.ptt")!
+                        .QuerySelectorAll("td")[^2]
+                        .QuerySelector("a")!
+                        .Text(),
+                    null);
+
+                foreach (var pageDiv in document
+                    .QuerySelector("div#gdt")!
+                    .QuerySelectorAll<IHtmlDivElement>("div.gdtm>div"))
+                {
+                    string url = pageDiv.QuerySelector<IHtmlAnchorElement>("a")!.Href;
+                    string style = pageDiv.GetAttribute("style")!;
+                    var match = s_pageThumbnailRegex.Match(style);
+                    string thumbnail = match.Groups[1].Value;
+
+                    yield return new(_client, new Uri(url), new Url(thumbnail));
+                }
+            }
+            while (p < totalWebPages);
+        }
     }
 
     public record ParsedTitle(
