@@ -70,7 +70,7 @@ namespace EHunter.EHentai.Api.Models
 
         public Task<Stream> RequestThumbnailAsync() => _client.HttpClient.GetStreamAsync(Thumbnail);
 
-        public async IAsyncEnumerable<GalleryPage> GetPagesAsync([EnumeratorCancellation] CancellationToken cancellationToken)
+        public async IAsyncEnumerable<ImagePage> GetPagesAsync([EnumeratorCancellation] CancellationToken cancellationToken)
         {
             int totalWebPages = 0;
             int p = 0;

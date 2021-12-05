@@ -4,11 +4,11 @@ using AngleSharp.Html.Dom;
 
 namespace EHunter.EHentai.Api.Models
 {
-    public class GalleryPage
+    public class ImagePage
     {
         private readonly EHentaiClient _client;
 
-        internal GalleryPage(EHentaiClient client, Uri pageUri, Uri thumbnail)
+        internal ImagePage(EHentaiClient client, Uri pageUri, Uri thumbnail)
         {
             _client = client;
             PageUri = pageUri;
