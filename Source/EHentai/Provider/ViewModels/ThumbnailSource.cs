@@ -14,6 +14,6 @@ namespace EHunter.EHentai.ViewModels
         protected override object CreateCacheKey() => _gallery.Thumbnail;
 
         protected override Task<Stream> RequestAsync(CancellationToken cancellationToken = default)
-            => _gallery.RequestThumbnailAsync();
+            => _gallery.RequestThumbnailAsync(cancellationToken);
     }
 }

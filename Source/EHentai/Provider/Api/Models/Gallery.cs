@@ -68,7 +68,7 @@ namespace EHunter.EHentai.Api.Models
         public ParsedTitle? Title { get; }
         public ParsedTitle? TitleJpn { get; }
 
-        public Task<Stream> RequestThumbnailAsync() => _client.HttpClient.GetStreamAsync(Thumbnail);
+        public Task<Stream> RequestThumbnailAsync(CancellationToken cancellationToken = default) => _client.HttpClient.GetStreamAsync(Thumbnail, cancellationToken);
 
         public async IAsyncEnumerable<ImagePage> GetPagesAsync([EnumeratorCancellation] CancellationToken cancellationToken)
         {

@@ -18,7 +18,7 @@ namespace EHunter.EHentai.Api.Models
         public Uri PageUri { get; }
         public Uri Thumbnail { get; }
 
-        public Task<Stream> RequestThumbnailAsync() => _client.HttpClient.GetStreamAsync(Thumbnail);
+        public Task<Stream> RequestThumbnailAsync(CancellationToken cancellationToken = default) => _client.HttpClient.GetStreamAsync(Thumbnail, cancellationToken);
 
         public async Task<Stream> GetImageAsync(CancellationToken cancellationToken = default)
         {
