@@ -136,6 +136,36 @@ namespace EHunter.EHentai.Api
             = new(@"e[x\-]hentai.org/g/(\d+)/([0-9a-f]+)", RegexOptions.Compiled | RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
         private static readonly JsonSerializerOptions s_apiResponseOptions = new(JsonSerializerDefaults.Web);
 
+        private async Task<ImmutableArray<GalleryMetadata>> RequestApiAsync(
+            IEnumerable<(int GId, string Token)> galleryIds,
+            CancellationToken cancellationToken = default)
+        {
+            var content = JsonContent.Create(new
+            {
+                method = "gdata",
+                gidlist = galleryIds.Select(x => (new object[] { x.GId, x.Token })),
+                @namespace = 1
+            });
+            await content.LoadIntoBufferAsync().ConfigureAwait(false);
+            using var apiResponse = await HttpClient.PostAsync("https://api.e-hentai.org/api.php", content, cancellationToken).ConfigureAwait(false);
+            var rsp = await apiResponse.Content.ReadFromJsonAsync<EHentaiApiResponse>(s_apiResponseOptions, cancellationToken).ConfigureAwait(false);
+
+            if (rsp is null)
+                throw new InvalidOperationException("Empty api response.");
+            if (rsp.Error != null)
+                throw new InvalidOperationException(rsp.Error);
+
+            return rsp.Galleries;
+        }
+
+        private static (int Gid, string Token) GetGalleryIdFromUri(string uri)
+        {
+            var match = s_galleryRegex.Match(uri);
+            int gid = int.Parse(match.Groups[1].Value, NumberFormatInfo.InvariantInfo);
+            string token = match.Groups[2].Value;
+            return (gid, token);
+        }
+
         public async Task<GalleryListPage> GetPageAsync(Uri uri, CancellationToken cancellationToken = default)
         {
             using var request = await HttpClient.GetStreamAsync(uri, cancellationToken).ConfigureAwait(false);
@@ -148,13 +178,7 @@ namespace EHunter.EHentai.Api
             var galleries = document
                 .QuerySelector<IHtmlTableElement>("table.itg")!
                 .QuerySelectorAll<IHtmlAnchorElement>("td.glname>a")
-                .Select(a =>
-                {
-                    var match = s_galleryRegex.Match(a.Href);
-                    int gid = int.Parse(match.Groups[1].Value, NumberFormatInfo.InvariantInfo);
-                    string token = match.Groups[2].Value;
-                    return new object[] { gid, token };
-                })
+                .Select(a => GetGalleryIdFromUri(a.Href))
                 .ToArray();
 
             int totalCount = 0;
@@ -172,24 +196,10 @@ namespace EHunter.EHentai.Api
                     null);
             }
 
-            var apiRequest = new
-            {
-                method = "gdata",
-                gidlist = galleries,
-                @namespace = 1
-            };
-            var content = JsonContent.Create(apiRequest);
-            await content.LoadIntoBufferAsync().ConfigureAwait(false);
-            using var apiResponse = await HttpClient.PostAsync("https://api.e-hentai.org/api.php", content, cancellationToken).ConfigureAwait(false);
-            var rsp = await apiResponse.Content.ReadFromJsonAsync<EHentaiApiResponse>(s_apiResponseOptions, cancellationToken).ConfigureAwait(false);
-
-            if (rsp is null)
-                throw new InvalidOperationException("Empty api response.");
-            if (rsp.Error != null)
-                throw new InvalidOperationException(rsp.Error);
+            var apiGalleries = await RequestApiAsync(galleries, cancellationToken).ConfigureAwait(false);
 
             return new(totalCount, pagesCount,
-                rsp.Galleries.Select(g => new Gallery(this, uri, g)).ToImmutableArray());
+                apiGalleries.Select(g => new Gallery(this, uri, g)).ToImmutableArray());
         }
 
         public Task<GalleryListPage> GetPageAsync(ListRequest _, int page = 0, CancellationToken cancellationToken = default)
@@ -197,6 +207,13 @@ namespace EHunter.EHentai.Api
             string host = UseExHentai ? "exhentai.org" : "e-hentai.org";
             string uri = $"https://{host}/?page={page}";
             return GetPageAsync(new Uri(uri), cancellationToken);
+        }
+
+        public async Task<Gallery> GetGalleryAsync(Uri uri, CancellationToken cancellationToken = default)
+        {
+            var (gid, token) = GetGalleryIdFromUri(uri.ToString());
+            var galleries = await RequestApiAsync(new[] { (gid, token) }, cancellationToken).ConfigureAwait(false);
+            return new(this, uri, galleries.Single());
         }
     }
 }
