@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using AngleSharp;
@@ -34,6 +33,7 @@ namespace EHunter.EHentai.Api.Models
             Tags = metadata.Tags.ToArray();
             Title = ParseTitle(metadata.Title);
             TitleJpn = ParseTitle(metadata.TitleJpn);
+            ImagesCount = metadata.FileCount;
 
             static string? NullIfEmpty(string str)
                 => string.IsNullOrEmpty(str) ? null : str;
@@ -68,42 +68,42 @@ namespace EHunter.EHentai.Api.Models
         public ParsedTitle? Title { get; }
         public ParsedTitle? TitleJpn { get; }
 
+        public int ImagesCount { get; }
+        public int PagesCount => (ImagesCount - 1) / 40 + 1;
+
         public Task<Stream> RequestThumbnailAsync(CancellationToken cancellationToken = default) => _client.HttpClient.GetStreamAsync(Thumbnail, cancellationToken);
 
-        public async IAsyncEnumerable<ImagePage> GetPagesAsync([EnumeratorCancellation] CancellationToken cancellationToken)
+        public async Task<GalleryPage> GetPageAtAsync(int pageIndex, CancellationToken cancellationToken)
         {
-            int totalWebPages = 0;
-            int p = 0;
-
             var config = Configuration.Default;
             var context = BrowsingContext.New(config);
 
-            do
-            {
-                using var request = await _client.HttpClient.GetStreamAsync($"{GalleryUri}?p={p}", cancellationToken).ConfigureAwait(false);
-                var document = await context.OpenAsync(req => req.Content(request), cancellationToken).ConfigureAwait(false);
+            using var request = await _client.HttpClient.GetStreamAsync($"{GalleryUri}?p={pageIndex}", cancellationToken).ConfigureAwait(false);
+            var document = await context.OpenAsync(req => req.Content(request), cancellationToken).ConfigureAwait(false);
 
-                totalWebPages = int.Parse(
-                    document
-                        .QuerySelector("table.ptt")!
-                        .QuerySelectorAll("td")[^2]
-                        .QuerySelector("a")!
-                        .Text(),
-                    null);
+            int totalWebPages = int.Parse(
+                document
+                    .QuerySelector("table.ptt")!
+                    .QuerySelectorAll("td")[^2]
+                    .QuerySelector("a")!
+                    .Text(),
+                null);
 
-                foreach (var pageDiv in document
-                    .QuerySelector("div#gdt")!
-                    .QuerySelectorAll<IHtmlDivElement>("div.gdtm>div"))
+            var images = document
+                .QuerySelector("div#gdt")!
+                .QuerySelectorAll<IHtmlDivElement>("div.gdtm>div")
+                .Select(pageDiv =>
                 {
                     string url = pageDiv.QuerySelector<IHtmlAnchorElement>("a")!.Href;
                     string style = pageDiv.GetAttribute("style")!;
                     var match = s_pageThumbnailRegex.Match(style);
                     string thumbnail = match.Groups[1].Value;
 
-                    yield return new(_client, new Uri(url), new Url(thumbnail));
-                }
-            }
-            while (p < totalWebPages);
+                    return new ImagePage(_client, new Uri(url), new Url(thumbnail));
+                })
+                .ToArray();
+
+            return new(pageIndex, totalWebPages, images);
         }
     }
 
@@ -118,4 +118,9 @@ namespace EHunter.EHentai.Api.Models
 
     [JsonConverter(typeof(TagConverter))]
     public record struct Tag(string? Namespace, string Name);
+
+    public record struct GalleryPage(
+        int Index,
+        int TotalPagesGet,
+        IReadOnlyList<ImagePage> Images);
 }
