@@ -71,8 +71,6 @@ namespace EHunter.EHentai.Api.Models
         public int ImagesCount { get; }
         public int PagesCount => (ImagesCount - 1) / 40 + 1;
 
-        public Task<Stream> RequestThumbnailAsync(CancellationToken cancellationToken = default) => _client.HttpClient.GetStreamAsync(Thumbnail, cancellationToken);
-
         public async Task<GalleryPage> GetPageAtAsync(int pageIndex, CancellationToken cancellationToken)
         {
             var config = Configuration.Default;
