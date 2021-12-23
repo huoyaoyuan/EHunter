@@ -2,6 +2,7 @@
 using EHunter.DependencyInjection;
 using EHunter.EHentai.Api;
 using EHunter.EHentai.Api.Models;
+using EHunter.EHentai.Media;
 using EHunter.Media;
 using Microsoft.Extensions.Caching.Memory;
 

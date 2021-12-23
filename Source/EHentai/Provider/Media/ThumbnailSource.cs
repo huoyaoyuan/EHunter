@@ -3,7 +3,7 @@ using EHunter.EHentai.Api.Models;
 using EHunter.Media;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace EHunter.EHentai.ViewModels
+namespace EHunter.EHentai.Media
 {
     internal class ThumbnailSource : CachedImageSource
     {
@@ -17,7 +17,9 @@ namespace EHunter.EHentai.ViewModels
             _gallery = gallery;
         }
 
-        protected override object CreateCacheKey() => _gallery.Thumbnail;
+        private record CacheKey(int Id);
+
+        protected override object CreateCacheKey() => new CacheKey(_gallery.Id);
 
         protected override Task<Stream> RequestAsync(CancellationToken cancellationToken = default)
             => _client.HttpClient.GetStreamAsync(_gallery.Thumbnail, cancellationToken);
