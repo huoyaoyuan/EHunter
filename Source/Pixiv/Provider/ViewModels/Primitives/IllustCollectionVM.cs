@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Diagnostics;
+using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.ComponentModel;
 using EHunter.Pixiv.ViewModels.Illusts;
 using Meowtrix.PixivApi.Models;
@@ -16,12 +17,12 @@ namespace EHunter.Pixiv.ViewModels.Primitives
             get => _selectedAge;
             set
             {
-                if (SetProperty(ref _selectedAge, value) && _loaded)
+                if (SetProperty(ref _selectedAge, value) && _loaded && AutoRefresh)
                     Refresh();
             }
         }
 
-        protected virtual bool RefreshOnAgeChanged => true;
+        protected virtual bool AutoRefresh => true;
 
         [ObservableProperty]
         private IBindableCollection<IllustVM>? _illusts;
@@ -32,6 +33,8 @@ namespace EHunter.Pixiv.ViewModels.Primitives
 
         public void Refresh()
         {
+            Debug.Assert(_loaded);
+
             Illusts = _factory.CreateAsyncCollection(
                 LoadIllusts()?.Age(SelectedAge));
 
@@ -46,7 +49,9 @@ namespace EHunter.Pixiv.ViewModels.Primitives
             if (!_loaded)
             {
                 _loaded = true;
-                Refresh();
+
+                if (AutoRefresh)
+                    Refresh();
             }
         }
 

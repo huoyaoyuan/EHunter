@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<local:IllustSearchTabBase
     x:Class="EHunter.Pixiv.Views.Search.IllustSearchTab"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,6 +8,7 @@
     xmlns:commonControls="using:EHunter.Controls"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
+    xmlns:local="using:EHunter.Pixiv.Views.Search"
     mc:Ignorable="d"
     x:DefaultBindMode="OneWay">
     <UserControl.Resources>
@@ -186,4 +187,4 @@
             </Expander>
         </Grid>
     </controls:IllustCollectionView>
-</UserControl>
+</local:IllustSearchTabBase>

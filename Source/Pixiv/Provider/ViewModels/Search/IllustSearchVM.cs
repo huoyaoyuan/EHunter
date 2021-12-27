@@ -48,7 +48,7 @@ namespace EHunter.Pixiv.ViewModels.Search
         [ObservableProperty]
         private DateTimeOffset _endDate = DateTimeOffset.UtcNow.Date;
 
-        protected override bool RefreshOnAgeChanged => false;
+        protected override bool AutoRefresh => false;
 
         internal IllustSearchVM(IllustSearchManager parent)
             : base(parent.Factory) => _parent = parent;
