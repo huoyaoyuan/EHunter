@@ -61,7 +61,6 @@ namespace EHunter.Pixiv.ViewModels.User
 
             async void Load(UserInfo user)
             {
-                Refresh();
                 UserDetail = await user.GetDetailAsync().ConfigureAwait(true);
                 UserAvatar = _factory.GetImage(user.Avatar);
             }
