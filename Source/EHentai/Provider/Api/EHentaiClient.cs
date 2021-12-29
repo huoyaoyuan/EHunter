@@ -39,11 +39,26 @@ namespace EHunter.EHentai.Api
                 });
         }
 
-        public void Dispose() => HttpClient.Dispose();
+        public void Dispose()
+        {
+            HttpClient.Dispose();
+            ((IDisposable)_browsingContext).Dispose();
+        }
+
+        private readonly BrowsingContext _browsingContext = new(Configuration.Default);
 
         public bool UseExHentai { get; set; }
 
         public bool IsLogin { get; private set; }
+
+        public async Task<IDocument> OpenDocumentAsync(Uri uri, CancellationToken cancellationToken = default)
+        {
+            using var stream = await HttpClient.GetStreamAsync(uri, cancellationToken).ConfigureAwait(false);
+            return await OpenDocumentAsync(stream, cancellationToken).ConfigureAwait(false);
+        }
+
+        public Task<IDocument> OpenDocumentAsync(Stream stream, CancellationToken cancellationToken = default)
+            => _browsingContext.OpenAsync(req => req.Content(stream), cancellationToken);
 
         public async Task<(string memberId, string passHash)> LoginAsync(string username, string password)
         {
@@ -68,12 +83,8 @@ namespace EHunter.EHentai.Api
             if (memberId is null || passHash is null)
             {
                 // try to identify the failure reason
-                var config = Configuration.Default;
-                var context = BrowsingContext.New(config);
                 var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                var document = await context
-                    .OpenAsync(req => req.Content(responseStream))
-                    .ConfigureAwait(false);
+                var document = await OpenDocumentAsync(responseStream).ConfigureAwait(false);
                 var title = document.QuerySelectorAll<IHtmlDivElement>("div.formsubtitle")
                     .FirstOrDefault(x => x.Text() == "The following errors were found:");
                 if (title != null)
@@ -168,11 +179,7 @@ namespace EHunter.EHentai.Api
 
         public async Task<GalleryListPage> GetPageAsync(Uri uri, CancellationToken cancellationToken = default)
         {
-            using var request = await HttpClient.GetStreamAsync(uri, cancellationToken).ConfigureAwait(false);
-
-            var config = Configuration.Default;
-            var context = BrowsingContext.New(config);
-            var document = await context.OpenAsync(req => req.Content(request), cancellationToken).ConfigureAwait(false);
+            using var document = await OpenDocumentAsync(uri, cancellationToken).ConfigureAwait(false);
             var table = document.QuerySelector<IHtmlTableElement>("table.itg");
 
             var galleries = document

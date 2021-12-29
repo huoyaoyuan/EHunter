@@ -1,7 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using EHunter.EHentai.Api.Json;
@@ -73,11 +72,7 @@ namespace EHunter.EHentai.Api.Models
 
         public async Task<GalleryPage> GetPageAtAsync(int pageIndex, CancellationToken cancellationToken)
         {
-            var config = Configuration.Default;
-            var context = BrowsingContext.New(config);
-
-            using var request = await _client.HttpClient.GetStreamAsync($"{GalleryUri}?p={pageIndex}", cancellationToken).ConfigureAwait(false);
-            var document = await context.OpenAsync(req => req.Content(request), cancellationToken).ConfigureAwait(false);
+            using var document = await _client.OpenDocumentAsync(new Uri($"{GalleryUri}?p={pageIndex}"), cancellationToken).ConfigureAwait(false);
 
             int totalWebPages = int.Parse(
                 document

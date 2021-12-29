@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 
@@ -25,12 +24,7 @@ namespace EHunter.EHentai.Api.Models
             RegexOptions.Compiled | RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
         public async Task<ImagePageDetail> GetImageAsync(CancellationToken cancellationToken = default)
         {
-            var config = Configuration.Default;
-            var context = BrowsingContext.New(config);
-
-            using var request = await _client.HttpClient.GetStreamAsync(PageUri, cancellationToken).ConfigureAwait(false);
-            var document = await context.OpenAsync(req => req.Content(request), cancellationToken).ConfigureAwait(false);
-
+            using var document = await _client.OpenDocumentAsync(PageUri, cancellationToken).ConfigureAwait(false);
             var img = document.QuerySelector<IHtmlImageElement>("img#img");
             var original = document.QuerySelector<IHtmlAnchorElement>("div#i7>a");
             var loadFail = document.QuerySelector<IHtmlAnchorElement>("a#loadfail");
