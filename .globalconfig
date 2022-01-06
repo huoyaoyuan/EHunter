@@ -18,6 +18,12 @@ dotnet_diagnostic.IDE0005.severity = warning
 # IDE0055: Fix formatting
 dotnet_diagnostic.IDE0055.severity = warning
 
+# IDE0120: Simplify LINQ expression
+dotnet_diagnostic.IDE0120.severity = warning
+
+# IDE0130: Namespace mismatch with folder
+dotnet_diagnostic.IDE0130.severity = warning
+
 # IDE1006: Naming style
 dotnet_diagnostic.IDE1006.severity = warning
 
@@ -29,10 +35,6 @@ dotnet_diagnostic.CA1031.severity = none
 
 # CA1062: Validate arguments of public methods
 dotnet_diagnostic.CA1062.severity = none
-
-# CA1801: Review unused parameters
-# dotnet_diagnostic.CA1801.severity = none
-# Covered by IDE0060
 
 # CA1812: Avoid uninstantiated internal classes
 dotnet_diagnostic.CA1812.severity = silent
