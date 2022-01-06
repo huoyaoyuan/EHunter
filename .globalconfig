@@ -1,0 +1,43 @@
+is_global = true
+
+# IDE0001: Simplify names
+dotnet_diagnostic.IDE0001.severity = warning
+
+# IDE0002: Simplify member access
+dotnet_diagnostic.IDE0002.severity = warning
+
+# IDE0003: Remove qualification
+dotnet_diagnostic.IDE0003.severity = warning
+
+# IDE0004: Remove unnecessary cast
+dotnet_diagnostic.IDE0004.severity = warning
+
+# IDE0005: Remove unnecessary imports
+dotnet_diagnostic.IDE0005.severity = warning
+
+# IDE0055: Fix formatting
+dotnet_diagnostic.IDE0055.severity = warning
+
+# IDE0120: Simplify LINQ expression
+dotnet_diagnostic.IDE0120.severity = warning
+
+# IDE0130: Namespace mismatch with folder
+dotnet_diagnostic.IDE0130.severity = warning
+
+# IDE1006: Naming style
+dotnet_diagnostic.IDE1006.severity = warning
+
+# CA1014: Mark assembly with CLSCompliant
+dotnet_diagnostic.CA1014.severity = none
+
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = none
+
+# CA1062: Validate arguments of public methods
+dotnet_diagnostic.CA1062.severity = none
+
+# CA1812: Avoid uninstantiated internal classes
+dotnet_diagnostic.CA1812.severity = silent
+
+# CA2007: Do not directly await a Task
+dotnet_diagnostic.CA2007.severity = warning
