@@ -1,0 +1,59 @@
+is_global = true
+
+# IDE0001: Simplify names
+dotnet_diagnostic.IDE0001.severity = warning
+
+# IDE0002: Simplify member access
+dotnet_diagnostic.IDE0002.severity = warning
+
+# IDE0003: Remove qualification
+dotnet_diagnostic.IDE0003.severity = warning
+
+# IDE0004: Remove unnecessary cast
+dotnet_diagnostic.IDE0004.severity = warning
+
+# IDE0005: Remove unnecessary imports
+dotnet_diagnostic.IDE0005.severity = warning
+
+# IDE0055: Fix formatting
+dotnet_diagnostic.IDE0055.severity = warning
+
+# CA1003: Use generic event handler instances
+dotnet_diagnostic.CA1003.severity = none
+
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = none
+
+# CA1032: Implement standard exception constructor
+dotnet_diagnostic.CA1032.severity = silent
+
+# CA1034: Nested types should not be visible
+dotnet_diagnostic.CA1034.severity = none
+
+# CA1062: Validate arguments of public methods
+dotnet_diagnostic.CA1062.severity = none
+
+# CA1303: Do not pass literals as localized parameters
+dotnet_diagnostic.CA1303.severity = none
+
+# CA1801: Review unused parameters
+dotnet_diagnostic.CA1801.severity = none
+# Covered by IDE0060
+
+# CA1812: Avoid uninstantiated internal classes
+dotnet_diagnostic.CA1812.severity = silent
+
+# CA1815: Override equals and operator equals on value types
+dotnet_diagnostic.CA1815.severity = silent
+
+# CA2000: Dispose objects before losing scope
+dotnet_diagnostic.CA2000.severity = silent
+
+# CA2225: Operator overloads have named alternates
+dotnet_diagnostic.CA2225.severity = none
+
+# CA2234: Pass system uri objects instead of strings
+dotnet_diagnostic.CA2234.severity = none
+
+# CA5350: Do Not Use Weak Cryptographic Algorithms
+dotnet_diagnostic.CA5350.severity = none
