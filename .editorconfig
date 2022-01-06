@@ -52,6 +52,8 @@ dotnet_style_prefer_auto_properties = true : warning
 dotnet_style_prefer_conditional_expression_over_assignment = true : suggestion
 dotnet_style_prefer_conditional_expression_over_return = true : silent
 dotnet_style_prefer_compound_assignment = true : suggestion
+dotnet_style_prefer_simplified_boolean_expressions = true : suggestion
+csharp_style_implicit_object_creation_when_type_is_apparent = true : suggestion
 
 # Null-checking preferences
 dotnet_style_coalesce_expression = true : warning
@@ -178,6 +180,9 @@ csharp_style_expression_bodied_local_functions = when_on_single_line : suggestio
 # Pattern matching
 csharp_style_pattern_matching_over_is_with_cast_check = true : warning
 csharp_style_pattern_matching_over_as_with_null_check = true : warning
+csharp_style_prefer_switch_expression = true: suggestion
+csharp_style_prefer_pattern_matching = true : suggestion
+csharp_style_prefer_not_pattern = true : suggestion
 
 # Inlined variable declarations
 csharp_style_inlined_variable_declaration = true : warning
@@ -191,6 +196,7 @@ csharp_style_conditional_delegate_call = true : warning
 
 # Code block preferences
 csharp_prefer_braces = when_multiline : slient
+csharp_prefer_simple_using_statement = true : silent
 
 # Unused value preferences
 csharp_style_unused_value_expression_statement_preference = discard_variable : slient
@@ -204,8 +210,6 @@ csharp_style_prefer_range_operator = true : warning
 csharp_style_deconstructed_variable_declaration = true : suggestion
 csharp_style_pattern_local_over_anonymous_function = true : warning
 csharp_prefer_static_local_function = true : warning
-csharp_prefer_simple_using_statement = true : silent
-csharp_style_prefer_switch_expression = true : suggestion
 
 
 #### C# formatting settings ####
