@@ -15,6 +15,7 @@ charset = utf-8-bom
 
 [*.{*proj,props,targets}]
 indent_size = 2
+charset = utf-8
 
 [*.{cs,vb}]
 indent_size = 4
