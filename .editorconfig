@@ -15,6 +15,7 @@ charset = utf-8-bom
 
 [*.{*proj,props,targets}]
 indent_size = 2
+charset = utf-8
 
 [*.{cs,vb}]
 indent_size = 4
@@ -52,6 +53,8 @@ dotnet_style_prefer_auto_properties = true : warning
 dotnet_style_prefer_conditional_expression_over_assignment = true : suggestion
 dotnet_style_prefer_conditional_expression_over_return = true : silent
 dotnet_style_prefer_compound_assignment = true : suggestion
+dotnet_style_prefer_simplified_boolean_expressions = true : suggestion
+csharp_style_implicit_object_creation_when_type_is_apparent = true : suggestion
 
 # Null-checking preferences
 dotnet_style_coalesce_expression = true : warning
@@ -73,28 +76,6 @@ dotnet_separate_import_directive_groups = false
 
 
 #### Naming rules ####
-## Grabbed from roslyn repository
-# Non-private static fields are PascalCase
-dotnet_naming_rule.non_private_static_fields_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.non_private_static_fields_should_be_pascal_case.symbols = non_private_static_fields
-dotnet_naming_rule.non_private_static_fields_should_be_pascal_case.style = non_private_static_field_style
-
-dotnet_naming_symbols.non_private_static_fields.applicable_kinds = field
-dotnet_naming_symbols.non_private_static_fields.applicable_accessibilities = public, protected, internal, protected_internal, private_protected
-dotnet_naming_symbols.non_private_static_fields.required_modifiers = static
-
-dotnet_naming_style.non_private_static_field_style.capitalization = pascal_case
-
-# Non-private readonly fields are PascalCase
-dotnet_naming_rule.non_private_readonly_fields_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.non_private_readonly_fields_should_be_pascal_case.symbols = non_private_readonly_fields
-dotnet_naming_rule.non_private_readonly_fields_should_be_pascal_case.style = non_private_readonly_field_style
-
-dotnet_naming_symbols.non_private_readonly_fields.applicable_kinds = field
-dotnet_naming_symbols.non_private_readonly_fields.applicable_accessibilities = public, protected, internal, protected_internal, private_protected
-dotnet_naming_symbols.non_private_readonly_fields.required_modifiers = readonly
-
-dotnet_naming_style.non_private_readonly_field_style.capitalization = pascal_case
 
 # Constants are PascalCase
 dotnet_naming_rule.constants_should_be_pascal_case.severity = suggestion
@@ -106,26 +87,28 @@ dotnet_naming_symbols.constants.required_modifiers = const
 
 dotnet_naming_style.constant_style.capitalization = pascal_case
 
-# Static fields are camelCase and start with s_
-dotnet_naming_rule.static_fields_should_be_camel_case.severity = suggestion
-dotnet_naming_rule.static_fields_should_be_camel_case.symbols = static_fields
-dotnet_naming_rule.static_fields_should_be_camel_case.style = static_field_style
+# Private static fields are camelCase and start with s_
+dotnet_naming_rule.private_static_fields_should_be_camel_case.severity = suggestion
+dotnet_naming_rule.private_static_fields_should_be_camel_case.symbols = private_static_fields
+dotnet_naming_rule.private_static_fields_should_be_camel_case.style = private_static_field_style
 
-dotnet_naming_symbols.static_fields.applicable_kinds = field
-dotnet_naming_symbols.static_fields.required_modifiers = static
+dotnet_naming_symbols.private_static_fields.applicable_kinds = field
+dotnet_naming_symbols.private_static_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_static_fields.required_modifiers = static
 
-dotnet_naming_style.static_field_style.capitalization = camel_case
-dotnet_naming_style.static_field_style.required_prefix = s_
+dotnet_naming_style.private_static_field_style.capitalization = camel_case
+dotnet_naming_style.private_static_field_style.required_prefix = s_
 
-# Instance fields are camelCase and start with _
-dotnet_naming_rule.instance_fields_should_be_camel_case.severity = suggestion
-dotnet_naming_rule.instance_fields_should_be_camel_case.symbols = instance_fields
-dotnet_naming_rule.instance_fields_should_be_camel_case.style = instance_field_style
+# Private instance fields are camelCase and start with _
+dotnet_naming_rule.private_instance_fields_should_be_camel_case.severity = suggestion
+dotnet_naming_rule.private_instance_fields_should_be_camel_case.symbols = private_instance_fields
+dotnet_naming_rule.private_instance_fields_should_be_camel_case.style = private_instance_field_style
 
-dotnet_naming_symbols.instance_fields.applicable_kinds = field
+dotnet_naming_symbols.private_instance_fields.applicable_kinds = field
+dotnet_naming_symbols.private_instance_fields.applicable_accessibilities = private
 
-dotnet_naming_style.instance_field_style.capitalization = camel_case
-dotnet_naming_style.instance_field_style.required_prefix = _
+dotnet_naming_style.private_instance_field_style.capitalization = camel_case
+dotnet_naming_style.private_instance_field_style.required_prefix = _
 
 # Locals and parameters are camelCase
 dotnet_naming_rule.locals_should_be_camel_case.severity = suggestion
@@ -154,66 +137,6 @@ dotnet_naming_symbols.all_members.applicable_kinds = *
 
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
 
-#### Severity ####
-
-# IDE0001: Simplify names
-dotnet_diagnostic.IDE0001.severity = warning
-
-# IDE0002: Simplify member access
-dotnet_diagnostic.IDE0002.severity = warning
-
-# IDE0003: Remove qualification
-dotnet_diagnostic.IDE0003.severity = warning
-
-# IDE0004: Remove unnecessary cast
-dotnet_diagnostic.IDE0004.severity = warning
-
-# IDE0005: Remove unnecessary imports
-dotnet_diagnostic.IDE0005.severity = warning
-
-# IDE0055: Fix formatting
-dotnet_diagnostic.IDE0055.severity = warning
-
-# CA1003: Use generic event handler instances
-dotnet_diagnostic.CA1003.severity = none
-
-# CA1031: Do not catch general exception types
-dotnet_diagnostic.CA1031.severity = none
-
-# CA1032: Implement standard exception constructor
-dotnet_diagnostic.CA1032.severity = silent
-
-# CA1034: Nested types should not be visible
-dotnet_diagnostic.CA1034.severity = none
-
-# CA1062: Validate arguments of public methods
-dotnet_diagnostic.CA1062.severity = none
-
-# CA1303: Do not pass literals as localized parameters
-dotnet_diagnostic.CA1303.severity = none
-
-# CA1801: Review unused parameters
-dotnet_diagnostic.CA1801.severity = none
-# Covered by IDE0060
-
-# CA1812: Avoid uninstantiated internal classes
-dotnet_diagnostic.CA1812.severity = silent
-
-# CA1815: Override equals and operator equals on value types
-dotnet_diagnostic.CA1815.severity = silent
-
-# CA2000: Dispose objects before losing scope
-dotnet_diagnostic.CA2000.severity = silent
-
-# CA2225: Operator overloads have named alternates
-dotnet_diagnostic.CA2225.severity = none
-
-# CA2234: Pass system uri objects instead of strings
-dotnet_diagnostic.CA2234.severity = none
-
-# CA5350: Do Not Use Weak Cryptographic Algorithms
-dotnet_diagnostic.CA5350.severity = none
-
 [*.cs]
 #### C# code style settings ####
 
@@ -238,6 +161,9 @@ csharp_style_expression_bodied_local_functions = when_on_single_line : suggestio
 # Pattern matching
 csharp_style_pattern_matching_over_is_with_cast_check = true : warning
 csharp_style_pattern_matching_over_as_with_null_check = true : warning
+csharp_style_prefer_switch_expression = true: suggestion
+csharp_style_prefer_pattern_matching = true : suggestion
+csharp_style_prefer_not_pattern = true : suggestion
 
 # Inlined variable declarations
 csharp_style_inlined_variable_declaration = true : warning
@@ -251,6 +177,7 @@ csharp_style_conditional_delegate_call = true : warning
 
 # Code block preferences
 csharp_prefer_braces = when_multiline : slient
+csharp_prefer_simple_using_statement = true : silent
 
 # Unused value preferences
 csharp_style_unused_value_expression_statement_preference = discard_variable : slient
@@ -264,8 +191,6 @@ csharp_style_prefer_range_operator = true : warning
 csharp_style_deconstructed_variable_declaration = true : suggestion
 csharp_style_pattern_local_over_anonymous_function = true : warning
 csharp_prefer_static_local_function = true : warning
-csharp_prefer_simple_using_statement = true : silent
-csharp_style_prefer_switch_expression = true : suggestion
 
 
 #### C# formatting settings ####

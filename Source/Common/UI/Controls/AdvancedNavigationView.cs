@@ -75,6 +75,7 @@ namespace EHunter.Controls
                 if (viewModel != null && PageLocator?.MapPageType(viewModel) == viewType)
                 {
                     item.IsSelected = true;
+                    SelectedItem = item;
                     return;
                 }
             }
