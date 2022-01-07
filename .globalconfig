@@ -36,8 +36,11 @@ dotnet_diagnostic.CA1031.severity = none
 # CA1062: Validate arguments of public methods
 dotnet_diagnostic.CA1062.severity = none
 
-# CA1812: Avoid uninstantiated internal classes
-dotnet_diagnostic.CA1812.severity = silent
+# CA1849: Call async methods when in an async method
+dotnet_diagnostic.CA1849.severity = warning
 
 # CA2007: Do not directly await a Task
 dotnet_diagnostic.CA2007.severity = warning
+
+# CA2213: Disposable fields should be disposed
+dotnet_diagnostic.CA2213.severity = warning

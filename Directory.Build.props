@@ -9,8 +9,6 @@
     <AnalysisMode>Recommended</AnalysisMode>
     <AnalysisModeDesign>All</AnalysisModeDesign>
     <AnalysisModeNaming>All</AnalysisModeNaming>
-    <AnalysisModePerformance>All</AnalysisModePerformance>
-    <AnalysisModeUsage>All</AnalysisModeUsage>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
