@@ -1,6 +1,8 @@
 ﻿using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
 using EHunter.EHentai.Api.Json;
 
 namespace EHunter.EHentai.Api.Models
@@ -10,6 +12,11 @@ namespace EHunter.EHentai.Api.Models
         private readonly EHentaiClient _client;
         private static readonly Regex s_titleRegex
             = new(@"^(?:\((.+?)\))?\s*(?:\[(.+?)\s*\((.+?)\)\])?\s*(.+?)\s*(?:\((.+?)\))?(?:\s*[\[【](.+?)[\]】])*$",
+                RegexOptions.Compiled | RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
+
+        // TODO: use css parser when AngleSharp.Css is working
+        private static readonly Regex s_pageThumbnailRegex
+            = new(@"background:transparent url\((.+?)\)",
                 RegexOptions.Compiled | RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
 
         internal Gallery(EHentaiClient client, Uri queryUri, GalleryMetadata metadata)
@@ -25,6 +32,7 @@ namespace EHunter.EHentai.Api.Models
             Tags = metadata.Tags.ToArray();
             Title = ParseTitle(metadata.Title);
             TitleJpn = ParseTitle(metadata.TitleJpn);
+            ImagesCount = metadata.FileCount;
 
             static string? NullIfEmpty(string str)
                 => string.IsNullOrEmpty(str) ? null : str;
@@ -59,7 +67,37 @@ namespace EHunter.EHentai.Api.Models
         public ParsedTitle? Title { get; }
         public ParsedTitle? TitleJpn { get; }
 
-        public Task<Stream> RequestThumbnailAsync() => _client.HttpClient.GetStreamAsync(Thumbnail);
+        public int ImagesCount { get; }
+        public int PagesCount => (ImagesCount - 1) / 40 + 1;
+
+        public async Task<GalleryPage> GetPageAtAsync(int pageIndex, CancellationToken cancellationToken)
+        {
+            using var document = await _client.OpenDocumentAsync(new Uri($"{GalleryUri}?p={pageIndex}"), cancellationToken).ConfigureAwait(false);
+
+            int totalWebPages = int.Parse(
+                document
+                    .QuerySelector("table.ptt")!
+                    .QuerySelectorAll("td")[^2]
+                    .QuerySelector("a")!
+                    .Text(),
+                null);
+
+            var images = document
+                .QuerySelector("div#gdt")!
+                .QuerySelectorAll<IHtmlDivElement>("div.gdtm>div")
+                .Select(pageDiv =>
+                {
+                    string url = pageDiv.QuerySelector<IHtmlAnchorElement>("a")!.Href;
+                    string style = pageDiv.GetAttribute("style")!;
+                    var match = s_pageThumbnailRegex.Match(style);
+                    string thumbnail = match.Groups[1].Value;
+
+                    return new ImagePage(_client, new Uri(url), new Url(thumbnail));
+                })
+                .ToArray();
+
+            return new(pageIndex, totalWebPages, images);
+        }
     }
 
     public record ParsedTitle(
@@ -73,4 +111,9 @@ namespace EHunter.EHentai.Api.Models
 
     [JsonConverter(typeof(TagConverter))]
     public record struct Tag(string? Namespace, string Name);
+
+    public record struct GalleryPage(
+        int Index,
+        int TotalPagesGet,
+        IReadOnlyList<ImagePage> Images);
 }
