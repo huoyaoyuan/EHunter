@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\UI\EHunter.Common.UI.csproj" />
+    <ProjectReference Include="..\..\EHentai\UI\EHunter.EHentai.UI.csproj" />
     <ProjectReference Include="..\..\Pixiv\UI\EHunter.Pixiv.UI.csproj" />
   </ItemGroup>
 

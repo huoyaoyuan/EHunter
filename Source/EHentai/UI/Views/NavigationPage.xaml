@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="EHunter.EHentai.Views.NavigationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:EHunter.Controls"
+    xmlns:local="using:EHunter.EHentai.Views"
+    mc:Ignorable="d"
+    NavigationCacheMode="Required"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    x:DefaultBindMode="OneWay">
+    <controls:AdvancedNavigationView
+        PaneDisplayMode="LeftCompact"
+        SelectedViewModel="{x:Bind ViewModel.SelectedPage, Mode=TwoWay}"
+        SettingsViewModel="{x:Bind ViewModel.Settings}">
+        <controls:AdvancedNavigationView.PageLocator>
+            <local:EHentaiPageLocator />
+        </controls:AdvancedNavigationView.PageLocator>
+        <NavigationView.MenuItems>
+            <NavigationViewItem
+                x:Uid="Navigation_List"
+                Icon="AllApps" IsSelected="True"
+                controls:AdvancedNavigationView.ViewModel="{x:Bind ViewModel.GalleryList}" />
+        </NavigationView.MenuItems>
+    </controls:AdvancedNavigationView>
+</Page>
