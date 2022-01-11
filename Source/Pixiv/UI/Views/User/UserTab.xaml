@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<local:UserTabBase
     x:Class="EHunter.Pixiv.Views.User.UserTab"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,6 +9,7 @@
     xmlns:commands="using:EHunter.Pixiv.Commands"
     xmlns:controls="using:EHunter.Pixiv.Controls"
     xmlns:res="using:EHunter.Pixiv.Resources"
+    xmlns:local="using:EHunter.Pixiv.Views.User"
     mc:Ignorable="d"
     x:DefaultBindMode="OneWay">
     <UserControl.Resources>
@@ -168,4 +169,4 @@
             </Grid>
         </controls:IllustCollectionView>
     </Grid>
-</UserControl>
+</local:UserTabBase>

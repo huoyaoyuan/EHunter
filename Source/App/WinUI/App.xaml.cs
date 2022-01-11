@@ -48,6 +48,8 @@ namespace EHunter.UI
                         "EHunter.Data",
                         "EHunter.Pixiv",
                         "EHunter.Pixiv.UI",
+                        "EHunter.EHentai",
+                        "EHunter.EHentai.UI",
                         "EHunter.UI",
                     }
                     .Select(Assembly.Load))

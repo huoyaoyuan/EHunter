@@ -25,6 +25,7 @@
                         <HyperlinkButton
                             Grid.Row="1"
                             HorizontalAlignment="Center"
+                            Click="HyperlinkButton_Click"
                             Content="{x:Bind Illust.User.Name}"
                             Command="{x:Bind NavigateToUserCommand}"
                             CommandParameter="{x:Bind Illust.User}" />

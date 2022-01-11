@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
     <PackageReference Include="System.Composition" Version="6.0.0" />
@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\UI\EHunter.Common.UI.csproj" />
+    <ProjectReference Include="..\..\EHentai\UI\EHunter.EHentai.UI.csproj" />
     <ProjectReference Include="..\..\Pixiv\UI\EHunter.Pixiv.UI.csproj" />
   </ItemGroup>
 

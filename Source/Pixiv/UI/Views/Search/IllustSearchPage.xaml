@@ -4,7 +4,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:tkex="using:CommunityToolkit.WinUI.UI"
     xmlns:controls="using:EHunter.Controls"
     xmlns:converters="using:EHunter.Converters"
     xmlns:vm="using:EHunter.Pixiv.ViewModels.Search"
@@ -28,7 +27,10 @@
         <TabView.TabItemTemplateSelector>
             <local:IllustSearchTabItemSelector>
 
-                <controls:SelectorCase Value="{tkex:NullableBool Value=False}">
+                <controls:SelectorCase>
+                    <controls:SelectorCase.Value>
+                        <x:Boolean>False</x:Boolean>
+                    </controls:SelectorCase.Value>
                     <DataTemplate x:DataType="vm:IllustSearchVM"
                                   x:DefaultBindMode="OneWay">
                         <TabViewItem Header="{x:Bind EffectiveWord, Converter={StaticResource SearchHeaderConverter}}">
@@ -41,7 +43,10 @@
                     </DataTemplate>
                 </controls:SelectorCase>
 
-                <controls:SelectorCase Value="{tkex:NullableBool Value=True}">
+                <controls:SelectorCase>
+                    <controls:SelectorCase.Value>
+                        <x:Boolean>True</x:Boolean>
+                    </controls:SelectorCase.Value>
                     <DataTemplate x:DataType="vm:IllustSearchVM"
                                   x:DefaultBindMode="OneWay">
                         <TabViewItem Header="{x:Bind Tag.Name}">

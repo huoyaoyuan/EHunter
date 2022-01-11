@@ -1,0 +1,101 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:EHunter.EHentai.Controls">
+    <Style TargetType="controls:CategoryPresenter">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:CategoryPresenter">
+                    <Border
+                        Name="Border"
+                        CornerRadius="2">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup>
+                                <VisualState x:Name="Doujinshi">
+                                    <VisualState.Setters>
+                                        <Setter Target="Text.Text" x:Uid="/EHunter.EHentai.UI/Resources/GalleryCategory_Doujinshi" />
+                                        <Setter Target="Border.Background" Value="#9E2720" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                
+                                <VisualState x:Name="Manga">
+                                    <VisualState.Setters>
+                                        <Setter Target="Text.Text" x:Uid="/EHunter.EHentai.UI/Resources/GalleryCategory_Manga" />
+                                        <Setter Target="Border.Background" Value="#DB6C24" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                
+                                <VisualState x:Name="ArtistCG">
+                                    <VisualState.Setters>
+                                        <Setter Target="Text.Text" x:Uid="/EHunter.EHentai.UI/Resources/GalleryCategory_ArtistCG" />
+                                        <Setter Target="Border.Background" Value="#D38F1D" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                
+                                <VisualState x:Name="GameCG">
+                                    <VisualState.Setters>
+                                        <Setter Target="Text.Text" x:Uid="/EHunter.EHentai.UI/Resources/GalleryCategory_GameCG" />
+                                        <Setter Target="Border.Background" Value="#617C63" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                
+                                <VisualState x:Name="Western">
+                                    <VisualState.Setters>
+                                        <Setter Target="Text.Text" x:Uid="/EHunter.EHentai.UI/Resources/GalleryCategory_Western" />
+                                        <Setter Target="Border.Background" Value="#617C63" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                
+                                <VisualState x:Name="NonH">
+                                    <VisualState.Setters>
+                                        <Setter Target="Text.Text" x:Uid="/EHunter.EHentai.UI/Resources/GalleryCategory_NonH" />
+                                        <Setter Target="Border.Background" Value="#5FA9CF" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                
+                                <VisualState x:Name="ImageSet">
+                                    <VisualState.Setters>
+                                        <Setter Target="Text.Text" x:Uid="/EHunter.EHentai.UI/Resources/GalleryCategory_ImageSet" />
+                                        <Setter Target="Border.Background" Value="#325CA2" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                
+                                <VisualState x:Name="Cosplay">
+                                    <VisualState.Setters>
+                                        <Setter Target="Text.Text" x:Uid="/EHunter.EHentai.UI/Resources/GalleryCategory_Cosplay" />
+                                        <Setter Target="Border.Background" Value="#325CA2" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                
+                                <VisualState x:Name="AsianPorn">
+                                    <VisualState.Setters>
+                                        <Setter Target="Text.Text" x:Uid="/EHunter.EHentai.UI/Resources/GalleryCategory_AsianPorn" />
+                                        <Setter Target="Border.Background" Value="#A23282" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                
+                                <VisualState x:Name="Misc">
+                                    <VisualState.Setters>
+                                        <Setter Target="Text.Text" x:Uid="/EHunter.EHentai.UI/Resources/GalleryCategory_Misc" />
+                                        <Setter Target="Border.Background" Value="#777777" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        
+                        <TextBlock
+                            Name="Text"
+                            Foreground="White"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

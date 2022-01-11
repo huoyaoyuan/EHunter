@@ -4,7 +4,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ex="using:CommunityToolkit.WinUI.UI"
     xmlns:tk="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:local="using:EHunter.Pixiv.Views"
     xmlns:login="using:EHunter.Pixiv.Views.Login"
@@ -18,10 +17,17 @@
             <EntranceThemeTransition />
         </ContentPresenter.ContentTransitions>
 
-        <tk:Case Value="{ex:NullableBool Value=False}">
+        <tk:Case>
+            <tk:Case.Value>
+                <x:Boolean>False</x:Boolean>
+            </tk:Case.Value>
             <login:LoginPage _vm="{x:Bind ViewModel.Login}" />
         </tk:Case>
-        <tk:Case Value="{ex:NullableBool Value=True}">
+        
+        <tk:Case>
+            <tk:Case.Value>
+                <x:Boolean>True</x:Boolean>
+            </tk:Case.Value>
             <local:NavigationPage ViewModel="{x:Bind ViewModel.Navigation}" />
         </tk:Case>
     </tk:SwitchPresenter>

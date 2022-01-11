@@ -1,0 +1,105 @@
+﻿<local:EHentaiSettingsPageBase
+    x:Class="EHunter.EHentai.Views.EHentaiSettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:EHunter.Converters"
+    xmlns:local="using:EHunter.EHentai.Views"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    x:DefaultBindMode="OneWay">
+    <Page.Resources>
+        <converters:EnumIntConverter x:Key="EnumIntConverter" />
+    </Page.Resources>
+    <ScrollViewer
+        IsTabStop="False"
+        UseSystemFocusVisuals="False"
+        VerticalScrollMode="Auto"
+        VerticalScrollBarVisibility="Auto">
+        
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="LoggingIn">
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{x:Bind ViewModel.IsLoggingIn, Mode=OneWay}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="username.IsEnabled" Value="False" />
+                        <Setter Target="password.IsEnabled" Value="False" />
+                        <Setter Target="loginButton.IsEnabled" Value="False" />
+                        <Setter Target="loginProgress.IsActive" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="AlreadyLogin">
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{x:Bind ViewModel.IsLogin, Mode=OneWay}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="username.Visibility" Value="Collapsed" />
+                        <Setter Target="password.Visibility" Value="Collapsed" />
+                        <Setter Target="loginButton.Visibility" Value="Collapsed" />
+                        <Setter Target="logoutButton.Visibility" Value="Visible" />
+                        <Setter Target="endPoint.IsEnabled" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <StackPanel Orientation="Vertical"
+                    Margin="4" Spacing="4"
+                    x:DefaultBindMode="TwoWay">
+            <TextBlock
+                x:Uid="SettingSection_Account"
+                Style="{ThemeResource TitleTextBlockStyle}"
+                Margin="0,0,0,6" />
+            <TextBox
+                x:Name="username"
+                x:Uid="Username"
+                Text="{x:Bind ViewModel.Username}" />
+            <PasswordBox
+                x:Name="password"
+                x:Uid="Password"
+                Password="{x:Bind ViewModel.Password}" />
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="4">
+                <Button
+                    x:Name="loginButton"
+                    x:Uid="Login"
+                    Click="{x:Bind ViewModel.Login}" />
+                <ProgressRing
+                    x:Name="loginProgress"
+                    IsActive="False" />
+            </StackPanel>
+            <Button
+                x:Name="logoutButton"
+                x:Uid="Logout"
+                Visibility="Collapsed"
+                Click="{x:Bind ViewModel.Logout}" />
+            <InfoBar
+                Severity="Error"
+                IsOpen="{x:Bind ViewModel.ShowLoginException}"
+                Message="{x:Bind ViewModel.LoginException.Message, Mode=OneWay}" />
+            
+            <TextBlock
+                x:Uid="SettingSection_Connection"
+                Style="{ThemeResource TitleTextBlockStyle}"
+                Margin="0,36,0,6" />
+            <ComboBox
+                x:Uid="ConnectionMode"
+                SelectedIndex="{x:Bind ViewModel.ConnectionMode, Converter={StaticResource EnumIntConverter}}">
+                <ComboBoxItem x:Uid="ConnectionMode_SystemProxy" />
+                <ComboBoxItem x:Uid="ConnectionMode_ApplicationProxy" />
+                <ComboBoxItem x:Uid="ConnectionMode_NoProxy" />
+            </ComboBox>
+            <ToggleSwitch
+                x:Name="endPoint"
+                x:Uid="EndPoint"
+                OnContent="ExHentai"
+                OffContent="E-Hentai"
+                IsEnabled="False"
+                IsOn="{x:Bind ViewModel.UseExHentai}" />
+        </StackPanel>
+    </ScrollViewer>
+</local:EHentaiSettingsPageBase>
