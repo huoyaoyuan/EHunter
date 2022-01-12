@@ -49,8 +49,19 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(CIBuild)' != 'true'">
     <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="Release.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(CIBuild)' == 'true'">
+    <None Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <AppxManifest Include="Release.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
   </ItemGroup>
