@@ -11,6 +11,7 @@
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
     <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
+    <CIBuild>false</CIBuild>
   </PropertyGroup>
 
   <PropertyGroup Label="MSIX">
@@ -23,7 +24,15 @@
     <AppxBundle>Always</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
+    <PackageCertificateKeyFile>EHunter.pfx</PackageCertificateKeyFile>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(CIBuild)' == true">
+    <AppxManifest Remove="Package.appxmanifest" />
+    <AppxManifest Include="Release.appxmanifest" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\*" />
