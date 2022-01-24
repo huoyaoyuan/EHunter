@@ -7,7 +7,7 @@ using Meowtrix.PixivApi;
 
 namespace EHunter.Pixiv.Services
 {
-    [Export, Export(typeof(ICustomResolver<PixivClient>)), Shared]
+    [Export(typeof(ICustomResolver<PixivClient>)), Shared]
     public sealed class PixivClientService : ICustomResolver<PixivClient>, IDisposable
     {
         private readonly PixivClient _client = new();
