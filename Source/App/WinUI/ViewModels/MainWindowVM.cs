@@ -9,13 +9,13 @@ namespace EHunter.UI.ViewModels
     public partial class MainWindowVM : ObservableObject
     {
         [ImportingConstructor]
-        public MainWindowVM([ImportMany] IEnumerable<IEHunterProvider> providers, CommonSettingVM settings)
+        public MainWindowVM(IServiceProvider serviceProvider, [ImportMany] IEnumerable<IEHunterProvider> providers, CommonSettingVM settings)
         {
             Providers = providers.ToImmutableArray();
             TopNavigationEntries = Providers.Select(x => new IconNavigationEntry
             {
                 Title = x.Title,
-                UIRoot = x.CreateUIRoot(),
+                UIRoot = x.CreateUIRoot(serviceProvider),
                 IconUri = x.IconUri
             }).ToArray();
             Settings = settings;

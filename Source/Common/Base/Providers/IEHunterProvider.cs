@@ -1,9 +1,12 @@
-﻿namespace EHunter.Providers
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace EHunter.Providers
 {
     public interface IEHunterProvider
     {
         string Title { get; }
         Uri IconUri { get; }
-        object CreateUIRoot();
+        object CreateUIRoot(IServiceProvider serviceProvider);
+        void ConfigureServices(IServiceCollection serviceCollection);
     }
 }
