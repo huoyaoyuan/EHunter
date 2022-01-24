@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Composition;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using EHunter.DependencyInjection;
@@ -10,7 +9,6 @@ using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Opened
 {
-    [Export]
     public sealed partial class OpenedIllustsVM : ObservableObject, IRecipient<NavigateToIllustMessage>
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
@@ -28,7 +26,6 @@ namespace EHunter.Pixiv.ViewModels.Opened
         [ObservableProperty]
         private bool _canClose;
 
-        [ImportingConstructor]
         public OpenedIllustsVM(ICustomResolver<PixivClient> clientResolver,
             PixivVMFactory factory)
         {

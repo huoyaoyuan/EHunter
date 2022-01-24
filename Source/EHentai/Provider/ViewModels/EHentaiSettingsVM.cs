@@ -1,19 +1,16 @@
-﻿using System.Composition;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.EHentai.Api;
 using EHunter.EHentai.Settings;
 
 namespace EHunter.EHentai.ViewModels
 {
-    [Export, Shared]
     public partial class EHentaiSettingsVM : ObservableObject
     {
         private readonly EHentaiSetting _settings;
         private readonly IEHentaiSettingStore _settingStore;
         private readonly ICustomResolver<EHentaiClient> _clientResolver;
 
-        [ImportingConstructor]
         public EHentaiSettingsVM(EHentaiSetting settings, IEHentaiSettingStore settingStore, ICustomResolver<EHentaiClient> clientResolver)
         {
             _settings = settings;

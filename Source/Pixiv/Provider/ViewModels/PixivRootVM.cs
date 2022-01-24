@@ -1,17 +1,14 @@
-﻿using System.Composition;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using EHunter.Pixiv.Messages;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EHunter.Pixiv.ViewModels
 {
-    [Export]
     public sealed partial class PixivRootVM : ObservableObject, IRecipient<InitializationCompleteMessage>
     {
         private readonly IServiceProvider _serviceProvider;
 
-        [ImportingConstructor]
         public PixivRootVM(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;

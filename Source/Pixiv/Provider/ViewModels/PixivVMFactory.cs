@@ -1,5 +1,4 @@
-﻿using System.Composition;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using EHunter.ComponentModel;
@@ -17,7 +16,6 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace EHunter.Pixiv.ViewModels
 {
-    [Export, Shared]
     public partial class PixivVMFactory
     {
         private readonly IMemoryCache _memoryCache;
@@ -26,7 +24,6 @@ namespace EHunter.Pixiv.ViewModels
         private readonly ICustomResolver<PixivClient> _clientResolver;
         private readonly IMessenger _messenger;
 
-        [ImportingConstructor]
         public PixivVMFactory(IMemoryCache memoryCache,
             DownloadManager downloadManager,
             IViewModelService viewModelService,

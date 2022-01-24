@@ -1,5 +1,4 @@
-﻿using System.Composition;
-using EHunter.UI.ViewModels;
+﻿using EHunter.UI.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -7,11 +6,9 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace EHunter.UI.Views
 {
-    [Export]
     public sealed partial class SettingsPage : Page
     {
         private CommonSettingVM? _viewModel;
-        [Import]
         public CommonSettingVM? ViewModel
         {
             get => _viewModel;

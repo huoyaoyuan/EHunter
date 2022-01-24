@@ -1,5 +1,4 @@
-﻿using System.Composition;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.EHentai.Api;
@@ -12,14 +11,12 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace EHunter.EHentai.ViewModels
 {
-    [Export, Shared]
     public class EHentaiVMFactory
     {
         private readonly IMemoryCache _memoryCache;
         private readonly ICustomResolver<EHentaiClient> _clientResolver;
         private readonly IViewModelService _viewModelService;
 
-        [ImportingConstructor]
         public EHentaiVMFactory(
             IMemoryCache memoryCache,
             ICustomResolver<EHentaiClient> clientResolver,

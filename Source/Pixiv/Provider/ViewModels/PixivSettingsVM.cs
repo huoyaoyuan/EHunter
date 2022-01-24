@@ -1,5 +1,4 @@
-﻿using System.Composition;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.Media;
@@ -8,12 +7,10 @@ using Meowtrix.PixivApi;
 
 namespace EHunter.Pixiv.ViewModels
 {
-    [Export]
     public class PixivSettingsVM : ObservableObject
     {
         private readonly PixivSetting _settings;
 
-        [ImportingConstructor]
         public PixivSettingsVM(PixivSetting settings,
             ICustomResolver<PixivClient> clientResolver,
             PixivVMFactory vmFactory)

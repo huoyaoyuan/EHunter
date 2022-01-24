@@ -1,17 +1,14 @@
-﻿using System.Composition;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.Services;
 using EHunter.Settings;
 
 namespace EHunter.UI.ViewModels
 {
-    [Export]
     public class CommonSettingVM : ObservableObject
     {
         private readonly CommonSetting _commonSetting;
         private readonly IViewModelService _viewModelService;
 
-        [ImportingConstructor]
         public CommonSettingVM(ICommonSettingStore settingStore, CommonSetting commonSetting, IViewModelService viewModelService)
         {
             _storageRoot = settingStore.StorageRoot;

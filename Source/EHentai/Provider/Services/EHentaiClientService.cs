@@ -1,5 +1,4 @@
-﻿using System.Composition;
-using System.Reactive.Linq;
+﻿using System.Reactive.Linq;
 using EHunter.DependencyInjection;
 using EHunter.EHentai.Api;
 using EHunter.EHentai.Settings;
@@ -7,13 +6,11 @@ using EHunter.Settings;
 
 namespace EHunter.EHentai.Services
 {
-    [Export, Export(typeof(ICustomResolver<EHentaiClient>)), Shared]
     public sealed class EHentaiClientService : ICustomResolver<EHentaiClient>, IDisposable
     {
         private readonly IDisposable _connectionDisposable, _endpointDisposable;
         private readonly EHentaiClient _client = new();
 
-        [ImportingConstructor]
         public EHentaiClientService(IProxySetting proxySetting, EHentaiSetting eHentaiSetting, IEHentaiSettingStore settingStore)
         {
             _connectionDisposable = proxySetting.Proxy
