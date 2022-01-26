@@ -1,16 +1,14 @@
-﻿using System.Composition;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using EHunter.Data;
+using EHunter.DependencyInjection;
 using EHunter.Pixiv.Data;
 using EHunter.Pixiv.Messages;
-using EHunter.Pixiv.Services;
 using EHunter.Pixiv.Settings;
 using Meowtrix.PixivApi;
 
 namespace EHunter.Pixiv.ViewModels
 {
-    [Export]
     public partial class LoginPageVM : ObservableObject
     {
         private readonly IPixivSettingStore _settingStore;
@@ -47,11 +45,10 @@ namespace EHunter.Pixiv.ViewModels
         [ObservableProperty]
         private Exception? _loginException;
 
-        [ImportingConstructor]
         public LoginPageVM(
             IPixivSettingStore settingStore,
             PixivSetting setting,
-            PixivClientService clientService,
+            ICustomResolver<PixivClient> clientService,
             EHunterDbContextResolver<EHunterDbContext> eHunterContextResolver,
             EHunterDbContextResolver<PixivDbContext> pixivContextResolver)
         {

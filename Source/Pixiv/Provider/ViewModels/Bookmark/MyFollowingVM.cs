@@ -1,5 +1,4 @@
-﻿using System.Composition;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.ViewModels.User;
@@ -7,7 +6,6 @@ using Meowtrix.PixivApi;
 
 namespace EHunter.Pixiv.ViewModels.Bookmark
 {
-    [Export]
     public partial class MyFollowingVM : ObservableObject
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
@@ -16,7 +14,6 @@ namespace EHunter.Pixiv.ViewModels.Bookmark
         [ObservableProperty]
         private IBindableCollection<UserWithPreviewVM>? _users;
 
-        [ImportingConstructor]
         public MyFollowingVM(ICustomResolver<PixivClient> clientResolver,
             PixivVMFactory factory)
         {

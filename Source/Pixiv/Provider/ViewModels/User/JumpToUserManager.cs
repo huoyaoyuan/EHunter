@@ -1,17 +1,14 @@
-﻿using System.Composition;
-using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
 using EHunter.ComponentModel;
 using EHunter.Pixiv.Messages;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.User
 {
-    [Export]
     public sealed class JumpToUserManager : TabsViewModel<JumpToUserVM>, IRecipient<NavigateToUserMessage>
     {
         private readonly PixivVMFactory _factory;
 
-        [ImportingConstructor]
         public JumpToUserManager(PixivVMFactory factory) => _factory = factory;
 
         protected override JumpToUserVM CreateNewTab() => _factory.JumpToUser();

@@ -1,11 +1,9 @@
-﻿using System.Composition;
-using EHunter.Settings;
+﻿using EHunter.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace EHunter.Data
 {
-    [Export(typeof(EHunterDbContextResolver<>)), Export(typeof(IDbContextFactoryResolver<>)), Shared]
     public sealed class EHunterDbContextResolver<TContext> :
         IDbContextFactoryResolver<TContext>,
         IDisposable
@@ -14,7 +12,6 @@ namespace EHunter.Data
         private PooledDbContextFactory<TContext>? _factory;
         private readonly IDisposable _databaseSettingDisposable;
 
-        [ImportingConstructor]
         public EHunterDbContextResolver(IDatabaseSetting setting)
         {
             _databaseSettingDisposable = setting.ConnectionString.Subscribe(

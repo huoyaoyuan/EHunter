@@ -1,12 +1,10 @@
-﻿using System.Composition;
-using EHunter.DependencyInjection;
+﻿using EHunter.DependencyInjection;
 using EHunter.Pixiv.ViewModels.Primitives;
 using Meowtrix.PixivApi;
 using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.ViewModels.Ranking
 {
-    [Export]
     public partial class RankingVM : IllustCollectionVM
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
@@ -34,7 +32,6 @@ namespace EHunter.Pixiv.ViewModels.Ranking
             }
         }
 
-        [ImportingConstructor]
         public RankingVM(ICustomResolver<PixivClient> clientResolver,
             PixivVMFactory factory)
             : base(factory)

@@ -1,14 +1,11 @@
-﻿using System.Composition;
-using EHunter.Services;
+﻿using EHunter.Services;
 
 namespace EHunter.Settings
 {
-    [Export(typeof(ICommonSettingStore)), Shared]
     public class CommonSettingStore : ICommonSettingStore
     {
         private readonly ISettingsStore _settingsStore;
 
-        [ImportingConstructor]
         public CommonSettingStore(ISettingsStore settingsStore) => _settingsStore = settingsStore;
 
         public string StorageRoot

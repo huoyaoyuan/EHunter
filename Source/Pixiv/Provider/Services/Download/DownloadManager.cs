@@ -1,5 +1,4 @@
-﻿using System.Composition;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using DynamicData;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.Settings;
@@ -8,7 +7,6 @@ using Meowtrix.PixivApi.Models;
 
 namespace EHunter.Pixiv.Services.Download
 {
-    [Export, Shared]
     public sealed partial class DownloadManager : ObservableObject, IDisposable
     {
         private readonly PixivSetting _setting;
@@ -21,7 +19,6 @@ namespace EHunter.Pixiv.Services.Download
         [ObservableProperty]
         private int _activeDownloads;
 
-        [ImportingConstructor]
         public DownloadManager(PixivSetting setting, DownloaderService downloader, ICustomResolver<PixivClient> clientResolver)
         {
             _setting = setting;

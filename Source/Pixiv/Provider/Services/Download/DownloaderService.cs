@@ -1,5 +1,4 @@
 ﻿using System.Buffers;
-using System.Composition;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO.Compression;
@@ -14,7 +13,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EHunter.Pixiv.Services.Download
 {
-    [Export]
     public class DownloaderService
     {
         private readonly PixivClient _client;
@@ -22,7 +20,6 @@ namespace EHunter.Pixiv.Services.Download
         private readonly IDbContextFactoryResolver<PixivDbContext> _pixivDbContextResolver;
         private readonly IStorageSetting _storageSetting;
 
-        [ImportingConstructor]
         public DownloaderService(
             ICustomResolver<PixivClient> pixivClientResolver,
             IDbContextFactoryResolver<EHunterDbContext> eHunterContextResolver,

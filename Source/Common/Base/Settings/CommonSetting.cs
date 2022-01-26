@@ -1,15 +1,12 @@
-﻿using System.Composition;
-using System.Net;
+﻿using System.Net;
 using EHunter.ComponentModel;
 
 namespace EHunter.Settings
 {
-    [Export, Shared, Export(typeof(IStorageSetting)), Export(typeof(IProxySetting)), Export(typeof(IDatabaseSetting))]
     public class CommonSetting : IStorageSetting, IProxySetting, IDatabaseSetting
     {
         private readonly ICommonSettingStore _settingStore;
 
-        [ImportingConstructor]
         public CommonSetting(ICommonSettingStore settingStore)
         {
             _settingStore = settingStore;

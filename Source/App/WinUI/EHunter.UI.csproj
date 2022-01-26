@@ -42,7 +42,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
-    <PackageReference Include="System.Composition" Version="6.0.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 

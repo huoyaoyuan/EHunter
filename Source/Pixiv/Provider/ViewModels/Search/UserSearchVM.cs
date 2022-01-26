@@ -1,5 +1,4 @@
-﻿using System.Composition;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EHunter.ComponentModel;
 using EHunter.DependencyInjection;
 using EHunter.Pixiv.ViewModels.User;
@@ -7,7 +6,6 @@ using Meowtrix.PixivApi;
 
 namespace EHunter.Pixiv.ViewModels.Search
 {
-    [Export]
     public partial class UserSearchVM : ObservableObject
     {
         private readonly ICustomResolver<PixivClient> _clientResolver;
@@ -19,7 +17,6 @@ namespace EHunter.Pixiv.ViewModels.Search
         [ObservableProperty]
         private IBindableCollection<UserWithPreviewVM>? _users;
 
-        [ImportingConstructor]
         public UserSearchVM(ICustomResolver<PixivClient> clientResolver,
             PixivVMFactory factory)
         {

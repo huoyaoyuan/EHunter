@@ -1,8 +1,8 @@
-﻿using System.Composition.Convention;
-using System.Composition.Hosting;
-using System.Reflection;
+﻿using EHunter.EHentai;
+using EHunter.Pixiv;
+using EHunter.Providers;
 using EHunter.Services;
-using EHunter.UI.Composition;
+using EHunter.Settings;
 using EHunter.UI.Services;
 using EHunter.UI.ViewModels;
 using EHunter.UI.Views;
@@ -25,6 +25,12 @@ namespace EHunter.UI
         /// </summary>
         public App()
         {
+            var providers = new IEHunterProvider[]
+            {
+                new PixivUIProvider(),
+                new EHentaiUIProvider(),
+            };
+
             var services = new ServiceCollection()
                 .AddMemoryCache(o =>
                 {
@@ -32,30 +38,22 @@ namespace EHunter.UI
                     o.CompactionPercentage = 0.9;
                 })
                 .AddSingleton<IViewModelService, ViewModelService>()
-                .AddSingleton<ISettingsStore, WinRTSettingsStore>();
+                .AddSingleton<ISettingsStore, WinRTSettingsStore>()
+                .AddSingleton<CommonSetting>()
+                .AddSingleton<IStorageSetting>(sp => sp.GetRequiredService<CommonSetting>())
+                .AddSingleton<IDatabaseSetting>(sp => sp.GetRequiredService<CommonSetting>())
+                .AddSingleton<IProxySetting>(sp => sp.GetRequiredService<CommonSetting>())
+                .AddSingleton<ICommonSettingStore, CommonSettingStore>()
+                .AddSingleton<MainWindowVM>()
+                .AddTransient<CommonSettingVM>();
 
-            var convensionBuilder = new ConventionBuilder();
-            convensionBuilder
-                .ForType<MEFServiceProvider>()
-                .Export<IServiceProvider>()
-                .Shared();
+            foreach (var provider in providers)
+            {
+                services.AddSingleton(provider);
+                provider.ConfigureServices(services);
+            }
 
-            _host = new ContainerConfiguration()
-                .WithAssemblies(new[]
-                    {
-                        "EHunter.Base",
-                        "EHunter.Common.UI",
-                        "EHunter.Data",
-                        "EHunter.Pixiv",
-                        "EHunter.Pixiv.UI",
-                        "EHunter.EHentai",
-                        "EHunter.EHentai.UI",
-                        "EHunter.UI",
-                    }
-                    .Select(Assembly.Load))
-                .WithDefaultConventions(convensionBuilder)
-                .WithServiceCollection(services)
-                .CreateContainer();
+            _serviceProvider = services.BuildServiceProvider();
 
             InitializeComponent();
         }
@@ -69,12 +67,12 @@ namespace EHunter.UI
         {
             _window = new MainWindow()
             {
-                ViewModel = _host.GetExport<MainWindowVM>()
+                ViewModel = _serviceProvider.GetRequiredService<MainWindowVM>()
             };
             _window.Activate();
         }
 
         private Window? _window;
-        private readonly CompositionHost _host;
+        private readonly IServiceProvider _serviceProvider;
     }
 }
