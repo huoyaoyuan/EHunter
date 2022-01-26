@@ -8,13 +8,8 @@ namespace EHunter.ComponentModel
     {
         public ObservableCollection<T> Tabs { get; } = new();
 
-        // TODO: source generation for generic
+        [ObservableProperty]
         private T? _selectedItem;
-        public T? SelectedItem
-        {
-            get => _selectedItem;
-            set => SetProperty(ref _selectedItem, value);
-        }
 
         public void AddTab()
         {

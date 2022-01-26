@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Meowtrix.PixivApi.Models;
 using static EHunter.Pixiv.Services.Download.IllustDownloadState;
 
@@ -23,8 +24,6 @@ namespace EHunter.Pixiv.Services.Download
         {
             Illust = illust;
             _downloadManager = downloadManager;
-            _downloadCommand = new(Download);
-            _cancelCommand = new(Cancel);
 
             CheckDownloadable();
 
@@ -93,9 +92,8 @@ namespace EHunter.Pixiv.Services.Download
 
         public Illust Illust { get; }
 
-        private readonly ActionCommand _downloadCommand;
-        public ICommand DownloadCommand => _downloadCommand;
-        private async void Download()
+        [ICommand(CanExecute = nameof(CanDownload), AllowConcurrentExecutions = false)]
+        private async Task Download()
         {
             bool shoudAddPending = State switch
             {
@@ -134,10 +132,11 @@ namespace EHunter.Pixiv.Services.Download
             _downloadManager.QueueOne(this);
         }
 
+        private bool CanDownload() => State is Idle or Faulted or Canceled;
+
         internal void SetWaiting() => State = Waiting;
 
-        private readonly ActionCommand _cancelCommand;
-        public ICommand CancelCommand => _cancelCommand;
+        [ICommand(CanExecute = nameof(CanCancel))]
         private void Cancel()
         {
             if (_cts is null)
@@ -149,19 +148,12 @@ namespace EHunter.Pixiv.Services.Download
             }
         }
 
+        private bool CanCancel() => State is Waiting or Active;
+
+        [ObservableProperty]
+        [AlsoNotifyCanExecuteFor(nameof(DownloadCommand))]
+        [AlsoNotifyCanExecuteFor(nameof(CancelCommand))]
         private IllustDownloadState _state;
-        public IllustDownloadState State
-        {
-            get => _state;
-            private set
-            {
-                if (SetProperty(ref _state, value))
-                {
-                    _downloadCommand.SetCanExecute(value is Idle or Faulted or Canceled);
-                    _cancelCommand.SetCanExecute(value is Waiting or Active);
-                }
-            }
-        }
     }
 
     public enum IllustDownloadState
@@ -174,25 +166,5 @@ namespace EHunter.Pixiv.Services.Download
         CancelRequested,
         Canceled,
         Faulted,
-    }
-
-    internal class ActionCommand : ICommand
-    {
-        private readonly Action _action;
-        private bool _canExecute;
-
-        public ActionCommand(Action action) => _action = action;
-
-        public bool CanExecute(object? parameter) => _canExecute;
-        public void Execute(object? parameter) => _action();
-
-        private static readonly EventArgs s_eventArgs = new();
-        public event EventHandler? CanExecuteChanged;
-
-        public void SetCanExecute(bool canExecute)
-        {
-            _canExecute = canExecute;
-            CanExecuteChanged?.Invoke(this, s_eventArgs);
-        }
     }
 }
