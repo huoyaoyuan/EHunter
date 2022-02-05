@@ -27,13 +27,14 @@ namespace EHunter.Pixiv.ViewModels
         public PixivVMFactory(IMemoryCache memoryCache,
             DownloadManager downloadManager,
             IViewModelService viewModelService,
-            ICustomResolver<PixivClient> clientResolver)
+            ICustomResolver<PixivClient> clientResolver,
+            IMessenger messenger)
         {
             _memoryCache = memoryCache;
             _downloadManager = downloadManager;
             _viewModelService = viewModelService;
             _clientResolver = clientResolver;
-            _messenger = WeakReferenceMessenger.Default;
+            _messenger = messenger;
         }
 
         public IImageSource GetImage(ImageInfo image) => new PixivImageSource(image, _memoryCache);

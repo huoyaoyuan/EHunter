@@ -17,7 +17,7 @@ namespace EHunter.Pixiv.ViewModels
         IRecipient<NavigateToIllustMessage>,
         IRecipient<NavigateToTagMessage>
     {
-        public PixivNavigationVM(IServiceProvider serviceProvider)
+        public PixivNavigationVM(IServiceProvider serviceProvider, IMessenger messenger)
         {
             Recent = serviceProvider.GetRequiredService<RecentWatchedVM>();
             Users = serviceProvider.GetRequiredService<JumpToUserManager>();
@@ -32,11 +32,11 @@ namespace EHunter.Pixiv.ViewModels
 
             SelectedPage = Recent;
 
-            WeakReferenceMessenger.Default.Register(Users);
-            WeakReferenceMessenger.Default.Register(Opened);
-            WeakReferenceMessenger.Default.Register(IllustSearch);
+            messenger.Register(Users);
+            messenger.Register(Opened);
+            messenger.Register(IllustSearch);
 
-            WeakReferenceMessenger.Default.RegisterAll(this);
+            messenger.RegisterAll(this);
         }
 
         public RecentWatchedVM Recent { get; }

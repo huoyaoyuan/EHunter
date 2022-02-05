@@ -8,12 +8,14 @@ namespace EHunter.Pixiv.ViewModels
     public sealed partial class PixivRootVM : ObservableObject, IRecipient<InitializationCompleteMessage>
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly IMessenger _messenger;
 
-        public PixivRootVM(IServiceProvider serviceProvider)
+        public PixivRootVM(IServiceProvider serviceProvider, IMessenger messenger)
         {
             _serviceProvider = serviceProvider;
+            _messenger = messenger;
             Login = _serviceProvider.GetRequiredService<LoginPageVM>();
-            WeakReferenceMessenger.Default.Register(this);
+            messenger.Register(this);
         }
 
         [ObservableProperty]
@@ -26,7 +28,7 @@ namespace EHunter.Pixiv.ViewModels
 
         void IRecipient<InitializationCompleteMessage>.Receive(InitializationCompleteMessage message)
         {
-            Navigation = new(_serviceProvider);
+            Navigation = new(_serviceProvider, _messenger);
             IsInitialized = true;
         }
     }

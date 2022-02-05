@@ -1,4 +1,5 @@
-﻿using EHunter.EHentai;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using EHunter.EHentai;
 using EHunter.Pixiv;
 using EHunter.Providers;
 using EHunter.Services;
@@ -37,6 +38,7 @@ namespace EHunter.UI
                     o.SizeLimit = 2 * (1L << 30);
                     o.CompactionPercentage = 0.9;
                 })
+                .AddSingleton<IMessenger, WeakReferenceMessenger>()
                 .AddSingleton<IViewModelService, ViewModelService>()
                 .AddSingleton<ISettingsStore, WinRTSettingsStore>()
                 .AddSingleton<CommonSetting>()

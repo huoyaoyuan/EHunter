@@ -13,6 +13,7 @@ namespace EHunter.Pixiv.ViewModels
     {
         private readonly IPixivSettingStore _settingStore;
         private readonly PixivSetting _setting;
+        private readonly IMessenger _messenger;
         private readonly PixivClient _client;
 
         [ObservableProperty]
@@ -50,10 +51,12 @@ namespace EHunter.Pixiv.ViewModels
             PixivSetting setting,
             ICustomResolver<PixivClient> clientService,
             EHunterDbContextResolver<EHunterDbContext> eHunterContextResolver,
-            EHunterDbContextResolver<PixivDbContext> pixivContextResolver)
+            EHunterDbContextResolver<PixivDbContext> pixivContextResolver,
+            IMessenger messenger)
         {
             _settingStore = settingStore;
             _setting = setting;
+            _messenger = messenger;
             _client = clientService.Resolve();
 
             _connectionMode = _setting.ConnectionMode.Value;
@@ -104,7 +107,7 @@ namespace EHunter.Pixiv.ViewModels
         {
             if (IsLoggedin && DatabaseInitState != null)
             {
-                WeakReferenceMessenger.Default.Send(new InitializationCompleteMessage());
+                _messenger.Send(new InitializationCompleteMessage());
             }
         }
     }

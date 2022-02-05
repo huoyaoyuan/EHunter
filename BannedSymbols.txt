@@ -1,1 +1,3 @@
-P:CommunityToolkit.Mvvm.DependencyInjection.Ioc.Default~CommunityToolkit.Mvvm.DependencyInjection.Ioc.Default
+P:CommunityToolkit.Mvvm.DependencyInjection.Ioc.Default
+P:CommunityToolkit.Mvvm.Messaging.WeakReferenceMessenger.Default
+P:CommunityToolkit.Mvvm.Messaging.StrongReferenceMessenger.Default
