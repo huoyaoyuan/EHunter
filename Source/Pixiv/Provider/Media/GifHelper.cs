@@ -37,7 +37,7 @@ namespace EHunter.Pixiv.Media
                     {
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        using var frameImage = await Image.LoadAsync(s).ConfigureAwait(false);
+                        using var frameImage = await Image.LoadAsync(s, cancellationToken).ConfigureAwait(false);
 
                         image ??= new Image<Rgba32>(frameImage.Width, frameImage.Height);
                         var frame = frameImage.Frames.RootFrame;
