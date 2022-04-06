@@ -14,4 +14,11 @@
     <OptionCompare>Binary</OptionCompare>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- 10.0.19041.23 has issue with incremental loading.
+        https://github.com/microsoft/microsoft-ui-xaml/issues/6883
+        https://github.com/microsoft/CsWinRT/issues/1165 -->
+    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.19041.22" RuntimeFrameworkVersion="10.0.19041.22" />
+  </ItemGroup>
+
 </Project>
