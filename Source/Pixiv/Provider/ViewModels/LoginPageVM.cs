@@ -19,17 +19,9 @@ namespace EHunter.Pixiv.ViewModels
         [ObservableProperty]
         private string _refreshToken = string.Empty;
 
-        // TODO: Custom source generation
+        [ObservableProperty]
         private PixivConnectionMode _connectionMode;
-        public PixivConnectionMode ConnectionMode
-        {
-            get => _connectionMode;
-            set
-            {
-                if (SetProperty(ref _connectionMode, value))
-                    _setting.SetConnectionOption(value);
-            }
-        }
+        partial void OnConnectionModeChanged(PixivConnectionMode value) => _setting.SetConnectionOption(value);
 
         [ObservableProperty]
         private bool _isLoggingIn;

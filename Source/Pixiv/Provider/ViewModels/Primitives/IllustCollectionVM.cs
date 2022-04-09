@@ -10,16 +10,12 @@ namespace EHunter.Pixiv.ViewModels.Primitives
     {
         private readonly PixivVMFactory _factory;
 
-        // TODO: Custom source generation
+        [ObservableProperty]
         private AgeRestriction _selectedAge = AgeRestriction.All;
-        public AgeRestriction SelectedAge
+        partial void OnSelectedAgeChanged(AgeRestriction value)
         {
-            get => _selectedAge;
-            set
-            {
-                if (SetProperty(ref _selectedAge, value) && _loaded && AutoRefresh)
-                    Refresh();
-            }
+            if (_loaded && AutoRefresh)
+                Refresh();
         }
 
         protected virtual bool AutoRefresh => true;

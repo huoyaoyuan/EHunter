@@ -9,17 +9,9 @@ namespace EHunter.EHentai.ViewModels.GalleryList
         private readonly EHentaiClient _client;
         private readonly EHentaiVMFactory _factory;
 
-        // TODO: Custom source generation
+        [ObservableProperty]
         private int _currentPage = 1;
-        public int CurrentPage
-        {
-            get => _currentPage;
-            set
-            {
-                if (SetProperty(ref _currentPage, value))
-                    UpdatePage();
-            }
-        }
+        partial void OnCurrentPageChanged(int value) => UpdatePage();
 
         [ObservableProperty]
         private int _totalPages;
