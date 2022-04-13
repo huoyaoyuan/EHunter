@@ -10,11 +10,6 @@
     <AnalysisModeDesign>All</AnalysisModeDesign>
     <AnalysisModeNaming>All</AnalysisModeNaming>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-
-    <!-- 10.0.19041.23 has issue with incremental loading.
-        https://github.com/microsoft/microsoft-ui-xaml/issues/6883
-        https://github.com/microsoft/CsWinRT/issues/1165 -->
-    <WindowsSdkPackageVersion>10.0.19041.24</WindowsSdkPackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
